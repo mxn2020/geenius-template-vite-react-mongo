@@ -97,12 +97,12 @@ export const Sidebar: React.FC = () => {
 
   return (
     <div 
-      className="fixed inset-y-0 right-0 z-[9999] w-96 bg-background shadow-xl border-l overflow-hidden"
+      className="fixed inset-y-0 right-0 z-[9999] w-96 bg-background shadow-xl border-l flex flex-col"
       onClick={(e) => e.stopPropagation()}
       style={{ marginRight: '0px' }}
     >
       {/* Header */}
-      <div className="flex items-center justify-between p-4 border-b">
+      <div className="flex items-center justify-between p-4 border-b flex-shrink-0">
         <h2 className="text-lg font-semibold">
           Dev Changes ({changes.length})
         </h2>
@@ -119,7 +119,7 @@ export const Sidebar: React.FC = () => {
       </div>
 
       {/* Content */}
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 overflow-y-auto min-h-0">
         {/* General feedback form */}
         <Card className="mx-4 mt-4">
           <CardHeader className="pb-3">
@@ -285,7 +285,7 @@ export const Sidebar: React.FC = () => {
 
       {/* Footer */}
       {changes.length > 0 && (
-        <div className="border-t p-4 space-y-3">
+        <div className="border-t p-4 space-y-3 flex-shrink-0 bg-background">
           <div className="flex gap-2">
             <Button
               variant="outline"

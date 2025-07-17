@@ -128,8 +128,9 @@ body.sidebar-open::-webkit-scrollbar {
 
 /* Ensure dev popover is always on top */
 .dev-popover-top-layer {
-  z-index: 999999 !important;
+  z-index: 2147483647 !important; /* Maximum z-index value */
   position: fixed !important;
+  isolation: isolate !important; /* Create new stacking context */
 }
 
 /* Ensure popover content and dropdowns stay on top */
@@ -140,7 +141,15 @@ body.sidebar-open::-webkit-scrollbar {
 
 /* Specific fix for shadcn select components */
 [data-radix-popper-content-wrapper] {
-  z-index: 9999999 !important;
+  z-index: 2147483647 !important;
+}
+
+/* Fix for backdrop-blur elements that create stacking contexts */
+.backdrop-blur-sm,
+.backdrop-blur,
+.backdrop-blur-md,
+.backdrop-blur-lg {
+  isolation: auto !important;
 }
 
 /* Smooth scrolling */

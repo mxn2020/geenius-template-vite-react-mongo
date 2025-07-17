@@ -117,7 +117,7 @@ export const Popover: React.FC<PopoverProps> = ({
     position: 'fixed' as const,
     top: position.top,
     left: position.left,
-    zIndex: 999999,
+    zIndex: 2147483647, // Maximum z-index value
     transform: `translate(${position.offset.x}px, ${position.offset.y}px)`,
   };
 
