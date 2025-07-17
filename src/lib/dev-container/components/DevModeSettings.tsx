@@ -69,8 +69,8 @@ export const DevModeSettings: React.FC = () => {
         <Settings className="h-6 w-6" />
       </div>
       
-      {/* Settings popover positioned to the right */}
-      <div className="absolute left-full ml-4 top-0 z-10">
+      {/* Settings popover positioned to the right and higher */}
+      <div className="absolute left-full ml-4 bottom-0 z-10">
         <Card className="w-80 shadow-xl border">
           <CardHeader className="pb-3">
             <CardTitle className="text-sm flex items-center gap-2">

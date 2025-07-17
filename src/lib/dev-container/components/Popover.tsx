@@ -25,8 +25,10 @@ export const Popover: React.FC<PopoverProps> = ({
 
   const componentMeta = registry[componentId];
 
-  // Load existing change data when editing
+  // Load existing change data when editing - only run when popover first opens
   useEffect(() => {
+    if (!isVisible) return;
+    
     if (popoverState?.editingChangeId) {
       const existingChange = changes.find(c => c.id === popoverState.editingChangeId);
       if (existingChange) {
@@ -51,7 +53,7 @@ export const Popover: React.FC<PopoverProps> = ({
         setEditingChangeId(null);
       }
     }
-  }, [componentId, popoverState?.editingChangeId, changes]);
+  }, [isVisible]); // Only depend on isVisible to prevent flickering
 
   // Auto-focus textarea when popover opens
   useEffect(() => {

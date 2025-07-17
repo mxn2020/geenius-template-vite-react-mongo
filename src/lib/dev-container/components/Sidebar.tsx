@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChangeRequest, ChangeCategory, ChangePriority, ChangeStatus } from '../types';
 import { useDevMode } from './DevModeProvider';
 import { Button } from '../../../components/ui/button';
@@ -28,6 +28,20 @@ export const Sidebar: React.FC = () => {
   const [generalFeedback, setGeneralFeedback] = useState('');
   const [generalCategory, setGeneralCategory] = useState<ChangeCategory>(ChangeCategory.GENERAL);
   const [generalPriority, setGeneralPriority] = useState<ChangePriority>(ChangePriority.MEDIUM);
+
+  // Handle body class for scrollbar management
+  useEffect(() => {
+    if (sidebarOpen) {
+      document.body.classList.add('sidebar-open');
+    } else {
+      document.body.classList.remove('sidebar-open');
+    }
+    
+    // Cleanup on unmount
+    return () => {
+      document.body.classList.remove('sidebar-open');
+    };
+  }, [sidebarOpen]);
 
   if (!sidebarOpen) return null;
 
@@ -83,8 +97,9 @@ export const Sidebar: React.FC = () => {
 
   return (
     <div 
-      className="fixed inset-y-0 right-0 z-50 w-96 bg-background shadow-xl border-l overflow-hidden"
+      className="fixed inset-y-0 right-0 z-[9999] w-96 bg-background shadow-xl border-l overflow-hidden"
       onClick={(e) => e.stopPropagation()}
+      style={{ marginRight: '0px' }}
     >
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b">

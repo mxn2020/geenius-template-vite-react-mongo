@@ -360,8 +360,8 @@ export const DevModeFloatingIcon: React.FC = () => {
   return (
     <div className="fixed bottom-6 left-6 z-50">
       <div className="flex flex-col items-center gap-2">
-        {/* Settings button positioned above main icon */}
-        {showSettings && (
+        {/* Settings button positioned above main icon - only show in dev mode */}
+        {isEnabled && showSettings && (
           <div 
             className="relative w-12 h-12 rounded-full shadow-lg cursor-pointer transition-all duration-300 transform hover:scale-110 bg-gray-600 text-white hover:bg-gray-500"
             onMouseEnter={handleMouseEnter}

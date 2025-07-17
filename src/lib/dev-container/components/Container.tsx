@@ -23,6 +23,7 @@ export const Container: React.FC<ContainerProps> = ({
     registry,
     changes,
     popoverState,
+    config,
     hoverComponent,
     addChange,
     showPopover,
@@ -131,17 +132,21 @@ export const Container: React.FC<ContainerProps> = ({
     className,
     isEnabled && {
       'relative cursor-pointer': selectable,
-      'ring-2 ring-blue-500 ring-opacity-50': isSelected,
-      'border-2 border-dashed border-blue-300 border-opacity-50': !isHovered && !isSelected && selectable,
     }
   );
+
+  // Generate dynamic styles for borders and overlays
+  const dynamicStyles = isEnabled ? {
+    '--hover-color': config.hoverColor,
+    '--selected-color': config.selectedColor,
+  } as React.CSSProperties : {};
 
   return (
     <>
       <div
         ref={containerRef}
         className={containerClassName}
-        style={style}
+        style={{ ...style, ...dynamicStyles }}
         onClick={handleClick}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
@@ -150,10 +155,27 @@ export const Container: React.FC<ContainerProps> = ({
       >
         {children}
         
+        {/* Dashed border overlay - only show if enabled in config */}
+        {isEnabled && config.showDashedBorders && !isHovered && !isSelected && selectable && (
+          <div 
+            className="absolute inset-0 border-2 border-dashed border-opacity-50 pointer-events-none z-10 rounded-sm"
+            style={{ borderColor: config.hoverColor }}
+          />
+        )}
+        
         {/* Hover overlay */}
         {isEnabled && isHovered && !isSelected && (
-          <div className="absolute inset-0 bg-blue-500 bg-opacity-10 border-2 border-dashed border-blue-400 border-opacity-70 pointer-events-none z-10 rounded-sm">
-            <div className="absolute top-2 left-2 bg-blue-500 text-white px-2 py-1 rounded text-xs whitespace-nowrap">
+          <div 
+            className="absolute inset-0 border-2 border-dashed border-opacity-70 pointer-events-none z-10 rounded-sm"
+            style={{ 
+              backgroundColor: `${config.hoverColor}1A`, // 10% opacity
+              borderColor: config.hoverColor 
+            }}
+          >
+            <div 
+              className="absolute top-2 left-2 text-white px-2 py-1 rounded text-xs whitespace-nowrap"
+              style={{ backgroundColor: config.hoverColor }}
+            >
               {componentMeta?.name || componentId as string}
             </div>
           </div>
@@ -161,11 +183,29 @@ export const Container: React.FC<ContainerProps> = ({
         
         {/* Selected overlay */}
         {isEnabled && isSelected && (
-          <div className="absolute inset-0 bg-blue-500 bg-opacity-20 border-2 border-solid border-blue-500 pointer-events-none z-10 rounded-sm">
-            <div className="absolute top-2 left-2 bg-blue-500 text-white px-2 py-1 rounded text-xs whitespace-nowrap">
-              {componentMeta?.name || componentId as string}
+          <>
+            {/* Ring effect */}
+            <div 
+              className="absolute inset-0 pointer-events-none z-10 rounded-sm"
+              style={{ 
+                boxShadow: `0 0 0 2px ${config.selectedColor}80` 
+              }}
+            />
+            {/* Background overlay */}
+            <div 
+              className="absolute inset-0 pointer-events-none z-10 rounded-sm"
+              style={{ 
+                backgroundColor: `${config.selectedColor}33` // 20% opacity
+              }}
+            >
+              <div 
+                className="absolute top-2 left-2 text-white px-2 py-1 rounded text-xs whitespace-nowrap"
+                style={{ backgroundColor: config.selectedColor }}
+              >
+                {componentMeta?.name || componentId as string}
+              </div>
             </div>
-          </div>
+          </>
         )}
 
         {/* Custom dev actions */}

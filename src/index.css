@@ -117,6 +117,15 @@
   background: #555;
 }
 
+/* Hide scrollbar when sidebar is open */
+body.sidebar-open {
+  padding-right: 8px;
+}
+
+body.sidebar-open::-webkit-scrollbar {
+  width: 0px;
+}
+
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
