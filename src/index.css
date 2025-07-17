@@ -148,8 +148,24 @@ body.sidebar-open::-webkit-scrollbar {
 .backdrop-blur-sm,
 .backdrop-blur,
 .backdrop-blur-md,
-.backdrop-blur-lg {
+.backdrop-blur-lg,
+[class*="backdrop-blur"] {
   isolation: auto !important;
+  transform: none !important;
+  will-change: auto !important;
+}
+
+/* More aggressive fix for stacking context issues when popover is active */
+body.dev-popover-active .backdrop-blur-sm,
+body.dev-popover-active .backdrop-blur,
+body.dev-popover-active .backdrop-blur-md,
+body.dev-popover-active .backdrop-blur-lg,
+body.dev-popover-active [class*="backdrop-blur"] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  transform: none !important;
+  isolation: auto !important;
+  z-index: auto !important;
 }
 
 /* Smooth scrolling */

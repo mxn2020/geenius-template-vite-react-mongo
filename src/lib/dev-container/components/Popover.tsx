@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { PopoverProps, ChangeCategory, ChangePriority } from '../types';
 import { useDevMode } from './DevModeProvider';
 import { Button } from '../../../components/ui/button';
@@ -59,13 +60,22 @@ export const Popover: React.FC<PopoverProps> = ({
   useEffect(() => {
     if (isVisible && textareaRef.current) {
       textareaRef.current.focus();
+      // Add class to body to disable backdrop-blur when popover is visible
+      document.body.classList.add('dev-popover-active');
     } else if (!isVisible) {
       // Reset form when popover closes
       setFeedback('');
       setCategory(ChangeCategory.ENHANCEMENT);
       setPriority(ChangePriority.MEDIUM);
       setEditingChangeId(null);
+      // Remove class from body
+      document.body.classList.remove('dev-popover-active');
     }
+    
+    // Cleanup on unmount
+    return () => {
+      document.body.classList.remove('dev-popover-active');
+    };
   }, [isVisible]);
 
   // Handle form submission
@@ -121,7 +131,7 @@ export const Popover: React.FC<PopoverProps> = ({
     transform: `translate(${position.offset.x}px, ${position.offset.y}px)`,
   };
 
-  return (
+  const popoverContent = (
     <Card
       style={popoverStyle}
       className="min-w-[320px] max-w-[400px] shadow-xl border dev-popover-top-layer"
@@ -276,6 +286,9 @@ export const Popover: React.FC<PopoverProps> = ({
       />
     </Card>
   );
+
+  // Render in a portal to escape stacking context issues
+  return createPortal(popoverContent, document.body);
 };
 
 export default Popover;
