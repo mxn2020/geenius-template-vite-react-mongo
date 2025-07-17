@@ -117,14 +117,14 @@ export const Popover: React.FC<PopoverProps> = ({
     position: 'fixed' as const,
     top: position.top,
     left: position.left,
-    zIndex: 9999,
+    zIndex: 999999,
     transform: `translate(${position.offset.x}px, ${position.offset.y}px)`,
   };
 
   return (
     <Card
       style={popoverStyle}
-      className="min-w-[320px] max-w-[400px] shadow-xl border"
+      className="min-w-[320px] max-w-[400px] shadow-xl border dev-popover-top-layer"
       onClick={handlePopoverClick}
     >
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-3">

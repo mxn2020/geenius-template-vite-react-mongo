@@ -126,6 +126,23 @@ body.sidebar-open::-webkit-scrollbar {
   width: 0px;
 }
 
+/* Ensure dev popover is always on top */
+.dev-popover-top-layer {
+  z-index: 999999 !important;
+  position: fixed !important;
+}
+
+/* Ensure popover content and dropdowns stay on top */
+.dev-popover-top-layer * {
+  position: relative;
+  z-index: inherit;
+}
+
+/* Specific fix for shadcn select components */
+[data-radix-popper-content-wrapper] {
+  z-index: 9999999 !important;
+}
+
 /* Smooth scrolling */
 html {
   scroll-behavior: smooth;
