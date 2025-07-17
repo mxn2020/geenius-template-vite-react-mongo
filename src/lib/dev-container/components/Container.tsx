@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { clsx } from 'clsx';
 import { ContainerProps, ChangeCategory, ChangePriority, ChangeStatus, ComponentContext, PageContext } from '../types';
 import { useDevMode } from './DevModeProvider';
@@ -15,6 +15,7 @@ export const Container: React.FC<ContainerProps> = ({
   devActions = [],
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isSmall, setIsSmall] = useState(false);
   
   const {
     isEnabled,
@@ -33,6 +34,41 @@ export const Container: React.FC<ContainerProps> = ({
   const componentMeta = registry[componentId];
   const isSelected = selectedComponentId === componentId;
   const isHovered = hoveredComponentId === componentId;
+
+  // Determine if this is a small component that should have external labels
+  const isSmallComponent = () => {
+    if (!containerRef.current) return false;
+    const rect = containerRef.current.getBoundingClientRect();
+    const area = rect.width * rect.height;
+    // Consider components with area less than 15000px² or height less than 80px as small
+    return area < 15000 || rect.height < 80 || rect.width < 150;
+  };
+
+  // Get optimal label position for small components
+  const getLabelPosition = () => {
+    if (!isSmall || !containerRef.current) return 'top-2 left-2';
+    
+    const rect = containerRef.current.getBoundingClientRect();
+    const viewportHeight = window.innerHeight;
+    const viewportWidth = window.innerWidth;
+    
+    // Check if there's space above
+    if (rect.top > 40) {
+      return '-top-8 left-0';
+    }
+    // Check if there's space to the right
+    else if (rect.right + 150 < viewportWidth) {
+      return 'top-0 -right-2 translate-x-full';
+    }
+    // Check if there's space below
+    else if (rect.bottom + 40 < viewportHeight) {
+      return '-bottom-8 left-0';
+    }
+    // Default to inside if no space elsewhere
+    else {
+      return 'top-2 left-2';
+    }
+  };
 
   // Handle click to select component
   const handleClick = (e: React.MouseEvent) => {
@@ -60,12 +96,20 @@ export const Container: React.FC<ContainerProps> = ({
   const handleMouseEnter = () => {
     if (!isEnabled || !selectable) return;
     hoverComponent(componentId as string);
+    setIsSmall(isSmallComponent());
   };
 
   const handleMouseLeave = () => {
     if (!isEnabled || !selectable) return;
     hoverComponent(null);
   };
+
+  // Update size when component becomes selected
+  useEffect(() => {
+    if (isSelected) {
+      setIsSmall(isSmallComponent());
+    }
+  }, [isSelected]);
 
   // Handle popover submission
   const handleSubmitChange = (feedback: string, category: ChangeCategory, priority: ChangePriority) => {
@@ -165,20 +209,21 @@ export const Container: React.FC<ContainerProps> = ({
         
         {/* Hover overlay */}
         {isEnabled && isHovered && !isSelected && (
-          <div 
-            className="absolute inset-0 border-2 border-dashed border-opacity-70 pointer-events-none z-10 rounded-sm"
-            style={{ 
-              backgroundColor: `${config.hoverColor}1A`, // 10% opacity
-              borderColor: config.hoverColor 
-            }}
-          >
+          <>
             <div 
-              className="absolute top-2 left-2 text-white px-2 py-1 rounded text-xs whitespace-nowrap"
+              className="absolute inset-0 border-2 border-dashed border-opacity-70 pointer-events-none z-10 rounded-sm"
+              style={{ 
+                backgroundColor: `${config.hoverColor}1A`, // 10% opacity
+                borderColor: config.hoverColor 
+              }}
+            />
+            <div 
+              className={`absolute text-white px-2 py-1 rounded text-xs whitespace-nowrap pointer-events-none z-20 ${getLabelPosition()}`}
               style={{ backgroundColor: config.hoverColor }}
             >
               {componentMeta?.name || componentId as string}
             </div>
-          </div>
+          </>
         )}
         
         {/* Selected overlay */}
@@ -197,13 +242,13 @@ export const Container: React.FC<ContainerProps> = ({
               style={{ 
                 backgroundColor: `${config.selectedColor}33` // 20% opacity
               }}
+            />
+            {/* Label */}
+            <div 
+              className={`absolute text-white px-2 py-1 rounded text-xs whitespace-nowrap pointer-events-none z-20 ${getLabelPosition()}`}
+              style={{ backgroundColor: config.selectedColor }}
             >
-              <div 
-                className="absolute top-2 left-2 text-white px-2 py-1 rounded text-xs whitespace-nowrap"
-                style={{ backgroundColor: config.selectedColor }}
-              >
-                {componentMeta?.name || componentId as string}
-              </div>
+              {componentMeta?.name || componentId as string}
             </div>
           </>
         )}

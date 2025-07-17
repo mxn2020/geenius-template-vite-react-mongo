@@ -55,10 +55,16 @@ export const Popover: React.FC<PopoverProps> = ({
     }
   }, [isVisible]); // Only depend on isVisible to prevent flickering
 
-  // Auto-focus textarea when popover opens
+  // Auto-focus textarea when popover opens, reset form when it closes
   useEffect(() => {
     if (isVisible && textareaRef.current) {
       textareaRef.current.focus();
+    } else if (!isVisible) {
+      // Reset form when popover closes
+      setFeedback('');
+      setCategory(ChangeCategory.ENHANCEMENT);
+      setPriority(ChangePriority.MEDIUM);
+      setEditingChangeId(null);
     }
   }, [isVisible]);
 
@@ -74,14 +80,14 @@ export const Popover: React.FC<PopoverProps> = ({
           category,
           priority,
         });
+        // Don't reset form for updates, close popover instead
+        onClose();
       } else {
         // Create new change
         onSubmitChange(feedback.trim(), category, priority);
+        // Don't reset form here, let the popover close handle it
+        onClose();
       }
-      setFeedback('');
-      setCategory(ChangeCategory.ENHANCEMENT);
-      setPriority(ChangePriority.MEDIUM);
-      setEditingChangeId(null);
     }
   };
 
