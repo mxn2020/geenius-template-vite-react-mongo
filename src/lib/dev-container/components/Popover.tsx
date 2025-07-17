@@ -21,10 +21,16 @@ export const Popover: React.FC<PopoverProps> = ({
   const [category, setCategory] = useState<ChangeCategory>(ChangeCategory.ENHANCEMENT);
   const [priority, setPriority] = useState<ChangePriority>(ChangePriority.MEDIUM);
   const [editingChangeId, setEditingChangeId] = useState<string | null>(null);
+  const [currentPosition, setCurrentPosition] = useState(position);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const { registry, changes, popoverState, updateChange, config } = useDevMode();
 
   const componentMeta = registry[componentId];
+
+  // Update position when position prop changes
+  useEffect(() => {
+    setCurrentPosition(position);
+  }, [position]);
 
   // Load existing change data when editing - only run when popover first opens
   useEffect(() => {
@@ -107,7 +113,7 @@ export const Popover: React.FC<PopoverProps> = ({
     e.stopPropagation();
   };
 
-  // Handle escape key
+  // Handle escape key and scroll events
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
@@ -115,20 +121,29 @@ export const Popover: React.FC<PopoverProps> = ({
       }
     };
 
+    const handleScroll = () => {
+      // Close popover on scroll to avoid confusion about which element it belongs to
+      onClose();
+    };
+
     if (isVisible) {
       document.addEventListener('keydown', handleKeyDown);
-      return () => document.removeEventListener('keydown', handleKeyDown);
+      window.addEventListener('scroll', handleScroll, { passive: true });
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown);
+        window.removeEventListener('scroll', handleScroll);
+      };
     }
   }, [isVisible, onClose]);
 
   if (!isVisible) return null;
 
   const popoverStyle = {
-    position: 'fixed' as const,
-    top: position.top,
-    left: position.left,
+    position: 'absolute' as const,
+    top: currentPosition.top,
+    left: currentPosition.left,
     zIndex: 2147483647, // Maximum z-index value
-    transform: `translate(${position.offset.x}px, ${position.offset.y}px)`,
+    transform: `translate(${currentPosition.offset.x}px, ${currentPosition.offset.y}px)`,
   };
 
   const popoverContent = (
@@ -275,17 +290,17 @@ export const Popover: React.FC<PopoverProps> = ({
       {/* Popover arrow */}
       <div
         className={`absolute w-3 h-3 bg-background border transform rotate-45 ${
-          position.placement === 'top' 
+          currentPosition.placement === 'top' 
             ? 'bottom-[-6px] border-r-0 border-b-0' 
-            : position.placement === 'bottom'
+            : currentPosition.placement === 'bottom'
             ? 'top-[-6px] border-l-0 border-t-0'
-            : position.placement === 'left'
+            : currentPosition.placement === 'left'
             ? 'right-[-6px] border-t-0 border-r-0'
             : 'left-[-6px] border-b-0 border-l-0'
         }`}
         style={{
-          left: position.placement === 'top' || position.placement === 'bottom' ? '50%' : undefined,
-          top: position.placement === 'left' || position.placement === 'right' ? '50%' : undefined,
+          left: currentPosition.placement === 'top' || currentPosition.placement === 'bottom' ? '50%' : undefined,
+          top: currentPosition.placement === 'left' || currentPosition.placement === 'right' ? '50%' : undefined,
           transform: `translate(-50%, -50%) rotate(45deg)`,
         }}
       />

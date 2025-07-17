@@ -1,34 +1,53 @@
 import { PopoverPosition } from '../types';
 
+// Get absolute position relative to document
+const getAbsolutePosition = (element: HTMLElement) => {
+  const rect = element.getBoundingClientRect();
+  const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  
+  return {
+    top: rect.top + scrollTop,
+    left: rect.left + scrollLeft,
+    width: rect.width,
+    height: rect.height,
+    bottom: rect.bottom + scrollTop,
+    right: rect.right + scrollLeft,
+  };
+};
+
 export const calculatePopoverPosition = (
   element: HTMLElement,
   popoverWidth: number = 320,
   popoverHeight: number = 300
 ): PopoverPosition => {
-  const rect = element.getBoundingClientRect();
+  const rect = getAbsolutePosition(element);
   const viewport = {
     width: window.innerWidth,
     height: window.innerHeight,
   };
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  const scrollLeft = window.pageXOffset || document.documentElement.scrollLeft;
   
-  // Calculate available space in each direction
-  const spaceTop = rect.top;
-  const spaceBottom = viewport.height - rect.bottom;
-  const spaceLeft = rect.left;
-  const spaceRight = viewport.width - rect.right;
+  // Calculate available space in each direction relative to viewport
+  const viewportRect = element.getBoundingClientRect();
+  const spaceTop = viewportRect.top;
+  const spaceBottom = viewport.height - viewportRect.bottom;
+  const spaceLeft = viewportRect.left;
+  const spaceRight = viewport.width - viewportRect.right;
   
   // Determine best placement - prefer top or centered positions for large elements
   let placement: PopoverPosition['placement'] = 'top';
   let top = rect.top - popoverHeight - 8;
   let left = rect.left + (rect.width / 2) - (popoverWidth / 2);
   
-  // If element is very large (like full page), center the popover
+  // If element is very large (like full page), center the popover relative to viewport but with absolute positioning
   if (rect.height > viewport.height * 0.8) {
     placement = 'right';
-    top = viewport.height / 2 - popoverHeight / 2;
-    left = Math.min(rect.right + 16, viewport.width - popoverWidth - 16);
+    top = scrollTop + viewport.height / 2 - popoverHeight / 2;
+    left = Math.min(rect.right + 16, scrollLeft + viewport.width - popoverWidth - 16);
   }
-  // Check if popover fits above
+  // Check if popover fits above in viewport
   else if (spaceTop < popoverHeight + 16) {
     // Try below
     if (spaceBottom > popoverHeight + 16) {
@@ -47,30 +66,36 @@ export const calculatePopoverPosition = (
       top = rect.top + (rect.height / 2) - (popoverHeight / 2);
       left = rect.left - popoverWidth - 8;
     }
-    // Fallback: center in viewport
+    // Fallback: center in current viewport
     else {
       placement = 'bottom';
-      top = viewport.height / 2 - popoverHeight / 2;
-      left = viewport.width / 2 - popoverWidth / 2;
+      top = scrollTop + viewport.height / 2 - popoverHeight / 2;
+      left = scrollLeft + viewport.width / 2 - popoverWidth / 2;
     }
   }
   
-  // Ensure popover doesn't go outside viewport
+  // Ensure popover doesn't go outside document bounds
   const margin = 16;
   
   if (placement === 'top' || placement === 'bottom') {
-    // Horizontal bounds
-    if (left < margin) {
-      left = margin;
-    } else if (left + popoverWidth > viewport.width - margin) {
-      left = viewport.width - popoverWidth - margin;
+    // Horizontal bounds - keep within current viewport when possible
+    const minLeft = scrollLeft + margin;
+    const maxLeft = scrollLeft + viewport.width - popoverWidth - margin;
+    
+    if (left < minLeft) {
+      left = minLeft;
+    } else if (left > maxLeft) {
+      left = maxLeft;
     }
   } else {
-    // Vertical bounds
-    if (top < margin) {
-      top = margin;
-    } else if (top + popoverHeight > viewport.height - margin) {
-      top = viewport.height - popoverHeight - margin;
+    // Vertical bounds - keep within current viewport when possible
+    const minTop = scrollTop + margin;
+    const maxTop = scrollTop + viewport.height - popoverHeight - margin;
+    
+    if (top < minTop) {
+      top = minTop;
+    } else if (top > maxTop) {
+      top = maxTop;
     }
   }
   

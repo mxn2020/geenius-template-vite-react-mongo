@@ -129,7 +129,7 @@ body.sidebar-open::-webkit-scrollbar {
 /* Ensure dev popover is always on top */
 .dev-popover-top-layer {
   z-index: 2147483647 !important; /* Maximum z-index value */
-  position: fixed !important;
+  position: absolute !important;
   isolation: isolate !important; /* Create new stacking context */
 }
 
