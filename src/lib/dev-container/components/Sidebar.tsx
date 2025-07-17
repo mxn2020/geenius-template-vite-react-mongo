@@ -14,6 +14,7 @@ export const Sidebar: React.FC = () => {
     sidebarOpen,
     changes,
     isSubmitting,
+    config,
     toggleSidebar,
     updateChange,
     removeChange,
@@ -202,7 +203,12 @@ export const Sidebar: React.FC = () => {
                       <CardTitle className="text-sm">
                         {change.componentId === 'general' ? 'General' : registry[change.componentId]?.name || change.componentId}
                       </CardTitle>
-                      <p className="text-xs text-muted-foreground">
+                      {config.showComponentIds && change.componentId !== 'general' && (
+                        <p className="text-xs text-muted-foreground font-mono bg-muted px-1 py-0.5 rounded mt-1 inline-block">
+                          {change.componentId}
+                        </p>
+                      )}
+                      <p className="text-xs text-muted-foreground mt-1">
                         {change.componentContext.filePath || 'General feedback'}
                       </p>
                     </div>

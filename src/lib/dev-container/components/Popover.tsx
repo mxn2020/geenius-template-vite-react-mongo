@@ -22,7 +22,7 @@ export const Popover: React.FC<PopoverProps> = ({
   const [priority, setPriority] = useState<ChangePriority>(ChangePriority.MEDIUM);
   const [editingChangeId, setEditingChangeId] = useState<string | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const { registry, changes, popoverState, updateChange } = useDevMode();
+  const { registry, changes, popoverState, updateChange, config } = useDevMode();
 
   const componentMeta = registry[componentId];
 
@@ -142,6 +142,11 @@ export const Popover: React.FC<PopoverProps> = ({
           <CardTitle className="text-sm font-semibold">
             {componentMeta?.name || componentId}
           </CardTitle>
+          {config.showComponentIds && (
+            <p className="text-xs text-muted-foreground font-mono bg-muted px-1 py-0.5 rounded mt-1 inline-block">
+              {componentId}
+            </p>
+          )}
           {componentMeta && (
             <CardDescription className="text-xs mt-1">
               {componentMeta.description}

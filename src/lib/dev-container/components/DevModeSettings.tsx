@@ -116,6 +116,19 @@ export const DevModeSettings: React.FC = () => {
             {/* Additional Settings */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
+                <Label htmlFor="show-component-ids" className="text-sm font-medium">
+                  Show Component IDs
+                </Label>
+                <Switch
+                  id="show-component-ids"
+                  checked={config.showComponentIds}
+                  onCheckedChange={(checked) => 
+                    handleConfigChange('showComponentIds', checked)
+                  }
+                />
+              </div>
+
+              <div className="flex items-center justify-between">
                 <Label htmlFor="show-tooltips" className="text-sm font-medium">
                   Show Tooltips
                 </Label>

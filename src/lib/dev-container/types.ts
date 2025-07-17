@@ -289,6 +289,7 @@ export interface DevModeConfig {
   showDashedBorders: boolean;
   hoverColor: string;
   selectedColor: string;
+  showComponentIds: boolean;
 }
 
 export interface ContainerRef {

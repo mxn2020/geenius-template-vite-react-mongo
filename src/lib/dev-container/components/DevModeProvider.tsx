@@ -31,6 +31,7 @@ const defaultConfig: DevModeConfig = {
   showDashedBorders: true,
   hoverColor: '#3b82f6', // blue-500
   selectedColor: '#3b82f6', // blue-500
+  showComponentIds: true,
 };
 
 // Zustand store for dev mode state
