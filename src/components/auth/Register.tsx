@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { signUp, signIn } from '../../lib/auth-client';
+import { checkOAuthProviders } from '../../lib/auth-utils';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';
@@ -16,7 +17,16 @@ export const Register: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [providers, setProviders] = useState({ github: false, google: false });
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const loadProviders = async () => {
+      const providerStatus = await checkOAuthProviders();
+      setProviders(providerStatus);
+    };
+    loadProviders();
+  }, []);
 
   const handleEmailRegister = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -125,41 +135,49 @@ export const Register: React.FC = () => {
               </Container>
             )}
 
-            <Container componentId="social-register-buttons">
-              <div className="grid grid-cols-2 gap-3">
-                <Button
-                  variant="outline"
-                  onClick={handleGoogleRegister}
-                  disabled={isLoading}
-                  className="w-full"
-                >
-                  <Mail className="h-4 w-4 mr-2" />
-                  Google
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={handleGithubRegister}
-                  disabled={isLoading}
-                  className="w-full"
-                >
-                  <Github className="h-4 w-4 mr-2" />
-                  GitHub
-                </Button>
-              </div>
-            </Container>
+            {(providers.github || providers.google) && (
+              <Container componentId="social-register-buttons">
+                <div className="grid grid-cols-2 gap-3">
+                  {providers.google && (
+                    <Button
+                      variant="outline"
+                      onClick={handleGoogleRegister}
+                      disabled={isLoading}
+                      className="w-full"
+                    >
+                      <Mail className="h-4 w-4 mr-2" />
+                      Google
+                    </Button>
+                  )}
+                  {providers.github && (
+                    <Button
+                      variant="outline"
+                      onClick={handleGithubRegister}
+                      disabled={isLoading}
+                      className="w-full"
+                    >
+                      <Github className="h-4 w-4 mr-2" />
+                      GitHub
+                    </Button>
+                  )}
+                </div>
+              </Container>
+            )}
 
-            <Container componentId="register-divider">
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
+            {(providers.github || providers.google) && (
+              <Container componentId="register-divider">
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <span className="w-full border-t" />
+                  </div>
+                  <div className="relative flex justify-center text-xs uppercase">
+                    <span className="bg-white px-2 text-muted-foreground">
+                      Or continue with
+                    </span>
+                  </div>
                 </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-white px-2 text-muted-foreground">
-                    Or continue with
-                  </span>
-                </div>
-              </div>
-            </Container>
+              </Container>
+            )}
 
             <Container componentId="register-form">
               <form onSubmit={handleEmailRegister} className="space-y-4">

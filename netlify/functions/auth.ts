@@ -41,6 +41,23 @@ export const handler: Handler = async (event, context) => {
   }
 
   try {
+    // Handle custom endpoints before Better Auth
+    if (event.path.includes('/api/auth/providers')) {
+      const providers = {
+        github: !!(process.env.GITHUB_CLIENT_ID && process.env.GITHUB_CLIENT_SECRET),
+        google: !!(process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET),
+      };
+      
+      return {
+        statusCode: 200,
+        headers: {
+          ...headers,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(providers),
+      };
+    }
+
     const auth = await getAuth();
     
     // Create proper URL for the request
