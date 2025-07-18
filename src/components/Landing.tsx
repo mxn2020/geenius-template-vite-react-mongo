@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Database, Zap, Code, Globe, Users, Star } from 'lucide-react';
+import { Database, Zap, Code, Globe, Users, Star, User } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Container, Button, Card, CardContent, Badge } from '../lib/dev-container';
 import { COMPONENT_IDS } from '../registry';
+import { useAuth } from './auth/AuthProvider';
 
 export const Landing: React.FC = () => {
   const [mounted, setMounted] = useState(false);
+  const { isAuthenticated, user } = useAuth();
 
   useEffect(() => {
     setMounted(true);
@@ -56,9 +59,48 @@ export const Landing: React.FC = () => {
             <button className="text-gray-300 hover:text-white transition-colors">
               Docs
             </button>
-            <button className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors">
-              Get Started
-            </button>
+            {isAuthenticated ? (
+              <div className="flex items-center space-x-4">
+                <span className="text-gray-300">
+                  Welcome, {user?.name?.split(' ')[0]}!
+                </span>
+                <Link to="/dashboard">
+                  <Button 
+                    devId="nav-dashboard-button"
+                    devName="Navigation Dashboard Button"
+                    devDescription="Dashboard button in navigation header for authenticated users"
+                    className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
+                  >
+                    <User className="w-4 h-4 mr-2" />
+                    Dashboard
+                  </Button>
+                </Link>
+              </div>
+            ) : (
+              <div className="flex items-center space-x-2">
+                <Link to="/login">
+                  <Button 
+                    devId="nav-login-button"
+                    devName="Navigation Login Button"
+                    devDescription="Login button in navigation header"
+                    variant="ghost" 
+                    className="text-gray-300 hover:text-white transition-colors"
+                  >
+                    Login
+                  </Button>
+                </Link>
+                <Link to="/register">
+                  <Button 
+                    devId="nav-register-button"
+                    devName="Navigation Register Button"
+                    devDescription="Get started button in navigation header"
+                    className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
+                  >
+                    Get Started
+                  </Button>
+                </Link>
+              </div>
+            )}
           </div>
         </nav>
       </header>
@@ -78,14 +120,29 @@ export const Landing: React.FC = () => {
               and production-ready deployment configuration.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button 
-                devId="hero-start-building"
-                devName="Start Building Button"
-                devDescription="Primary call-to-action button for starting to build with the template"
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-lg font-semibold transition-all transform hover:scale-105"
-              >
-                Start Building
-              </Button>
+              {isAuthenticated ? (
+                <Link to="/dashboard">
+                  <Button 
+                    devId="hero-start-building"
+                    devName="Start Building Button"
+                    devDescription="Primary call-to-action button for starting to build with the template"
+                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-lg font-semibold transition-all transform hover:scale-105"
+                  >
+                    Go to Dashboard
+                  </Button>
+                </Link>
+              ) : (
+                <Link to="/register">
+                  <Button 
+                    devId="hero-start-building"
+                    devName="Start Building Button"
+                    devDescription="Primary call-to-action button for starting to build with the template"
+                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-lg font-semibold transition-all transform hover:scale-105"
+                  >
+                    Start Building
+                  </Button>
+                </Link>
+              )}
               <Button 
                 devId="hero-github-button"
                 devName="View on GitHub Button"

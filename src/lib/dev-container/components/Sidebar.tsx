@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { ChangeRequest, ChangeCategory, ChangePriority, ChangeStatus } from '../types';
+import { ChangeRequest, ChangeCategory, ChangePriority, ChangeStatus, SubmissionPayload } from '../types';
 import { useDevMode } from './DevModeProvider';
+import { ChangeSubmissionDialog } from '../../../components/ChangeSubmissionDialog';
 import { Button } from '../../../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
 import { Badge } from '../../../components/ui/badge';
@@ -19,7 +20,6 @@ export const Sidebar: React.FC = () => {
     updateChange,
     removeChange,
     clearAllChanges,
-    submitChanges,
     addChange,
     registry,
   } = useDevMode();
@@ -29,6 +29,7 @@ export const Sidebar: React.FC = () => {
   const [generalFeedback, setGeneralFeedback] = useState('');
   const [generalCategory, setGeneralCategory] = useState<ChangeCategory>(ChangeCategory.GENERAL);
   const [generalPriority, setGeneralPriority] = useState<ChangePriority>(ChangePriority.MEDIUM);
+  const [showSubmissionDialog, setShowSubmissionDialog] = useState(false);
 
   // Handle body class for scrollbar management
   useEffect(() => {
@@ -95,6 +96,23 @@ export const Sidebar: React.FC = () => {
     }
   };
 
+  const handleSubmitChanges = () => {
+    setShowSubmissionDialog(true);
+  };
+
+  const handleSubmissionComplete = (payload: SubmissionPayload) => {
+    console.log('Submitting changes:', payload);
+    
+    // Mark changes as submitted
+    changes.forEach(change => {
+      updateChange(change.id, { status: ChangeStatus.SUBMITTED });
+    });
+    
+    // Clear changes after a delay
+    setTimeout(() => {
+      clearAllChanges();
+    }, 3000);
+  };
 
   return (
     <div 
@@ -301,7 +319,7 @@ export const Sidebar: React.FC = () => {
               Clear All
             </Button>
             <Button
-              onClick={submitChanges}
+              onClick={handleSubmitChanges}
               disabled={isSubmitting}
               className="flex-1"
             >
@@ -309,10 +327,18 @@ export const Sidebar: React.FC = () => {
             </Button>
           </div>
           <p className="text-xs text-muted-foreground text-center">
-            Changes will be sent to your development team
+            Changes will be processed by AI agent
           </p>
         </div>
       )}
+      
+      {/* Submission Dialog */}
+      <ChangeSubmissionDialog
+        open={showSubmissionDialog}
+        onClose={() => setShowSubmissionDialog(false)}
+        changes={changes}
+        onSubmit={handleSubmissionComplete}
+      />
     </div>
   );
 };

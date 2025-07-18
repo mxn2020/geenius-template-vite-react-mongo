@@ -25,7 +25,7 @@ const defaultConfig: DevModeConfig = {
   autoOpenSidebar: false,
   persistChanges: true,
   maxChanges: 50,
-  submitEndpoint: '/api/dev-changes',
+  submitEndpoint: `${import.meta.env.VITE_GEENIUS_API_URL || 'http://localhost:8888'}/api/process-changes`,
   authToken: undefined,
   // Visual customization
   showDashedBorders: true,
@@ -132,6 +132,7 @@ const useDevModeStore = create<DevModeStore>()(
               environment: 'development' as const,
               projectId: window.location.hostname,
               version: import.meta.env.VITE_APP_VERSION || '1.0.0',
+              repositoryUrl: 'https://github.com/user/repo', // This should be dynamic
               userInfo: {
                 sessionId: generateId(),
                 userAgent: navigator.userAgent,
@@ -252,17 +253,17 @@ export const DevModeProvider: React.FC<DevModeProviderProps> = ({
 }) => {
   const store = useDevModeStore();
 
+  // Set registry synchronously before render
+  React.useMemo(() => {
+    store.setRegistry(registry);
+  }, [registry, store.setRegistry]);
+
   useEffect(() => {
     // Update config when prop changes
     if (Object.keys(config).length > 0) {
       store.setConfig(config);
     }
   }, [config, store.setConfig]);
-
-  useEffect(() => {
-    // Update registry when prop changes
-    store.setRegistry(registry);
-  }, [registry, store.setRegistry]);
 
   return (
     <DevModeContext.Provider value={store}>
@@ -320,7 +321,7 @@ export const DevModeToggle: React.FC = () => {
 export const DevModeFloatingIcon: React.FC = () => {
   const { isEnabled, changes, toggleSidebar, toggleDevMode } = useDevMode();
   const [showSettings, setShowSettings] = useState(false);
-  const settingsTimeoutRef = useRef<number | null>(null);
+  const settingsTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Add keyboard shortcut listener
   useEffect(() => {

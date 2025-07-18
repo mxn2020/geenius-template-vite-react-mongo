@@ -35,6 +35,18 @@ export const Container: React.FC<ContainerProps> = ({
   const isSelected = selectedComponentId === componentId;
   const isHovered = hoveredComponentId === componentId;
 
+  // Debug logging (remove after testing)
+  // React.useEffect(() => {
+  //   if (isEnabled) {
+  //     console.log('Container Debug:', {
+  //       componentId,
+  //       componentMeta,
+  //       registryKeys: Object.keys(registry),
+  //       hasComponentMeta: !!componentMeta
+  //     });
+  //   }
+  // }, [componentId, componentMeta, registry, isEnabled]);
+
   // Determine if this is a small component that should have external labels
   const isSmallComponent = () => {
     if (!containerRef.current) return false;
@@ -168,6 +180,12 @@ export const Container: React.FC<ContainerProps> = ({
 
   // Error handling for missing component
   if (!componentMeta && isEnabled) {
+    // Check if registry is still loading (empty)
+    if (Object.keys(registry).length === 0) {
+      // Registry is still loading, render children without dev mode features
+      return <div className={className} style={style}>{children}</div>;
+    }
+    
     console.error(`Component with ID "${componentId}" not found in registry`);
     return <div className="border-2 border-red-500 p-2 text-red-500">Component not found: {componentId}</div>;
   }

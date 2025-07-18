@@ -1,63 +1,57 @@
-# Vite React MongoDB Template
+# Geenius Template - Vite + React + MongoDB + Better Auth
 
-> Modern React app with Vite, MongoDB, and Prisma ORM
+A modern, full-stack React template with authentication, database integration, and AI-powered development feedback system.
 
 ## 🚀 Features
 
-- **⚡ Vite** - Fast development with Hot Module Replacement
-- **⚛️ React 18** - Modern React with hooks and concurrent features
-- **🗄️ MongoDB** - NoSQL database with flexible schema
-- **🔷 Prisma** - Type-safe database access with auto-generated client
-- **📦 TypeScript** - Full type safety throughout the application
-- **🎨 Modern UI** - Clean, responsive design
-- **🔧 Developer Experience** - ESLint, hot reload, and easy setup
+- **⚡ Vite** - Lightning-fast development and build tool
+- **⚛️ React 18** - Latest React with TypeScript support
+- **🔐 Better Auth** - Modern authentication with MongoDB adapter
+- **🗄️ MongoDB + Prisma** - NoSQL database with type-safe ORM
+- **🎨 Tailwind CSS** - Utility-first CSS framework
+- **🧩 Radix UI** - Accessible component primitives
+- **🚀 React Router** - Client-side routing
+- **🤖 Dev Container** - Live feedback and change management system
 
 ## 📋 Prerequisites
 
 - Node.js 18+ 
 - MongoDB (local installation or MongoDB Atlas)
-- npm or yarn
+- pnpm (recommended) or npm
 
-## 🛠️ Installation
+## 🛠️ Quick Start
 
-1. **Clone the repository**
+1. **Clone and Install**
    ```bash
    git clone <repository-url>
-   cd vite-react-mongo
+   cd geenius-template-vite-react-mongo
+   pnpm install
    ```
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Set up environment variables**
+2. **Environment Setup**
    ```bash
    cp .env.example .env
+   # Update .env with your MongoDB URI and auth secrets
    ```
+
+3. **Database Setup**
+   ```bash
+   # Generate Prisma client
+   pnpm db:generate
    
-   Edit `.env` and update the MongoDB connection string:
-   ```env
-   DATABASE_URL="mongodb://localhost:27017/vite-react-mongo"
+   # Push schema to MongoDB (development)
+   pnpm db:push
    ```
 
-4. **Generate Prisma client**
+4. **Development**
    ```bash
-   npx prisma generate
+   # Start both frontend and backend
+   pnpm dev:full
+   
+   # Or start them separately
+   pnpm dev        # Frontend only
+   pnpm dev:server # Backend only
    ```
-
-5. **Push database schema** (for MongoDB)
-   ```bash
-   npx prisma db push
-   ```
-
-## 🚀 Development
-
-Start the development server:
-
-```bash
-npm run dev
-```
 
 The application will be available at `http://localhost:5173`
 

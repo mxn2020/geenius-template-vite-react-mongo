@@ -225,6 +225,7 @@ export interface GlobalContext {
   projectId?: string;
   environment: 'development' | 'staging' | 'production';
   version?: string;
+  repositoryUrl?: string;
   branch?: string;
   commitHash?: string;
   userInfo?: UserContext;

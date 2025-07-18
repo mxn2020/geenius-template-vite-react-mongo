@@ -1,15 +1,38 @@
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Landing } from './components/Landing';
+import { Login } from './components/auth/Login';
+import { Register } from './components/auth/Register';
+import { Dashboard } from './components/auth/Dashboard';
+import { ProtectedRoute } from './components/auth/ProtectedRoute';
+import { AuthProvider } from './components/auth/AuthProvider';
 import { DevModeApp, Container } from './lib/dev-container';
 import { componentRegistry, COMPONENT_IDS } from './registry';
 
 function App() {
   return (
     <DevModeApp registry={componentRegistry}>
-      <Container componentId={COMPONENT_IDS.APP_ROOT}>
-        <div className="App">
-          <Landing />
-        </div>
-      </Container>
+      <AuthProvider>
+        <Router>
+          <Container componentId={COMPONENT_IDS.APP_ROOT}>
+            <div className="App">
+              <Routes>
+                <Route path="/" element={<Landing />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                <Route 
+                  path="/dashboard" 
+                  element={
+                    <ProtectedRoute>
+                      <Dashboard />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route path="*" element={<Navigate to="/" replace />} />
+              </Routes>
+            </div>
+          </Container>
+        </Router>
+      </AuthProvider>
     </DevModeApp>
   );
 }
