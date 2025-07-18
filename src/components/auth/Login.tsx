@@ -79,21 +79,21 @@ export const Login: React.FC = () => {
       } else {
         console.log('✅ Login successful:', result);
         console.log('Success details:', {
-          user: result.user,
-          session: result.session,
-          redirect: result.redirect,
+          data: result.data,
+          fullResult: result,
         });
         
         // Login successful, clear loading state
         setIsLoading(false);
         
         // Check if Better Auth handled the redirect
-        if (result.redirect) {
-          console.log('🔄 Better Auth provided redirect URL:', result.redirect);
-          window.location.href = result.redirect;
+        const redirectUrl = (result.data as any)?.url;
+        if (redirectUrl) {
+          console.log('🔄 Better Auth provided redirect URL:', redirectUrl);
+          window.location.href = redirectUrl;
         } else {
-          console.log('🔄 Better Auth should handle redirect automatically');
-          // Better Auth handles the redirect automatically on success
+          console.log('🔄 Manual redirect to dashboard');
+          window.location.href = '/dashboard';
         }
       }
     } catch (err: any) {
