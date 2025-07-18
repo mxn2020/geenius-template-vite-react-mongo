@@ -45,6 +45,9 @@ export const Register: React.FC = () => {
     }
 
     try {
+      console.log('Attempting to register with email:', email);
+      console.log('callbackURL:', `${import.meta.env.VITE_APP_URL}/dashboard`);
+
       const result = await signUp.email({
         email,
         password,
@@ -56,6 +59,8 @@ export const Register: React.FC = () => {
         setError(result.error.message || 'Registration failed');
         setIsLoading(false);
       } else {
+        console.log('Registration successful:', result);
+        
         // Registration successful, clear loading state
         setIsLoading(false);
         // Manual redirect as fallback if Better Auth doesn't handle it automatically
