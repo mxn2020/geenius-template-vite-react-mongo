@@ -43,47 +43,39 @@ export const handler: Handler = async (event, context) => {
   try {
     const auth = await getAuth();
     
-    // Convert Netlify event to a request-like object
-    const request = {
-      method: event.httpMethod,
-      url: event.path,
-      headers: event.headers,
-      body: event.body,
-    };
+    // Create proper URL for the request
+    const url = new URL(event.path, `https://${event.headers.host || 'localhost'}`);
+    if (event.queryStringParameters) {
+      Object.entries(event.queryStringParameters).forEach(([key, value]) => {
+        if (value) url.searchParams.set(key, value);
+      });
+    }
 
-    // Create a response object
-    const response = {
-      statusCode: 200,
-      headers: {},
-      body: '',
-      setHeader: (name: string, value: string) => {
-        response.headers[name] = value;
-      },
-      status: (code: number) => {
-        response.statusCode = code;
-        return response;
-      },
-      json: (data: any) => {
-        response.headers['Content-Type'] = 'application/json';
-        response.body = JSON.stringify(data);
-        return response;
-      },
-      send: (data: any) => {
-        response.body = typeof data === 'string' ? data : JSON.stringify(data);
-        return response;
-      },
-    };
+    // Create a proper Request object
+    const request = new Request(url.toString(), {
+      method: event.httpMethod,
+      headers: new Headers(event.headers),
+      body: event.body || undefined,
+    });
 
     // Handle the auth request
-    await auth.handler(request as any, response as any);
+    const response = await auth.handler(request);
+
+    // Convert Response to Netlify format
+    const responseHeaders: Record<string, string> = {};
+    if (response.headers) {
+      response.headers.forEach((value, key) => {
+        responseHeaders[key] = value;
+      });
+    }
 
     return {
-      statusCode: response.statusCode,
+      statusCode: response.status,
       headers: {
         ...headers,
-        ...response.headers,
+        ...responseHeaders,
       },
-      body: response.body,
+      body: await response.text(),
     };
   } catch (error) {
     console.error('Auth handler error:', error);
