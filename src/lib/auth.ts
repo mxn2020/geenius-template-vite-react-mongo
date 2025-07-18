@@ -9,8 +9,7 @@ const client = new MongoClient(process.env.MONGODB_URI || "mongodb://localhost:2
 export const auth = betterAuth({
   database: mongodbAdapter(client.db()),
   secret: process.env.BETTER_AUTH_SECRET || "fallback-secret-key-change-this-in-production-min-32-chars",
-  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:5176",
-  emailAndPassword: {
+    emailAndPassword: {
     enabled: true,
     requireEmailVerification: false,
   },

@@ -1,3 +1,4 @@
+// api/auth.ts
 import { Handler } from "@netlify/functions";
 import { auth } from "../src/lib/auth";
 

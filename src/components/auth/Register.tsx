@@ -49,7 +49,7 @@ export const Register: React.FC = () => {
         email,
         password,
         name,
-        callbackURL: '/dashboard', // Better Auth will handle redirect
+        callbackURL: `${import.meta.env.VITE_APP_URL}/dashboard`,
       });
 
       if (result.error) {
@@ -58,7 +58,8 @@ export const Register: React.FC = () => {
       } else {
         // Registration successful, clear loading state
         setIsLoading(false);
-        // Better Auth handles the redirect automatically on success
+        // Manual redirect as fallback if Better Auth doesn't handle it automatically
+        window.location.href = '/dashboard';
       }
     } catch (err: any) {
       setError(err.message || 'An unexpected error occurred');
