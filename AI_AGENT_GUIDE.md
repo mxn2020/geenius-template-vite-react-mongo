@@ -127,7 +127,7 @@ GOOGLE_CLIENT_SECRET="your-google-client-secret"
 
 ### API Endpoints
 
-Better Auth automatically creates these endpoints:
+Better Auth automatically creates these endpoints via Netlify Functions:
 
 - `POST /api/auth/sign-in` - Email/password login
 - `POST /api/auth/sign-up` - User registration
@@ -138,28 +138,23 @@ Better Auth automatically creates these endpoints:
 
 ### Server Setup
 
-The template includes an Express server (`server/index.ts`) that:
+The template uses Netlify Functions for serverless authentication:
 
-- Handles Better Auth routes with catch-all handler
-- Provides CORS configuration for frontend
-- Includes example protected API endpoints
-- Supports concurrent development with frontend
+- **Netlify Function** (`netlify/functions/auth.ts`) - Handles all Better Auth routes
+- **Serverless deployment** - No Express server needed
+- **CORS configuration** - Supports cross-origin requests
+- **MongoDB connection** - Direct database access from function
 
 ### Development Workflow
 
-1. **Start both servers**:
+1. **Start with Netlify Dev** (recommended):
    ```bash
-   pnpm dev:full  # Starts both frontend and backend
+   pnpm dev:netlify  # Starts frontend + functions
    ```
 
-2. **Frontend only** (if backend is running separately):
+2. **Frontend only** (no auth functionality):
    ```bash
    pnpm dev
-   ```
-
-3. **Backend only**:
-   ```bash
-   pnpm dev:server
    ```
 
 ## Dev-Container Package Structure
@@ -386,8 +381,8 @@ When updating dev-container functionality:
 ```bash
 pnpm build          # TypeScript compilation + Vite build
 pnpm lint           # ESLint validation
-pnpm dev            # Development server
-pnpm dev:full       # Both frontend and backend servers
+pnpm dev            # Development server (frontend only)
+pnpm dev:netlify    # Netlify dev server (frontend + functions)
 ```
 
 ### Authentication Testing

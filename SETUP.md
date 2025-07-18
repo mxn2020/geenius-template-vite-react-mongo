@@ -28,7 +28,24 @@ VITE_APP_URL="http://localhost:5173"
 VITE_API_URL="http://localhost:3000"
 ```
 
-### 3. Database Setup
+### 3. MongoDB Setup
+First, set up a local MongoDB instance. See [MONGODB_SETUP.md](./MONGODB_SETUP.md) for detailed instructions.
+
+**Quick setup (macOS with Homebrew):**
+```bash
+# Install and start MongoDB
+brew tap mongodb/brew
+brew install mongodb-community
+brew services start mongodb-community
+```
+
+**Quick setup (Docker):**
+```bash
+# Run MongoDB in Docker
+docker run -d --name mongodb -p 27017:27017 mongo:latest
+```
+
+### 4. Database Schema Setup
 ```bash
 # Generate Prisma client
 pnpm db:generate
@@ -37,27 +54,25 @@ pnpm db:generate
 pnpm db:push
 ```
 
-### 4. Development
+### 5. Development
 
-#### Option A: Run Both Frontend and Backend
+#### Option A: Run with Netlify Dev (Recommended)
 ```bash
-pnpm dev:full
+pnpm dev:netlify
 ```
 
-#### Option B: Run Separately
+#### Option B: Run Frontend Only
 ```bash
-# Terminal 1: Frontend
 pnpm dev
-
-# Terminal 2: Backend
-pnpm dev:server
 ```
 
-### 5. Access the Application
+Note: Option A includes serverless functions, while Option B is frontend-only.
+
+### 6. Access the Application
 
 - **Frontend**: http://localhost:5173
-- **Backend**: http://localhost:3000
-- **Auth endpoints**: http://localhost:3000/api/auth/*
+- **Netlify Dev Server**: http://localhost:8889 (includes functions)
+- **Auth endpoints**: http://localhost:8889/api/auth
 
 ## 🔧 Features
 
@@ -83,8 +98,8 @@ pnpm dev:server
 ### Common Issues
 
 1. **Session errors in console**
-   - This is expected if the backend server isn't running
-   - Start the backend with `pnpm dev:server`
+   - This is expected if the Netlify dev server isn't running
+   - Start the server with `pnpm dev:netlify`
 
 2. **Component registry errors**
    - Check that all button components have proper `devId` props
@@ -104,13 +119,13 @@ pnpm dev:server
 #### GitHub OAuth
 1. Go to GitHub Settings → Developer settings → OAuth Apps
 2. Create new OAuth App
-3. Set Authorization callback URL: `http://localhost:3000/api/auth/callback/github`
+3. Set Authorization callback URL: `http://localhost:8889/api/auth/callback/github`
 4. Add Client ID and Secret to `.env`
 
 #### Google OAuth
 1. Go to Google Cloud Console → APIs & Services → Credentials
 2. Create OAuth 2.0 Client ID
-3. Set Authorized redirect URI: `http://localhost:3000/api/auth/callback/google`
+3. Set Authorized redirect URI: `http://localhost:8889/api/auth/callback/google`
 4. Add Client ID and Secret to `.env`
 
 ## 📚 Documentation

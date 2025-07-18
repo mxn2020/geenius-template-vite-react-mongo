@@ -1,13 +1,21 @@
 [build]
   publish = "dist"
-  command = "npm run build"
+  command = "pnpm build"
+  functions = "netlify/functions"
 
-# Handle SPA routing
+[dev]
+  command = "pnpm dev"
+  publish = "dist"
+  port = 8889
+
+# Handle auth routes - redirect /api/auth/* to netlify function
+[[redirects]]
+  from = "/api/auth/*"
+  to = "/.netlify/functions/auth"
+  status = 200
+
+# Handle SPA routing - must come last
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
-[dev]
-  command = "npm run dev"
-  publish = "dist"

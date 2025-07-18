@@ -16,7 +16,7 @@ A modern, full-stack React template with authentication, database integration, a
 ## 📋 Prerequisites
 
 - Node.js 18+ 
-- MongoDB (local installation or MongoDB Atlas)
+- MongoDB (local installation or MongoDB Atlas) - see [MONGODB_SETUP.md](./MONGODB_SETUP.md)
 - pnpm (recommended) or npm
 
 ## 🛠️ Quick Start
@@ -34,7 +34,21 @@ A modern, full-stack React template with authentication, database integration, a
    # Update .env with your MongoDB URI and auth secrets
    ```
 
-3. **Database Setup**
+3. **MongoDB Setup**
+   ```bash
+   # Quick setup (macOS with Homebrew)
+   brew tap mongodb/brew
+   brew install mongodb-community
+   brew services start mongodb-community
+   
+   # Or with Docker
+   docker run -d --name mongodb -p 27017:27017 mongo:latest
+   
+   # Test connection
+   pnpm db:test
+   ```
+
+4. **Database Schema Setup**
    ```bash
    # Generate Prisma client
    pnpm db:generate
@@ -43,17 +57,18 @@ A modern, full-stack React template with authentication, database integration, a
    pnpm db:push
    ```
 
-4. **Development**
+5. **Development**
    ```bash
-   # Start both frontend and backend
-   pnpm dev:full
+   # Start with Netlify Dev (includes functions)
+   pnpm dev:netlify
    
-   # Or start them separately
-   pnpm dev        # Frontend only
-   pnpm dev:server # Backend only
+   # Or start frontend only
+   pnpm dev
    ```
 
-The application will be available at `http://localhost:5173`
+- **Frontend**: http://localhost:5173
+- **Netlify Dev Server**: http://localhost:8889 (includes functions)
+- **Auth endpoints**: http://localhost:8889/api/auth
 
 ## 📁 Project Structure
 
@@ -108,11 +123,24 @@ The application includes API endpoints for:
 
 ## 🔧 Available Scripts
 
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-- `npm run type-check` - Run TypeScript type checking
+```bash
+# Development
+pnpm dev            # Start Vite development server
+pnpm dev:netlify    # Start Netlify dev server with functions
+
+# Build
+pnpm build          # Build for production
+pnpm preview        # Preview production build
+
+# Database
+pnpm db:test        # Test MongoDB connection
+pnpm db:generate    # Generate Prisma client
+pnpm db:push        # Push schema to database
+pnpm db:studio      # Open Prisma Studio
+
+# Linting
+pnpm lint           # Run ESLint
+```
 
 ## 📦 Dependencies
 
