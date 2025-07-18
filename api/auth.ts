@@ -1,5 +1,5 @@
 import { Handler } from "@netlify/functions";
-import { auth } from "../../src/lib/auth";
+import { auth } from "../src/lib/auth";
 
 export const handler: Handler = async (event, context) => {
   const url = new URL(event.rawUrl);

@@ -11,10 +11,16 @@
   port = 8889
   targetPort = 5176
 
-# Handle auth routes - redirect /api/auth/* to netlify function
+# Handle auth routes
 [[redirects]]
   from = "/api/auth/*"
   to = "/.netlify/functions/auth/:splat"
+  status = 200
+
+# Handle other API routes (if you have more functions)
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/:splat"
   status = 200
 
 # Handle SPA routing - must come last

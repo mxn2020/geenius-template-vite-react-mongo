@@ -164,12 +164,12 @@ pnpm lint           # Run ESLint
 
 1. **Build the project**
    ```bash
-   npm run build
+   pnpm build
    ```
 
 2. **Deploy to Netlify**
    - Connect your repository to Netlify
-   - Set build command: `npm run build`
+   - Set build command: `pnpm build`
    - Set publish directory: `dist`
    - Add environment variables in Netlify dashboard
 
