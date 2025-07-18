@@ -72,6 +72,7 @@
   },
   "devDependencies": {
     "@netlify/functions": "^4.1.12",
+    "@types/node": "^24.0.14",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
     "@typescript-eslint/eslint-plugin": "^6.0.0",

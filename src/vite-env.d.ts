@@ -7,6 +7,7 @@ interface ImportMetaEnv {
   readonly VITE_APP_VERSION: string
   readonly VITE_APP_DESCRIPTION: string
   readonly NETLIFY_FUNCTIONS_URL: string
+  readonly VITE_GEENIUS_API_URL: string
 }
 
 interface ImportMeta {
