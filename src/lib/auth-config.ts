@@ -45,8 +45,10 @@ export function createAuthConfig(db: any) {
       max: 100, // limit each IP to 100 requests per windowMs
     },
     advanced: {
-      generateId: () => {
-        return Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+      database: {
+        generateId: () => {
+          return Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+        },
       },
     },
   });
