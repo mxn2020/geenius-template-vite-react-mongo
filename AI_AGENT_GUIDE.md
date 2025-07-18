@@ -522,7 +522,7 @@ model NewModel {
 ## Environment Variables
 
 ```env
-VITE_GEENIUS_API_URL=http://localhost:8889  # API endpoint for submissions
+VITE_GEENIUS_API_URL=http://localhost:8888  # API endpoint for submissions
 DATABASE_URL=mongodb://localhost:27017/db   # MongoDB connection string
 ```
 

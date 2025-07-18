@@ -172,7 +172,7 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
       };
 
       // Submit to Geenius processing endpoint
-      const geeniusApiUrl = import.meta.env.VITE_GEENIUS_API_URL || 'http://localhost:8889';
+      const geeniusApiUrl = import.meta.env.VITE_GEENIUS_API_URL || 'http://localhost:8888';
       const response = await fetch(`${geeniusApiUrl}/api/process-changes`, {
         method: 'POST',
         headers: {
@@ -236,7 +236,7 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
   const startPolling = (sessionId: string) => {
     const pollInterval = setInterval(async () => {
       try {
-        const geeniusApiUrl = import.meta.env.VITE_GEENIUS_API_URL || 'http://localhost:8889';
+        const geeniusApiUrl = import.meta.env.VITE_GEENIUS_API_URL || 'http://localhost:8888';
         const response = await fetch(`${geeniusApiUrl}/api/process-changes/${sessionId}`);
         
         if (!response.ok) {
@@ -277,7 +277,7 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
 
   const handleViewLogs = () => {
     if (processing.sessionId) {
-      const geeniusApiUrl = import.meta.env.VITE_GEENIUS_API_URL || 'http://localhost:8889';
+      const geeniusApiUrl = import.meta.env.VITE_GEENIUS_API_URL || 'http://localhost:8888';
       window.open(`${geeniusApiUrl}/logs/${processing.sessionId}`, '_blank');
     }
   };

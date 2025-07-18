@@ -25,7 +25,7 @@ const defaultConfig: DevModeConfig = {
   autoOpenSidebar: false,
   persistChanges: true,
   maxChanges: 50,
-  submitEndpoint: `${import.meta.env.VITE_GEENIUS_API_URL || 'http://localhost:8889'}/api/process-changes`,
+  submitEndpoint: `${import.meta.env.VITE_GEENIUS_API_URL || 'http://localhost:8888'}/api/process-changes`,
   authToken: undefined,
   // Visual customization
   showDashedBorders: true,
