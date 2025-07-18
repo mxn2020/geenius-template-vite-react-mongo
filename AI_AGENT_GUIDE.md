@@ -115,7 +115,7 @@ BETTER_AUTH_SECRET="your-secret-key-here"
 BETTER_AUTH_URL="http://localhost:3000"
 
 # Application URLs
-VITE_APP_URL="http://localhost:5173"
+VITE_APP_URL="http://localhost:5176"
 VITE_API_URL="http://localhost:3000"
 
 # OAuth Configuration (Optional)
@@ -522,7 +522,7 @@ model NewModel {
 ## Environment Variables
 
 ```env
-VITE_GEENIUS_API_URL=http://localhost:8888  # API endpoint for submissions
+VITE_GEENIUS_API_URL=http://localhost:8889  # API endpoint for submissions
 DATABASE_URL=mongodb://localhost:27017/db   # MongoDB connection string
 ```
 

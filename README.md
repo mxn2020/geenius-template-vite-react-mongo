@@ -66,7 +66,7 @@ A modern, full-stack React template with authentication, database integration, a
    pnpm dev
    ```
 
-- **Frontend**: http://localhost:5173
+- **Frontend**: http://localhost:5176
 - **Netlify Dev Server**: http://localhost:8889 (includes functions)
 - **Auth endpoints**: http://localhost:8889/api/auth
 
@@ -199,7 +199,7 @@ Optional variables:
 ```env
 VITE_APP_NAME="Vite React MongoDB App"
 JWT_SECRET="your-jwt-secret"
-CORS_ORIGIN="http://localhost:5173"
+CORS_ORIGIN="http://localhost:5176"
 ```
 
 ## 🤝 Contributing

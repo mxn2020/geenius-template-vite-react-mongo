@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { signUp, signIn } from '../../lib/auth-client';
 import { checkOAuthProviders } from '../../lib/auth-utils';
 import { Button } from '../ui/button';
@@ -18,7 +18,6 @@ export const Register: React.FC = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [providers, setProviders] = useState({ github: false, google: false });
-  const navigate = useNavigate();
 
   useEffect(() => {
     const loadProviders = async () => {
@@ -46,24 +45,20 @@ export const Register: React.FC = () => {
     }
 
     try {
-      const result = await signUp.email(
-        { email, password, name },
-        {
-          onSuccess: () => {
-            navigate('/dashboard');
-          },
-          onError: (error: any) => {
-            setError(error.message || 'Registration failed');
-          }
-        }
-      );
+      const result = await signUp.email({
+        email,
+        password,
+        name,
+        callbackURL: '/dashboard', // Better Auth will handle redirect
+      });
 
       if (result.error) {
         setError(result.error.message || 'Registration failed');
+        setIsLoading(false);
       }
-    } catch (err) {
-      setError('An unexpected error occurred');
-    } finally {
+      // Better Auth handles the redirect automatically on success
+    } catch (err: any) {
+      setError(err.message || 'An unexpected error occurred');
       setIsLoading(false);
     }
   };
@@ -73,20 +68,12 @@ export const Register: React.FC = () => {
     setError(null);
 
     try {
-      await signIn.social(
-        { provider: "google" },
-        {
-          onSuccess: () => {
-            navigate('/dashboard');
-          },
-          onError: (error: any) => {
-            setError(error.message || 'Google registration failed');
-          }
-        }
-      );
-    } catch (err) {
-      setError('Google registration failed');
-    } finally {
+      await signIn.social({
+        provider: "google",
+        callbackURL: '/dashboard'
+      });
+    } catch (err: any) {
+      setError(err.message || 'Google registration failed');
       setIsLoading(false);
     }
   };
@@ -96,20 +83,12 @@ export const Register: React.FC = () => {
     setError(null);
 
     try {
-      await signIn.social(
-        { provider: "github" },
-        {
-          onSuccess: () => {
-            navigate('/dashboard');
-          },
-          onError: (error: any) => {
-            setError(error.message || 'GitHub registration failed');
-          }
-        }
-      );
-    } catch (err) {
-      setError('GitHub registration failed');
-    } finally {
+      await signIn.social({
+        provider: "github",
+        callbackURL: '/dashboard'
+      });
+    } catch (err: any) {
+      setError(err.message || 'GitHub registration failed');
       setIsLoading(false);
     }
   };
@@ -135,49 +114,41 @@ export const Register: React.FC = () => {
               </Container>
             )}
 
-            {(providers.github || providers.google) && (
-              <Container componentId="social-register-buttons">
-                <div className="grid grid-cols-2 gap-3">
-                  {providers.google && (
-                    <Button
-                      variant="outline"
-                      onClick={handleGoogleRegister}
-                      disabled={isLoading}
-                      className="w-full"
-                    >
-                      <Mail className="h-4 w-4 mr-2" />
-                      Google
-                    </Button>
-                  )}
-                  {providers.github && (
-                    <Button
-                      variant="outline"
-                      onClick={handleGithubRegister}
-                      disabled={isLoading}
-                      className="w-full"
-                    >
-                      <Github className="h-4 w-4 mr-2" />
-                      GitHub
-                    </Button>
-                  )}
-                </div>
-              </Container>
-            )}
+            <Container componentId="social-register-buttons">
+              <div className="grid grid-cols-2 gap-3">
+                <Button
+                  variant="outline"
+                  onClick={handleGoogleRegister}
+                  disabled={isLoading || !providers.google}
+                  className="w-full"
+                >
+                  <Mail className="h-4 w-4 mr-2" />
+                  Google
+                </Button>
+                <Button
+                  variant="outline"
+                  onClick={handleGithubRegister}
+                  disabled={isLoading || !providers.github}
+                  className="w-full"
+                >
+                  <Github className="h-4 w-4 mr-2" />
+                  GitHub
+                </Button>
+              </div>
+            </Container>
 
-            {(providers.github || providers.google) && (
-              <Container componentId="register-divider">
-                <div className="relative">
-                  <div className="absolute inset-0 flex items-center">
-                    <span className="w-full border-t" />
-                  </div>
-                  <div className="relative flex justify-center text-xs uppercase">
-                    <span className="bg-white px-2 text-muted-foreground">
-                      Or continue with
-                    </span>
-                  </div>
+            <Container componentId="register-divider">
+              <div className="relative">
+                <div className="absolute inset-0 flex items-center">
+                  <span className="w-full border-t" />
                 </div>
-              </Container>
-            )}
+                <div className="relative flex justify-center text-xs uppercase">
+                  <span className="bg-white px-2 text-muted-foreground">
+                    Or continue with
+                  </span>
+                </div>
+              </div>
+            </Container>
 
             <Container componentId="register-form">
               <form onSubmit={handleEmailRegister} className="space-y-4">

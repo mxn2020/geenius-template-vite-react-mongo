@@ -24,7 +24,7 @@ BETTER_AUTH_SECRET="your-secret-key-here-change-this-in-production"
 BETTER_AUTH_URL="http://localhost:3000"
 
 # Application URLs
-VITE_APP_URL="http://localhost:5173"
+VITE_APP_URL="http://localhost:5176"
 VITE_API_URL="http://localhost:3000"
 ```
 
@@ -70,7 +70,7 @@ Note: Option A includes serverless functions, while Option B is frontend-only.
 
 ### 6. Access the Application
 
-- **Frontend**: http://localhost:5173
+- **Frontend**: http://localhost:5176
 - **Netlify Dev Server**: http://localhost:8889 (includes functions)
 - **Auth endpoints**: http://localhost:8889/api/auth
 

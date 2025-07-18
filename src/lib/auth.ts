@@ -1,41 +1,26 @@
 import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
-import { getDatabase } from "./mongodb";
+import { MongoClient } from "mongodb";
 
+// Create MongoDB client
+const client = new MongoClient(process.env.MONGODB_URI || "mongodb://localhost:27017/vite-react-mongo");
+
+// Create auth instance with MongoDB adapter
 export const auth = betterAuth({
-  database: mongodbAdapter(await getDatabase()),
+  database: mongodbAdapter(client.db()),
+  secret: process.env.BETTER_AUTH_SECRET || "fallback-secret-key-change-this-in-production-min-32-chars",
+  baseURL: process.env.BETTER_AUTH_URL || "http://localhost:5176",
   emailAndPassword: {
     enabled: true,
     requireEmailVerification: false,
-  },
-  socialProviders: {
-    github: {
-      clientId: process.env.GITHUB_CLIENT_ID || "",
-      clientSecret: process.env.GITHUB_CLIENT_SECRET || "",
-    },
-    google: {
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-    },
   },
   session: {
     expiresIn: 60 * 60 * 24 * 7, // 7 days
     updateAge: 60 * 60 * 24, // 24 hours
   },
   trustedOrigins: [
-    process.env.VITE_APP_URL || "http://localhost:5173",
-    process.env.BETTER_AUTH_URL || "http://localhost:3000",
+    "http://localhost:5176",
+    "http://localhost:8889",
+    "https://localhost:8889",
   ],
-  rateLimit: {
-    window: 10 * 60 * 1000, // 10 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
-  },
-  advanced: {
-    generateId: () => {
-      // Generate a custom ID for users (compatible with MongoDB ObjectId)
-      return Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
-    },
-  },
 });
-
-export type Session = typeof auth.$Infer.Session;

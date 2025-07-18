@@ -1,11 +1,17 @@
 import React, { createContext, useContext, useEffect } from 'react';
-import { useSession, type Session, type User } from '../../lib/auth-client';
+import { useSession, signIn, signOut, signUp } from '../../lib/auth-client';
+
+type Session = any; // Better Auth session type
+type User = any; // Better Auth user type
 
 interface AuthContextType {
   session: Session | null;
   user: User | null;
   isLoading: boolean;
   isAuthenticated: boolean;
+  signIn: typeof signIn;
+  signOut: typeof signOut;
+  signUp: typeof signUp;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -36,6 +42,9 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     user: session?.user || null,
     isLoading: isPending,
     isAuthenticated: !!session,
+    signIn,
+    signOut,
+    signUp,
   };
 
   return (
