@@ -40,8 +40,11 @@ export const Login: React.FC = () => {
       if (result.error) {
         setError(result.error.message || 'Login failed');
         setIsLoading(false);
+      } else {
+        // Login successful, clear loading state
+        setIsLoading(false);
+        // Better Auth handles the redirect automatically on success
       }
-      // Better Auth handles the redirect automatically on success
     } catch (err: any) {
       setError(err.message || 'An unexpected error occurred');
       setIsLoading(false);

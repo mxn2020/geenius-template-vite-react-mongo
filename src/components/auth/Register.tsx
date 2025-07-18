@@ -55,8 +55,11 @@ export const Register: React.FC = () => {
       if (result.error) {
         setError(result.error.message || 'Registration failed');
         setIsLoading(false);
+      } else {
+        // Registration successful, clear loading state
+        setIsLoading(false);
+        // Better Auth handles the redirect automatically on success
       }
-      // Better Auth handles the redirect automatically on success
     } catch (err: any) {
       setError(err.message || 'An unexpected error occurred');
       setIsLoading(false);
@@ -72,6 +75,7 @@ export const Register: React.FC = () => {
         provider: "google",
         callbackURL: '/dashboard'
       });
+      // Social auth will redirect, so we don't need to clear loading here
     } catch (err: any) {
       setError(err.message || 'Google registration failed');
       setIsLoading(false);
@@ -87,6 +91,7 @@ export const Register: React.FC = () => {
         provider: "github",
         callbackURL: '/dashboard'
       });
+      // Social auth will redirect, so we don't need to clear loading here
     } catch (err: any) {
       setError(err.message || 'GitHub registration failed');
       setIsLoading(false);
