@@ -110,7 +110,7 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
     logs: []
   });
 
-  const [polling, setPolling] = useState<NodeJS.Timeout | null>(null);
+  const [polling, setPolling] = useState<number | null>(null);
 
   // Clear polling on unmount or dialog close
   useEffect(() => {
@@ -272,7 +272,7 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
       }
     }, 2000);
 
-    setPolling(pollInterval);
+    setPolling(pollInterval as unknown as number);
   };
 
   const handleViewLogs = () => {
