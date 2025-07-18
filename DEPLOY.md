@@ -31,11 +31,18 @@
    ```
    MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/database
    BETTER_AUTH_SECRET=your-long-random-secret-key
+   NODE_ENV=production
+   ```
+
+   **Optional (for OAuth):**
+   ```
    GITHUB_CLIENT_ID=your-github-client-id
    GITHUB_CLIENT_SECRET=your-github-client-secret
    GOOGLE_CLIENT_ID=your-google-client-id
    GOOGLE_CLIENT_SECRET=your-google-client-secret
    ```
+
+   **Note**: Netlify automatically sets `URL` and `DEPLOY_PRIME_URL` environment variables.
 
 #### Option B: Deploy via CLI
 ```bash
@@ -53,11 +60,13 @@ netlify deploy --prod
 
 #### GitHub OAuth
 1. Go to GitHub Settings → Developer settings → OAuth Apps
-2. Update Authorization callback URL to: `https://your-site.netlify.app/api/auth/callback/github`
+2. Update Authorization callback URL to: `https://test-x4.netlify.app/api/auth/callback/github`
+   (Replace `test-x4` with your actual Netlify site name)
 
 #### Google OAuth
 1. Go to Google Cloud Console → APIs & Services → Credentials
-2. Update Authorized redirect URI to: `https://your-site.netlify.app/api/auth/callback/google`
+2. Update Authorized redirect URI to: `https://test-x4.netlify.app/api/auth/callback/google`
+   (Replace `test-x4` with your actual Netlify site name)
 
 ### 5. Custom Domain (Optional)
 1. In Netlify → Site settings → Domain management
@@ -83,15 +92,58 @@ GOOGLE_CLIENT_SECRET=your-google-client-secret
 ### 7. Troubleshooting
 
 #### Common Issues:
-1. **Build fails**: Check that all dependencies are in package.json
-2. **Functions timeout**: Ensure MongoDB connection is properly handled
-3. **CORS errors**: Verify trusted origins in auth configuration
-4. **OAuth not working**: Check callback URLs match exactly
 
-#### Function logs:
-```bash
-netlify functions:log
-```
+1. **ERR_CONNECTION_REFUSED to localhost**
+   - **Problem**: Auth client trying to connect to localhost in production
+   - **Solution**: The fix is already implemented in auth-client.ts - redeploy your site
+   - **Verify**: Check that `window.location.origin` matches your Netlify URL
+
+2. **Build fails**
+   - Check that all dependencies are in package.json
+   - Verify build command is `pnpm build`
+   - Check build logs for specific errors
+
+3. **Functions timeout**
+   - Ensure MongoDB connection is properly handled
+   - Verify MONGODB_URI is set correctly
+   - Check function logs for connection errors
+
+4. **CORS errors**
+   - Verify trusted origins in auth configuration
+   - Check that Netlify sets URL environment variable
+   - Ensure your frontend URL is in trusted origins
+
+5. **OAuth not working**
+   - Check callback URLs match exactly: `https://your-site.netlify.app/api/auth/callback/provider`
+   - Verify OAuth client IDs and secrets are set
+   - Check that OAuth providers are properly configured
+
+6. **Database connection errors**
+   - Verify MongoDB Atlas connection string
+   - Check that database user has proper permissions
+   - Ensure IP whitelist includes 0.0.0.0/0 for serverless functions
+
+#### Debugging Steps:
+
+1. **Check Function Logs**:
+   ```bash
+   netlify functions:log
+   ```
+
+2. **Test Auth Endpoints**:
+   ```bash
+   curl https://your-site.netlify.app/api/auth/session
+   ```
+
+3. **Verify Environment Variables**:
+   - Go to Netlify → Site settings → Environment variables
+   - Check that all required variables are set
+   - Redeploy after adding new variables
+
+4. **Check Network Tab**:
+   - Open browser DevTools → Network
+   - Look for failed requests to localhost
+   - Verify auth requests go to your Netlify URL
 
 ## Vercel Deployment
 

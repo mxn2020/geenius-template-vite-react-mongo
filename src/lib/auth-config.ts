@@ -32,11 +32,14 @@ export function createAuthConfig(db: any) {
       updateAge: 60 * 60 * 24, // 24 hours
     },
     trustedOrigins: [
-      process.env.URL || 'http://localhost:5173',
-      process.env.DEPLOY_PRIME_URL || 'http://localhost:5173',
-      'http://localhost:5173',
+      process.env.URL, // Production URL
+      process.env.DEPLOY_PRIME_URL, // Deploy preview URL
+      process.env.VITE_APP_URL, // Custom frontend URL
+      'http://localhost:5173', // Local development
+      'http://localhost:8889', // Netlify dev
       'https://localhost:5173',
-    ],
+      'https://localhost:8889',
+    ].filter(Boolean),
     rateLimit: {
       window: 10 * 60 * 1000, // 10 minutes
       max: 100, // limit each IP to 100 requests per windowMs
