@@ -1,7 +1,7 @@
 [build]
   publish = "dist"
   command = "pnpm build"
-  functions = "netlify/functions"
+  functions = "api"
 
 [dev]
   command = "pnpm dev"
