@@ -46,13 +46,15 @@ export const Register: React.FC = () => {
 
     try {
       console.log('Attempting to register with email:', email);
-      console.log('callbackURL:', `${import.meta.env.VITE_APP_URL}/dashboard`);
+      const baseUrl = import.meta.env.VITE_APP_URL || window.location.origin;
+      const callbackURL = `${baseUrl}/dashboard`;
+      console.log('callbackURL:', callbackURL);
 
       const result = await signUp.email({
         email,
         password,
         name,
-        callbackURL: `${import.meta.env.VITE_APP_URL}/dashboard`,
+        callbackURL,
       });
 
       if (result.error) {
