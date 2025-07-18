@@ -334,7 +334,7 @@ export interface UseContainerReturn {
   isSelected: boolean;
   isHovered: boolean;
   isDevMode: boolean;
-  containerRef: RefObject<HTMLDivElement>;
+  containerRef: RefObject<HTMLDivElement | null>;
   handleClick: (e: React.MouseEvent) => void;
   handleMouseEnter: () => void;
   handleMouseLeave: () => void;
