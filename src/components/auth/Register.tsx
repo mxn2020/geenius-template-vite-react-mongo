@@ -32,46 +32,117 @@ export const Register: React.FC = () => {
     setIsLoading(true);
     setError(null);
 
+    console.log('=== REGISTER ATTEMPT START ===');
+    console.log('Email:', email);
+    console.log('Name:', name);
+    console.log('Password length:', password.length);
+    console.log('Environment:', {
+      NODE_ENV: import.meta.env.NODE_ENV,
+      MODE: import.meta.env.MODE,
+      VITE_APP_URL: import.meta.env.VITE_APP_URL,
+      VITE_API_URL: import.meta.env.VITE_API_URL,
+      VITE_API_BASE_URL: import.meta.env.VITE_API_BASE_URL,
+      currentOrigin: window.location.origin,
+      currentHref: window.location.href,
+    });
+
     if (password !== confirmPassword) {
+      console.log('❌ Password mismatch');
       setError('Passwords do not match');
       setIsLoading(false);
       return;
     }
 
     if (password.length < 6) {
+      console.log('❌ Password too short');
       setError('Password must be at least 6 characters long');
       setIsLoading(false);
       return;
     }
 
     try {
-      console.log('Attempting to register with email:', email);
+      console.log('✅ Validation passed, proceeding with registration');
       const baseUrl = import.meta.env.VITE_APP_URL || window.location.origin;
       const callbackURL = `${baseUrl}/dashboard`;
-      console.log('callbackURL:', callbackURL);
+      console.log('📍 Callback URL:', callbackURL);
+      console.log('🔧 Base URL source:', import.meta.env.VITE_APP_URL ? 'VITE_APP_URL' : 'window.location.origin');
 
-      const result = await signUp.email({
+      const registrationData = {
         email,
         password,
         name,
         callbackURL,
+      };
+      
+      console.log('📦 Registration data:', {
+        email: registrationData.email,
+        name: registrationData.name,
+        callbackURL: registrationData.callbackURL,
+        passwordProvided: !!registrationData.password,
       });
 
+      console.log('🚀 Calling signUp.email...');
+      const result = await signUp.email(registrationData);
+
+      console.log('📥 Server response:', result);
+
       if (result.error) {
+        console.log('❌ Registration failed with error:', result.error);
+        console.log('Error details:', {
+          message: result.error.message,
+          code: result.error.code,
+          status: result.error.status,
+          full: result.error,
+        });
         setError(result.error.message || 'Registration failed');
         setIsLoading(false);
       } else {
-        console.log('Registration successful:', result);
+        console.log('✅ Registration successful:', result);
+        console.log('Success details:', {
+          user: result.user,
+          session: result.session,
+          redirect: result.redirect,
+        });
         
         // Registration successful, clear loading state
         setIsLoading(false);
-        // Manual redirect as fallback if Better Auth doesn't handle it automatically
-        window.location.href = '/dashboard';
+        
+        // Check if Better Auth handled the redirect
+        if (result.redirect) {
+          console.log('🔄 Better Auth provided redirect URL:', result.redirect);
+          window.location.href = result.redirect;
+        } else {
+          console.log('🔄 Manual redirect to dashboard');
+          window.location.href = '/dashboard';
+        }
       }
     } catch (err: any) {
+      console.log('💥 Registration exception:', err);
+      console.log('Exception details:', {
+        message: err.message,
+        name: err.name,
+        stack: err.stack,
+        response: err.response,
+        status: err.status,
+        statusText: err.statusText,
+        config: err.config,
+      });
+      
+      // Try to extract more meaningful error from network response
+      if (err.response) {
+        console.log('🌐 Network response error:', {
+          data: err.response.data,
+          status: err.response.status,
+          statusText: err.response.statusText,
+          headers: err.response.headers,
+        });
+      }
+      
       setError(err.message || 'An unexpected error occurred');
       setIsLoading(false);
     }
+    
+    console.log('=== REGISTER ATTEMPT END ===');
   };
 
   const handleGoogleRegister = async () => {

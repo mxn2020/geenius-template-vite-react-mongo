@@ -30,25 +30,99 @@ export const Login: React.FC = () => {
     setIsLoading(true);
     setError(null);
 
+    console.log('=== LOGIN ATTEMPT START ===');
+    console.log('Email:', email);
+    console.log('Password length:', password.length);
+    console.log('Environment:', {
+      NODE_ENV: import.meta.env.NODE_ENV,
+      MODE: import.meta.env.MODE,
+      VITE_APP_URL: import.meta.env.VITE_APP_URL,
+      VITE_API_URL: import.meta.env.VITE_API_URL,
+      VITE_API_BASE_URL: import.meta.env.VITE_API_BASE_URL,
+      currentOrigin: window.location.origin,
+      currentHref: window.location.href,
+    });
+
     try {
-      const result = await signIn.email({
+      const baseUrl = import.meta.env.VITE_APP_URL || window.location.origin;
+      const callbackURL = `${baseUrl}/dashboard`;
+      console.log('📍 Callback URL:', callbackURL);
+      console.log('🔧 Base URL source:', import.meta.env.VITE_APP_URL ? 'VITE_APP_URL' : 'window.location.origin');
+
+      const loginData = {
         email,
         password,
-        callbackURL: '/dashboard', // Better Auth will handle redirect
+        callbackURL,
+      };
+      
+      console.log('📦 Login data:', {
+        email: loginData.email,
+        callbackURL: loginData.callbackURL,
+        passwordProvided: !!loginData.password,
       });
 
+      console.log('🚀 Calling signIn.email...');
+      const result = await signIn.email(loginData);
+
+      console.log('📥 Server response:', result);
+
       if (result.error) {
+        console.log('❌ Login failed with error:', result.error);
+        console.log('Error details:', {
+          message: result.error.message,
+          code: result.error.code,
+          status: result.error.status,
+          full: result.error,
+        });
         setError(result.error.message || 'Login failed');
         setIsLoading(false);
       } else {
+        console.log('✅ Login successful:', result);
+        console.log('Success details:', {
+          user: result.user,
+          session: result.session,
+          redirect: result.redirect,
+        });
+        
         // Login successful, clear loading state
         setIsLoading(false);
-        // Better Auth handles the redirect automatically on success
+        
+        // Check if Better Auth handled the redirect
+        if (result.redirect) {
+          console.log('🔄 Better Auth provided redirect URL:', result.redirect);
+          window.location.href = result.redirect;
+        } else {
+          console.log('🔄 Better Auth should handle redirect automatically');
+          // Better Auth handles the redirect automatically on success
+        }
       }
     } catch (err: any) {
+      console.log('💥 Login exception:', err);
+      console.log('Exception details:', {
+        message: err.message,
+        name: err.name,
+        stack: err.stack,
+        response: err.response,
+        status: err.status,
+        statusText: err.statusText,
+        config: err.config,
+      });
+      
+      // Try to extract more meaningful error from network response
+      if (err.response) {
+        console.log('🌐 Network response error:', {
+          data: err.response.data,
+          status: err.response.status,
+          statusText: err.response.statusText,
+          headers: err.response.headers,
+        });
+      }
+      
       setError(err.message || 'An unexpected error occurred');
       setIsLoading(false);
     }
+    
+    console.log('=== LOGIN ATTEMPT END ===');
   };
 
   const handleGoogleLogin = async () => {
