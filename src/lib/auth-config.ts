@@ -39,7 +39,7 @@ export function createAuthConfig(db: any) {
       'http://localhost:8889', // Netlify dev
       'https://localhost:5173',
       'https://localhost:8889',
-    ].filter(Boolean),
+    ].filter(Boolean) as string[],
     rateLimit: {
       window: 10 * 60 * 1000, // 10 minutes
       max: 100, // limit each IP to 100 requests per windowMs
