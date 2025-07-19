@@ -38,8 +38,8 @@ export const ChartContainer = React.forwardRef<
         name: devName || 'ChartContainer',
         description: devDescription || 'Container for chart components',
         filePath: 'src/lib/dev-container/shadcn/Chart.tsx',
-        category: 'data-visualization',
-        semanticTags: ['chart', 'container', 'data-visualization', 'ui'],
+        category: 'data-display',
+        semanticTags: ['chart', 'container', 'data-display', 'ui'],
       }}
     >
       <ShadcnChartContainer ref={ref} {...props} />
@@ -66,8 +66,8 @@ export const ChartTooltipContent = React.forwardRef<
           name: devName || 'ChartTooltipContent',
           description: devDescription || 'Tooltip content for chart data',
           filePath: 'src/lib/dev-container/shadcn/Chart.tsx',
-          category: 'data-visualization',
-          semanticTags: ['chart', 'tooltip', 'content', 'data-visualization', 'ui'],
+          category: 'data-display',
+          semanticTags: ['chart', 'tooltip', 'content', 'data-display', 'ui'],
         }}
       >
         <ShadcnChartTooltipContent ref={ref} {...props} />
@@ -97,8 +97,8 @@ export const ChartLegendContent = React.forwardRef<
           name: devName || 'ChartLegendContent',
           description: devDescription || 'Legend content for chart data',
           filePath: 'src/lib/dev-container/shadcn/Chart.tsx',
-          category: 'data-visualization',
-          semanticTags: ['chart', 'legend', 'content', 'data-visualization', 'ui'],
+          category: 'data-display',
+          semanticTags: ['chart', 'legend', 'content', 'data-display', 'ui'],
         }}
       >
         <ShadcnChartLegendContent ref={ref} {...props} />

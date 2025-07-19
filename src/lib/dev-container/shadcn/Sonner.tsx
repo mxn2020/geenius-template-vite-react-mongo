@@ -1,39 +1,40 @@
+// src/lib/dev-container/shadcn/Toaster.tsx
+
 import React from 'react';
-import { Toaster as ShadcnToaster } from '../../../components/ui/sonner';
 import { Container } from '../components/Container';
 import { generateId } from '../utils/storage';
+import { DevProps } from '../types';
 
-interface DevToasterProps extends React.ComponentProps<typeof ShadcnToaster> {
-  devId?: string;
-  devName?: string;
-  devDescription?: string;
-  devSelectable?: boolean;
-}
+import { Toaster as ShadcnToaster } from '../../../components/ui/sonner';
 
-export const Toaster = React.forwardRef<
-  HTMLDivElement,
-  DevToasterProps
->(({ devId, devName, devDescription, devSelectable = true, ...props }, ref) => {
+// Toaster component
+type ShadcnToasterProps = React.ComponentPropsWithoutRef<typeof ShadcnToaster>;
+type DevToasterProps = ShadcnToasterProps & DevProps;
+
+export const Toaster = ({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }: DevToasterProps) => {
   const componentId = devId || `toaster-${generateId()}`;
+  const shouldContainerize = devDetailed !== false;
   
-  return (
-    <Container
-      componentId={componentId}
-      selectable={devSelectable}
-      meta={{
-        id: componentId,
-        name: devName || 'Toaster',
-        description: devDescription || 'A toast notification component',
-        filePath: 'src/lib/dev-container/shadcn/Sonner.tsx',
-        category: 'ui',
-        semanticTags: ['toast', 'notification', 'message', 'ui'],
-      }}
-    >
-      <ShadcnToaster {...props} />
-    </Container>
-  );
-});
+  if (shouldContainerize) {
+    return (
+      <Container
+        componentId={componentId}
+        selectable={devSelectable}
+        meta={{
+          id: componentId,
+          name: devName || 'Toaster',
+          description: devDescription || 'Toast notification container',
+          filePath: 'src/lib/dev-container/shadcn/Toaster.tsx',
+          category: 'feedback',
+          semanticTags: ['toaster', 'toast', 'notification', 'feedback', 'ui'],
+        }}
+      >
+        <ShadcnToaster {...props} />
+      </Container>
+    );
+  }
+
+  return <ShadcnToaster {...props} />;
+};
 
 Toaster.displayName = 'DevToaster';
-
-export { type DevToasterProps };

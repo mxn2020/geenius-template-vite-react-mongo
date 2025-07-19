@@ -1,45 +1,53 @@
+// src/lib/dev-container/shadcn/Toggle.tsx
+
 import React from 'react';
-import { 
-  Toggle as ShadcnToggle,
-  toggleVariants
-} from '../../../components/ui/toggle';
 import { Container } from '../components/Container';
 import { generateId } from '../utils/storage';
+import { DevProps } from '../types';
 
-interface DevToggleProps extends React.ComponentPropsWithoutRef<typeof ShadcnToggle> {
-  devId?: string;
-  devName?: string;
-  devDescription?: string;
-  devSelectable?: boolean;
-}
+import { Toggle as ShadcnToggle, toggleVariants } from '../../../components/ui/toggle';
+
+// Toggle component
+type ShadcnToggleProps = React.ComponentPropsWithoutRef<typeof ShadcnToggle>;
+type DevToggleProps = ShadcnToggleProps & DevProps & { children?: React.ReactNode };
 
 export const Toggle = React.forwardRef<
   React.ElementRef<typeof ShadcnToggle>,
   DevToggleProps
->(({ devId, devName, devDescription, devSelectable = true, ...props }, ref) => {
+>(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
   const componentId = devId || `toggle-${generateId()}`;
+  const shouldContainerize = devDetailed !== false;
   
+  if (shouldContainerize) {
+    return (
+      <Container
+        componentId={componentId}
+        selectable={devSelectable}
+        meta={{
+          id: componentId,
+          name: devName || 'Toggle',
+          description: devDescription || 'Toggle button component',
+          filePath: 'src/lib/dev-container/shadcn/Toggle.tsx',
+          category: 'form',
+          semanticTags: ['toggle', 'button', 'switch', 'interactive', 'ui'],
+        }}
+      >
+        <ShadcnToggle ref={ref} {...props}>
+          {children}
+        </ShadcnToggle>
+      </Container>
+    );
+  }
+
   return (
-    <Container
-      componentId={componentId}
-      selectable={devSelectable}
-      meta={{
-        id: componentId,
-        name: devName || 'Toggle',
-        description: devDescription || 'A toggle button component',
-        filePath: 'src/lib/dev-container/shadcn/Toggle.tsx',
-        category: 'ui',
-        semanticTags: ['toggle', 'button', 'pressed', 'ui'],
-      }}
-    >
-      <ShadcnToggle ref={ref} {...props} />
-    </Container>
+    <ShadcnToggle ref={ref} {...props}>
+      {children}
+    </ShadcnToggle>
   );
 });
 
 Toggle.displayName = 'DevToggle';
 
-// Export utility functions without dev wrapping
+// Export the toggle variants utility
 export { toggleVariants };
 
-export { type DevToggleProps };

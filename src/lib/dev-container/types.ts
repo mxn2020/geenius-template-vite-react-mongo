@@ -21,12 +21,16 @@ export type ComponentCategory =
   | 'ui'
   | 'page'
   | 'layout'
+  | 'content'
+  | 'media'
   | 'shadcn'
   | 'navigation'
+  | 'interactive'
   | 'form'
   | 'typography'
   | 'overlay'
-  | 'data-visualization'
+  | 'feedback'
+  | 'data-display'
   | 'custom';
 
 export interface ComponentMeta {

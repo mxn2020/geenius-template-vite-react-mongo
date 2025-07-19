@@ -1,19 +1,24 @@
+// src/lib/dev-container/shadcn/Textarea.tsx
+
 import React from 'react';
-import { Textarea as ShadcnTextarea } from '../../../components/ui/textarea';
 import { Container } from '../components/Container';
 import { generateId } from '../utils/storage';
+import { DevProps } from '../types';
 
-interface DevTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  devId?: string;
-  devName?: string;
-  devDescription?: string;
-  devSelectable?: boolean;
-}
+import { Textarea as ShadcnTextarea } from '../../../components/ui/textarea';
 
-export const Textarea = React.forwardRef<HTMLTextAreaElement, DevTextareaProps>(
-  ({ devId, devName, devDescription, devSelectable = true, ...props }, ref) => {
-    const componentId = devId || `textarea-${generateId()}`;
-    
+// Textarea component
+type ShadcnTextareaProps = React.ComponentPropsWithoutRef<typeof ShadcnTextarea>;
+type DevTextareaProps = ShadcnTextareaProps & DevProps;
+
+export const Textarea = React.forwardRef<
+  React.ElementRef<typeof ShadcnTextarea>,
+  DevTextareaProps
+>(({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }, ref) => {
+  const componentId = devId || `textarea-${generateId()}`;
+  const shouldContainerize = devDetailed !== false;
+  
+  if (shouldContainerize) {
     return (
       <Container
         componentId={componentId}
@@ -21,18 +26,19 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, DevTextareaProps>(
         meta={{
           id: componentId,
           name: devName || 'Textarea',
-          description: devDescription || 'A textarea input component',
+          description: devDescription || 'Multi-line text input field',
           filePath: 'src/lib/dev-container/shadcn/Textarea.tsx',
-          category: 'ui',
-          semanticTags: ['textarea', 'form', 'input', 'ui'],
+          category: 'form',
+          semanticTags: ['textarea', 'input', 'form', 'text', 'ui'],
         }}
       >
         <ShadcnTextarea ref={ref} {...props} />
       </Container>
     );
   }
-);
+
+  return <ShadcnTextarea ref={ref} {...props} />;
+});
 
 Textarea.displayName = 'DevTextarea';
 
-export { type DevTextareaProps };

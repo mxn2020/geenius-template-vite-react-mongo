@@ -1,19 +1,21 @@
+// src/lib/dev-container/shadcn/Skeleton.tsx
+
 import React from 'react';
-import { Skeleton as ShadcnSkeleton } from '../../../components/ui/skeleton';
 import { Container } from '../components/Container';
 import { generateId } from '../utils/storage';
+import { DevProps } from '../types';
 
-interface DevSkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
-  devId?: string;
-  devName?: string;
-  devDescription?: string;
-  devSelectable?: boolean;
-}
+import { Skeleton as ShadcnSkeleton } from '../../../components/ui/skeleton';
 
-export const Skeleton = React.forwardRef<HTMLDivElement, DevSkeletonProps>(
-  ({ devId, devName, devDescription, devSelectable = true, ...props }, ref) => {
-    const componentId = devId || `skeleton-${generateId()}`;
-    
+// Skeleton component
+type ShadcnSkeletonProps = React.ComponentPropsWithoutRef<typeof ShadcnSkeleton>;
+type DevSkeletonProps = ShadcnSkeletonProps & DevProps;
+
+export const Skeleton = ({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }: DevSkeletonProps) => {
+  const componentId = devId || `skeleton-${generateId()}`;
+  const shouldContainerize = devDetailed !== false;
+  
+  if (shouldContainerize) {
     return (
       <Container
         componentId={componentId}
@@ -21,18 +23,18 @@ export const Skeleton = React.forwardRef<HTMLDivElement, DevSkeletonProps>(
         meta={{
           id: componentId,
           name: devName || 'Skeleton',
-          description: devDescription || 'A skeleton loading placeholder component',
+          description: devDescription || 'Loading skeleton placeholder',
           filePath: 'src/lib/dev-container/shadcn/Skeleton.tsx',
-          category: 'ui',
+          category: 'feedback',
           semanticTags: ['skeleton', 'loading', 'placeholder', 'ui'],
         }}
       >
-        <ShadcnSkeleton ref={ref} {...props} />
+        <ShadcnSkeleton {...props} />
       </Container>
     );
   }
-);
+
+  return <ShadcnSkeleton {...props} />;
+};
 
 Skeleton.displayName = 'DevSkeleton';
-
-export { type DevSkeletonProps };

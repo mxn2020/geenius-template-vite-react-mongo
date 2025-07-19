@@ -1,39 +1,43 @@
+// src/lib/dev-container/shadcn/Switch.tsx
+
 import React from 'react';
-import { Switch as ShadcnSwitch } from '../../../components/ui/switch';
 import { Container } from '../components/Container';
 import { generateId } from '../utils/storage';
+import { DevProps } from '../types';
 
-interface DevSwitchProps extends React.ComponentPropsWithoutRef<typeof ShadcnSwitch> {
-  devId?: string;
-  devName?: string;
-  devDescription?: string;
-  devSelectable?: boolean;
-}
+import { Switch as ShadcnSwitch } from '../../../components/ui/switch';
+
+// Switch component
+type ShadcnSwitchProps = React.ComponentPropsWithoutRef<typeof ShadcnSwitch>;
+type DevSwitchProps = ShadcnSwitchProps & DevProps;
 
 export const Switch = React.forwardRef<
   React.ElementRef<typeof ShadcnSwitch>,
   DevSwitchProps
->(({ devId, devName, devDescription, devSelectable = true, ...props }, ref) => {
+>(({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }, ref) => {
   const componentId = devId || `switch-${generateId()}`;
+  const shouldContainerize = devDetailed !== false;
   
-  return (
-    <Container
-      componentId={componentId}
-      selectable={devSelectable}
-      meta={{
-        id: componentId,
-        name: devName || 'Switch',
-        description: devDescription || 'A switch toggle component',
-        filePath: 'src/lib/dev-container/shadcn/Switch.tsx',
-        category: 'ui',
-        semanticTags: ['switch', 'toggle', 'form', 'ui'],
-      }}
-    >
-      <ShadcnSwitch ref={ref} {...props} />
-    </Container>
-  );
+  if (shouldContainerize) {
+    return (
+      <Container
+        componentId={componentId}
+        selectable={devSelectable}
+        meta={{
+          id: componentId,
+          name: devName || 'Switch',
+          description: devDescription || 'Toggle switch component',
+          filePath: 'src/lib/dev-container/shadcn/Switch.tsx',
+          category: 'form',
+          semanticTags: ['switch', 'toggle', 'form', 'input', 'ui'],
+        }}
+      >
+        <ShadcnSwitch ref={ref} {...props} />
+      </Container>
+    );
+  }
+
+  return <ShadcnSwitch ref={ref} {...props} />;
 });
 
 Switch.displayName = 'DevSwitch';
-
-export { type DevSwitchProps };

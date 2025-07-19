@@ -1,19 +1,21 @@
+// src/lib/dev-container/shadcn/Resizable.tsx
+
 import React from 'react';
-import { ResizablePanelGroup as ShadcnResizablePanelGroup, ResizablePanel, ResizableHandle } from '../../../components/ui/resizable';
 import { Container } from '../components/Container';
 import { generateId } from '../utils/storage';
+import { DevProps } from '../types';
 
-interface DevResizablePanelGroupProps extends React.ComponentProps<typeof ShadcnResizablePanelGroup> {
-  devId?: string;
-  devName?: string;
-  devDescription?: string;
-  devSelectable?: boolean;
-}
+import {
+  ResizablePanelGroup as ShadcnResizablePanelGroup,
+  ResizablePanel as ShadcnResizablePanel,
+  ResizableHandle as ShadcnResizableHandle,
+} from '../../../components/ui/resizable';
 
-export const ResizablePanelGroup = React.forwardRef<
-  HTMLDivElement,
-  DevResizablePanelGroupProps
->(({ devId, devName, devDescription, devSelectable = true, ...props }, ref) => {
+// ResizablePanelGroup component
+type ShadcnResizablePanelGroupProps = React.ComponentPropsWithoutRef<typeof ShadcnResizablePanelGroup>;
+type DevResizablePanelGroupProps = ShadcnResizablePanelGroupProps & DevProps & { children?: React.ReactNode };
+
+export const ResizablePanelGroup = ({ devId, devName, devDescription, devSelectable = true, children, ...props }: DevResizablePanelGroupProps) => {
   const componentId = devId || `resizable-panel-group-${generateId()}`;
   
   return (
@@ -23,17 +25,50 @@ export const ResizablePanelGroup = React.forwardRef<
       meta={{
         id: componentId,
         name: devName || 'ResizablePanelGroup',
-        description: devDescription || 'A resizable panel component',
+        description: devDescription || 'Resizable panel group container',
         filePath: 'src/lib/dev-container/shadcn/Resizable.tsx',
-        category: 'ui',
-        semanticTags: ['resizable', 'layout', 'panel', 'ui'],
+        category: 'layout',
+        semanticTags: ['resizable', 'panel', 'group', 'layout', 'ui'],
       }}
     >
-      <ShadcnResizablePanelGroup ref={ref} {...props} />
+      <ShadcnResizablePanelGroup {...props}>
+        {children}
+      </ShadcnResizablePanelGroup>
     </Container>
   );
-});
+};
 
 ResizablePanelGroup.displayName = 'DevResizablePanelGroup';
 
-export { ResizablePanel, ResizableHandle, type DevResizablePanelGroupProps };
+// ResizablePanel component
+export const ResizablePanel = ShadcnResizablePanel;
+
+// ResizableHandle component
+export const ResizableHandle = ({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }: React.ComponentPropsWithoutRef<typeof ShadcnResizableHandle> & DevProps) => {
+  const componentId = devId || `resizable-handle-${generateId()}`;
+  const shouldContainerize = devDetailed !== false;
+  
+  if (shouldContainerize) {
+    return (
+      <Container
+        componentId={componentId}
+        selectable={devSelectable}
+        meta={{
+          id: componentId,
+          name: devName || 'ResizableHandle',
+          description: devDescription || 'Handle for resizing panels',
+          filePath: 'src/lib/dev-container/shadcn/Resizable.tsx',
+          category: 'layout',
+          semanticTags: ['resizable', 'handle', 'interactive', 'ui'],
+        }}
+      >
+        <ShadcnResizableHandle {...props} />
+      </Container>
+    );
+  }
+
+  return <ShadcnResizableHandle {...props} />;
+};
+
+ResizableHandle.displayName = 'DevResizableHandle';
+
