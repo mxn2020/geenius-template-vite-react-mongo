@@ -8,22 +8,17 @@ import { DevProps } from '../types';
 import {
   Collapsible as ShadcnCollapsible,
   CollapsibleTrigger as ShadcnCollapsibleTrigger,
-  CollapsibleContent as ShadcnCollapsibleContent
+  CollapsibleContent as ShadcnCollapsibleContent,
 } from '../../../components/ui/collapsible';
 
-// Based on type definitions: Collapsible, CollapsibleTrigger, CollapsibleContent all use forwardRef
+// Collapsible root component
 type ShadcnCollapsibleProps = React.ComponentPropsWithoutRef<typeof ShadcnCollapsible>;
-type ShadcnCollapsibleTriggerProps = React.ComponentPropsWithoutRef<typeof ShadcnCollapsibleTrigger>;
-type ShadcnCollapsibleContentProps = React.ComponentPropsWithoutRef<typeof ShadcnCollapsibleContent>;
-
 type DevCollapsibleProps = ShadcnCollapsibleProps & DevProps & { children?: React.ReactNode };
-type DevCollapsibleTriggerProps = ShadcnCollapsibleTriggerProps & DevProps & { children?: React.ReactNode };
-type DevCollapsibleContentProps = ShadcnCollapsibleContentProps & DevProps & { children?: React.ReactNode };
 
 export const Collapsible = React.forwardRef<
   React.ElementRef<typeof ShadcnCollapsible>,
   DevCollapsibleProps
->(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
+>(({ devId, devName, devDescription, devSelectable = true, children, ...props }, ref) => {
   const componentId = devId || `collapsible-${generateId()}`;
   
   return (
@@ -33,10 +28,10 @@ export const Collapsible = React.forwardRef<
       meta={{
         id: componentId,
         name: devName || 'Collapsible',
-        description: devDescription || 'Collapsible content container',
+        description: devDescription || 'Collapsible root component',
         filePath: 'src/lib/dev-container/shadcn/Collapsible.tsx',
         category: 'layout',
-        semanticTags: ['collapsible', 'toggle', 'accordion', 'layout', 'ui'],
+        semanticTags: ['collapsible', 'accordion', 'toggle', 'ui'],
       }}
     >
       <ShadcnCollapsible ref={ref} {...props}>
@@ -47,6 +42,10 @@ export const Collapsible = React.forwardRef<
 });
 
 Collapsible.displayName = 'DevCollapsible';
+
+// CollapsibleTrigger component
+type ShadcnCollapsibleTriggerProps = React.ComponentPropsWithoutRef<typeof ShadcnCollapsibleTrigger>;
+type DevCollapsibleTriggerProps = ShadcnCollapsibleTriggerProps & DevProps & { children?: React.ReactNode };
 
 export const CollapsibleTrigger = React.forwardRef<
   React.ElementRef<typeof ShadcnCollapsibleTrigger>,
@@ -63,10 +62,10 @@ export const CollapsibleTrigger = React.forwardRef<
         meta={{
           id: componentId,
           name: devName || 'CollapsibleTrigger',
-          description: devDescription || 'Button to toggle collapsible content',
+          description: devDescription || 'Button that toggles the collapsible content',
           filePath: 'src/lib/dev-container/shadcn/Collapsible.tsx',
-          category: 'interactive',
-          semanticTags: ['collapsible', 'trigger', 'button', 'toggle', 'ui'],
+          category: 'layout',
+          semanticTags: ['collapsible', 'trigger', 'button', 'interactive', 'ui'],
         }}
       >
         <ShadcnCollapsibleTrigger ref={ref} {...props}>
@@ -85,6 +84,10 @@ export const CollapsibleTrigger = React.forwardRef<
 
 CollapsibleTrigger.displayName = 'DevCollapsibleTrigger';
 
+// CollapsibleContent component
+type ShadcnCollapsibleContentProps = React.ComponentPropsWithoutRef<typeof ShadcnCollapsibleContent>;
+type DevCollapsibleContentProps = ShadcnCollapsibleContentProps & DevProps & { children?: React.ReactNode };
+
 export const CollapsibleContent = React.forwardRef<
   React.ElementRef<typeof ShadcnCollapsibleContent>,
   DevCollapsibleContentProps
@@ -100,10 +103,10 @@ export const CollapsibleContent = React.forwardRef<
         meta={{
           id: componentId,
           name: devName || 'CollapsibleContent',
-          description: devDescription || 'Collapsible content area',
+          description: devDescription || 'Content that can be collapsed or expanded',
           filePath: 'src/lib/dev-container/shadcn/Collapsible.tsx',
           category: 'layout',
-          semanticTags: ['collapsible', 'content', 'layout', 'ui'],
+          semanticTags: ['collapsible', 'content', 'expandable', 'ui'],
         }}
       >
         <ShadcnCollapsibleContent ref={ref} {...props}>
@@ -121,4 +124,3 @@ export const CollapsibleContent = React.forwardRef<
 });
 
 CollapsibleContent.displayName = 'DevCollapsibleContent';
-
