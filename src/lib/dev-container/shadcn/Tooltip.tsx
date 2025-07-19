@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import {
   TooltipProvider as ShadcnTooltipProvider,
@@ -17,34 +18,42 @@ type ShadcnTooltipProviderProps = React.ComponentProps<typeof ShadcnTooltipProvi
 type DevTooltipProviderProps = ShadcnTooltipProviderProps & DevProps & { children?: React.ReactNode };
 
 export const TooltipProvider = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevTooltipProviderProps) => {
-  const componentId = devId || `tooltip-provider-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'TooltipProvider',
-          description: devDescription || 'Provider for tooltip context',
-          filePath: 'src/lib/dev-container/shadcn/Tooltip.tsx',
-          category: 'overlay',
-          semanticTags: ['tooltip', 'provider', 'context', 'ui'],
-        }}
-      >
-        <ShadcnTooltipProvider {...props}>
-          {children}
-        </ShadcnTooltipProvider>
-      </Container>
+      <ShadcnTooltipProvider {...props}>
+        {children}
+      </ShadcnTooltipProvider>
     );
   }
 
   return (
-    <ShadcnTooltipProvider {...props}>
-      {children}
-    </ShadcnTooltipProvider>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'TooltipProvider',
+        description: devDescription || 'Provider for tooltip context',
+        filePath: 'src/lib/dev-container/shadcn/Tooltip.tsx',
+        category: 'overlay',
+        semanticTags: ['tooltip', 'provider', 'context', 'ui'],
+      }}
+    >
+      <ShadcnTooltipProvider {...props}>
+        {children}
+      </ShadcnTooltipProvider>
+    </Container>
   );
 };
 
@@ -55,34 +64,42 @@ type ShadcnTooltipProps = React.ComponentProps<typeof ShadcnTooltip>;
 type DevTooltipProps = ShadcnTooltipProps & DevProps & { children?: React.ReactNode };
 
 export const Tooltip = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevTooltipProps) => {
-  const componentId = devId || `tooltip-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'Tooltip',
-          description: devDescription || 'Tooltip root component',
-          filePath: 'src/lib/dev-container/shadcn/Tooltip.tsx',
-          category: 'overlay',
-          semanticTags: ['tooltip', 'overlay', 'popup', 'ui'],
-        }}
-      >
-        <ShadcnTooltip {...props}>
-          {children}
-        </ShadcnTooltip>
-      </Container>
+      <ShadcnTooltip {...props}>
+        {children}
+      </ShadcnTooltip>
     );
   }
 
   return (
-    <ShadcnTooltip {...props}>
-      {children}
-    </ShadcnTooltip>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'Tooltip',
+        description: devDescription || 'Tooltip root component',
+        filePath: 'src/lib/dev-container/shadcn/Tooltip.tsx',
+        category: 'overlay',
+        semanticTags: ['tooltip', 'overlay', 'popup', 'ui'],
+      }}
+    >
+      <ShadcnTooltip {...props}>
+        {children}
+      </ShadcnTooltip>
+    </Container>
   );
 };
 
@@ -96,34 +113,42 @@ export const TooltipTrigger = React.forwardRef<
   React.ElementRef<typeof ShadcnTooltipTrigger>,
   DevTooltipTriggerProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `tooltip-trigger-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'TooltipTrigger',
-          description: devDescription || 'Element that triggers the tooltip on hover',
-          filePath: 'src/lib/dev-container/shadcn/Tooltip.tsx',
-          category: 'overlay',
-          semanticTags: ['tooltip', 'trigger', 'interactive', 'ui'],
-        }}
-      >
-        <ShadcnTooltipTrigger ref={ref} {...props}>
-          {children}
-        </ShadcnTooltipTrigger>
-      </Container>
+      <ShadcnTooltipTrigger ref={ref} {...props}>
+        {children}
+      </ShadcnTooltipTrigger>
     );
   }
 
   return (
-    <ShadcnTooltipTrigger ref={ref} {...props}>
-      {children}
-    </ShadcnTooltipTrigger>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'TooltipTrigger',
+        description: devDescription || 'Element that triggers the tooltip on hover',
+        filePath: 'src/lib/dev-container/shadcn/Tooltip.tsx',
+        category: 'overlay',
+        semanticTags: ['tooltip', 'trigger', 'interactive', 'ui'],
+      }}
+    >
+      <ShadcnTooltipTrigger ref={ref} {...props}>
+        {children}
+      </ShadcnTooltipTrigger>
+    </Container>
   );
 });
 
@@ -137,36 +162,43 @@ export const TooltipContent = React.forwardRef<
   React.ElementRef<typeof ShadcnTooltipContent>,
   DevTooltipContentProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `tooltip-content-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'TooltipContent',
-          description: devDescription || 'Content area of the tooltip',
-          filePath: 'src/lib/dev-container/shadcn/Tooltip.tsx',
-          category: 'overlay',
-          semanticTags: ['tooltip', 'content', 'popup', 'ui'],
-        }}
-      >
-        <ShadcnTooltipContent ref={ref} {...props}>
-          {children}
-        </ShadcnTooltipContent>
-      </Container>
+      <ShadcnTooltipContent ref={ref} {...props}>
+        {children}
+      </ShadcnTooltipContent>
     );
   }
 
   return (
-    <ShadcnTooltipContent ref={ref} {...props}>
-      {children}
-    </ShadcnTooltipContent>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'TooltipContent',
+        description: devDescription || 'Content area of the tooltip',
+        filePath: 'src/lib/dev-container/shadcn/Tooltip.tsx',
+        category: 'overlay',
+        semanticTags: ['tooltip', 'content', 'popup', 'ui'],
+      }}
+    >
+      <ShadcnTooltipContent ref={ref} {...props}>
+        {children}
+      </ShadcnTooltipContent>
+    </Container>
   );
 });
 
 TooltipContent.displayName = 'DevTooltipContent';
-

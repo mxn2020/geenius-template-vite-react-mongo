@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 interface DevFooterProps extends React.HTMLAttributes<HTMLElement>, DevProps {
   children?: React.ReactNode;
@@ -11,34 +12,42 @@ interface DevFooterProps extends React.HTMLAttributes<HTMLElement>, DevProps {
 
 export const Footer = React.forwardRef<HTMLElement, DevFooterProps>(
   ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-    const componentId = devId || `footer-${generateId()}`;
-    const shouldContainerize = devDetailed !== false;
+    const { config } = useDevMode();
+    const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
     
-    if (shouldContainerize) {
+    // If no devId provided, throw build error
+    if (!devId && shouldContainerize) {
+      if (import.meta.env.DEV) {
+        throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+      }
+    }
+    
+    // If no devId provided or explicitly set to "noID", don't containerize
+    if (!devId || devId === "noID" || !shouldContainerize) {
       return (
-        <Container
-          componentId={componentId}
-          selectable={devSelectable}
-          meta={{
-            id: componentId,
-            name: devName || 'Footer',
-            description: devDescription || 'A footer element',
-            filePath: 'src/lib/dev-container/geenius/Footer.tsx',
-            category: 'layout',
-            semanticTags: ['footer', 'navigation', 'layout', 'semantic'],
-          }}
-        >
-          <footer ref={ref} {...props}>
-            {children}
-          </footer>
-        </Container>
+        <footer ref={ref} {...props}>
+          {children}
+        </footer>
       );
     }
 
     return (
-      <footer ref={ref} {...props}>
-        {children}
-      </footer>
+      <Container
+        componentId={devId}
+        selectable={devSelectable}
+        meta={{
+          id: devId,
+          name: devName || 'Footer',
+          description: devDescription || 'A footer element',
+          filePath: 'src/lib/dev-container/geenius/Footer.tsx',
+          category: 'layout',
+          semanticTags: ['footer', 'navigation', 'layout', 'semantic'],
+        }}
+      >
+        <footer ref={ref} {...props}>
+          {children}
+        </footer>
+      </Container>
     );
   }
 );

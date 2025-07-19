@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import { Toaster as ShadcnToaster } from '../../../components/ui/sonner';
 
@@ -12,29 +13,37 @@ type ShadcnToasterProps = React.ComponentPropsWithoutRef<typeof ShadcnToaster>;
 type DevToasterProps = ShadcnToasterProps & DevProps;
 
 export const Toaster = ({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }: DevToasterProps) => {
-  const componentId = devId || `toaster-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
-    return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'Toaster',
-          description: devDescription || 'Toast notification container',
-          filePath: 'src/lib/dev-container/shadcn/Toaster.tsx',
-          category: 'feedback',
-          semanticTags: ['toaster', 'toast', 'notification', 'feedback', 'ui'],
-        }}
-      >
-        <ShadcnToaster {...props} />
-      </Container>
-    );
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
   }
 
-  return <ShadcnToaster {...props} />;
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return <ShadcnToaster {...props} />;
+  }
+
+  return (
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'Toaster',
+        description: devDescription || 'Toast notification container',
+        filePath: 'src/lib/dev-container/shadcn/Toaster.tsx',
+        category: 'feedback',
+        semanticTags: ['toaster', 'toast', 'notification', 'feedback', 'ui'],
+      }}
+    >
+      <ShadcnToaster {...props} />
+    </Container>
+  );
 };
 
 Toaster.displayName = 'DevToaster';

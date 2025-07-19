@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import {
   Avatar as ShadcnAvatar,
@@ -23,14 +24,31 @@ export const Avatar = React.forwardRef<
   React.ElementRef<typeof ShadcnAvatar>,
   DevAvatarProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `avatar-${generateId()}`;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnAvatar ref={ref} {...props}>
+        {children}
+      </ShadcnAvatar>
+    );
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'Avatar',
         description: devDescription || 'User profile picture or placeholder',
         filePath: 'src/lib/dev-container/shadcn/Avatar.tsx',
@@ -51,34 +69,42 @@ export const AvatarImage = React.forwardRef<
   React.ElementRef<typeof ShadcnAvatarImage>,
   DevAvatarImageProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `avatar-image-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'AvatarImage',
-          description: devDescription || 'The actual image displayed in the avatar',
-          filePath: 'src/lib/dev-container/shadcn/Avatar.tsx',
-          category: 'ui',
-          semanticTags: ['avatar', 'image', 'media', 'ui'],
-        }}
-      >
-        <ShadcnAvatarImage ref={ref} {...props}>
-          {children}
-        </ShadcnAvatarImage>
-      </Container>
+      <ShadcnAvatarImage ref={ref} {...props}>
+        {children}
+      </ShadcnAvatarImage>
     );
   }
 
   return (
-    <ShadcnAvatarImage ref={ref} {...props}>
-      {children}
-    </ShadcnAvatarImage>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'AvatarImage',
+        description: devDescription || 'The actual image displayed in the avatar',
+        filePath: 'src/lib/dev-container/shadcn/Avatar.tsx',
+        category: 'ui',
+        semanticTags: ['avatar', 'image', 'media', 'ui'],
+      }}
+    >
+      <ShadcnAvatarImage ref={ref} {...props}>
+        {children}
+      </ShadcnAvatarImage>
+    </Container>
   );
 });
 
@@ -88,36 +114,43 @@ export const AvatarFallback = React.forwardRef<
   React.ElementRef<typeof ShadcnAvatarFallback>,
   DevAvatarFallbackProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `avatar-fallback-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'AvatarFallback',
-          description: devDescription || 'Fallback content when avatar image fails to load',
-          filePath: 'src/lib/dev-container/shadcn/Avatar.tsx',
-          category: 'ui',
-          semanticTags: ['avatar', 'fallback', 'placeholder', 'ui'],
-        }}
-      >
-        <ShadcnAvatarFallback ref={ref} {...props}>
-          {children}
-        </ShadcnAvatarFallback>
-      </Container>
+      <ShadcnAvatarFallback ref={ref} {...props}>
+        {children}
+      </ShadcnAvatarFallback>
     );
   }
 
   return (
-    <ShadcnAvatarFallback ref={ref} {...props}>
-      {children}
-    </ShadcnAvatarFallback>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'AvatarFallback',
+        description: devDescription || 'Fallback content when avatar image fails to load',
+        filePath: 'src/lib/dev-container/shadcn/Avatar.tsx',
+        category: 'ui',
+        semanticTags: ['avatar', 'fallback', 'placeholder', 'ui'],
+      }}
+    >
+      <ShadcnAvatarFallback ref={ref} {...props}>
+        {children}
+      </ShadcnAvatarFallback>
+    </Container>
   );
 });
 
 AvatarFallback.displayName = 'DevAvatarFallback';
-

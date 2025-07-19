@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import { Textarea as ShadcnTextarea } from '../../../components/ui/textarea';
 
@@ -15,30 +16,37 @@ export const Textarea = React.forwardRef<
   React.ElementRef<typeof ShadcnTextarea>,
   DevTextareaProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }, ref) => {
-  const componentId = devId || `textarea-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
-    return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'Textarea',
-          description: devDescription || 'Multi-line text input field',
-          filePath: 'src/lib/dev-container/shadcn/Textarea.tsx',
-          category: 'form',
-          semanticTags: ['textarea', 'input', 'form', 'text', 'ui'],
-        }}
-      >
-        <ShadcnTextarea ref={ref} {...props} />
-      </Container>
-    );
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
   }
 
-  return <ShadcnTextarea ref={ref} {...props} />;
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return <ShadcnTextarea ref={ref} {...props} />;
+  }
+
+  return (
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'Textarea',
+        description: devDescription || 'Multi-line text input field',
+        filePath: 'src/lib/dev-container/shadcn/Textarea.tsx',
+        category: 'form',
+        semanticTags: ['textarea', 'input', 'form', 'text', 'ui'],
+      }}
+    >
+      <ShadcnTextarea ref={ref} {...props} />
+    </Container>
+  );
 });
 
 Textarea.displayName = 'DevTextarea';
-

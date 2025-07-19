@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import { Progress as ShadcnProgress } from '../../../components/ui/progress';
 
@@ -15,29 +16,37 @@ export const Progress = React.forwardRef<
   React.ElementRef<typeof ShadcnProgress>,
   DevProgressProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }, ref) => {
-  const componentId = devId || `progress-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
-    return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'Progress',
-          description: devDescription || 'Progress bar component',
-          filePath: 'src/lib/dev-container/shadcn/Progress.tsx',
-          category: 'feedback',
-          semanticTags: ['progress', 'loading', 'indicator', 'ui'],
-        }}
-      >
-        <ShadcnProgress ref={ref} {...props} />
-      </Container>
-    );
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return <ShadcnProgress ref={ref} {...props} />;
   }
 
-  return <ShadcnProgress ref={ref} {...props} />;
+  return (
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'Progress',
+        description: devDescription || 'Progress bar component',
+        filePath: 'src/lib/dev-container/shadcn/Progress.tsx',
+        category: 'feedback',
+        semanticTags: ['progress', 'loading', 'indicator', 'ui'],
+      }}
+    >
+      <ShadcnProgress ref={ref} {...props} />
+    </Container>
+  );
 });
 
 Progress.displayName = 'DevProgress';

@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import { Input as ShadcnInput } from '../../../components/ui/input';
 
@@ -15,29 +16,37 @@ export const Input = React.forwardRef<
   React.ElementRef<typeof ShadcnInput>,
   DevInputProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }, ref) => {
-  const componentId = devId || `input-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
-    return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'Input',
-          description: devDescription || 'Standard text input field',
-          filePath: 'src/lib/dev-container/shadcn/Input.tsx',
-          category: 'form',
-          semanticTags: ['input', 'form', 'text', 'field', 'ui'],
-        }}
-      >
-        <ShadcnInput ref={ref} {...props} />
-      </Container>
-    );
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return <ShadcnInput ref={ref} {...props} />;
   }
 
-  return <ShadcnInput ref={ref} {...props} />;
+  return (
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'Input',
+        description: devDescription || 'Standard text input field',
+        filePath: 'src/lib/dev-container/shadcn/Input.tsx',
+        category: 'form',
+        semanticTags: ['input', 'form', 'text', 'field', 'ui'],
+      }}
+    >
+      <ShadcnInput ref={ref} {...props} />
+    </Container>
+  );
 });
 
 Input.displayName = 'DevInput';

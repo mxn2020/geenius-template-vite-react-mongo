@@ -153,6 +153,24 @@ export const DevModeSettings: React.FC = () => {
                   }
                 />
               </div>
+
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <Label htmlFor="detailed-containerization" className="text-sm font-medium">
+                    Detailed Containerization
+                  </Label>
+                  <p className="text-xs text-muted-foreground">
+                    Enable dev containers for sub-components like CardHeader, H1, etc.
+                  </p>
+                </div>
+                <Switch
+                  id="detailed-containerization"
+                  checked={config.detailedContainerization}
+                  onCheckedChange={(checked) => 
+                    handleConfigChange('detailedContainerization', checked)
+                  }
+                />
+              </div>
             </div>
 
             <div className="pt-2">

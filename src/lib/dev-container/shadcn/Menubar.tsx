@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import {
   Menubar as ShadcnMenubar,
@@ -31,15 +32,32 @@ type DevMenubarProps = ShadcnMenubarProps & DevProps & { children?: React.ReactN
 export const Menubar = React.forwardRef<
   React.ElementRef<typeof ShadcnMenubar>,
   DevMenubarProps
->(({ devId, devName, devDescription, devSelectable = true, children, ...props }, ref) => {
-  const componentId = devId || `menubar-${generateId()}`;
+>(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnMenubar ref={ref} {...props}>
+        {children}
+      </ShadcnMenubar>
+    );
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'Menubar',
         description: devDescription || 'Menubar root container component',
         filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
@@ -61,34 +79,42 @@ type ShadcnMenubarMenuProps = React.ComponentPropsWithoutRef<typeof ShadcnMenuba
 type DevMenubarMenuProps = ShadcnMenubarMenuProps & DevProps & { children?: React.ReactNode };
 
 export const MenubarMenu = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevMenubarMenuProps) => {
-  const componentId = devId || `menubar-menu-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'MenubarMenu',
-          description: devDescription || 'Individual menu within the menubar',
-          filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
-          category: 'navigation',
-          semanticTags: ['menubar', 'menu', 'navigation', 'ui'],
-        }}
-      >
-        <ShadcnMenubarMenu {...props}>
-          {children}
-        </ShadcnMenubarMenu>
-      </Container>
+      <ShadcnMenubarMenu {...props}>
+        {children}
+      </ShadcnMenubarMenu>
     );
   }
 
   return (
-    <ShadcnMenubarMenu {...props}>
-      {children}
-    </ShadcnMenubarMenu>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'MenubarMenu',
+        description: devDescription || 'Individual menu within the menubar',
+        filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
+        category: 'navigation',
+        semanticTags: ['menubar', 'menu', 'navigation', 'ui'],
+      }}
+    >
+      <ShadcnMenubarMenu {...props}>
+        {children}
+      </ShadcnMenubarMenu>
+    </Container>
   );
 };
 
@@ -102,34 +128,42 @@ export const MenubarTrigger = React.forwardRef<
   React.ElementRef<typeof ShadcnMenubarTrigger>,
   DevMenubarTriggerProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `menubar-trigger-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'MenubarTrigger',
-          description: devDescription || 'Button that opens a menubar menu',
-          filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
-          category: 'navigation',
-          semanticTags: ['menubar', 'trigger', 'button', 'interactive', 'ui'],
-        }}
-      >
-        <ShadcnMenubarTrigger ref={ref} {...props}>
-          {children}
-        </ShadcnMenubarTrigger>
-      </Container>
+      <ShadcnMenubarTrigger ref={ref} {...props}>
+        {children}
+      </ShadcnMenubarTrigger>
     );
   }
 
   return (
-    <ShadcnMenubarTrigger ref={ref} {...props}>
-      {children}
-    </ShadcnMenubarTrigger>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'MenubarTrigger',
+        description: devDescription || 'Button that opens a menubar menu',
+        filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
+        category: 'navigation',
+        semanticTags: ['menubar', 'trigger', 'button', 'interactive', 'ui'],
+      }}
+    >
+      <ShadcnMenubarTrigger ref={ref} {...props}>
+        {children}
+      </ShadcnMenubarTrigger>
+    </Container>
   );
 });
 
@@ -142,15 +176,32 @@ type DevMenubarContentProps = ShadcnMenubarContentProps & DevProps & { children?
 export const MenubarContent = React.forwardRef<
   React.ElementRef<typeof ShadcnMenubarContent>,
   DevMenubarContentProps
->(({ devId, devName, devDescription, devSelectable = true, children, ...props }, ref) => {
-  const componentId = devId || `menubar-content-${generateId()}`;
+>(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnMenubarContent ref={ref} {...props}>
+        {children}
+      </ShadcnMenubarContent>
+    );
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'MenubarContent',
         description: devDescription || 'Menubar dropdown content container',
         filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
@@ -175,34 +226,42 @@ export const MenubarItem = React.forwardRef<
   React.ElementRef<typeof ShadcnMenubarItem>,
   DevMenubarItemProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `menubar-item-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'MenubarItem',
-          description: devDescription || 'Individual menu item',
-          filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
-          category: 'navigation',
-          semanticTags: ['menubar', 'item', 'interactive', 'ui'],
-        }}
-      >
-        <ShadcnMenubarItem ref={ref} {...props}>
-          {children}
-        </ShadcnMenubarItem>
-      </Container>
+      <ShadcnMenubarItem ref={ref} {...props}>
+        {children}
+      </ShadcnMenubarItem>
     );
   }
 
   return (
-    <ShadcnMenubarItem ref={ref} {...props}>
-      {children}
-    </ShadcnMenubarItem>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'MenubarItem',
+        description: devDescription || 'Individual menu item',
+        filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
+        category: 'navigation',
+        semanticTags: ['menubar', 'item', 'interactive', 'ui'],
+      }}
+    >
+      <ShadcnMenubarItem ref={ref} {...props}>
+        {children}
+      </ShadcnMenubarItem>
+    </Container>
   );
 });
 
@@ -216,34 +275,42 @@ export const MenubarCheckboxItem = React.forwardRef<
   React.ElementRef<typeof ShadcnMenubarCheckboxItem>,
   DevMenubarCheckboxItemProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `menubar-checkbox-item-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'MenubarCheckboxItem',
-          description: devDescription || 'Checkbox menu item with checkmark indicator',
-          filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
-          category: 'navigation',
-          semanticTags: ['menubar', 'checkbox', 'item', 'interactive', 'ui'],
-        }}
-      >
-        <ShadcnMenubarCheckboxItem ref={ref} {...props}>
-          {children}
-        </ShadcnMenubarCheckboxItem>
-      </Container>
+      <ShadcnMenubarCheckboxItem ref={ref} {...props}>
+        {children}
+      </ShadcnMenubarCheckboxItem>
     );
   }
 
   return (
-    <ShadcnMenubarCheckboxItem ref={ref} {...props}>
-      {children}
-    </ShadcnMenubarCheckboxItem>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'MenubarCheckboxItem',
+        description: devDescription || 'Checkbox menu item with checkmark indicator',
+        filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
+        category: 'navigation',
+        semanticTags: ['menubar', 'checkbox', 'item', 'interactive', 'ui'],
+      }}
+    >
+      <ShadcnMenubarCheckboxItem ref={ref} {...props}>
+        {children}
+      </ShadcnMenubarCheckboxItem>
+    </Container>
   );
 });
 
@@ -257,34 +324,42 @@ export const MenubarRadioGroup = React.forwardRef<
   React.ElementRef<typeof ShadcnMenubarRadioGroup>,
   DevMenubarRadioGroupProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `menubar-radio-group-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'MenubarRadioGroup',
-          description: devDescription || 'Radio group container for menu items',
-          filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
-          category: 'navigation',
-          semanticTags: ['menubar', 'radio', 'group', 'ui'],
-        }}
-      >
-        <ShadcnMenubarRadioGroup ref={ref} {...props}>
-          {children}
-        </ShadcnMenubarRadioGroup>
-      </Container>
+      <ShadcnMenubarRadioGroup ref={ref} {...props}>
+        {children}
+      </ShadcnMenubarRadioGroup>
     );
   }
 
   return (
-    <ShadcnMenubarRadioGroup ref={ref} {...props}>
-      {children}
-    </ShadcnMenubarRadioGroup>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'MenubarRadioGroup',
+        description: devDescription || 'Radio group container for menu items',
+        filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
+        category: 'navigation',
+        semanticTags: ['menubar', 'radio', 'group', 'ui'],
+      }}
+    >
+      <ShadcnMenubarRadioGroup ref={ref} {...props}>
+        {children}
+      </ShadcnMenubarRadioGroup>
+    </Container>
   );
 });
 
@@ -298,34 +373,42 @@ export const MenubarRadioItem = React.forwardRef<
   React.ElementRef<typeof ShadcnMenubarRadioItem>,
   DevMenubarRadioItemProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `menubar-radio-item-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'MenubarRadioItem',
-          description: devDescription || 'Radio menu item with selection indicator',
-          filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
-          category: 'navigation',
-          semanticTags: ['menubar', 'radio', 'item', 'interactive', 'ui'],
-        }}
-      >
-        <ShadcnMenubarRadioItem ref={ref} {...props}>
-          {children}
-        </ShadcnMenubarRadioItem>
-      </Container>
+      <ShadcnMenubarRadioItem ref={ref} {...props}>
+        {children}
+      </ShadcnMenubarRadioItem>
     );
   }
 
   return (
-    <ShadcnMenubarRadioItem ref={ref} {...props}>
-      {children}
-    </ShadcnMenubarRadioItem>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'MenubarRadioItem',
+        description: devDescription || 'Radio menu item with selection indicator',
+        filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
+        category: 'navigation',
+        semanticTags: ['menubar', 'radio', 'item', 'interactive', 'ui'],
+      }}
+    >
+      <ShadcnMenubarRadioItem ref={ref} {...props}>
+        {children}
+      </ShadcnMenubarRadioItem>
+    </Container>
   );
 });
 
@@ -339,34 +422,42 @@ export const MenubarLabel = React.forwardRef<
   React.ElementRef<typeof ShadcnMenubarLabel>,
   DevMenubarLabelProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `menubar-label-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'MenubarLabel',
-          description: devDescription || 'Non-interactive label for menu sections',
-          filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
-          category: 'navigation',
-          semanticTags: ['menubar', 'label', 'text', 'ui'],
-        }}
-      >
-        <ShadcnMenubarLabel ref={ref} {...props}>
-          {children}
-        </ShadcnMenubarLabel>
-      </Container>
+      <ShadcnMenubarLabel ref={ref} {...props}>
+        {children}
+      </ShadcnMenubarLabel>
     );
   }
 
   return (
-    <ShadcnMenubarLabel ref={ref} {...props}>
-      {children}
-    </ShadcnMenubarLabel>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'MenubarLabel',
+        description: devDescription || 'Non-interactive label for menu sections',
+        filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
+        category: 'navigation',
+        semanticTags: ['menubar', 'label', 'text', 'ui'],
+      }}
+    >
+      <ShadcnMenubarLabel ref={ref} {...props}>
+        {children}
+      </ShadcnMenubarLabel>
+    </Container>
   );
 });
 
@@ -380,29 +471,37 @@ export const MenubarSeparator = React.forwardRef<
   React.ElementRef<typeof ShadcnMenubarSeparator>,
   DevMenubarSeparatorProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }, ref) => {
-  const componentId = devId || `menubar-separator-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
-    return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'MenubarSeparator',
-          description: devDescription || 'Visual separator between menu items',
-          filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
-          category: 'navigation',
-          semanticTags: ['menubar', 'separator', 'divider', 'ui'],
-        }}
-      >
-        <ShadcnMenubarSeparator ref={ref} {...props} />
-      </Container>
-    );
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return <ShadcnMenubarSeparator ref={ref} {...props} />;
   }
 
-  return <ShadcnMenubarSeparator ref={ref} {...props} />;
+  return (
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'MenubarSeparator',
+        description: devDescription || 'Visual separator between menu items',
+        filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
+        category: 'navigation',
+        semanticTags: ['menubar', 'separator', 'divider', 'ui'],
+      }}
+    >
+      <ShadcnMenubarSeparator ref={ref} {...props} />
+    </Container>
+  );
 });
 
 MenubarSeparator.displayName = 'DevMenubarSeparator';
@@ -412,34 +511,42 @@ type ShadcnMenubarGroupProps = React.ComponentPropsWithoutRef<typeof ShadcnMenub
 type DevMenubarGroupProps = ShadcnMenubarGroupProps & DevProps & { children?: React.ReactNode };
 
 export const MenubarGroup = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevMenubarGroupProps) => {
-  const componentId = devId || `menubar-group-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'MenubarGroup',
-          description: devDescription || 'Group container for related menu items',
-          filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
-          category: 'navigation',
-          semanticTags: ['menubar', 'group', 'container', 'ui'],
-        }}
-      >
-        <ShadcnMenubarGroup {...props}>
-          {children}
-        </ShadcnMenubarGroup>
-      </Container>
+      <ShadcnMenubarGroup {...props}>
+        {children}
+      </ShadcnMenubarGroup>
     );
   }
 
   return (
-    <ShadcnMenubarGroup {...props}>
-      {children}
-    </ShadcnMenubarGroup>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'MenubarGroup',
+        description: devDescription || 'Group container for related menu items',
+        filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
+        category: 'navigation',
+        semanticTags: ['menubar', 'group', 'container', 'ui'],
+      }}
+    >
+      <ShadcnMenubarGroup {...props}>
+        {children}
+      </ShadcnMenubarGroup>
+    </Container>
   );
 };
 
@@ -450,34 +557,42 @@ type ShadcnMenubarSubProps = React.ComponentPropsWithoutRef<typeof ShadcnMenubar
 type DevMenubarSubProps = ShadcnMenubarSubProps & DevProps & { children?: React.ReactNode };
 
 export const MenubarSub = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevMenubarSubProps) => {
-  const componentId = devId || `menubar-sub-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'MenubarSub',
-          description: devDescription || 'Submenu container',
-          filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
-          category: 'navigation',
-          semanticTags: ['menubar', 'submenu', 'nested', 'ui'],
-        }}
-      >
-        <ShadcnMenubarSub {...props}>
-          {children}
-        </ShadcnMenubarSub>
-      </Container>
+      <ShadcnMenubarSub {...props}>
+        {children}
+      </ShadcnMenubarSub>
     );
   }
 
   return (
-    <ShadcnMenubarSub {...props}>
-      {children}
-    </ShadcnMenubarSub>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'MenubarSub',
+        description: devDescription || 'Submenu container',
+        filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
+        category: 'navigation',
+        semanticTags: ['menubar', 'submenu', 'nested', 'ui'],
+      }}
+    >
+      <ShadcnMenubarSub {...props}>
+        {children}
+      </ShadcnMenubarSub>
+    </Container>
   );
 };
 
@@ -491,34 +606,42 @@ export const MenubarSubTrigger = React.forwardRef<
   React.ElementRef<typeof ShadcnMenubarSubTrigger>,
   DevMenubarSubTriggerProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `menubar-sub-trigger-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'MenubarSubTrigger',
-          description: devDescription || 'Button that opens a submenu',
-          filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
-          category: 'navigation',
-          semanticTags: ['menubar', 'submenu', 'trigger', 'interactive', 'ui'],
-        }}
-      >
-        <ShadcnMenubarSubTrigger ref={ref} {...props}>
-          {children}
-        </ShadcnMenubarSubTrigger>
-      </Container>
+      <ShadcnMenubarSubTrigger ref={ref} {...props}>
+        {children}
+      </ShadcnMenubarSubTrigger>
     );
   }
 
   return (
-    <ShadcnMenubarSubTrigger ref={ref} {...props}>
-      {children}
-    </ShadcnMenubarSubTrigger>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'MenubarSubTrigger',
+        description: devDescription || 'Button that opens a submenu',
+        filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
+        category: 'navigation',
+        semanticTags: ['menubar', 'submenu', 'trigger', 'interactive', 'ui'],
+      }}
+    >
+      <ShadcnMenubarSubTrigger ref={ref} {...props}>
+        {children}
+      </ShadcnMenubarSubTrigger>
+    </Container>
   );
 });
 
@@ -531,15 +654,32 @@ type DevMenubarSubContentProps = ShadcnMenubarSubContentProps & DevProps & { chi
 export const MenubarSubContent = React.forwardRef<
   React.ElementRef<typeof ShadcnMenubarSubContent>,
   DevMenubarSubContentProps
->(({ devId, devName, devDescription, devSelectable = true, children, ...props }, ref) => {
-  const componentId = devId || `menubar-sub-content-${generateId()}`;
+>(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnMenubarSubContent ref={ref} {...props}>
+        {children}
+      </ShadcnMenubarSubContent>
+    );
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'MenubarSubContent',
         description: devDescription || 'Submenu dropdown content container',
         filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
@@ -561,34 +701,42 @@ type ShadcnMenubarPortalProps = React.ComponentPropsWithoutRef<typeof ShadcnMenu
 type DevMenubarPortalProps = ShadcnMenubarPortalProps & DevProps & { children?: React.ReactNode };
 
 export const MenubarPortal = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevMenubarPortalProps) => {
-  const componentId = devId || `menubar-portal-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'MenubarPortal',
-          description: devDescription || 'Portal container for menubar content',
-          filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
-          category: 'navigation',
-          semanticTags: ['menubar', 'portal', 'container', 'ui'],
-        }}
-      >
-        <ShadcnMenubarPortal {...props}>
-          {children}
-        </ShadcnMenubarPortal>
-      </Container>
+      <ShadcnMenubarPortal {...props}>
+        {children}
+      </ShadcnMenubarPortal>
     );
   }
 
   return (
-    <ShadcnMenubarPortal {...props}>
-      {children}
-    </ShadcnMenubarPortal>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'MenubarPortal',
+        description: devDescription || 'Portal container for menubar content',
+        filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
+        category: 'navigation',
+        semanticTags: ['menubar', 'portal', 'container', 'ui'],
+      }}
+    >
+      <ShadcnMenubarPortal {...props}>
+        {children}
+      </ShadcnMenubarPortal>
+    </Container>
   );
 };
 
@@ -599,34 +747,42 @@ type ShadcnMenubarShortcutProps = React.ComponentPropsWithoutRef<typeof ShadcnMe
 type DevMenubarShortcutProps = ShadcnMenubarShortcutProps & DevProps & { children?: React.ReactNode };
 
 export const MenubarShortcut = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevMenubarShortcutProps) => {
-  const componentId = devId || `menubar-shortcut-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'MenubarShortcut',
-          description: devDescription || 'Keyboard shortcut text for menu items',
-          filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
-          category: 'navigation',
-          semanticTags: ['menubar', 'shortcut', 'keyboard', 'text', 'ui'],
-        }}
-      >
-        <ShadcnMenubarShortcut {...props}>
-          {children}
-        </ShadcnMenubarShortcut>
-      </Container>
+      <ShadcnMenubarShortcut {...props}>
+        {children}
+      </ShadcnMenubarShortcut>
     );
   }
 
   return (
-    <ShadcnMenubarShortcut {...props}>
-      {children}
-    </ShadcnMenubarShortcut>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'MenubarShortcut',
+        description: devDescription || 'Keyboard shortcut text for menu items',
+        filePath: 'src/lib/dev-container/shadcn/Menubar.tsx',
+        category: 'navigation',
+        semanticTags: ['menubar', 'shortcut', 'keyboard', 'text', 'ui'],
+      }}
+    >
+      <ShadcnMenubarShortcut {...props}>
+        {children}
+      </ShadcnMenubarShortcut>
+    </Container>
   );
 };
 

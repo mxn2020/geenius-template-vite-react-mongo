@@ -2,8 +2,8 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 interface DevHeaderProps extends React.HTMLAttributes<HTMLElement>, DevProps {
   children?: React.ReactNode;
@@ -11,34 +11,35 @@ interface DevHeaderProps extends React.HTMLAttributes<HTMLElement>, DevProps {
 
 export const Header = React.forwardRef<HTMLElement, DevHeaderProps>(
   ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-    const componentId = devId || `header-${generateId()}`;
-    const shouldContainerize = devDetailed !== false;
+    const { config } = useDevMode();
+    const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
     
-    if (shouldContainerize) {
+    // If no devId provided or explicitly set to "noID", don't containerize
+    if (!devId || devId === "noID" || !shouldContainerize) {
       return (
-        <Container
-          componentId={componentId}
-          selectable={devSelectable}
-          meta={{
-            id: componentId,
-            name: devName || 'Header',
-            description: devDescription || 'A header element',
-            filePath: 'src/lib/dev-container/geenius/Header.tsx',
-            category: 'layout',
-            semanticTags: ['header', 'navigation', 'layout', 'semantic'],
-          }}
-        >
-          <header ref={ref} {...props}>
-            {children}
-          </header>
-        </Container>
+        <header ref={ref} {...props}>
+          {children}
+        </header>
       );
     }
 
     return (
-      <header ref={ref} {...props}>
-        {children}
-      </header>
+      <Container
+        componentId={devId}
+        selectable={devSelectable}
+        meta={{
+          id: devId,
+          name: devName || 'Header',
+          description: devDescription || 'A header element',
+          filePath: 'src/lib/dev-container/geenius/Header.tsx',
+          category: 'layout',
+          semanticTags: ['header', 'navigation', 'layout', 'semantic'],
+        }}
+      >
+        <header ref={ref} {...props}>
+          {children}
+        </header>
+      </Container>
     );
   }
 );

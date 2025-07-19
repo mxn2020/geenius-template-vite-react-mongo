@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import {
   Table as ShadcnTable,
@@ -23,15 +24,32 @@ type DevTableProps = ShadcnTableProps & DevProps & { children?: React.ReactNode 
 export const Table = React.forwardRef<
   React.ElementRef<typeof ShadcnTable>,
   DevTableProps
->(({ devId, devName, devDescription, devSelectable = true, children, ...props }, ref) => {
-  const componentId = devId || `table-${generateId()}`;
+>(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnTable ref={ref} {...props}>
+        {children}
+      </ShadcnTable>
+    );
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'Table',
         description: devDescription || 'Table root component',
         filePath: 'src/lib/dev-container/shadcn/Table.tsx',
@@ -56,34 +74,42 @@ export const TableHeader = React.forwardRef<
   React.ElementRef<typeof ShadcnTableHeader>,
   DevTableHeaderProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `table-header-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'TableHeader',
-          description: devDescription || 'Table header section',
-          filePath: 'src/lib/dev-container/shadcn/Table.tsx',
-          category: 'data-display',
-          semanticTags: ['table', 'header', 'thead', 'ui'],
-        }}
-      >
-        <ShadcnTableHeader ref={ref} {...props}>
-          {children}
-        </ShadcnTableHeader>
-      </Container>
+      <ShadcnTableHeader ref={ref} {...props}>
+        {children}
+      </ShadcnTableHeader>
     );
   }
 
   return (
-    <ShadcnTableHeader ref={ref} {...props}>
-      {children}
-    </ShadcnTableHeader>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'TableHeader',
+        description: devDescription || 'Table header section',
+        filePath: 'src/lib/dev-container/shadcn/Table.tsx',
+        category: 'data-display',
+        semanticTags: ['table', 'header', 'thead', 'ui'],
+      }}
+    >
+      <ShadcnTableHeader ref={ref} {...props}>
+        {children}
+      </ShadcnTableHeader>
+    </Container>
   );
 });
 
@@ -97,34 +123,42 @@ export const TableBody = React.forwardRef<
   React.ElementRef<typeof ShadcnTableBody>,
   DevTableBodyProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `table-body-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'TableBody',
-          description: devDescription || 'Table body section',
-          filePath: 'src/lib/dev-container/shadcn/Table.tsx',
-          category: 'data-display',
-          semanticTags: ['table', 'body', 'tbody', 'ui'],
-        }}
-      >
-        <ShadcnTableBody ref={ref} {...props}>
-          {children}
-        </ShadcnTableBody>
-      </Container>
+      <ShadcnTableBody ref={ref} {...props}>
+        {children}
+      </ShadcnTableBody>
     );
   }
 
   return (
-    <ShadcnTableBody ref={ref} {...props}>
-      {children}
-    </ShadcnTableBody>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'TableBody',
+        description: devDescription || 'Table body section',
+        filePath: 'src/lib/dev-container/shadcn/Table.tsx',
+        category: 'data-display',
+        semanticTags: ['table', 'body', 'tbody', 'ui'],
+      }}
+    >
+      <ShadcnTableBody ref={ref} {...props}>
+        {children}
+      </ShadcnTableBody>
+    </Container>
   );
 });
 
@@ -138,34 +172,42 @@ export const TableFooter = React.forwardRef<
   React.ElementRef<typeof ShadcnTableFooter>,
   DevTableFooterProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `table-footer-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'TableFooter',
-          description: devDescription || 'Table footer section',
-          filePath: 'src/lib/dev-container/shadcn/Table.tsx',
-          category: 'data-display',
-          semanticTags: ['table', 'footer', 'tfoot', 'ui'],
-        }}
-      >
-        <ShadcnTableFooter ref={ref} {...props}>
-          {children}
-        </ShadcnTableFooter>
-      </Container>
+      <ShadcnTableFooter ref={ref} {...props}>
+        {children}
+      </ShadcnTableFooter>
     );
   }
 
   return (
-    <ShadcnTableFooter ref={ref} {...props}>
-      {children}
-    </ShadcnTableFooter>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'TableFooter',
+        description: devDescription || 'Table footer section',
+        filePath: 'src/lib/dev-container/shadcn/Table.tsx',
+        category: 'data-display',
+        semanticTags: ['table', 'footer', 'tfoot', 'ui'],
+      }}
+    >
+      <ShadcnTableFooter ref={ref} {...props}>
+        {children}
+      </ShadcnTableFooter>
+    </Container>
   );
 });
 
@@ -179,34 +221,42 @@ export const TableRow = React.forwardRef<
   React.ElementRef<typeof ShadcnTableRow>,
   DevTableRowProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `table-row-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'TableRow',
-          description: devDescription || 'Table row element',
-          filePath: 'src/lib/dev-container/shadcn/Table.tsx',
-          category: 'data-display',
-          semanticTags: ['table', 'row', 'tr', 'ui'],
-        }}
-      >
-        <ShadcnTableRow ref={ref} {...props}>
-          {children}
-        </ShadcnTableRow>
-      </Container>
+      <ShadcnTableRow ref={ref} {...props}>
+        {children}
+      </ShadcnTableRow>
     );
   }
 
   return (
-    <ShadcnTableRow ref={ref} {...props}>
-      {children}
-    </ShadcnTableRow>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'TableRow',
+        description: devDescription || 'Table row element',
+        filePath: 'src/lib/dev-container/shadcn/Table.tsx',
+        category: 'data-display',
+        semanticTags: ['table', 'row', 'tr', 'ui'],
+      }}
+    >
+      <ShadcnTableRow ref={ref} {...props}>
+        {children}
+      </ShadcnTableRow>
+    </Container>
   );
 });
 
@@ -220,34 +270,42 @@ export const TableHead = React.forwardRef<
   React.ElementRef<typeof ShadcnTableHead>,
   DevTableHeadProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `table-head-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'TableHead',
-          description: devDescription || 'Table header cell',
-          filePath: 'src/lib/dev-container/shadcn/Table.tsx',
-          category: 'data-display',
-          semanticTags: ['table', 'head', 'th', 'cell', 'ui'],
-        }}
-      >
-        <ShadcnTableHead ref={ref} {...props}>
-          {children}
-        </ShadcnTableHead>
-      </Container>
+      <ShadcnTableHead ref={ref} {...props}>
+        {children}
+      </ShadcnTableHead>
     );
   }
 
   return (
-    <ShadcnTableHead ref={ref} {...props}>
-      {children}
-    </ShadcnTableHead>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'TableHead',
+        description: devDescription || 'Table header cell',
+        filePath: 'src/lib/dev-container/shadcn/Table.tsx',
+        category: 'data-display',
+        semanticTags: ['table', 'head', 'th', 'cell', 'ui'],
+      }}
+    >
+      <ShadcnTableHead ref={ref} {...props}>
+        {children}
+      </ShadcnTableHead>
+    </Container>
   );
 });
 
@@ -261,34 +319,42 @@ export const TableCell = React.forwardRef<
   React.ElementRef<typeof ShadcnTableCell>,
   DevTableCellProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `table-cell-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'TableCell',
-          description: devDescription || 'Table data cell',
-          filePath: 'src/lib/dev-container/shadcn/Table.tsx',
-          category: 'data-display',
-          semanticTags: ['table', 'cell', 'td', 'data', 'ui'],
-        }}
-      >
-        <ShadcnTableCell ref={ref} {...props}>
-          {children}
-        </ShadcnTableCell>
-      </Container>
+      <ShadcnTableCell ref={ref} {...props}>
+        {children}
+      </ShadcnTableCell>
     );
   }
 
   return (
-    <ShadcnTableCell ref={ref} {...props}>
-      {children}
-    </ShadcnTableCell>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'TableCell',
+        description: devDescription || 'Table data cell',
+        filePath: 'src/lib/dev-container/shadcn/Table.tsx',
+        category: 'data-display',
+        semanticTags: ['table', 'cell', 'td', 'data', 'ui'],
+      }}
+    >
+      <ShadcnTableCell ref={ref} {...props}>
+        {children}
+      </ShadcnTableCell>
+    </Container>
   );
 });
 
@@ -302,34 +368,42 @@ export const TableCaption = React.forwardRef<
   React.ElementRef<typeof ShadcnTableCaption>,
   DevTableCaptionProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `table-caption-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'TableCaption',
-          description: devDescription || 'Table caption element',
-          filePath: 'src/lib/dev-container/shadcn/Table.tsx',
-          category: 'data-display',
-          semanticTags: ['table', 'caption', 'title', 'ui'],
-        }}
-      >
-        <ShadcnTableCaption ref={ref} {...props}>
-          {children}
-        </ShadcnTableCaption>
-      </Container>
+      <ShadcnTableCaption ref={ref} {...props}>
+        {children}
+      </ShadcnTableCaption>
     );
   }
 
   return (
-    <ShadcnTableCaption ref={ref} {...props}>
-      {children}
-    </ShadcnTableCaption>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'TableCaption',
+        description: devDescription || 'Table caption element',
+        filePath: 'src/lib/dev-container/shadcn/Table.tsx',
+        category: 'data-display',
+        semanticTags: ['table', 'caption', 'title', 'ui'],
+      }}
+    >
+      <ShadcnTableCaption ref={ref} {...props}>
+        {children}
+      </ShadcnTableCaption>
+    </Container>
   );
 });
 

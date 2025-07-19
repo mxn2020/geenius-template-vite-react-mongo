@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import {
   InputOTP as ShadcnInputOTP,
@@ -19,15 +20,28 @@ type DevInputOTPProps = ShadcnInputOTPProps & DevProps;
 export const InputOTP = React.forwardRef<
   React.ElementRef<typeof ShadcnInputOTP>,
   DevInputOTPProps
->(({ devId, devName, devDescription, devSelectable = true, ...props }, ref) => {
-  const componentId = devId || `input-otp-${generateId()}`;
-  
+>(({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }, ref) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return <ShadcnInputOTP ref={ref} {...props} />;
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'InputOTP',
         description: devDescription || 'One-time password input component',
         filePath: 'src/lib/dev-container/shadcn/InputOTP.tsx',
@@ -50,34 +64,42 @@ export const InputOTPGroup = React.forwardRef<
   React.ElementRef<typeof ShadcnInputOTPGroup>,
   DevInputOTPGroupProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `input-otp-group-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'InputOTPGroup',
-          description: devDescription || 'Group container for OTP input slots',
-          filePath: 'src/lib/dev-container/shadcn/InputOTP.tsx',
-          category: 'form',
-          semanticTags: ['input', 'otp', 'group', 'container', 'ui'],
-        }}
-      >
-        <ShadcnInputOTPGroup ref={ref} {...props}>
-          {children}
-        </ShadcnInputOTPGroup>
-      </Container>
+      <ShadcnInputOTPGroup ref={ref} {...props}>
+        {children}
+      </ShadcnInputOTPGroup>
     );
   }
 
   return (
-    <ShadcnInputOTPGroup ref={ref} {...props}>
-      {children}
-    </ShadcnInputOTPGroup>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'InputOTPGroup',
+        description: devDescription || 'Group container for OTP input slots',
+        filePath: 'src/lib/dev-container/shadcn/InputOTP.tsx',
+        category: 'form',
+        semanticTags: ['input', 'otp', 'group', 'container', 'ui'],
+      }}
+    >
+      <ShadcnInputOTPGroup ref={ref} {...props}>
+        {children}
+      </ShadcnInputOTPGroup>
+    </Container>
   );
 });
 
@@ -91,29 +113,37 @@ export const InputOTPSlot = React.forwardRef<
   React.ElementRef<typeof ShadcnInputOTPSlot>,
   DevInputOTPSlotProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }, ref) => {
-  const componentId = devId || `input-otp-slot-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
-    return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'InputOTPSlot',
-          description: devDescription || 'Individual slot for OTP digit input',
-          filePath: 'src/lib/dev-container/shadcn/InputOTP.tsx',
-          category: 'form',
-          semanticTags: ['input', 'otp', 'slot', 'digit', 'ui'],
-        }}
-      >
-        <ShadcnInputOTPSlot ref={ref} {...props} />
-      </Container>
-    );
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
   }
 
-  return <ShadcnInputOTPSlot ref={ref} {...props} />;
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return <ShadcnInputOTPSlot ref={ref} {...props} />;
+  }
+
+  return (
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'InputOTPSlot',
+        description: devDescription || 'Individual slot for OTP digit input',
+        filePath: 'src/lib/dev-container/shadcn/InputOTP.tsx',
+        category: 'form',
+        semanticTags: ['input', 'otp', 'slot', 'digit', 'ui'],
+      }}
+    >
+      <ShadcnInputOTPSlot ref={ref} {...props} />
+    </Container>
+  );
 });
 
 InputOTPSlot.displayName = 'DevInputOTPSlot';
@@ -126,29 +156,37 @@ export const InputOTPSeparator = React.forwardRef<
   React.ElementRef<typeof ShadcnInputOTPSeparator>,
   DevInputOTPSeparatorProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }, ref) => {
-  const componentId = devId || `input-otp-separator-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
-    return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'InputOTPSeparator',
-          description: devDescription || 'Visual separator between OTP groups',
-          filePath: 'src/lib/dev-container/shadcn/InputOTP.tsx',
-          category: 'form',
-          semanticTags: ['input', 'otp', 'separator', 'divider', 'ui'],
-        }}
-      >
-        <ShadcnInputOTPSeparator ref={ref} {...props} />
-      </Container>
-    );
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
   }
 
-  return <ShadcnInputOTPSeparator ref={ref} {...props} />;
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return <ShadcnInputOTPSeparator ref={ref} {...props} />;
+  }
+
+  return (
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'InputOTPSeparator',
+        description: devDescription || 'Visual separator between OTP groups',
+        filePath: 'src/lib/dev-container/shadcn/InputOTP.tsx',
+        category: 'form',
+        semanticTags: ['input', 'otp', 'separator', 'divider', 'ui'],
+      }}
+    >
+      <ShadcnInputOTPSeparator ref={ref} {...props} />
+    </Container>
+  );
 });
 
 InputOTPSeparator.displayName = 'DevInputOTPSeparator';

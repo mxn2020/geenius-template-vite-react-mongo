@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import {
   Popover as ShadcnPopover,
@@ -16,15 +17,32 @@ import {
 type ShadcnPopoverProps = React.ComponentProps<typeof ShadcnPopover>;
 type DevPopoverProps = ShadcnPopoverProps & DevProps & { children?: React.ReactNode };
 
-export const Popover = ({ devId, devName, devDescription, devSelectable = true, children, ...props }: DevPopoverProps) => {
-  const componentId = devId || `popover-${generateId()}`;
+export const Popover = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevPopoverProps) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnPopover {...props}>
+        {children}
+      </ShadcnPopover>
+    );
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'Popover',
         description: devDescription || 'Popover root component',
         filePath: 'src/lib/dev-container/shadcn/Popover.tsx',
@@ -49,34 +67,42 @@ export const PopoverTrigger = React.forwardRef<
   React.ElementRef<typeof ShadcnPopoverTrigger>,
   DevPopoverTriggerProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `popover-trigger-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'PopoverTrigger',
-          description: devDescription || 'Button that opens the popover',
-          filePath: 'src/lib/dev-container/shadcn/Popover.tsx',
-          category: 'overlay',
-          semanticTags: ['popover', 'trigger', 'button', 'interactive', 'ui'],
-        }}
-      >
-        <ShadcnPopoverTrigger ref={ref} {...props}>
-          {children}
-        </ShadcnPopoverTrigger>
-      </Container>
+      <ShadcnPopoverTrigger ref={ref} {...props}>
+        {children}
+      </ShadcnPopoverTrigger>
     );
   }
 
   return (
-    <ShadcnPopoverTrigger ref={ref} {...props}>
-      {children}
-    </ShadcnPopoverTrigger>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'PopoverTrigger',
+        description: devDescription || 'Button that opens the popover',
+        filePath: 'src/lib/dev-container/shadcn/Popover.tsx',
+        category: 'overlay',
+        semanticTags: ['popover', 'trigger', 'button', 'interactive', 'ui'],
+      }}
+    >
+      <ShadcnPopoverTrigger ref={ref} {...props}>
+        {children}
+      </ShadcnPopoverTrigger>
+    </Container>
   );
 });
 
@@ -89,15 +115,32 @@ type DevPopoverContentProps = ShadcnPopoverContentProps & DevProps & { children?
 export const PopoverContent = React.forwardRef<
   React.ElementRef<typeof ShadcnPopoverContent>,
   DevPopoverContentProps
->(({ devId, devName, devDescription, devSelectable = true, children, ...props }, ref) => {
-  const componentId = devId || `popover-content-${generateId()}`;
+>(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnPopoverContent ref={ref} {...props}>
+        {children}
+      </ShadcnPopoverContent>
+    );
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'PopoverContent',
         description: devDescription || 'Popover content area',
         filePath: 'src/lib/dev-container/shadcn/Popover.tsx',

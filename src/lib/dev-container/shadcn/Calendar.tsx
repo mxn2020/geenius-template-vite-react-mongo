@@ -2,29 +2,40 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import { Calendar as ShadcnCalendar, CalendarDayButton as ShadcnCalendarDayButton } from '../../../components/ui/calendar';
 
 type ShadcnCalendarProps = React.ComponentPropsWithoutRef<typeof ShadcnCalendar>;
 type ShadcnCalendarDayButtonProps = React.ComponentPropsWithoutRef<typeof ShadcnCalendarDayButton>;
 
-type DevCalendarProps = ShadcnCalendarProps & DevProps & { children?: React.ReactNode };
-type DevCalendarDayButtonProps = ShadcnCalendarDayButtonProps & DevProps & { children?: React.ReactNode };
+type DevCalendarProps = ShadcnCalendarProps & DevProps;
+type DevCalendarDayButtonProps = ShadcnCalendarDayButtonProps & DevProps;
 
-export const Calendar = React.forwardRef<
-  HTMLDivElement,
-  DevCalendarProps
->(({ devId, devName, devDescription, devSelectable = true, ...props }) => {
-  const componentId = devId || `calendar-${generateId()}`;
-  
+export const Calendar: React.FC<DevCalendarProps> = ({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return <ShadcnCalendar {...props} />;
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'Calendar',
         description: devDescription || 'Date picker calendar component',
         filePath: 'src/lib/dev-container/shadcn/Calendar.tsx',
@@ -35,44 +46,45 @@ export const Calendar = React.forwardRef<
       <ShadcnCalendar {...props} />
     </Container>
   );
-});
+};
 
 Calendar.displayName = 'DevCalendar';
 
 export const CalendarDayButton = React.forwardRef<
-  React.ElementRef<typeof ShadcnCalendarDayButton>,
+  HTMLButtonElement,
   DevCalendarDayButtonProps
->(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }) => {
-  const componentId = devId || `calendar-day-button-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
-    return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'CalendarDayButton',
-          description: devDescription || 'Individual day button in calendar',
-          filePath: 'src/lib/dev-container/shadcn/Calendar.tsx',
-          category: 'form',
-          semanticTags: ['calendar', 'day', 'button', 'interactive', 'ui'],
-        }}
-      >
-        <ShadcnCalendarDayButton {...props}>
-          {children}
-        </ShadcnCalendarDayButton>
-      </Container>
-    );
+>(({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return <ShadcnCalendarDayButton {...props} />;
   }
 
   return (
-    <ShadcnCalendarDayButton {...props}>
-      {children}
-    </ShadcnCalendarDayButton>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'CalendarDayButton',
+        description: devDescription || 'Individual day button in calendar',
+        filePath: 'src/lib/dev-container/shadcn/Calendar.tsx',
+        category: 'form',
+        semanticTags: ['calendar', 'day', 'button', 'interactive', 'ui'],
+      }}
+    >
+      <ShadcnCalendarDayButton {...props} />
+    </Container>
   );
 });
 
 CalendarDayButton.displayName = 'DevCalendarDayButton';
-

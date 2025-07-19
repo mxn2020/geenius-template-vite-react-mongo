@@ -179,15 +179,33 @@ export const Container: React.FC<ContainerProps> = ({
   }, [popoverState, componentId]);
 
   // Error handling for missing component
-  if (!componentMeta && isEnabled) {
+  if (!componentMeta) {
     // Check if registry is still loading (empty)
     if (Object.keys(registry).length === 0) {
       // Registry is still loading, render children without dev mode features
       return <div className={className} style={style}>{children}</div>;
     }
     
-    console.error(`Component with ID "${componentId}" not found in registry`);
-    return <div className="border-2 border-red-500 p-2 text-red-500">Component not found: {componentId}</div>;
+    const errorMessage = `Component with ID "${componentId}" not found in registry. Please add it to src/registry.ts`;
+    
+    // In development, throw an error to fail the build
+    if (import.meta.env.DEV) {
+      console.error(errorMessage);
+      console.error('Available component IDs:', Object.keys(registry));
+      console.error('Registry contents:', registry);
+      
+      // Throw error to break the build/dev server
+      throw new Error(`[Dev Container] ${errorMessage}\n\nAvailable IDs: ${Object.keys(registry).join(', ')}\n\nAdd this component to your registry in src/registry.ts`);
+    }
+    
+    // In production, show error UI but don't break the app
+    if (isEnabled) {
+      console.error(errorMessage);
+      return <div className="border-2 border-red-500 p-2 text-red-500">Component not found: {componentId}</div>;
+    }
+    
+    // If dev mode is disabled and in production, just render children
+    return <div className={className} style={style}>{children}</div>;
   }
 
   const containerClassName = clsx(

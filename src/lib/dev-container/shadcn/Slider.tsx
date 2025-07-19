@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import { Slider as ShadcnSlider } from '../../../components/ui/slider';
 
@@ -15,29 +16,37 @@ export const Slider = React.forwardRef<
   React.ElementRef<typeof ShadcnSlider>,
   DevSliderProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }, ref) => {
-  const componentId = devId || `slider-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
-    return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'Slider',
-          description: devDescription || 'Range slider input component',
-          filePath: 'src/lib/dev-container/shadcn/Slider.tsx',
-          category: 'form',
-          semanticTags: ['slider', 'range', 'input', 'form', 'ui'],
-        }}
-      >
-        <ShadcnSlider ref={ref} {...props} />
-      </Container>
-    );
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return <ShadcnSlider ref={ref} {...props} />;
   }
 
-  return <ShadcnSlider ref={ref} {...props} />;
+  return (
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'Slider',
+        description: devDescription || 'Range slider input component',
+        filePath: 'src/lib/dev-container/shadcn/Slider.tsx',
+        category: 'form',
+        semanticTags: ['slider', 'range', 'input', 'form', 'ui'],
+      }}
+    >
+      <ShadcnSlider ref={ref} {...props} />
+    </Container>
+  );
 });
 
 Slider.displayName = 'DevSlider';

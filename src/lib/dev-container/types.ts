@@ -6,7 +6,7 @@ import { ReactNode, ComponentType, CSSProperties, RefObject } from 'react';
 
 // Dev-specific props interface
 export interface DevProps {
-  devId?: string;
+  devId: string | 'noID'; // Unique identifier for the component in dev mode
   devName?: string;
   devDescription?: string;
   devSelectable?: boolean;
@@ -320,6 +320,8 @@ export interface DevModeConfig {
   hoverColor: string;
   selectedColor: string;
   showComponentIds: boolean;
+  // Detailed containerization control
+  detailedContainerization: boolean;
 }
 
 export interface ContainerRef {

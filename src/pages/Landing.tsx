@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Database, Zap, Code, Globe, Users, Star, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Container, Button, Card, CardContent, Badge, Header, Nav, Section, Span, H1, H2, H3, P, Div, Footer } from '../lib/dev-container';
+import { Container, Button, Card, CardContent, Badge, Header, Nav, Section, Span, H1, H2, P, Div, Footer } from '../lib/dev-container';
 import { COMPONENT_IDS } from '../registry';
 import { useAuth } from '../components/auth/AuthProvider';
 
@@ -65,12 +65,12 @@ export const Landing: React.FC = () => {
           className="flex items-center justify-between"
         >
           <Div 
-            devId="logo-Section" 
+            devId="logo-section" 
             devName="Logo Section" 
             devDescription="Company logo and brand name"
             className="flex items-center space-x-2"
           >
-            <Div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+            <Div devId="noID" className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
               <Code className="w-5 h-5 text-white" />
             </Div>
             <Span 
@@ -99,7 +99,7 @@ export const Landing: React.FC = () => {
             </Button>
             {isAuthenticated ? (
               <Div 
-                devId="user-Section" 
+                devId="user-section" 
                 devName="User Section" 
                 devDescription="Authenticated user welcome area"
                 className="flex items-center space-x-4"
@@ -262,9 +262,9 @@ export const Landing: React.FC = () => {
                 devDescription={`Statistical card showing ${stat.label}: ${stat.value}`}
                 className="bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10"
               >
-                <CardContent className="p-0">
-                  <Div className="text-2xl font-bold text-white mb-2">{stat.value}</Div>
-                  <Div className="text-gray-400">{stat.label}</Div>
+                <CardContent devId="noID"  className="p-0">
+                  <Div devId="noID" className="text-2xl font-bold text-white mb-2">{stat.value}</Div>
+                  <Div devId="noID" className="text-gray-400">{stat.label}</Div>
                 </CardContent>
               </Card>
             ))}
@@ -274,14 +274,14 @@ export const Landing: React.FC = () => {
 
       {/* Features Section */}
       <Container componentId={COMPONENT_IDS.FEATURES_SECTION}>
-        <Section className="container mx-auto px-4 py-20">
-          <Div className="text-center mb-16">
-            <H2 className="text-4xl font-bold text-white mb-4">Why Choose This Template?</H2>
-            <P className="text-gray-300 max-w-2xl mx-auto">
+        <Section devId="noID" className="container mx-auto px-4 py-20">
+          <Div devId="noID" className="text-center mb-16">
+            <H2 devId="noID" className="text-4xl font-bold text-white mb-4">Why Choose This Template?</H2>
+            <P devId="noID" className="text-gray-300 max-w-2xl mx-auto">
               Everything you need to build modern web applications with the latest technologies
             </P>
           </Div>
-          <Div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Div devId="noID" className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((feature, index) => (
               <Card 
                 key={index} 
@@ -290,10 +290,10 @@ export const Landing: React.FC = () => {
                 devDescription={`Feature card highlighting ${feature.title}: ${feature.description}`}
                 className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-purple-500/50 transition-all"
               >
-                <CardContent className="p-0">
-                  <Div className="mb-4">{feature.icon}</Div>
+                <CardContent devId="noID" className="p-0">
+                  <Div devId="noID" className="mb-4">{feature.icon}</Div>
                   <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
-                  <P className="text-gray-400">{feature.description}</P>
+                  <P devId="noID" className="text-gray-400">{feature.description}</P>
                 </CardContent>
               </Card>
             ))}
@@ -303,14 +303,14 @@ export const Landing: React.FC = () => {
 
       {/* Tech Stack Section */}
       <Container componentId={COMPONENT_IDS.TECH_STACK_SECTION}>
-        <Section className="container mx-auto px-4 py-20">
-          <Div className="text-center mb-16">
-            <H2 className="text-4xl font-bold text-white mb-4">Modern Tech Stack</H2>
-            <P className="text-gray-300 max-w-2xl mx-auto">
+        <Section devId="noID" className="container mx-auto px-4 py-20">
+          <Div devId="noID" className="text-center mb-16">
+            <H2 devId="noID" className="text-4xl font-bold text-white mb-4">Modern Tech Stack</H2>
+            <P devId="noID" className="text-gray-300 max-w-2xl mx-auto">
               Built with the most popular and reliable technologies
             </P>
           </Div>
-          <Div className="grid grid-cols-2 md:grid-cols-6 gap-8">
+          <Div devId="noID" className="grid grid-cols-2 md:grid-cols-6 gap-8">
             {[
               { name: "Vite", color: "from-yellow-400 to-orange-500" },
               { name: "React", color: "from-blue-400 to-cyan-400" },
@@ -319,8 +319,8 @@ export const Landing: React.FC = () => {
               { name: "Prisma", color: "from-purple-400 to-purple-500" },
               { name: "Tailwind", color: "from-teal-400 to-teal-500" }
             ].map((tech, index) => (
-              <Div key={index} className="text-center">
-                <Div className={`w-16 h-16 mx-auto mb-3 rounded-xl bg-gradient-to-br ${tech.color} flex items-center justify-center`}>
+              <Div key={index} devId="noID" className="text-center">
+                <Div devId={`tech-letter-${index}`} className={`w-16 h-16 mx-auto mb-3 rounded-xl bg-gradient-to-br ${tech.color} flex items-center justify-center`}>
                   <span className="text-white font-bold text-lg">{tech.name[0]}</span>
                 </Div>
                 <Badge 
@@ -339,13 +339,13 @@ export const Landing: React.FC = () => {
 
       {/* CTA Section */}
       <Container componentId={COMPONENT_IDS.CTA_SECTION}>
-        <Section className="container mx-auto px-4 py-20">
-          <Div className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-2xl p-12 text-center border border-purple-500/30">
-            <H2 className="text-4xl font-bold text-white mb-4">Ready to Build Something Amazing?</H2>
-            <P className="text-gray-300 mb-8 max-w-2xl mx-auto">
+        <Section devId="noID" className="container mx-auto px-4 py-20">
+          <Div devId="noID" className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-2xl p-12 text-center border border-purple-500/30">
+            <H2 devId="noID" className="text-4xl font-bold text-white mb-4">Ready to Build Something Amazing?</H2>
+            <P devId="noID" className="text-gray-300 mb-8 max-w-2xl mx-auto">
               Get started with this template and build your next project with confidence
             </P>
-            <Div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Div devId="noID" className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 devId="cta-start-project"
                 devName="Start Project Button"
@@ -381,11 +381,11 @@ export const Landing: React.FC = () => {
         devDescription="Site footer with links and copyright"
         className="container mx-auto px-4 py-8 border-t border-white/10"
       >
-        <Div className="flex flex-col md:flex-row justify-between items-center">
-          <Div className="text-gray-400 mb-4 md:mb-0">
+        <Div devId="noID" className="flex flex-col md:flex-row justify-between items-center">
+          <Div devId="noID" className="text-gray-400 mb-4 md:mb-0">
             © 2024 Geenius Template. Built with ❤️ for developers.
           </Div>
-          <Div className="flex space-x-6">
+          <Div devId="noID" className="flex space-x-6">
             <a href="#" className="text-gray-400 hover:text-white transition-colors">Documentation</a>
             <a href="#" className="text-gray-400 hover:text-white transition-colors">GitHub</a>
             <a href="#" className="text-gray-400 hover:text-white transition-colors">Support</a>

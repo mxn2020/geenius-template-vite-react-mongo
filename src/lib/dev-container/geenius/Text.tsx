@@ -1,4 +1,4 @@
-// src/lib/dev-container/geenius/Headings.tsx
+// src/lib/dev-container/geenius/Text.tsx
 
 import React from 'react';
 import { Container } from '../components/Container';
@@ -6,11 +6,12 @@ import { Container } from '../components/Container';
 import { DevProps } from '../types';
 import { useDevMode } from '../hooks/useDevMode';
 
-interface DevHeadingProps extends React.HTMLAttributes<HTMLHeadingElement>, DevProps {
+// Anchor (keeping from previous)
+interface DevAnchorProps extends React.AnchorHTMLAttributes<HTMLAnchorElement>, DevProps {
   children?: React.ReactNode;
 }
 
-export const H1 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
+export const A = React.forwardRef<HTMLAnchorElement, DevAnchorProps>(
   ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
     const { config } = useDevMode();
     const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
@@ -25,9 +26,9 @@ export const H1 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
     // If no devId provided or explicitly set to "noID", don't containerize
     if (!devId || devId === "noID" || !shouldContainerize) {
       return (
-        <h1 ref={ref} {...props}>
+        <a ref={ref} {...props}>
           {children}
-        </h1>
+        </a>
       );
     }
 
@@ -37,22 +38,27 @@ export const H1 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
         selectable={devSelectable}
         meta={{
           id: devId,
-          name: devName || 'H1',
-          description: devDescription || 'A main heading element',
-          filePath: 'src/lib/dev-container/geenius/Headings.tsx',
-          category: 'content',
-          semanticTags: ['h1', 'heading', 'title', 'semantic', 'content'],
+          name: devName || 'Anchor',
+          description: devDescription || 'A link/anchor element',
+          filePath: 'src/lib/dev-container/geenius/Text.tsx',
+          category: 'interactive',
+          semanticTags: ['a', 'anchor', 'link', 'navigation', 'interactive'],
         }}
       >
-        <h1 ref={ref} {...props}>
+        <a ref={ref} {...props}>
           {children}
-        </h1>
+        </a>
       </Container>
     );
   }
 );
 
-export const H2 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
+// Strong
+interface DevStrongProps extends React.HTMLAttributes<HTMLElement>, DevProps {
+  children?: React.ReactNode;
+}
+
+export const Strong = React.forwardRef<HTMLElement, DevStrongProps>(
   ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
     const { config } = useDevMode();
     const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
@@ -67,9 +73,9 @@ export const H2 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
     // If no devId provided or explicitly set to "noID", don't containerize
     if (!devId || devId === "noID" || !shouldContainerize) {
       return (
-        <h2 ref={ref} {...props}>
+        <strong ref={ref} {...props}>
           {children}
-        </h2>
+        </strong>
       );
     }
 
@@ -79,22 +85,27 @@ export const H2 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
         selectable={devSelectable}
         meta={{
           id: devId,
-          name: devName || 'H2',
-          description: devDescription || 'A secondary heading element',
-          filePath: 'src/lib/dev-container/geenius/Headings.tsx',
+          name: devName || 'Strong',
+          description: devDescription || 'A strong importance element',
+          filePath: 'src/lib/dev-container/geenius/Text.tsx',
           category: 'content',
-          semanticTags: ['h2', 'heading', 'subtitle', 'semantic', 'content'],
+          semanticTags: ['strong', 'emphasis', 'bold', 'text', 'semantic'],
         }}
       >
-        <h2 ref={ref} {...props}>
+        <strong ref={ref} {...props}>
           {children}
-        </h2>
+        </strong>
       </Container>
     );
   }
 );
 
-export const H3 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
+// Emphasis
+interface DevEmProps extends React.HTMLAttributes<HTMLElement>, DevProps {
+  children?: React.ReactNode;
+}
+
+export const Em = React.forwardRef<HTMLElement, DevEmProps>(
   ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
     const { config } = useDevMode();
     const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
@@ -109,9 +120,9 @@ export const H3 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
     // If no devId provided or explicitly set to "noID", don't containerize
     if (!devId || devId === "noID" || !shouldContainerize) {
       return (
-        <h3 ref={ref} {...props}>
+        <em ref={ref} {...props}>
           {children}
-        </h3>
+        </em>
       );
     }
 
@@ -121,22 +132,27 @@ export const H3 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
         selectable={devSelectable}
         meta={{
           id: devId,
-          name: devName || 'H3',
-          description: devDescription || 'A tertiary heading element',
-          filePath: 'src/lib/dev-container/geenius/Headings.tsx',
+          name: devName || 'Emphasis',
+          description: devDescription || 'An emphasis element',
+          filePath: 'src/lib/dev-container/geenius/Text.tsx',
           category: 'content',
-          semanticTags: ['h3', 'heading', 'section-title', 'semantic', 'content'],
+          semanticTags: ['em', 'emphasis', 'italic', 'text', 'semantic'],
         }}
       >
-        <h3 ref={ref} {...props}>
+        <em ref={ref} {...props}>
           {children}
-        </h3>
+        </em>
       </Container>
     );
   }
 );
 
-export const H4 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
+// Code
+interface DevCodeProps extends React.HTMLAttributes<HTMLElement>, DevProps {
+  children?: React.ReactNode;
+}
+
+export const Code = React.forwardRef<HTMLElement, DevCodeProps>(
   ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
     const { config } = useDevMode();
     const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
@@ -151,9 +167,9 @@ export const H4 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
     // If no devId provided or explicitly set to "noID", don't containerize
     if (!devId || devId === "noID" || !shouldContainerize) {
       return (
-        <h4 ref={ref} {...props}>
+        <code ref={ref} {...props}>
           {children}
-        </h4>
+        </code>
       );
     }
 
@@ -163,22 +179,27 @@ export const H4 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
         selectable={devSelectable}
         meta={{
           id: devId,
-          name: devName || 'H4',
-          description: devDescription || 'A fourth level heading element',
-          filePath: 'src/lib/dev-container/geenius/Headings.tsx',
+          name: devName || 'Code',
+          description: devDescription || 'An inline code element',
+          filePath: 'src/lib/dev-container/geenius/Text.tsx',
           category: 'content',
-          semanticTags: ['h4', 'heading', 'subsection-title', 'semantic', 'content'],
+          semanticTags: ['code', 'programming', 'inline', 'text', 'semantic'],
         }}
       >
-        <h4 ref={ref} {...props}>
+        <code ref={ref} {...props}>
           {children}
-        </h4>
+        </code>
       </Container>
     );
   }
 );
 
-export const H5 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
+// Pre
+interface DevPreProps extends React.HTMLAttributes<HTMLPreElement>, DevProps {
+  children?: React.ReactNode;
+}
+
+export const Pre = React.forwardRef<HTMLPreElement, DevPreProps>(
   ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
     const { config } = useDevMode();
     const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
@@ -193,9 +214,9 @@ export const H5 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
     // If no devId provided or explicitly set to "noID", don't containerize
     if (!devId || devId === "noID" || !shouldContainerize) {
       return (
-        <h5 ref={ref} {...props}>
+        <pre ref={ref} {...props}>
           {children}
-        </h5>
+        </pre>
       );
     }
 
@@ -205,22 +226,27 @@ export const H5 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
         selectable={devSelectable}
         meta={{
           id: devId,
-          name: devName || 'H5',
-          description: devDescription || 'A fifth level heading element',
-          filePath: 'src/lib/dev-container/geenius/Headings.tsx',
+          name: devName || 'Preformatted',
+          description: devDescription || 'A preformatted text element',
+          filePath: 'src/lib/dev-container/geenius/Text.tsx',
           category: 'content',
-          semanticTags: ['h5', 'heading', 'minor-title', 'semantic', 'content'],
+          semanticTags: ['pre', 'preformatted', 'code-block', 'text', 'semantic'],
         }}
       >
-        <h5 ref={ref} {...props}>
+        <pre ref={ref} {...props}>
           {children}
-        </h5>
+        </pre>
       </Container>
     );
   }
 );
 
-export const H6 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
+// Blockquote
+interface DevBlockquoteProps extends React.BlockquoteHTMLAttributes<HTMLQuoteElement>, DevProps {
+  children?: React.ReactNode;
+}
+
+export const Blockquote = React.forwardRef<HTMLQuoteElement, DevBlockquoteProps>(
   ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
     const { config } = useDevMode();
     const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
@@ -235,9 +261,9 @@ export const H6 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
     // If no devId provided or explicitly set to "noID", don't containerize
     if (!devId || devId === "noID" || !shouldContainerize) {
       return (
-        <h6 ref={ref} {...props}>
+        <blockquote ref={ref} {...props}>
           {children}
-        </h6>
+        </blockquote>
       );
     }
 
@@ -247,26 +273,26 @@ export const H6 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
         selectable={devSelectable}
         meta={{
           id: devId,
-          name: devName || 'H6',
-          description: devDescription || 'A sixth level heading element',
-          filePath: 'src/lib/dev-container/geenius/Headings.tsx',
+          name: devName || 'Blockquote',
+          description: devDescription || 'A blockquote element',
+          filePath: 'src/lib/dev-container/geenius/Text.tsx',
           category: 'content',
-          semanticTags: ['h6', 'heading', 'smallest-title', 'semantic', 'content'],
+          semanticTags: ['blockquote', 'quote', 'citation', 'text', 'semantic'],
         }}
       >
-        <h6 ref={ref} {...props}>
+        <blockquote ref={ref} {...props}>
           {children}
-        </h6>
+        </blockquote>
       </Container>
     );
   }
 );
 
-H1.displayName = 'DevH1';
-H2.displayName = 'DevH2';
-H3.displayName = 'DevH3';
-H4.displayName = 'DevH4';
-H5.displayName = 'DevH5';
-H6.displayName = 'DevH6';
+A.displayName = 'DevAnchor';
+Strong.displayName = 'DevStrong';
+Em.displayName = 'DevEm';
+Code.displayName = 'DevCode';
+Pre.displayName = 'DevPre';
+Blockquote.displayName = 'DevBlockquote';
 
-export { type DevHeadingProps };
+export { type DevAnchorProps, type DevStrongProps, type DevEmProps, type DevCodeProps, type DevPreProps, type DevBlockquoteProps };

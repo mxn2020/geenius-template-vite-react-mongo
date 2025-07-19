@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import {
   Pagination as ShadcnPagination,
@@ -19,15 +20,32 @@ import {
 type ShadcnPaginationProps = React.ComponentPropsWithoutRef<typeof ShadcnPagination>;
 type DevPaginationProps = ShadcnPaginationProps & DevProps & { children?: React.ReactNode };
 
-export const Pagination = ({ devId, devName, devDescription, devSelectable = true, children, ...props }: DevPaginationProps) => {
-  const componentId = devId || `pagination-${generateId()}`;
+export const Pagination = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevPaginationProps) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnPagination {...props}>
+        {children}
+      </ShadcnPagination>
+    );
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'Pagination',
         description: devDescription || 'Pagination navigation component',
         filePath: 'src/lib/dev-container/shadcn/Pagination.tsx',
@@ -52,34 +70,42 @@ export const PaginationContent = React.forwardRef<
   React.ElementRef<typeof ShadcnPaginationContent>,
   DevPaginationContentProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `pagination-content-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'PaginationContent',
-          description: devDescription || 'Container for pagination items',
-          filePath: 'src/lib/dev-container/shadcn/Pagination.tsx',
-          category: 'navigation',
-          semanticTags: ['pagination', 'content', 'container', 'ui'],
-        }}
-      >
-        <ShadcnPaginationContent ref={ref} {...props}>
-          {children}
-        </ShadcnPaginationContent>
-      </Container>
+      <ShadcnPaginationContent ref={ref} {...props}>
+        {children}
+      </ShadcnPaginationContent>
     );
   }
 
   return (
-    <ShadcnPaginationContent ref={ref} {...props}>
-      {children}
-    </ShadcnPaginationContent>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'PaginationContent',
+        description: devDescription || 'Container for pagination items',
+        filePath: 'src/lib/dev-container/shadcn/Pagination.tsx',
+        category: 'navigation',
+        semanticTags: ['pagination', 'content', 'container', 'ui'],
+      }}
+    >
+      <ShadcnPaginationContent ref={ref} {...props}>
+        {children}
+      </ShadcnPaginationContent>
+    </Container>
   );
 });
 
@@ -88,34 +114,42 @@ PaginationContent.displayName = 'DevPaginationContent';
 // Export other pagination components with containerization
 export const PaginationItem = React.forwardRef<HTMLLIElement, React.ComponentProps<"li"> & DevProps>(
   ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-    const componentId = devId || `pagination-item-${generateId()}`;
-    const shouldContainerize = devDetailed !== false;
+    const { config } = useDevMode();
+    const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
     
-    if (shouldContainerize) {
+    // If no devId provided, throw build error
+    if (!devId && shouldContainerize) {
+      if (import.meta.env.DEV) {
+        throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+      }
+    }
+    
+    // If no devId provided or explicitly set to "noID", don't containerize
+    if (!devId || devId === "noID" || !shouldContainerize) {
       return (
-        <Container
-          componentId={componentId}
-          selectable={devSelectable}
-          meta={{
-            id: componentId,
-            name: devName || 'PaginationItem',
-            description: devDescription || 'Pagination list item',
-            filePath: 'src/lib/dev-container/shadcn/Pagination.tsx',
-            category: 'navigation',
-            semanticTags: ['pagination', 'item', 'list', 'ui'],
-          }}
-        >
-          <ShadcnPaginationItem ref={ref} {...props}>
-            {children}
-          </ShadcnPaginationItem>
-        </Container>
+        <ShadcnPaginationItem ref={ref} {...props}>
+          {children}
+        </ShadcnPaginationItem>
       );
     }
 
     return (
-      <ShadcnPaginationItem ref={ref} {...props}>
-        {children}
-      </ShadcnPaginationItem>
+      <Container
+        componentId={devId}
+        selectable={devSelectable}
+        meta={{
+          id: devId,
+          name: devName || 'PaginationItem',
+          description: devDescription || 'Pagination list item',
+          filePath: 'src/lib/dev-container/shadcn/Pagination.tsx',
+          category: 'navigation',
+          semanticTags: ['pagination', 'item', 'list', 'ui'],
+        }}
+      >
+        <ShadcnPaginationItem ref={ref} {...props}>
+          {children}
+        </ShadcnPaginationItem>
+      </Container>
     );
   }
 );

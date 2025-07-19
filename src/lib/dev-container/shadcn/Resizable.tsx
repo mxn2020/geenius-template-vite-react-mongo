@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import {
   ResizablePanelGroup as ShadcnResizablePanelGroup,
@@ -13,17 +14,42 @@ import {
 
 // ResizablePanelGroup component
 type ShadcnResizablePanelGroupProps = React.ComponentPropsWithoutRef<typeof ShadcnResizablePanelGroup>;
-type DevResizablePanelGroupProps = ShadcnResizablePanelGroupProps & DevProps & { children?: React.ReactNode };
+type ShadcnResizablePanelProps = React.ComponentPropsWithoutRef<typeof ShadcnResizablePanel>;
+type ShadcnResizableHandleProps = React.ComponentPropsWithoutRef<typeof ShadcnResizableHandle>;
 
-export const ResizablePanelGroup = ({ devId, devName, devDescription, devSelectable = true, children, ...props }: DevResizablePanelGroupProps) => {
-  const componentId = devId || `resizable-panel-group-${generateId()}`;
-  
+type DevResizablePanelGroupProps = ShadcnResizablePanelGroupProps & DevProps & { children?: React.ReactNode };
+type DevResizablePanelProps = ShadcnResizablePanelProps & DevProps & { children?: React.ReactNode };
+type DevResizableHandleProps = ShadcnResizableHandleProps & DevProps;
+
+export const ResizablePanelGroup = React.forwardRef<
+  React.ElementRef<typeof ShadcnResizablePanelGroup>,
+  DevResizablePanelGroupProps
+>(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnResizablePanelGroup ref={ref} {...props}>
+        {children}
+      </ShadcnResizablePanelGroup>
+    );
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'ResizablePanelGroup',
         description: devDescription || 'Resizable panel group container',
         filePath: 'src/lib/dev-container/shadcn/Resizable.tsx',
@@ -31,44 +57,97 @@ export const ResizablePanelGroup = ({ devId, devName, devDescription, devSelecta
         semanticTags: ['resizable', 'panel', 'group', 'layout', 'ui'],
       }}
     >
-      <ShadcnResizablePanelGroup {...props}>
+      <ShadcnResizablePanelGroup ref={ref} {...props}>
         {children}
       </ShadcnResizablePanelGroup>
     </Container>
   );
-};
+});
 
 ResizablePanelGroup.displayName = 'DevResizablePanelGroup';
 
 // ResizablePanel component
-export const ResizablePanel = ShadcnResizablePanel;
+export const ResizablePanel = React.forwardRef<
+  React.ElementRef<typeof ShadcnResizablePanel>,
+  DevResizablePanelProps
+>(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
 
-// ResizableHandle component
-export const ResizableHandle = ({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }: React.ComponentPropsWithoutRef<typeof ShadcnResizableHandle> & DevProps) => {
-  const componentId = devId || `resizable-handle-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'ResizableHandle',
-          description: devDescription || 'Handle for resizing panels',
-          filePath: 'src/lib/dev-container/shadcn/Resizable.tsx',
-          category: 'layout',
-          semanticTags: ['resizable', 'handle', 'interactive', 'ui'],
-        }}
-      >
-        <ShadcnResizableHandle {...props} />
-      </Container>
+      <ShadcnResizablePanel ref={ref} {...props}>
+        {children}
+      </ShadcnResizablePanel>
     );
   }
 
-  return <ShadcnResizableHandle {...props} />;
-};
+  return (
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'ResizablePanel',
+        description: devDescription || 'Individual resizable panel',
+        filePath: 'src/lib/dev-container/shadcn/Resizable.tsx',
+        category: 'layout',
+        semanticTags: ['resizable', 'panel', 'layout', 'ui'],
+      }}
+    >
+      <ShadcnResizablePanel ref={ref} {...props}>
+        {children}
+      </ShadcnResizablePanel>
+    </Container>
+  );
+});
+
+ResizablePanel.displayName = 'DevResizablePanel';
+
+// ResizableHandle component
+export const ResizableHandle = React.forwardRef<
+  React.ElementRef<typeof ShadcnResizableHandle>,
+  DevResizableHandleProps
+>(({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return <ShadcnResizableHandle {...props} />;
+  }
+
+  return (
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'ResizableHandle',
+        description: devDescription || 'Handle for resizing panels',
+        filePath: 'src/lib/dev-container/shadcn/Resizable.tsx',
+        category: 'layout',
+        semanticTags: ['resizable', 'handle', 'interactive', 'ui'],
+      }}
+    >
+      <ShadcnResizableHandle {...props} />
+    </Container>
+  );
+});
 
 ResizableHandle.displayName = 'DevResizableHandle';
-

@@ -32,6 +32,8 @@ const defaultConfig: DevModeConfig = {
   hoverColor: '#3b82f6', // blue-500
   selectedColor: '#3b82f6', // blue-500
   showComponentIds: true,
+  // Detailed containerization control
+  detailedContainerization: false,
 };
 
 // Zustand store for dev mode state

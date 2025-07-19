@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 interface DevSectionProps extends React.HTMLAttributes<HTMLElement>, DevProps {
   children?: React.ReactNode;
@@ -11,34 +12,42 @@ interface DevSectionProps extends React.HTMLAttributes<HTMLElement>, DevProps {
 
 export const Section = React.forwardRef<HTMLElement, DevSectionProps>(
   ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-    const componentId = devId || `section-${generateId()}`;
-    const shouldContainerize = devDetailed !== false;
+    const { config } = useDevMode();
+    const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
     
-    if (shouldContainerize) {
+    // If no devId provided, throw build error
+    if (!devId && shouldContainerize) {
+      if (import.meta.env.DEV) {
+        throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+      }
+    }
+    
+    // If no devId provided or explicitly set to "noID", don't containerize
+    if (!devId || devId === "noID" || !shouldContainerize) {
       return (
-        <Container
-          componentId={componentId}
-          selectable={devSelectable}
-          meta={{
-            id: componentId,
-            name: devName || 'Section',
-            description: devDescription || 'A section element',
-            filePath: 'src/lib/dev-container/geenius/Section.tsx',
-            category: 'layout',
-            semanticTags: ['section', 'content', 'layout', 'semantic'],
-          }}
-        >
-          <section ref={ref} {...props}>
-            {children}
-          </section>
-        </Container>
+        <section ref={ref} {...props}>
+          {children}
+        </section>
       );
     }
 
     return (
-      <section ref={ref} {...props}>
-        {children}
-      </section>
+      <Container
+        componentId={devId}
+        selectable={devSelectable}
+        meta={{
+          id: devId,
+          name: devName || 'Section',
+          description: devDescription || 'A section element',
+          filePath: 'src/lib/dev-container/geenius/Section.tsx',
+          category: 'layout',
+          semanticTags: ['section', 'content', 'layout', 'semantic'],
+        }}
+      >
+        <section ref={ref} {...props}>
+          {children}
+        </section>
+      </Container>
     );
   }
 );

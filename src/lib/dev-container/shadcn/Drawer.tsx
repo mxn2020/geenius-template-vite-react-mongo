@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import {
   Drawer as ShadcnDrawer,
@@ -22,15 +23,32 @@ import {
 type ShadcnDrawerProps = React.ComponentPropsWithoutRef<typeof ShadcnDrawer>;
 type DevDrawerProps = ShadcnDrawerProps & DevProps & { children?: React.ReactNode };
 
-export const Drawer = ({ devId, devName, devDescription, devSelectable = true, children, ...props }: DevDrawerProps) => {
-  const componentId = devId || `drawer-${generateId()}`;
-  
+export const Drawer = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevDrawerProps) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnDrawer {...props}>
+        {children}
+      </ShadcnDrawer>
+    );
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'Drawer',
         description: devDescription || 'Drawer root component',
         filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
@@ -52,34 +70,42 @@ type ShadcnDrawerPortalProps = React.ComponentPropsWithoutRef<typeof ShadcnDrawe
 type DevDrawerPortalProps = ShadcnDrawerPortalProps & DevProps & { children?: React.ReactNode };
 
 export const DrawerPortal = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevDrawerPortalProps) => {
-  const componentId = devId || `drawer-portal-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'DrawerPortal',
-          description: devDescription || 'Portal container for drawer content',
-          filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
-          category: 'overlay',
-          semanticTags: ['drawer', 'portal', 'container', 'ui'],
-        }}
-      >
-        <ShadcnDrawerPortal {...props}>
-          {children}
-        </ShadcnDrawerPortal>
-      </Container>
+      <ShadcnDrawerPortal {...props}>
+        {children}
+      </ShadcnDrawerPortal>
     );
   }
 
   return (
-    <ShadcnDrawerPortal {...props}>
-      {children}
-    </ShadcnDrawerPortal>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'DrawerPortal',
+        description: devDescription || 'Portal container for drawer content',
+        filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
+        category: 'overlay',
+        semanticTags: ['drawer', 'portal', 'container', 'ui'],
+      }}
+    >
+      <ShadcnDrawerPortal {...props}>
+        {children}
+      </ShadcnDrawerPortal>
+    </Container>
   );
 };
 
@@ -93,34 +119,42 @@ export const DrawerOverlay = React.forwardRef<
   React.ElementRef<typeof ShadcnDrawerOverlay>,
   DevDrawerOverlayProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `drawer-overlay-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'DrawerOverlay',
-          description: devDescription || 'Background overlay for drawer',
-          filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
-          category: 'overlay',
-          semanticTags: ['drawer', 'overlay', 'background', 'ui'],
-        }}
-      >
-        <ShadcnDrawerOverlay ref={ref} {...props}>
-          {children}
-        </ShadcnDrawerOverlay>
-      </Container>
+      <ShadcnDrawerOverlay ref={ref} {...props}>
+        {children}
+      </ShadcnDrawerOverlay>
     );
   }
 
   return (
-    <ShadcnDrawerOverlay ref={ref} {...props}>
-      {children}
-    </ShadcnDrawerOverlay>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'DrawerOverlay',
+        description: devDescription || 'Background overlay for drawer',
+        filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
+        category: 'overlay',
+        semanticTags: ['drawer', 'overlay', 'background', 'ui'],
+      }}
+    >
+      <ShadcnDrawerOverlay ref={ref} {...props}>
+        {children}
+      </ShadcnDrawerOverlay>
+    </Container>
   );
 });
 
@@ -134,34 +168,42 @@ export const DrawerTrigger = React.forwardRef<
   React.ElementRef<typeof ShadcnDrawerTrigger>,
   DevDrawerTriggerProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `drawer-trigger-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'DrawerTrigger',
-          description: devDescription || 'Button that opens the drawer',
-          filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
-          category: 'overlay',
-          semanticTags: ['drawer', 'trigger', 'button', 'interactive', 'ui'],
-        }}
-      >
-        <ShadcnDrawerTrigger ref={ref} {...props}>
-          {children}
-        </ShadcnDrawerTrigger>
-      </Container>
+      <ShadcnDrawerTrigger ref={ref} {...props}>
+        {children}
+      </ShadcnDrawerTrigger>
     );
   }
 
   return (
-    <ShadcnDrawerTrigger ref={ref} {...props}>
-      {children}
-    </ShadcnDrawerTrigger>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'DrawerTrigger',
+        description: devDescription || 'Button that opens the drawer',
+        filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
+        category: 'overlay',
+        semanticTags: ['drawer', 'trigger', 'button', 'interactive', 'ui'],
+      }}
+    >
+      <ShadcnDrawerTrigger ref={ref} {...props}>
+        {children}
+      </ShadcnDrawerTrigger>
+    </Container>
   );
 });
 
@@ -175,34 +217,42 @@ export const DrawerClose = React.forwardRef<
   React.ElementRef<typeof ShadcnDrawerClose>,
   DevDrawerCloseProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `drawer-close-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'DrawerClose',
-          description: devDescription || 'Button that closes the drawer',
-          filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
-          category: 'overlay',
-          semanticTags: ['drawer', 'close', 'button', 'interactive', 'ui'],
-        }}
-      >
-        <ShadcnDrawerClose ref={ref} {...props}>
-          {children}
-        </ShadcnDrawerClose>
-      </Container>
+      <ShadcnDrawerClose ref={ref} {...props}>
+        {children}
+      </ShadcnDrawerClose>
     );
   }
 
   return (
-    <ShadcnDrawerClose ref={ref} {...props}>
-      {children}
-    </ShadcnDrawerClose>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'DrawerClose',
+        description: devDescription || 'Button that closes the drawer',
+        filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
+        category: 'overlay',
+        semanticTags: ['drawer', 'close', 'button', 'interactive', 'ui'],
+      }}
+    >
+      <ShadcnDrawerClose ref={ref} {...props}>
+        {children}
+      </ShadcnDrawerClose>
+    </Container>
   );
 });
 
@@ -215,15 +265,32 @@ type DevDrawerContentProps = ShadcnDrawerContentProps & DevProps & { children?: 
 export const DrawerContent = React.forwardRef<
   React.ElementRef<typeof ShadcnDrawerContent>,
   DevDrawerContentProps
->(({ devId, devName, devDescription, devSelectable = true, children, ...props }, ref) => {
-  const componentId = devId || `drawer-content-${generateId()}`;
-  
+>(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnDrawerContent ref={ref} {...props}>
+        {children}
+      </ShadcnDrawerContent>
+    );
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'DrawerContent',
         description: devDescription || 'Main content area of the drawer',
         filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
@@ -245,34 +312,42 @@ type ShadcnDrawerHeaderProps = React.ComponentPropsWithoutRef<typeof ShadcnDrawe
 type DevDrawerHeaderProps = ShadcnDrawerHeaderProps & DevProps & { children?: React.ReactNode };
 
 export const DrawerHeader = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevDrawerHeaderProps) => {
-  const componentId = devId || `drawer-header-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'DrawerHeader',
-          description: devDescription || 'Header section of the drawer',
-          filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
-          category: 'overlay',
-          semanticTags: ['drawer', 'header', 'layout', 'ui'],
-        }}
-      >
-        <ShadcnDrawerHeader {...props}>
-          {children}
-        </ShadcnDrawerHeader>
-      </Container>
+      <ShadcnDrawerHeader {...props}>
+        {children}
+      </ShadcnDrawerHeader>
     );
   }
 
   return (
-    <ShadcnDrawerHeader {...props}>
-      {children}
-    </ShadcnDrawerHeader>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'DrawerHeader',
+        description: devDescription || 'Header section of the drawer',
+        filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
+        category: 'overlay',
+        semanticTags: ['drawer', 'header', 'layout', 'ui'],
+      }}
+    >
+      <ShadcnDrawerHeader {...props}>
+        {children}
+      </ShadcnDrawerHeader>
+    </Container>
   );
 };
 
@@ -283,34 +358,42 @@ type ShadcnDrawerFooterProps = React.ComponentPropsWithoutRef<typeof ShadcnDrawe
 type DevDrawerFooterProps = ShadcnDrawerFooterProps & DevProps & { children?: React.ReactNode };
 
 export const DrawerFooter = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevDrawerFooterProps) => {
-  const componentId = devId || `drawer-footer-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'DrawerFooter',
-          description: devDescription || 'Footer section of the drawer',
-          filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
-          category: 'overlay',
-          semanticTags: ['drawer', 'footer', 'layout', 'ui'],
-        }}
-      >
-        <ShadcnDrawerFooter {...props}>
-          {children}
-        </ShadcnDrawerFooter>
-      </Container>
+      <ShadcnDrawerFooter {...props}>
+        {children}
+      </ShadcnDrawerFooter>
     );
   }
 
   return (
-    <ShadcnDrawerFooter {...props}>
-      {children}
-    </ShadcnDrawerFooter>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'DrawerFooter',
+        description: devDescription || 'Footer section of the drawer',
+        filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
+        category: 'overlay',
+        semanticTags: ['drawer', 'footer', 'layout', 'ui'],
+      }}
+    >
+      <ShadcnDrawerFooter {...props}>
+        {children}
+      </ShadcnDrawerFooter>
+    </Container>
   );
 };
 
@@ -324,34 +407,42 @@ export const DrawerTitle = React.forwardRef<
   React.ElementRef<typeof ShadcnDrawerTitle>,
   DevDrawerTitleProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `drawer-title-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'DrawerTitle',
-          description: devDescription || 'Title text of the drawer',
-          filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
-          category: 'overlay',
-          semanticTags: ['drawer', 'title', 'heading', 'ui'],
-        }}
-      >
-        <ShadcnDrawerTitle ref={ref} {...props}>
-          {children}
-        </ShadcnDrawerTitle>
-      </Container>
+      <ShadcnDrawerTitle ref={ref} {...props}>
+        {children}
+      </ShadcnDrawerTitle>
     );
   }
 
   return (
-    <ShadcnDrawerTitle ref={ref} {...props}>
-      {children}
-    </ShadcnDrawerTitle>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'DrawerTitle',
+        description: devDescription || 'Title text of the drawer',
+        filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
+        category: 'overlay',
+        semanticTags: ['drawer', 'title', 'heading', 'ui'],
+      }}
+    >
+      <ShadcnDrawerTitle ref={ref} {...props}>
+        {children}
+      </ShadcnDrawerTitle>
+    </Container>
   );
 });
 
@@ -365,34 +456,42 @@ export const DrawerDescription = React.forwardRef<
   React.ElementRef<typeof ShadcnDrawerDescription>,
   DevDrawerDescriptionProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `drawer-description-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'DrawerDescription',
-          description: devDescription || 'Description text of the drawer',
-          filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
-          category: 'overlay',
-          semanticTags: ['drawer', 'description', 'text', 'ui'],
-        }}
-      >
-        <ShadcnDrawerDescription ref={ref} {...props}>
-          {children}
-        </ShadcnDrawerDescription>
-      </Container>
+      <ShadcnDrawerDescription ref={ref} {...props}>
+        {children}
+      </ShadcnDrawerDescription>
     );
   }
 
   return (
-    <ShadcnDrawerDescription ref={ref} {...props}>
-      {children}
-    </ShadcnDrawerDescription>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'DrawerDescription',
+        description: devDescription || 'Description text of the drawer',
+        filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
+        category: 'overlay',
+        semanticTags: ['drawer', 'description', 'text', 'ui'],
+      }}
+    >
+      <ShadcnDrawerDescription ref={ref} {...props}>
+        {children}
+      </ShadcnDrawerDescription>
+    </Container>
   );
 });
 

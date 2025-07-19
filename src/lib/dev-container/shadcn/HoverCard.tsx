@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import {
   HoverCard as ShadcnHoverCard,
@@ -15,15 +16,32 @@ import {
 type ShadcnHoverCardProps = React.ComponentPropsWithoutRef<typeof ShadcnHoverCard>;
 type DevHoverCardProps = ShadcnHoverCardProps & DevProps & { children?: React.ReactNode };
 
-export const HoverCard = ({ devId, devName, devDescription, devSelectable = true, children, ...props }: DevHoverCardProps) => {
-  const componentId = devId || `hover-card-${generateId()}`;
-  
+export const HoverCard = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevHoverCardProps) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnHoverCard {...props}>
+        {children}
+      </ShadcnHoverCard>
+    );
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'HoverCard',
         description: devDescription || 'Hover card root component',
         filePath: 'src/lib/dev-container/shadcn/HoverCard.tsx',
@@ -48,34 +66,42 @@ export const HoverCardTrigger = React.forwardRef<
   React.ElementRef<typeof ShadcnHoverCardTrigger>,
   DevHoverCardTriggerProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `hover-card-trigger-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'HoverCardTrigger',
-          description: devDescription || 'Element that triggers the hover card on hover',
-          filePath: 'src/lib/dev-container/shadcn/HoverCard.tsx',
-          category: 'overlay',
-          semanticTags: ['hover-card', 'trigger', 'interactive', 'ui'],
-        }}
-      >
-        <ShadcnHoverCardTrigger ref={ref} {...props}>
-          {children}
-        </ShadcnHoverCardTrigger>
-      </Container>
+      <ShadcnHoverCardTrigger ref={ref} {...props}>
+        {children}
+      </ShadcnHoverCardTrigger>
     );
   }
 
   return (
-    <ShadcnHoverCardTrigger ref={ref} {...props}>
-      {children}
-    </ShadcnHoverCardTrigger>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'HoverCardTrigger',
+        description: devDescription || 'Element that triggers the hover card on hover',
+        filePath: 'src/lib/dev-container/shadcn/HoverCard.tsx',
+        category: 'overlay',
+        semanticTags: ['hover-card', 'trigger', 'interactive', 'ui'],
+      }}
+    >
+      <ShadcnHoverCardTrigger ref={ref} {...props}>
+        {children}
+      </ShadcnHoverCardTrigger>
+    </Container>
   );
 });
 
@@ -88,15 +114,32 @@ type DevHoverCardContentProps = ShadcnHoverCardContentProps & DevProps & { child
 export const HoverCardContent = React.forwardRef<
   React.ElementRef<typeof ShadcnHoverCardContent>,
   DevHoverCardContentProps
->(({ devId, devName, devDescription, devSelectable = true, children, ...props }, ref) => {
-  const componentId = devId || `hover-card-content-${generateId()}`;
-  
+>(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnHoverCardContent ref={ref} {...props}>
+        {children}
+      </ShadcnHoverCardContent>
+    );
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'HoverCardContent',
         description: devDescription || 'Content area of the hover card',
         filePath: 'src/lib/dev-container/shadcn/HoverCard.tsx',

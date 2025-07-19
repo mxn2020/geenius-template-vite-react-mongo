@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import {
   ScrollArea as ShadcnScrollArea,
@@ -17,15 +18,32 @@ type DevScrollAreaProps = ShadcnScrollAreaProps & DevProps & { children?: React.
 export const ScrollArea = React.forwardRef<
   React.ElementRef<typeof ShadcnScrollArea>,
   DevScrollAreaProps
->(({ devId, devName, devDescription, devSelectable = true, children, ...props }, ref) => {
-  const componentId = devId || `scroll-area-${generateId()}`;
-  
+>(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnScrollArea ref={ref} {...props}>
+        {children}
+      </ShadcnScrollArea>
+    );
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'ScrollArea',
         description: devDescription || 'Custom scrollable area with styled scrollbars',
         filePath: 'src/lib/dev-container/shadcn/ScrollArea.tsx',
@@ -50,30 +68,37 @@ export const ScrollBar = React.forwardRef<
   React.ElementRef<typeof ShadcnScrollBar>,
   DevScrollBarProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }, ref) => {
-  const componentId = devId || `scroll-bar-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
-    return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'ScrollBar',
-          description: devDescription || 'Custom styled scrollbar',
-          filePath: 'src/lib/dev-container/shadcn/ScrollArea.tsx',
-          category: 'layout',
-          semanticTags: ['scroll', 'bar', 'scrollbar', 'ui'],
-        }}
-      >
-        <ShadcnScrollBar ref={ref} {...props} />
-      </Container>
-    );
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
   }
 
-  return <ShadcnScrollBar ref={ref} {...props} />;
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return <ShadcnScrollBar ref={ref} {...props} />;
+  }
+
+  return (
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'ScrollBar',
+        description: devDescription || 'Custom styled scrollbar',
+        filePath: 'src/lib/dev-container/shadcn/ScrollArea.tsx',
+        category: 'layout',
+        semanticTags: ['scroll', 'bar', 'scrollbar', 'ui'],
+      }}
+    >
+      <ShadcnScrollBar ref={ref} {...props} />
+    </Container>
+  );
 });
 
 ScrollBar.displayName = 'DevScrollBar';
-

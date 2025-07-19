@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import {
   Collapsible as ShadcnCollapsible,
@@ -18,15 +19,32 @@ type DevCollapsibleProps = ShadcnCollapsibleProps & DevProps & { children?: Reac
 export const Collapsible = React.forwardRef<
   React.ElementRef<typeof ShadcnCollapsible>,
   DevCollapsibleProps
->(({ devId, devName, devDescription, devSelectable = true, children, ...props }, ref) => {
-  const componentId = devId || `collapsible-${generateId()}`;
-  
+>(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnCollapsible ref={ref} {...props}>
+        {children}
+      </ShadcnCollapsible>
+    );
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'Collapsible',
         description: devDescription || 'Collapsible root component',
         filePath: 'src/lib/dev-container/shadcn/Collapsible.tsx',
@@ -51,34 +69,42 @@ export const CollapsibleTrigger = React.forwardRef<
   React.ElementRef<typeof ShadcnCollapsibleTrigger>,
   DevCollapsibleTriggerProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `collapsible-trigger-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'CollapsibleTrigger',
-          description: devDescription || 'Button that toggles the collapsible content',
-          filePath: 'src/lib/dev-container/shadcn/Collapsible.tsx',
-          category: 'layout',
-          semanticTags: ['collapsible', 'trigger', 'button', 'interactive', 'ui'],
-        }}
-      >
-        <ShadcnCollapsibleTrigger ref={ref} {...props}>
-          {children}
-        </ShadcnCollapsibleTrigger>
-      </Container>
+      <ShadcnCollapsibleTrigger ref={ref} {...props}>
+        {children}
+      </ShadcnCollapsibleTrigger>
     );
   }
 
   return (
-    <ShadcnCollapsibleTrigger ref={ref} {...props}>
-      {children}
-    </ShadcnCollapsibleTrigger>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'CollapsibleTrigger',
+        description: devDescription || 'Button that toggles the collapsible content',
+        filePath: 'src/lib/dev-container/shadcn/Collapsible.tsx',
+        category: 'layout',
+        semanticTags: ['collapsible', 'trigger', 'button', 'interactive', 'ui'],
+      }}
+    >
+      <ShadcnCollapsibleTrigger ref={ref} {...props}>
+        {children}
+      </ShadcnCollapsibleTrigger>
+    </Container>
   );
 });
 
@@ -92,34 +118,42 @@ export const CollapsibleContent = React.forwardRef<
   React.ElementRef<typeof ShadcnCollapsibleContent>,
   DevCollapsibleContentProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `collapsible-content-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'CollapsibleContent',
-          description: devDescription || 'Content that can be collapsed or expanded',
-          filePath: 'src/lib/dev-container/shadcn/Collapsible.tsx',
-          category: 'layout',
-          semanticTags: ['collapsible', 'content', 'expandable', 'ui'],
-        }}
-      >
-        <ShadcnCollapsibleContent ref={ref} {...props}>
-          {children}
-        </ShadcnCollapsibleContent>
-      </Container>
+      <ShadcnCollapsibleContent ref={ref} {...props}>
+        {children}
+      </ShadcnCollapsibleContent>
     );
   }
 
   return (
-    <ShadcnCollapsibleContent ref={ref} {...props}>
-      {children}
-    </ShadcnCollapsibleContent>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'CollapsibleContent',
+        description: devDescription || 'Content that can be collapsed or expanded',
+        filePath: 'src/lib/dev-container/shadcn/Collapsible.tsx',
+        category: 'layout',
+        semanticTags: ['collapsible', 'content', 'expandable', 'ui'],
+      }}
+    >
+      <ShadcnCollapsibleContent ref={ref} {...props}>
+        {children}
+      </ShadcnCollapsibleContent>
+    </Container>
   );
 });
 

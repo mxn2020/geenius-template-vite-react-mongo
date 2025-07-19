@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import {
   Sidebar as ShadcnSidebar,
@@ -39,15 +40,32 @@ type DevSidebarProviderProps = ShadcnSidebarProviderProps & DevProps & { childre
 export const SidebarProvider = React.forwardRef<
   React.ElementRef<typeof ShadcnSidebarProvider>,
   DevSidebarProviderProps
->(({ devId, devName, devDescription, devSelectable = true, children, ...props }, ref) => {
-  const componentId = devId || `sidebar-provider-${generateId()}`;
-  
+>(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnSidebarProvider ref={ref} {...props}>
+        {children}
+      </ShadcnSidebarProvider>
+    );
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'SidebarProvider',
         description: devDescription || 'Context provider for sidebar state management',
         filePath: 'src/lib/dev-container/shadcn/Sidebar.tsx',
@@ -71,15 +89,32 @@ type DevSidebarProps = ShadcnSidebarProps & DevProps & { children?: React.ReactN
 export const Sidebar = React.forwardRef<
   React.ElementRef<typeof ShadcnSidebar>,
   DevSidebarProps
->(({ devId, devName, devDescription, devSelectable = true, children, ...props }, ref) => {
-  const componentId = devId || `sidebar-${generateId()}`;
-  
+>(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnSidebar ref={ref} {...props}>
+        {children}
+      </ShadcnSidebar>
+    );
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'Sidebar',
         description: devDescription || 'Main sidebar component with collapsible variants',
         filePath: 'src/lib/dev-container/shadcn/Sidebar.tsx',
@@ -104,29 +139,37 @@ export const SidebarTrigger = React.forwardRef<
   React.ElementRef<typeof ShadcnSidebarTrigger>,
   DevSidebarTriggerProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }, ref) => {
-  const componentId = devId || `sidebar-trigger-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
-    return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'SidebarTrigger',
-          description: devDescription || 'Button to toggle sidebar visibility',
-          filePath: 'src/lib/dev-container/shadcn/Sidebar.tsx',
-          category: 'layout',
-          semanticTags: ['sidebar', 'trigger', 'button', 'toggle', 'ui'],
-        }}
-      >
-        <ShadcnSidebarTrigger ref={ref} {...props} />
-      </Container>
-    );
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
   }
 
-  return <ShadcnSidebarTrigger ref={ref} {...props} />;
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return <ShadcnSidebarTrigger ref={ref} {...props} />;
+  }
+
+  return (
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'SidebarTrigger',
+        description: devDescription || 'Button to toggle sidebar visibility',
+        filePath: 'src/lib/dev-container/shadcn/Sidebar.tsx',
+        category: 'layout',
+        semanticTags: ['sidebar', 'trigger', 'button', 'toggle', 'ui'],
+      }}
+    >
+      <ShadcnSidebarTrigger ref={ref} {...props} />
+    </Container>
+  );
 });
 
 SidebarTrigger.displayName = 'DevSidebarTrigger';
@@ -139,34 +182,42 @@ export const SidebarContent = React.forwardRef<
   React.ElementRef<typeof ShadcnSidebarContent>,
   DevSidebarContentProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `sidebar-content-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'SidebarContent',
-          description: devDescription || 'Scrollable content area of the sidebar',
-          filePath: 'src/lib/dev-container/shadcn/Sidebar.tsx',
-          category: 'layout',
-          semanticTags: ['sidebar', 'content', 'scrollable', 'ui'],
-        }}
-      >
-        <ShadcnSidebarContent ref={ref} {...props}>
-          {children}
-        </ShadcnSidebarContent>
-      </Container>
+      <ShadcnSidebarContent ref={ref} {...props}>
+        {children}
+      </ShadcnSidebarContent>
     );
   }
 
   return (
-    <ShadcnSidebarContent ref={ref} {...props}>
-      {children}
-    </ShadcnSidebarContent>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'SidebarContent',
+        description: devDescription || 'Scrollable content area of the sidebar',
+        filePath: 'src/lib/dev-container/shadcn/Sidebar.tsx',
+        category: 'layout',
+        semanticTags: ['sidebar', 'content', 'scrollable', 'ui'],
+      }}
+    >
+      <ShadcnSidebarContent ref={ref} {...props}>
+        {children}
+      </ShadcnSidebarContent>
+    </Container>
   );
 });
 
@@ -180,34 +231,42 @@ export const SidebarHeader = React.forwardRef<
   React.ElementRef<typeof ShadcnSidebarHeader>,
   DevSidebarHeaderProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `sidebar-header-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'SidebarHeader',
-          description: devDescription || 'Header section of the sidebar',
-          filePath: 'src/lib/dev-container/shadcn/Sidebar.tsx',
-          category: 'layout',
-          semanticTags: ['sidebar', 'header', 'section', 'ui'],
-        }}
-      >
-        <ShadcnSidebarHeader ref={ref} {...props}>
-          {children}
-        </ShadcnSidebarHeader>
-      </Container>
+      <ShadcnSidebarHeader ref={ref} {...props}>
+        {children}
+      </ShadcnSidebarHeader>
     );
   }
 
   return (
-    <ShadcnSidebarHeader ref={ref} {...props}>
-      {children}
-    </ShadcnSidebarHeader>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'SidebarHeader',
+        description: devDescription || 'Header section of the sidebar',
+        filePath: 'src/lib/dev-container/shadcn/Sidebar.tsx',
+        category: 'layout',
+        semanticTags: ['sidebar', 'header', 'section', 'ui'],
+      }}
+    >
+      <ShadcnSidebarHeader ref={ref} {...props}>
+        {children}
+      </ShadcnSidebarHeader>
+    </Container>
   );
 });
 
@@ -221,34 +280,42 @@ export const SidebarFooter = React.forwardRef<
   React.ElementRef<typeof ShadcnSidebarFooter>,
   DevSidebarFooterProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `sidebar-footer-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'SidebarFooter',
-          description: devDescription || 'Footer section of the sidebar',
-          filePath: 'src/lib/dev-container/shadcn/Sidebar.tsx',
-          category: 'layout',
-          semanticTags: ['sidebar', 'footer', 'section', 'ui'],
-        }}
-      >
-        <ShadcnSidebarFooter ref={ref} {...props}>
-          {children}
-        </ShadcnSidebarFooter>
-      </Container>
+      <ShadcnSidebarFooter ref={ref} {...props}>
+        {children}
+      </ShadcnSidebarFooter>
     );
   }
 
   return (
-    <ShadcnSidebarFooter ref={ref} {...props}>
-      {children}
-    </ShadcnSidebarFooter>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'SidebarFooter',
+        description: devDescription || 'Footer section of the sidebar',
+        filePath: 'src/lib/dev-container/shadcn/Sidebar.tsx',
+        category: 'layout',
+        semanticTags: ['sidebar', 'footer', 'section', 'ui'],
+      }}
+    >
+      <ShadcnSidebarFooter ref={ref} {...props}>
+        {children}
+      </ShadcnSidebarFooter>
+    </Container>
   );
 });
 
@@ -262,34 +329,42 @@ export const SidebarMenu = React.forwardRef<
   React.ElementRef<typeof ShadcnSidebarMenu>,
   DevSidebarMenuProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `sidebar-menu-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'SidebarMenu',
-          description: devDescription || 'Menu list container for sidebar navigation',
-          filePath: 'src/lib/dev-container/shadcn/Sidebar.tsx',
-          category: 'layout',
-          semanticTags: ['sidebar', 'menu', 'navigation', 'list', 'ui'],
-        }}
-      >
-        <ShadcnSidebarMenu ref={ref} {...props}>
-          {children}
-        </ShadcnSidebarMenu>
-      </Container>
+      <ShadcnSidebarMenu ref={ref} {...props}>
+        {children}
+      </ShadcnSidebarMenu>
     );
   }
 
   return (
-    <ShadcnSidebarMenu ref={ref} {...props}>
-      {children}
-    </ShadcnSidebarMenu>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'SidebarMenu',
+        description: devDescription || 'Menu list container for sidebar navigation',
+        filePath: 'src/lib/dev-container/shadcn/Sidebar.tsx',
+        category: 'layout',
+        semanticTags: ['sidebar', 'menu', 'navigation', 'list', 'ui'],
+      }}
+    >
+      <ShadcnSidebarMenu ref={ref} {...props}>
+        {children}
+      </ShadcnSidebarMenu>
+    </Container>
   );
 });
 
@@ -303,34 +378,42 @@ export const SidebarMenuItem = React.forwardRef<
   React.ElementRef<typeof ShadcnSidebarMenuItem>,
   DevSidebarMenuItemProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `sidebar-menu-item-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'SidebarMenuItem',
-          description: devDescription || 'Individual menu item in sidebar',
-          filePath: 'src/lib/dev-container/shadcn/Sidebar.tsx',
-          category: 'layout',
-          semanticTags: ['sidebar', 'menu', 'item', 'navigation', 'ui'],
-        }}
-      >
-        <ShadcnSidebarMenuItem ref={ref} {...props}>
-          {children}
-        </ShadcnSidebarMenuItem>
-      </Container>
+      <ShadcnSidebarMenuItem ref={ref} {...props}>
+        {children}
+      </ShadcnSidebarMenuItem>
     );
   }
 
   return (
-    <ShadcnSidebarMenuItem ref={ref} {...props}>
-      {children}
-    </ShadcnSidebarMenuItem>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'SidebarMenuItem',
+        description: devDescription || 'Individual menu item in sidebar',
+        filePath: 'src/lib/dev-container/shadcn/Sidebar.tsx',
+        category: 'layout',
+        semanticTags: ['sidebar', 'menu', 'item', 'navigation', 'ui'],
+      }}
+    >
+      <ShadcnSidebarMenuItem ref={ref} {...props}>
+        {children}
+      </ShadcnSidebarMenuItem>
+    </Container>
   );
 });
 
@@ -344,34 +427,42 @@ export const SidebarMenuButton = React.forwardRef<
   React.ElementRef<typeof ShadcnSidebarMenuButton>,
   DevSidebarMenuButtonProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `sidebar-menu-button-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'SidebarMenuButton',
-          description: devDescription || 'Clickable button for sidebar menu items',
-          filePath: 'src/lib/dev-container/shadcn/Sidebar.tsx',
-          category: 'layout',
-          semanticTags: ['sidebar', 'menu', 'button', 'interactive', 'ui'],
-        }}
-      >
-        <ShadcnSidebarMenuButton ref={ref} {...props}>
-          {children}
-        </ShadcnSidebarMenuButton>
-      </Container>
+      <ShadcnSidebarMenuButton ref={ref} {...props}>
+        {children}
+      </ShadcnSidebarMenuButton>
     );
   }
 
   return (
-    <ShadcnSidebarMenuButton ref={ref} {...props}>
-      {children}
-    </ShadcnSidebarMenuButton>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'SidebarMenuButton',
+        description: devDescription || 'Clickable button for sidebar menu items',
+        filePath: 'src/lib/dev-container/shadcn/Sidebar.tsx',
+        category: 'layout',
+        semanticTags: ['sidebar', 'menu', 'button', 'interactive', 'ui'],
+      }}
+    >
+      <ShadcnSidebarMenuButton ref={ref} {...props}>
+        {children}
+      </ShadcnSidebarMenuButton>
+    </Container>
   );
 });
 

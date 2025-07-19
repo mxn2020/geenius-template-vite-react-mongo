@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import {
   navigationMenuTriggerStyle,
@@ -24,15 +25,32 @@ type DevNavigationMenuProps = ShadcnNavigationMenuProps & DevProps & { children?
 export const NavigationMenu = React.forwardRef<
   React.ElementRef<typeof ShadcnNavigationMenu>,
   DevNavigationMenuProps
->(({ devId, devName, devDescription, devSelectable = true, children, ...props }, ref) => {
-  const componentId = devId || `navigation-menu-${generateId()}`;
+>(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnNavigationMenu ref={ref} {...props}>
+        {children}
+      </ShadcnNavigationMenu>
+    );
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'NavigationMenu',
         description: devDescription || 'Navigation menu root component',
         filePath: 'src/lib/dev-container/shadcn/NavigationMenu.tsx',
@@ -57,34 +75,42 @@ export const NavigationMenuList = React.forwardRef<
   React.ElementRef<typeof ShadcnNavigationMenuList>,
   DevNavigationMenuListProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `navigation-menu-list-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'NavigationMenuList',
-          description: devDescription || 'List container for navigation menu items',
-          filePath: 'src/lib/dev-container/shadcn/NavigationMenu.tsx',
-          category: 'navigation',
-          semanticTags: ['navigation', 'list', 'container', 'ui'],
-        }}
-      >
-        <ShadcnNavigationMenuList ref={ref} {...props}>
-          {children}
-        </ShadcnNavigationMenuList>
-      </Container>
+      <ShadcnNavigationMenuList ref={ref} {...props}>
+        {children}
+      </ShadcnNavigationMenuList>
     );
   }
 
   return (
-    <ShadcnNavigationMenuList ref={ref} {...props}>
-      {children}
-    </ShadcnNavigationMenuList>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'NavigationMenuList',
+        description: devDescription || 'List container for navigation menu items',
+        filePath: 'src/lib/dev-container/shadcn/NavigationMenu.tsx',
+        category: 'navigation',
+        semanticTags: ['navigation', 'list', 'container', 'ui'],
+      }}
+    >
+      <ShadcnNavigationMenuList ref={ref} {...props}>
+        {children}
+      </ShadcnNavigationMenuList>
+    </Container>
   );
 });
 
@@ -98,34 +124,42 @@ export const NavigationMenuItem = React.forwardRef<
   React.ElementRef<typeof ShadcnNavigationMenuItem>,
   DevNavigationMenuItemProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `navigation-menu-item-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'NavigationMenuItem',
-          description: devDescription || 'Individual navigation menu item',
-          filePath: 'src/lib/dev-container/shadcn/NavigationMenu.tsx',
-          category: 'navigation',
-          semanticTags: ['navigation', 'item', 'interactive', 'ui'],
-        }}
-      >
-        <ShadcnNavigationMenuItem ref={ref} {...props}>
-          {children}
-        </ShadcnNavigationMenuItem>
-      </Container>
+      <ShadcnNavigationMenuItem ref={ref} {...props}>
+        {children}
+      </ShadcnNavigationMenuItem>
     );
   }
 
   return (
-    <ShadcnNavigationMenuItem ref={ref} {...props}>
-      {children}
-    </ShadcnNavigationMenuItem>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'NavigationMenuItem',
+        description: devDescription || 'Individual navigation menu item',
+        filePath: 'src/lib/dev-container/shadcn/NavigationMenu.tsx',
+        category: 'navigation',
+        semanticTags: ['navigation', 'item', 'interactive', 'ui'],
+      }}
+    >
+      <ShadcnNavigationMenuItem ref={ref} {...props}>
+        {children}
+      </ShadcnNavigationMenuItem>
+    </Container>
   );
 });
 
@@ -139,34 +173,42 @@ export const NavigationMenuTrigger = React.forwardRef<
   React.ElementRef<typeof ShadcnNavigationMenuTrigger>,
   DevNavigationMenuTriggerProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `navigation-menu-trigger-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'NavigationMenuTrigger',
-          description: devDescription || 'Button that opens navigation submenu',
-          filePath: 'src/lib/dev-container/shadcn/NavigationMenu.tsx',
-          category: 'navigation',
-          semanticTags: ['navigation', 'trigger', 'button', 'interactive', 'ui'],
-        }}
-      >
-        <ShadcnNavigationMenuTrigger ref={ref} {...props}>
-          {children}
-        </ShadcnNavigationMenuTrigger>
-      </Container>
+      <ShadcnNavigationMenuTrigger ref={ref} {...props}>
+        {children}
+      </ShadcnNavigationMenuTrigger>
     );
   }
 
   return (
-    <ShadcnNavigationMenuTrigger ref={ref} {...props}>
-      {children}
-    </ShadcnNavigationMenuTrigger>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'NavigationMenuTrigger',
+        description: devDescription || 'Button that opens navigation submenu',
+        filePath: 'src/lib/dev-container/shadcn/NavigationMenu.tsx',
+        category: 'navigation',
+        semanticTags: ['navigation', 'trigger', 'button', 'interactive', 'ui'],
+      }}
+    >
+      <ShadcnNavigationMenuTrigger ref={ref} {...props}>
+        {children}
+      </ShadcnNavigationMenuTrigger>
+    </Container>
   );
 });
 
@@ -180,34 +222,42 @@ export const NavigationMenuContent = React.forwardRef<
   React.ElementRef<typeof ShadcnNavigationMenuContent>,
   DevNavigationMenuContentProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `navigation-menu-content-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'NavigationMenuContent',
-          description: devDescription || 'Content area for navigation submenu',
-          filePath: 'src/lib/dev-container/shadcn/NavigationMenu.tsx',
-          category: 'navigation',
-          semanticTags: ['navigation', 'content', 'submenu', 'ui'],
-        }}
-      >
-        <ShadcnNavigationMenuContent ref={ref} {...props}>
-          {children}
-        </ShadcnNavigationMenuContent>
-      </Container>
+      <ShadcnNavigationMenuContent ref={ref} {...props}>
+        {children}
+      </ShadcnNavigationMenuContent>
     );
   }
 
   return (
-    <ShadcnNavigationMenuContent ref={ref} {...props}>
-      {children}
-    </ShadcnNavigationMenuContent>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'NavigationMenuContent',
+        description: devDescription || 'Content area for navigation submenu',
+        filePath: 'src/lib/dev-container/shadcn/NavigationMenu.tsx',
+        category: 'navigation',
+        semanticTags: ['navigation', 'content', 'submenu', 'ui'],
+      }}
+    >
+      <ShadcnNavigationMenuContent ref={ref} {...props}>
+        {children}
+      </ShadcnNavigationMenuContent>
+    </Container>
   );
 });
 
@@ -221,34 +271,42 @@ export const NavigationMenuLink = React.forwardRef<
   React.ElementRef<typeof ShadcnNavigationMenuLink>,
   DevNavigationMenuLinkProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `navigation-menu-link-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'NavigationMenuLink',
-          description: devDescription || 'Navigation link component',
-          filePath: 'src/lib/dev-container/shadcn/NavigationMenu.tsx',
-          category: 'navigation',
-          semanticTags: ['navigation', 'link', 'interactive', 'ui'],
-        }}
-      >
-        <ShadcnNavigationMenuLink ref={ref} {...props}>
-          {children}
-        </ShadcnNavigationMenuLink>
-      </Container>
+      <ShadcnNavigationMenuLink ref={ref} {...props}>
+        {children}
+      </ShadcnNavigationMenuLink>
     );
   }
 
   return (
-    <ShadcnNavigationMenuLink ref={ref} {...props}>
-      {children}
-    </ShadcnNavigationMenuLink>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'NavigationMenuLink',
+        description: devDescription || 'Navigation link component',
+        filePath: 'src/lib/dev-container/shadcn/NavigationMenu.tsx',
+        category: 'navigation',
+        semanticTags: ['navigation', 'link', 'interactive', 'ui'],
+      }}
+    >
+      <ShadcnNavigationMenuLink ref={ref} {...props}>
+        {children}
+      </ShadcnNavigationMenuLink>
+    </Container>
   );
 });
 
@@ -262,34 +320,42 @@ export const NavigationMenuViewport = React.forwardRef<
   React.ElementRef<typeof ShadcnNavigationMenuViewport>,
   DevNavigationMenuViewportProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `navigation-menu-viewport-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'NavigationMenuViewport',
-          description: devDescription || 'Viewport container for navigation content',
-          filePath: 'src/lib/dev-container/shadcn/NavigationMenu.tsx',
-          category: 'navigation',
-          semanticTags: ['navigation', 'viewport', 'container', 'ui'],
-        }}
-      >
-        <ShadcnNavigationMenuViewport ref={ref} {...props}>
-          {children}
-        </ShadcnNavigationMenuViewport>
-      </Container>
+      <ShadcnNavigationMenuViewport ref={ref} {...props}>
+        {children}
+      </ShadcnNavigationMenuViewport>
     );
   }
 
   return (
-    <ShadcnNavigationMenuViewport ref={ref} {...props}>
-      {children}
-    </ShadcnNavigationMenuViewport>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'NavigationMenuViewport',
+        description: devDescription || 'Viewport container for navigation content',
+        filePath: 'src/lib/dev-container/shadcn/NavigationMenu.tsx',
+        category: 'navigation',
+        semanticTags: ['navigation', 'viewport', 'container', 'ui'],
+      }}
+    >
+      <ShadcnNavigationMenuViewport ref={ref} {...props}>
+        {children}
+      </ShadcnNavigationMenuViewport>
+    </Container>
   );
 });
 
@@ -303,34 +369,42 @@ export const NavigationMenuIndicator = React.forwardRef<
   React.ElementRef<typeof ShadcnNavigationMenuIndicator>,
   DevNavigationMenuIndicatorProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `navigation-menu-indicator-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'NavigationMenuIndicator',
-          description: devDescription || 'Visual indicator for active navigation item',
-          filePath: 'src/lib/dev-container/shadcn/NavigationMenu.tsx',
-          category: 'navigation',
-          semanticTags: ['navigation', 'indicator', 'visual', 'ui'],
-        }}
-      >
-        <ShadcnNavigationMenuIndicator ref={ref} {...props}>
-          {children}
-        </ShadcnNavigationMenuIndicator>
-      </Container>
+      <ShadcnNavigationMenuIndicator ref={ref} {...props}>
+        {children}
+      </ShadcnNavigationMenuIndicator>
     );
   }
 
   return (
-    <ShadcnNavigationMenuIndicator ref={ref} {...props}>
-      {children}
-    </ShadcnNavigationMenuIndicator>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'NavigationMenuIndicator',
+        description: devDescription || 'Visual indicator for active navigation item',
+        filePath: 'src/lib/dev-container/shadcn/NavigationMenu.tsx',
+        category: 'navigation',
+        semanticTags: ['navigation', 'indicator', 'visual', 'ui'],
+      }}
+    >
+      <ShadcnNavigationMenuIndicator ref={ref} {...props}>
+        {children}
+      </ShadcnNavigationMenuIndicator>
+    </Container>
   );
 });
 

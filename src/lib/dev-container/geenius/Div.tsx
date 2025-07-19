@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 interface DevDivProps extends React.HTMLAttributes<HTMLDivElement>, DevProps {
   children?: React.ReactNode;
@@ -11,34 +12,42 @@ interface DevDivProps extends React.HTMLAttributes<HTMLDivElement>, DevProps {
 
 export const Div = React.forwardRef<HTMLDivElement, DevDivProps>(
   ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-    const componentId = devId || `div-${generateId()}`;
-    const shouldContainerize = devDetailed !== false;
+    const { config } = useDevMode();
+    const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
     
-    if (shouldContainerize) {
+    // If no devId provided, throw build error
+    if (!devId && shouldContainerize) {
+      if (import.meta.env.DEV) {
+        throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+      }
+    }
+    
+    // If no devId provided or explicitly set to "noID", don't containerize
+    if (devId === "noID" || !shouldContainerize) {
       return (
-        <Container
-          componentId={componentId}
-          selectable={devSelectable}
-          meta={{
-            id: componentId,
-            name: devName || 'Div',
-            description: devDescription || 'A div container element',
-            filePath: 'src/lib/dev-container/geenius/Div.tsx',
-            category: 'layout',
-            semanticTags: ['div', 'container', 'layout', 'wrapper'],
-          }}
-        >
-          <div ref={ref} {...props}>
-            {children}
-          </div>
-        </Container>
+        <div ref={ref} {...props}>
+          {children}
+        </div>
       );
     }
 
     return (
-      <div ref={ref} {...props}>
-        {children}
-      </div>
+      <Container
+        componentId={devId}
+        selectable={devSelectable}
+        meta={{
+          id: devId,
+          name: devName || 'Div',
+          description: devDescription || 'A div container element',
+          filePath: 'src/lib/dev-container/geenius/Div.tsx',
+          category: 'layout',
+          semanticTags: ['div', 'container', 'layout', 'wrapper'],
+        }}
+      >
+        <div ref={ref} {...props}>
+          {children}
+        </div>
+      </Container>
     );
   }
 );

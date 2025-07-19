@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import {
   Breadcrumb as ShadcnBreadcrumb,
@@ -31,14 +32,31 @@ export const Breadcrumb = React.forwardRef<
   HTMLElement,
   DevBreadcrumbProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `breadcrumb-${generateId()}`;
-  
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnBreadcrumb ref={ref} {...props}>
+        {children}
+      </ShadcnBreadcrumb>
+    );
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'Breadcrumb',
         description: devDescription || 'Navigation breadcrumb showing current page location',
         filePath: 'src/lib/dev-container/shadcn/Breadcrumb.tsx',
@@ -59,16 +77,33 @@ export const BreadcrumbList = React.forwardRef<
   HTMLOListElement,
   DevBreadcrumbListProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `breadcrumb-list-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
+
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnBreadcrumbList ref={ref} {...props}>
+        {children}
+      </ShadcnBreadcrumbList>
+    );
+  }
+
   if (shouldContainerize) {
     return (
       <Container
-        componentId={componentId}
+        componentId={devId}
         selectable={devSelectable}
         meta={{
-          id: componentId,
+          id: devId,
           name: devName || 'BreadcrumbList',
           description: devDescription || 'Ordered list containing breadcrumb items',
           filePath: 'src/lib/dev-container/shadcn/Breadcrumb.tsx',
@@ -83,11 +118,7 @@ export const BreadcrumbList = React.forwardRef<
     );
   }
 
-  return (
-    <ShadcnBreadcrumbList ref={ref} {...props}>
-      {children}
-    </ShadcnBreadcrumbList>
-  );
+
 });
 
 BreadcrumbList.displayName = 'DevBreadcrumbList';
@@ -96,16 +127,33 @@ export const BreadcrumbItem = React.forwardRef<
   HTMLLIElement,
   DevBreadcrumbItemProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `breadcrumb-item-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
+
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnBreadcrumbItem ref={ref} {...props}>
+        {children}
+      </ShadcnBreadcrumbItem>
+    );
+  }
+
   if (shouldContainerize) {
     return (
       <Container
-        componentId={componentId}
+        componentId={devId}
         selectable={devSelectable}
         meta={{
-          id: componentId,
+          id: devId,
           name: devName || 'BreadcrumbItem',
           description: devDescription || 'Individual item in the breadcrumb navigation',
           filePath: 'src/lib/dev-container/shadcn/Breadcrumb.tsx',
@@ -120,11 +168,7 @@ export const BreadcrumbItem = React.forwardRef<
     );
   }
 
-  return (
-    <ShadcnBreadcrumbItem ref={ref} {...props}>
-      {children}
-    </ShadcnBreadcrumbItem>
-  );
+
 });
 
 BreadcrumbItem.displayName = 'DevBreadcrumbItem';
@@ -133,16 +177,33 @@ export const BreadcrumbLink = React.forwardRef<
   HTMLAnchorElement,
   DevBreadcrumbLinkProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `breadcrumb-link-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
+
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnBreadcrumbLink ref={ref} {...props}>
+        {children}
+      </ShadcnBreadcrumbLink>
+    );
+  }
+
   if (shouldContainerize) {
     return (
       <Container
-        componentId={componentId}
+        componentId={devId}
         selectable={devSelectable}
         meta={{
-          id: componentId,
+          id: devId,
           name: devName || 'BreadcrumbLink',
           description: devDescription || 'Clickable link in breadcrumb navigation',
           filePath: 'src/lib/dev-container/shadcn/Breadcrumb.tsx',
@@ -170,34 +231,44 @@ export const BreadcrumbPage = React.forwardRef<
   HTMLSpanElement,
   DevBreadcrumbPageProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `breadcrumb-page-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+
+
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'BreadcrumbPage',
-          description: devDescription || 'Current page indicator in breadcrumb navigation',
-          filePath: 'src/lib/dev-container/shadcn/Breadcrumb.tsx',
-          category: 'navigation',
-          semanticTags: ['breadcrumb', 'page', 'current', 'navigation', 'ui'],
-        }}
-      >
-        <ShadcnBreadcrumbPage ref={ref} {...props}>
-          {children}
-        </ShadcnBreadcrumbPage>
-      </Container>
+      <ShadcnBreadcrumbPage ref={ref} {...props}>
+        {children}
+      </ShadcnBreadcrumbPage>
     );
   }
 
   return (
-    <ShadcnBreadcrumbPage ref={ref} {...props}>
-      {children}
-    </ShadcnBreadcrumbPage>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'BreadcrumbPage',
+        description: devDescription || 'Current page indicator in breadcrumb navigation',
+        filePath: 'src/lib/dev-container/shadcn/Breadcrumb.tsx',
+        category: 'navigation',
+        semanticTags: ['breadcrumb', 'page', 'current', 'navigation', 'ui'],
+      }}
+    >
+      <ShadcnBreadcrumbPage ref={ref} {...props}>
+        {children}
+      </ShadcnBreadcrumbPage>
+    </Container>
   );
 });
 
@@ -211,35 +282,45 @@ export const BreadcrumbSeparator = React.forwardRef<
   HTMLLIElement,
   DevBreadcrumbSeparatorProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `breadcrumb-separator-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'BreadcrumbSeparator',
-          description: devDescription || 'Visual separator between breadcrumb items',
-          filePath: 'src/lib/dev-container/shadcn/Breadcrumb.tsx',
-          category: 'navigation',
-          semanticTags: ['breadcrumb', 'separator', 'visual', 'ui'],
-        }}
-      >
-        <ShadcnBreadcrumbSeparator ref={ref} {...props}>
-          {children}
-        </ShadcnBreadcrumbSeparator>
-      </Container>
+      <ShadcnBreadcrumbSeparator ref={ref} {...props}>
+        {children}
+      </ShadcnBreadcrumbSeparator>
     );
   }
 
   return (
-    <ShadcnBreadcrumbSeparator ref={ref} {...props}>
-      {children}
-    </ShadcnBreadcrumbSeparator>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'BreadcrumbSeparator',
+        description: devDescription || 'Visual separator between breadcrumb items',
+        filePath: 'src/lib/dev-container/shadcn/Breadcrumb.tsx',
+        category: 'navigation',
+        semanticTags: ['breadcrumb', 'separator', 'visual', 'ui'],
+      }}
+    >
+      <ShadcnBreadcrumbSeparator ref={ref} {...props}>
+        {children}
+      </ShadcnBreadcrumbSeparator>
+    </Container>
   );
+
 });
 
 BreadcrumbSeparator.displayName = 'DevBreadcrumbSeparator';
@@ -248,35 +329,45 @@ export const BreadcrumbEllipsis = React.forwardRef<
   HTMLSpanElement,
   DevBreadcrumbEllipsisProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `breadcrumb-ellipsis-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
-  
-  if (shouldContainerize) {
+
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'BreadcrumbEllipsis',
-          description: devDescription || 'Ellipsis indicator for collapsed breadcrumb items',
-          filePath: 'src/lib/dev-container/shadcn/Breadcrumb.tsx',
-          category: 'navigation',
-          semanticTags: ['breadcrumb', 'ellipsis', 'collapsed', 'ui'],
-        }}
-      >
-        <ShadcnBreadcrumbEllipsis ref={ref} {...props}>
-          {children}
-        </ShadcnBreadcrumbEllipsis>
-      </Container>
+      <ShadcnBreadcrumbEllipsis ref={ref} {...props}>
+        {children}
+      </ShadcnBreadcrumbEllipsis>
     );
   }
 
   return (
-    <ShadcnBreadcrumbEllipsis ref={ref} {...props}>
-      {children}
-    </ShadcnBreadcrumbEllipsis>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'BreadcrumbEllipsis',
+        description: devDescription || 'Ellipsis indicator for collapsed breadcrumb items',
+        filePath: 'src/lib/dev-container/shadcn/Breadcrumb.tsx',
+        category: 'navigation',
+        semanticTags: ['breadcrumb', 'ellipsis', 'collapsed', 'ui'],
+      }}
+    >
+      <ShadcnBreadcrumbEllipsis ref={ref} {...props}>
+        {children}
+      </ShadcnBreadcrumbEllipsis>
+    </Container>
   );
+
 });
 
 BreadcrumbEllipsis.displayName = 'DevBreadcrumbEllipsis';

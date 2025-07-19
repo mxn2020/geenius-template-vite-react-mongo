@@ -2,8 +2,9 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-import { generateId } from '../utils/storage';
+
 import { DevProps } from '../types';
+import { useDevMode } from '../hooks/useDevMode';
 
 import {
   Card as ShadcnCard,
@@ -32,14 +33,31 @@ export const Card = React.forwardRef<
   React.ElementRef<typeof ShadcnCard>,
   DevCardProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `card-${generateId()}`;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
+    return (
+      <ShadcnCard ref={ref} {...props}>
+        {children}
+      </ShadcnCard>
+    );
+  }
+
   return (
     <Container
-      componentId={componentId}
+      componentId={devId}
       selectable={devSelectable}
       meta={{
-        id: componentId,
+        id: devId,
         name: devName || 'Card',
         description: devDescription || 'Container card component',
         filePath: 'src/lib/dev-container/shadcn/Card.tsx',
@@ -60,34 +78,42 @@ export const CardHeader = React.forwardRef<
   React.ElementRef<typeof ShadcnCardHeader>,
   DevCardHeaderProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `card-header-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'CardHeader',
-          description: devDescription || 'Header section of a card',
-          filePath: 'src/lib/dev-container/shadcn/Card.tsx',
-          category: 'layout',
-          semanticTags: ['card', 'header', 'layout', 'ui'],
-        }}
-      >
-        <ShadcnCardHeader ref={ref} {...props}>
-          {children}
-        </ShadcnCardHeader>
-      </Container>
+      <ShadcnCardHeader ref={ref} {...props}>
+        {children}
+      </ShadcnCardHeader>
     );
   }
 
   return (
-    <ShadcnCardHeader ref={ref} {...props}>
-      {children}
-    </ShadcnCardHeader>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'CardHeader',
+        description: devDescription || 'Header section of a card',
+        filePath: 'src/lib/dev-container/shadcn/Card.tsx',
+        category: 'layout',
+        semanticTags: ['card', 'header', 'layout', 'ui'],
+      }}
+    >
+      <ShadcnCardHeader ref={ref} {...props}>
+        {children}
+      </ShadcnCardHeader>
+    </Container>
   );
 });
 
@@ -97,34 +123,42 @@ export const CardFooter = React.forwardRef<
   React.ElementRef<typeof ShadcnCardFooter>,
   DevCardFooterProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `card-footer-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'CardFooter',
-          description: devDescription || 'Footer section of a card',
-          filePath: 'src/lib/dev-container/shadcn/Card.tsx',
-          category: 'layout',
-          semanticTags: ['card', 'footer', 'layout', 'ui'],
-        }}
-      >
-        <ShadcnCardFooter ref={ref} {...props}>
-          {children}
-        </ShadcnCardFooter>
-      </Container>
+      <ShadcnCardFooter ref={ref} {...props}>
+        {children}
+      </ShadcnCardFooter>
     );
   }
 
   return (
-    <ShadcnCardFooter ref={ref} {...props}>
-      {children}
-    </ShadcnCardFooter>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'CardFooter',
+        description: devDescription || 'Footer section of a card',
+        filePath: 'src/lib/dev-container/shadcn/Card.tsx',
+        category: 'layout',
+        semanticTags: ['card', 'footer', 'layout', 'ui'],
+      }}
+    >
+      <ShadcnCardFooter ref={ref} {...props}>
+        {children}
+      </ShadcnCardFooter>
+    </Container>
   );
 });
 
@@ -134,34 +168,42 @@ export const CardTitle = React.forwardRef<
   React.ElementRef<typeof ShadcnCardTitle>,
   DevCardTitleProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `card-title-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'CardTitle',
-          description: devDescription || 'Title text of a card',
-          filePath: 'src/lib/dev-container/shadcn/Card.tsx',
-          category: 'typography',
-          semanticTags: ['card', 'title', 'heading', 'text', 'ui'],
-        }}
-      >
-        <ShadcnCardTitle ref={ref} {...props}>
-          {children}
-        </ShadcnCardTitle>
-      </Container>
+      <ShadcnCardTitle ref={ref} {...props}>
+        {children}
+      </ShadcnCardTitle>
     );
   }
 
   return (
-    <ShadcnCardTitle ref={ref} {...props}>
-      {children}
-    </ShadcnCardTitle>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'CardTitle',
+        description: devDescription || 'Title text of a card',
+        filePath: 'src/lib/dev-container/shadcn/Card.tsx',
+        category: 'typography',
+        semanticTags: ['card', 'title', 'heading', 'text', 'ui'],
+      }}
+    >
+      <ShadcnCardTitle ref={ref} {...props}>
+        {children}
+      </ShadcnCardTitle>
+    </Container>
   );
 });
 
@@ -171,34 +213,42 @@ export const CardDescription = React.forwardRef<
   React.ElementRef<typeof ShadcnCardDescription>,
   DevCardDescriptionProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `card-description-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'CardDescription',
-          description: devDescription || 'Description text of a card',
-          filePath: 'src/lib/dev-container/shadcn/Card.tsx',
-          category: 'typography',
-          semanticTags: ['card', 'description', 'text', 'ui'],
-        }}
-      >
-        <ShadcnCardDescription ref={ref} {...props}>
-          {children}
-        </ShadcnCardDescription>
-      </Container>
+      <ShadcnCardDescription ref={ref} {...props}>
+        {children}
+      </ShadcnCardDescription>
     );
   }
 
   return (
-    <ShadcnCardDescription ref={ref} {...props}>
-      {children}
-    </ShadcnCardDescription>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'CardDescription',
+        description: devDescription || 'Description text of a card',
+        filePath: 'src/lib/dev-container/shadcn/Card.tsx',
+        category: 'typography',
+        semanticTags: ['card', 'description', 'text', 'ui'],
+      }}
+    >
+      <ShadcnCardDescription ref={ref} {...props}>
+        {children}
+      </ShadcnCardDescription>
+    </Container>
   );
 });
 
@@ -208,34 +258,42 @@ export const CardContent = React.forwardRef<
   React.ElementRef<typeof ShadcnCardContent>,
   DevCardContentProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-  const componentId = devId || `card-content-${generateId()}`;
-  const shouldContainerize = devDetailed !== false;
+  const { config } = useDevMode();
+  const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  if (shouldContainerize) {
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+  
+  // If no devId provided or explicitly set to "noID", don't containerize
+  if (!devId || devId === "noID" || !shouldContainerize) {
     return (
-      <Container
-        componentId={componentId}
-        selectable={devSelectable}
-        meta={{
-          id: componentId,
-          name: devName || 'CardContent',
-          description: devDescription || 'Main content area of a card',
-          filePath: 'src/lib/dev-container/shadcn/Card.tsx',
-          category: 'layout',
-          semanticTags: ['card', 'content', 'layout', 'ui'],
-        }}
-      >
-        <ShadcnCardContent ref={ref} {...props}>
-          {children}
-        </ShadcnCardContent>
-      </Container>
+      <ShadcnCardContent ref={ref} {...props}>
+        {children}
+      </ShadcnCardContent>
     );
   }
 
   return (
-    <ShadcnCardContent ref={ref} {...props}>
-      {children}
-    </ShadcnCardContent>
+    <Container
+      componentId={devId}
+      selectable={devSelectable}
+      meta={{
+        id: devId,
+        name: devName || 'CardContent',
+        description: devDescription || 'Main content area of a card',
+        filePath: 'src/lib/dev-container/shadcn/Card.tsx',
+        category: 'layout',
+        semanticTags: ['card', 'content', 'layout', 'ui'],
+      }}
+    >
+      <ShadcnCardContent ref={ref} {...props}>
+        {children}
+      </ShadcnCardContent>
+    </Container>
   );
 });
 
