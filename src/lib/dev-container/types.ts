@@ -1,8 +1,33 @@
 import { ReactNode, ComponentType, CSSProperties, RefObject } from 'react';
 
 // =====================================
+// Shadcn Component Containerization
+// =====================================
+
+// Dev-specific props interface
+export interface DevProps {
+  devId?: string;
+  devName?: string;
+  devDescription?: string;
+  devSelectable?: boolean;
+  devDetailed?: boolean;
+}
+
+// =====================================
 // CORE COMPONENT TYPES
 // =====================================
+
+export type ComponentCategory = 
+  | 'ui'
+  | 'page'
+  | 'layout'
+  | 'shadcn'
+  | 'navigation'
+  | 'form'
+  | 'typography'
+  | 'overlay'
+  | 'data-visualization'
+  | 'custom';
 
 export interface ComponentMeta {
   id: string;
@@ -10,7 +35,7 @@ export interface ComponentMeta {
   description: string;
   filePath: string;
   semanticTags: string[];
-  category: 'ui' | 'page' | 'layout' | 'shadcn' | 'custom';
+  category: ComponentCategory
   dependencies?: string[];
   props?: Record<string, any>;
 }

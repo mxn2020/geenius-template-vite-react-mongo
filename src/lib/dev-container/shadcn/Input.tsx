@@ -1,19 +1,24 @@
+// src/lib/dev-container/shadcn/Input.tsx
+
 import React from 'react';
-import { Input as ShadcnInput } from '../../../components/ui/input';
 import { Container } from '../components/Container';
 import { generateId } from '../utils/storage';
+import { DevProps } from '../types';
 
-interface DevInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  devId?: string;
-  devName?: string;
-  devDescription?: string;
-  devSelectable?: boolean;
-}
+import { Input as ShadcnInput } from '../../../components/ui/input';
 
-export const Input = React.forwardRef<HTMLInputElement, DevInputProps>(
-  ({ devId, devName, devDescription, devSelectable = true, ...props }, ref) => {
-    const componentId = devId || `input-${generateId()}`;
-    
+// Input component
+type ShadcnInputProps = React.ComponentPropsWithoutRef<typeof ShadcnInput>;
+type DevInputProps = ShadcnInputProps & DevProps;
+
+export const Input = React.forwardRef<
+  React.ElementRef<typeof ShadcnInput>,
+  DevInputProps
+>(({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }, ref) => {
+  const componentId = devId || `input-${generateId()}`;
+  const shouldContainerize = devDetailed !== false;
+  
+  if (shouldContainerize) {
     return (
       <Container
         componentId={componentId}
@@ -21,18 +26,18 @@ export const Input = React.forwardRef<HTMLInputElement, DevInputProps>(
         meta={{
           id: componentId,
           name: devName || 'Input',
-          description: devDescription || 'An input field component',
+          description: devDescription || 'Standard text input field',
           filePath: 'src/lib/dev-container/shadcn/Input.tsx',
-          category: 'ui',
-          semanticTags: ['input', 'form', 'field', 'ui'],
+          category: 'form',
+          semanticTags: ['input', 'form', 'text', 'field', 'ui'],
         }}
       >
         <ShadcnInput ref={ref} {...props} />
       </Container>
     );
   }
-);
+
+  return <ShadcnInput ref={ref} {...props} />;
+});
 
 Input.displayName = 'DevInput';
-
-export { type DevInputProps };

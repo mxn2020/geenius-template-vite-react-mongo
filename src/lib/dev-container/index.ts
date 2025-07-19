@@ -20,3 +20,13 @@ export * from './shadcn/Card';
 export * from './shadcn/Badge';
 export * from './shadcn/Input';
 export * from './shadcn/Avatar';
+
+// Export custom HTML components wrapped with dev-container
+export * from './geenius/Header';
+export * from './geenius/Nav';
+export * from './geenius/Section';
+export * from './geenius/Span';
+export * from './geenius/Headings';
+export * from './geenius/Paragraph';
+export * from './geenius/Div';
+export * from './geenius/Footer';

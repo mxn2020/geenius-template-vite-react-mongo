@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Database, Zap, Code, Globe, Users, Star, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { Container, Button, Card, CardContent, Badge } from '../lib/dev-container';
+import { Container, Button, Card, CardContent, Badge, Header, Nav, Section, Span, H1, H2, H3, P, Div, Footer } from '../lib/dev-container';
 import { COMPONENT_IDS } from '../registry';
-import { useAuth } from './auth/AuthProvider';
+import { useAuth } from '../components/auth/AuthProvider';
 
 export const Landing: React.FC = () => {
   const [mounted, setMounted] = useState(false);
@@ -45,25 +45,73 @@ export const Landing: React.FC = () => {
 
   return (
     <Container componentId={COMPONENT_IDS.LANDING_PAGE}>
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      <Div 
+        devId="main-wrapper" 
+        devName="Main Wrapper" 
+        devDescription="Main page wrapper with gradient background"
+        className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"
+      >
       {/* Header */}
-      <header className="container mx-auto px-4 py-6">
-        <nav className="flex items-center justify-between">
-          <div className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+      <Header 
+        devId="main-header" 
+        devName="Main Header" 
+        devDescription="Primary site header with navigation"
+        className="container mx-auto px-4 py-6"
+      >
+        <Nav 
+          devId="main-nav" 
+          devName="Main Navigation" 
+          devDescription="Primary navigation bar"
+          className="flex items-center justify-between"
+        >
+          <Div 
+            devId="logo-Section" 
+            devName="Logo Section" 
+            devDescription="Company logo and brand name"
+            className="flex items-center space-x-2"
+          >
+            <Div className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
               <Code className="w-5 h-5 text-white" />
-            </div>
-            <span className="text-xl font-bold text-white">Geenius Template</span>
-          </div>
-          <div className="flex items-center space-x-4">
-            <button className="text-gray-300 hover:text-white transition-colors">
+            </Div>
+            <Span 
+              devId="brand-name" 
+              devName="Brand Name" 
+              devDescription="Geenius Template brand name"
+              className="text-xl font-bold text-white"
+            >
+              Geenius Template
+            </Span>
+          </Div>
+          <Div 
+            devId="nav-actions" 
+            devName="Navigation Actions" 
+            devDescription="Navigation buttons and user menu"
+            className="flex items-center space-x-4"
+          >
+            <Button 
+              devId="docs-button" 
+              devName="Docs Button" 
+              devDescription="Link to documentation"
+              variant="ghost" 
+              className="text-gray-300 hover:text-white transition-colors"
+            >
               Docs
-            </button>
+            </Button>
             {isAuthenticated ? (
-              <div className="flex items-center space-x-4">
-                <span className="text-gray-300">
+              <Div 
+                devId="user-Section" 
+                devName="User Section" 
+                devDescription="Authenticated user welcome area"
+                className="flex items-center space-x-4"
+              >
+                <Span 
+                  devId="welcome-message" 
+                  devName="Welcome Message" 
+                  devDescription="Welcome message for authenticated user"
+                  className="text-gray-300"
+                >
                   Welcome, {user?.name?.split(' ')[0]}!
-                </span>
+                </Span>
                 <Link to="/dashboard">
                   <Button 
                     devId="nav-dashboard-button"
@@ -75,9 +123,14 @@ export const Landing: React.FC = () => {
                     Dashboard
                   </Button>
                 </Link>
-              </div>
+              </Div>
             ) : (
-              <div className="flex items-center space-x-2">
+              <Div 
+                devId="auth-buttons" 
+                devName="Authentication Buttons" 
+                devDescription="Login and register buttons for unauthenticated users"
+                className="flex items-center space-x-2"
+              >
                 <Link to="/login">
                   <Button 
                     devId="nav-login-button"
@@ -99,27 +152,57 @@ export const Landing: React.FC = () => {
                     Get Started
                   </Button>
                 </Link>
-              </div>
+              </Div>
             )}
-          </div>
-        </nav>
-      </header>
+          </Div>
+        </Nav>
+      </Header>
 
       {/* Hero Section */}
       <Container componentId={COMPONENT_IDS.HERO_SECTION}>
-        <section className="container mx-auto px-4 py-20 text-center">
-          <div className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
-            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6">
+        <Section 
+          devId="hero-content" 
+          devName="Hero Content" 
+          devDescription="Main hero Section with title and call-to-action"
+          className="container mx-auto px-4 py-20 text-center"
+        >
+          <Div 
+            devId="hero-content-wrapper" 
+            devName="Hero Content Wrapper" 
+            devDescription="Animated wrapper for hero content"
+            className={`transition-all duration-1000 ${mounted ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
+          >
+            <H1 
+              devId="hero-title" 
+              devName="Hero Title" 
+              devDescription="Main hero title showcasing the tech stack"
+              className="text-5xl md:text-7xl font-bold text-white mb-6"
+            >
               Vite + React + 
-              <span className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <Span 
+                devId="mongodb-highlight" 
+                devName="MongoDB Highlight" 
+                devDescription="Highlighted MongoDB text in gradient"
+                className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
+              >
                 {' '}MongoDB
-              </span>
-            </h1>
-            <p className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto">
+              </Span>
+            </H1>
+            <P 
+              devId="hero-description" 
+              devName="Hero Description" 
+              devDescription="Hero Section description explaining the template benefits"
+              className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto"
+            >
               Modern full-stack template with lightning-fast development, type-safe database access, 
               and production-ready deployment configuration.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            </P>
+            <Div 
+              devId="hero-cta-buttons" 
+              devName="Hero CTA Buttons" 
+              devDescription="Call-to-action buttons in hero Section"
+              className="flex flex-col sm:flex-row gap-4 justify-center"
+            >
               {isAuthenticated ? (
                 <Link to="/dashboard">
                   <Button 
@@ -152,15 +235,25 @@ export const Landing: React.FC = () => {
               >
                 View on GitHub
               </Button>
-            </div>
-          </div>
-        </section>
+            </Div>
+          </Div>
+        </Section>
       </Container>
 
       {/* Stats Section */}
       <Container componentId={COMPONENT_IDS.STATS_SECTION}>
-        <section className="container mx-auto px-4 py-12">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <Section 
+          devId="stats-content" 
+          devName="Stats Content" 
+          devDescription="Statistics Section showing performance metrics"
+          className="container mx-auto px-4 py-12"
+        >
+          <Div 
+            devId="stats-grid" 
+            devName="Stats Grid" 
+            devDescription="Grid container for statistics cards"
+            className="grid grid-cols-2 md:grid-cols-4 gap-6"
+          >
             {stats.map((stat, index) => (
               <Card 
                 key={index} 
@@ -170,25 +263,25 @@ export const Landing: React.FC = () => {
                 className="bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10"
               >
                 <CardContent className="p-0">
-                  <div className="text-2xl font-bold text-white mb-2">{stat.value}</div>
-                  <div className="text-gray-400">{stat.label}</div>
+                  <Div className="text-2xl font-bold text-white mb-2">{stat.value}</Div>
+                  <Div className="text-gray-400">{stat.label}</Div>
                 </CardContent>
               </Card>
             ))}
-          </div>
-        </section>
+          </Div>
+        </Section>
       </Container>
 
       {/* Features Section */}
       <Container componentId={COMPONENT_IDS.FEATURES_SECTION}>
-        <section className="container mx-auto px-4 py-20">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">Why Choose This Template?</h2>
-            <p className="text-gray-300 max-w-2xl mx-auto">
+        <Section className="container mx-auto px-4 py-20">
+          <Div className="text-center mb-16">
+            <H2 className="text-4xl font-bold text-white mb-4">Why Choose This Template?</H2>
+            <P className="text-gray-300 max-w-2xl mx-auto">
               Everything you need to build modern web applications with the latest technologies
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            </P>
+          </Div>
+          <Div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {features.map((feature, index) => (
               <Card 
                 key={index} 
@@ -198,26 +291,26 @@ export const Landing: React.FC = () => {
                 className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-purple-500/50 transition-all"
               >
                 <CardContent className="p-0">
-                  <div className="mb-4">{feature.icon}</div>
+                  <Div className="mb-4">{feature.icon}</Div>
                   <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
-                  <p className="text-gray-400">{feature.description}</p>
+                  <P className="text-gray-400">{feature.description}</P>
                 </CardContent>
               </Card>
             ))}
-          </div>
-        </section>
+          </Div>
+        </Section>
       </Container>
 
       {/* Tech Stack Section */}
       <Container componentId={COMPONENT_IDS.TECH_STACK_SECTION}>
-        <section className="container mx-auto px-4 py-20">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-white mb-4">Modern Tech Stack</h2>
-            <p className="text-gray-300 max-w-2xl mx-auto">
+        <Section className="container mx-auto px-4 py-20">
+          <Div className="text-center mb-16">
+            <H2 className="text-4xl font-bold text-white mb-4">Modern Tech Stack</H2>
+            <P className="text-gray-300 max-w-2xl mx-auto">
               Built with the most popular and reliable technologies
-            </p>
-          </div>
-          <div className="grid grid-cols-2 md:grid-cols-6 gap-8">
+            </P>
+          </Div>
+          <Div className="grid grid-cols-2 md:grid-cols-6 gap-8">
             {[
               { name: "Vite", color: "from-yellow-400 to-orange-500" },
               { name: "React", color: "from-blue-400 to-cyan-400" },
@@ -226,10 +319,10 @@ export const Landing: React.FC = () => {
               { name: "Prisma", color: "from-purple-400 to-purple-500" },
               { name: "Tailwind", color: "from-teal-400 to-teal-500" }
             ].map((tech, index) => (
-              <div key={index} className="text-center">
-                <div className={`w-16 h-16 mx-auto mb-3 rounded-xl bg-gradient-to-br ${tech.color} flex items-center justify-center`}>
+              <Div key={index} className="text-center">
+                <Div className={`w-16 h-16 mx-auto mb-3 rounded-xl bg-gradient-to-br ${tech.color} flex items-center justify-center`}>
                   <span className="text-white font-bold text-lg">{tech.name[0]}</span>
-                </div>
+                </Div>
                 <Badge 
                   devId={`tech-badge-${index}`}
                   devName={`${tech.name} Technology Badge`}
@@ -238,21 +331,21 @@ export const Landing: React.FC = () => {
                 >
                   {tech.name}
                 </Badge>
-              </div>
+              </Div>
             ))}
-          </div>
-        </section>
+          </Div>
+        </Section>
       </Container>
 
       {/* CTA Section */}
       <Container componentId={COMPONENT_IDS.CTA_SECTION}>
-        <section className="container mx-auto px-4 py-20">
-          <div className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-2xl p-12 text-center border border-purple-500/30">
-            <h2 className="text-4xl font-bold text-white mb-4">Ready to Build Something Amazing?</h2>
-            <p className="text-gray-300 mb-8 max-w-2xl mx-auto">
+        <Section className="container mx-auto px-4 py-20">
+          <Div className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-2xl p-12 text-center border border-purple-500/30">
+            <H2 className="text-4xl font-bold text-white mb-4">Ready to Build Something Amazing?</H2>
+            <P className="text-gray-300 mb-8 max-w-2xl mx-auto">
               Get started with this template and build your next project with confidence
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            </P>
+            <Div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
                 devId="cta-start-project"
                 devName="Start Project Button"
@@ -276,25 +369,30 @@ export const Landing: React.FC = () => {
                   Join Community
                 </span>
               </Button>
-            </div>
-          </div>
-        </section>
+            </Div>
+          </Div>
+        </Section>
       </Container>
 
       {/* Footer */}
-      <footer className="container mx-auto px-4 py-8 border-t border-white/10">
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <div className="text-gray-400 mb-4 md:mb-0">
+      <Footer 
+        devId="main-footer" 
+        devName="Main Footer" 
+        devDescription="Site footer with links and copyright"
+        className="container mx-auto px-4 py-8 border-t border-white/10"
+      >
+        <Div className="flex flex-col md:flex-row justify-between items-center">
+          <Div className="text-gray-400 mb-4 md:mb-0">
             © 2024 Geenius Template. Built with ❤️ for developers.
-          </div>
-          <div className="flex space-x-6">
+          </Div>
+          <Div className="flex space-x-6">
             <a href="#" className="text-gray-400 hover:text-white transition-colors">Documentation</a>
             <a href="#" className="text-gray-400 hover:text-white transition-colors">GitHub</a>
             <a href="#" className="text-gray-400 hover:text-white transition-colors">Support</a>
-          </div>
-        </div>
-      </footer>
-      </div>
+          </Div>
+        </Div>
+      </Footer>
+      </Div>
     </Container>
   );
 };
