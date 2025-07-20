@@ -1,27 +1,33 @@
+// src/lib/dev-container/components/Container.tsx
+
 import React, { useRef, useEffect, useState } from 'react';
 import { clsx } from 'clsx';
-import { ContainerProps, ChangeCategory, ChangePriority, ChangeStatus, ComponentContext, PageContext } from '../types';
+import { ContainerProps, ChangeCategory, ChangePriority, ChangeStatus, ComponentContext, PageContext, ComponentUsage } from '../types';
 import { useDevMode } from './DevModeProvider';
-import { Popover } from './Popover';
+import { GeeniusPopover } from './GeeniusPopover';
 import { calculatePopoverPosition } from '../utils/positioning';
+import { getUsageInfo } from '../utils/stackTrace';
+import { generateRepositoryPath } from '../utils/repositoryPath';
 
 export const Container: React.FC<ContainerProps> = ({
   componentId,
   children,
   className,
   style,
-  meta,
+  definitionId = 'dev-container',
+  usage, // Usage context override
   selectable = true,
   devActions = [],
 }) => {
   const containerRef = useRef<HTMLDivElement>(null);
   const [isSmall, setIsSmall] = useState(false);
+  const [usageInfo] = useState(() => getUsageInfo()); // Capture at component creation time
   
   const {
     isEnabled,
     selectedComponentId,
     hoveredComponentId,
-    registry,
+    system, // Using component system instead of registry
     changes,
     popoverState,
     config,
@@ -31,21 +37,19 @@ export const Container: React.FC<ContainerProps> = ({
     hidePopover,
   } = useDevMode();
 
-  const componentMeta = registry[componentId];
+  // Get component usage from registry (if it exists)
+  const componentUsage = system.registry[componentId];
+  
+  // Get component definition from library
+  // Priority: 1. From usage's definitionId, 2. From direct definitionId prop, 3. None
+  const definitionIdToUse = componentUsage?.definitionId || definitionId;
+  const componentDefinition = definitionIdToUse ? system.library[definitionIdToUse] : undefined;
+  
+  // Use usage override or fall back to registered usage
+  const effectiveUsage: Partial<ComponentUsage> = usage || componentUsage || {};
+  
   const isSelected = selectedComponentId === componentId;
   const isHovered = hoveredComponentId === componentId;
-
-  // Debug logging (remove after testing)
-  // React.useEffect(() => {
-  //   if (isEnabled) {
-  //     console.log('Container Debug:', {
-  //       componentId,
-  //       componentMeta,
-  //       registryKeys: Object.keys(registry),
-  //       hasComponentMeta: !!componentMeta
-  //     });
-  //   }
-  // }, [componentId, componentMeta, registry, isEnabled]);
 
   // Determine if this is a small component that should have external labels
   const isSmallComponent = () => {
@@ -125,16 +129,23 @@ export const Container: React.FC<ContainerProps> = ({
 
   // Handle popover submission
   const handleSubmitChange = (feedback: string, category: ChangeCategory, priority: ChangePriority) => {
-    if (!componentMeta) return;
+    // Use definition path for component definition, usage file path for where it's used
+    const definitionFilePath = componentDefinition?.componentPath || 'unknown';
+    const usageFilePath = effectiveUsage.filePath || usageInfo.filePath || 'unknown';
 
     const componentContext: ComponentContext = {
-      name: meta?.name || componentMeta.name,
-      description: meta?.description || componentMeta.description,
-      filePath: meta?.filePath || componentMeta.filePath,
+      name: effectiveUsage.name || componentDefinition?.name || 'Unknown Component',
+      description: effectiveUsage.description || componentDefinition?.description || 'No description available',
+      filePath: definitionFilePath, // Where component is defined
+      repositoryPath: componentDefinition?.repositoryPath || generateRepositoryPath(definitionFilePath),
+      usageFilePath: usageFilePath, // Where component is used
+      usageRepositoryPath: effectiveUsage.repositoryPath || generateRepositoryPath(usageFilePath),
+      usageLineNumber: usageInfo.lineNumber,
+      usageColumnNumber: usageInfo.columnNumber,
       parentComponents: [], // TODO: Implement parent tracking
       childComponents: [], // TODO: Implement child tracking
-      semanticTags: meta?.semanticTags || componentMeta.semanticTags,
-      currentProps: meta?.props || componentMeta.props,
+      semanticTags: effectiveUsage.semanticTags || componentDefinition?.semanticTags || [],
+      currentProps: effectiveUsage.props,
       domPath: generateDOMPath(containerRef.current),
       boundingRect: containerRef.current?.getBoundingClientRect(),
     };
@@ -156,7 +167,6 @@ export const Container: React.FC<ContainerProps> = ({
       componentContext,
       pageContext,
     });
-
   };
 
   // Handle popover close
@@ -178,34 +188,24 @@ export const Container: React.FC<ContainerProps> = ({
     return () => document.removeEventListener('click', handleGlobalClick);
   }, [popoverState, componentId]);
 
-  // Error handling for missing component
-  if (!componentMeta) {
+  // Error handling - now more flexible for unregistered components
+  if (!componentUsage && !usage) {
     // Check if registry is still loading (empty)
-    if (Object.keys(registry).length === 0) {
+    if (Object.keys(system.registry).length === 0) {
       // Registry is still loading, render children without dev mode features
       return <div className={className} style={style}>{children}</div>;
     }
     
-    const errorMessage = `Component with ID "${componentId}" not found in registry. Please add it to src/registry.ts`;
-    
-    // In development, throw an error to fail the build
-    if (import.meta.env.DEV) {
-      console.error(errorMessage);
-      console.error('Available component IDs:', Object.keys(registry));
-      console.error('Registry contents:', registry);
-      
-      // Throw error to break the build/dev server
-      throw new Error(`[Dev Container] ${errorMessage}\n\nAvailable IDs: ${Object.keys(registry).join(', ')}\n\nAdd this component to your registry in src/registry.ts`);
+    // If no registration exists but usage is provided, allow it (for dynamic components)
+    if (!usage && import.meta.env.DEV) {
+      console.warn(`Component with ID "${componentId}" not found in registry. Consider adding it for better tracking.`);
+      console.warn('Available component IDs:', Object.keys(system.registry));
     }
     
-    // In production, show error UI but don't break the app
-    if (isEnabled) {
-      console.error(errorMessage);
-      return <div className="border-2 border-red-500 p-2 text-red-500">Component not found: {componentId}</div>;
+    // In production or if dev mode is disabled, just render children
+    if (!isEnabled) {
+      return <div className={className} style={style}>{children}</div>;
     }
-    
-    // If dev mode is disabled and in production, just render children
-    return <div className={className} style={style}>{children}</div>;
   }
 
   const containerClassName = clsx(
@@ -220,6 +220,9 @@ export const Container: React.FC<ContainerProps> = ({
     '--hover-color': config.hoverColor,
     '--selected-color': config.selectedColor,
   } as React.CSSProperties : {};
+
+  // Get display name for labels
+  const displayName = effectiveUsage.name || componentDefinition?.name || componentId as string;
 
   return (
     <>
@@ -257,7 +260,7 @@ export const Container: React.FC<ContainerProps> = ({
               className={`absolute text-white px-2 py-1 rounded text-xs whitespace-nowrap pointer-events-none z-20 ${getLabelPosition()}`}
               style={{ backgroundColor: config.hoverColor }}
             >
-              {componentMeta?.name || componentId as string}
+              {displayName}
             </div>
           </>
         )}
@@ -284,7 +287,7 @@ export const Container: React.FC<ContainerProps> = ({
               className={`absolute text-white px-2 py-1 rounded text-xs whitespace-nowrap pointer-events-none z-20 ${getLabelPosition()}`}
               style={{ backgroundColor: config.selectedColor }}
             >
-              {componentMeta?.name || componentId as string}
+              {displayName}
             </div>
           </>
         )}
@@ -298,7 +301,7 @@ export const Container: React.FC<ContainerProps> = ({
                   key={index}
                   onClick={(e) => {
                     e.stopPropagation();
-                    action.onClick(componentId as string, componentMeta);
+                    action.onClick(componentId as string, effectiveUsage as ComponentUsage);
                   }}
                   disabled={action.disabled}
                   className="bg-gray-700 text-white px-2 py-1 rounded text-xs hover:bg-gray-600 disabled:opacity-50"
@@ -315,7 +318,7 @@ export const Container: React.FC<ContainerProps> = ({
 
       {/* Popover */}
       {popoverState?.componentId === componentId && popoverState.isVisible && (
-        <Popover
+        <GeeniusPopover
           componentId={componentId as string}
           isVisible={popoverState.isVisible}
           position={popoverState.position}

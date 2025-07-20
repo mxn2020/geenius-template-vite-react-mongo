@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-
 import { DevProps } from '../types';
 import { useDevMode } from '../hooks/useDevMode';
 
@@ -39,22 +38,15 @@ export const ChartContainer = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return <ShadcnChartContainer ref={ref} {...props} />;
   }
 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-chart-container" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ChartContainer',
-        description: devDescription || 'Container for chart components',
-        filePath: 'src/lib/dev-container/shadcn/Chart.tsx',
-        category: 'data-display',
-        semanticTags: ['chart', 'container', 'data-display', 'ui'],
-      }}
     >
       <ShadcnChartContainer ref={ref} {...props} />
     </Container>
@@ -78,22 +70,15 @@ export const ChartTooltipContent = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return <ShadcnChartTooltipContent ref={ref} {...props} />;
   }
 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-chart-tooltip-content" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ChartTooltipContent',
-        description: devDescription || 'Tooltip content for chart data',
-        filePath: 'src/lib/dev-container/shadcn/Chart.tsx',
-        category: 'data-display',
-        semanticTags: ['chart', 'tooltip', 'content', 'data-display', 'ui'],
-      }}
     >
       <ShadcnChartTooltipContent ref={ref} {...props} />
     </Container>
@@ -117,22 +102,15 @@ export const ChartLegendContent = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return <ShadcnChartLegendContent ref={ref} {...props} />;
   }
 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-chart-legend-content" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ChartLegendContent',
-        description: devDescription || 'Legend content for chart data',
-        filePath: 'src/lib/dev-container/shadcn/Chart.tsx',
-        category: 'data-display',
-        semanticTags: ['chart', 'legend', 'content', 'data-display', 'ui'],
-      }}
     >
       <ShadcnChartLegendContent ref={ref} {...props} />
     </Container>
@@ -146,3 +124,6 @@ export const ChartTooltip = ShadcnChartTooltip;
 export const ChartLegend = ShadcnChartLegend;
 export const ChartStyle = ShadcnChartStyle;
 export type { ChartConfig };
+
+// Export types
+export { type DevChartContainerProps, type DevChartTooltipContentProps, type DevChartLegendContentProps };

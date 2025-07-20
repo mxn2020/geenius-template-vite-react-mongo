@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-
 import { DevProps } from '../types';
 import { useDevMode } from '../hooks/useDevMode';
 
@@ -34,15 +33,8 @@ export const P = React.forwardRef<HTMLParagraphElement, DevParagraphProps>(
     return (
       <Container
         componentId={devId}
+        definitionId='dev-paragraph' // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Paragraph',
-          description: devDescription || 'A paragraph element',
-          filePath: 'src/lib/dev-container/geenius/Paragraph.tsx',
-          category: 'content',
-          semanticTags: ['p', 'paragraph', 'text', 'content'],
-        }}
       >
         <p ref={ref} {...props}>
           {children}

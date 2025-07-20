@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-
 import { DevProps } from '../types';
 import { useDevMode } from '../hooks/useDevMode';
 
@@ -34,15 +33,8 @@ export const Footer = React.forwardRef<HTMLElement, DevFooterProps>(
     return (
       <Container
         componentId={devId}
+        definitionId='dev-footer' // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Footer',
-          description: devDescription || 'A footer element',
-          filePath: 'src/lib/dev-container/geenius/Footer.tsx',
-          category: 'layout',
-          semanticTags: ['footer', 'navigation', 'layout', 'semantic'],
-        }}
       >
         <footer ref={ref} {...props}>
           {children}
@@ -53,3 +45,4 @@ export const Footer = React.forwardRef<HTMLElement, DevFooterProps>(
 );
 
 Footer.displayName = 'DevFooter';
+

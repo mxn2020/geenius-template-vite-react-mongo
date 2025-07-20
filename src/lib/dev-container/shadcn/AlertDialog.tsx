@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-
 import { DevProps } from '../types';
 import { useDevMode } from '../hooks/useDevMode';
 
@@ -36,7 +35,7 @@ export const AlertDialog = ({ devId, devName, devDescription, devSelectable = tr
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnAlertDialog {...props}>
         {children}
@@ -47,15 +46,8 @@ export const AlertDialog = ({ devId, devName, devDescription, devSelectable = tr
   return (
     <Container
       componentId={devId}
+      definitionId="dev-alert-dialog" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'AlertDialog',
-        description: devDescription || 'Alert dialog root component',
-        filePath: 'src/lib/dev-container/shadcn/AlertDialog.tsx',
-        category: 'ui',
-        semanticTags: ['alert-dialog', 'modal', 'dialog', 'ui'],
-      }}
     >
       <ShadcnAlertDialog {...props}>
         {children}
@@ -82,7 +74,7 @@ export const AlertDialogPortal = ({ devId, devName, devDescription, devSelectabl
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnAlertDialogPortal {...props}>
         {children}
@@ -93,15 +85,8 @@ export const AlertDialogPortal = ({ devId, devName, devDescription, devSelectabl
   return (
     <Container
       componentId={devId}
+      definitionId="dev-alert-dialog-portal" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'AlertDialogPortal',
-        description: devDescription || 'Portal container for alert dialog content',
-        filePath: 'src/lib/dev-container/shadcn/AlertDialog.tsx',
-        category: 'ui',
-        semanticTags: ['alert-dialog', 'portal', 'container', 'ui'],
-      }}
     >
       <ShadcnAlertDialogPortal {...props}>
         {children}
@@ -149,7 +134,7 @@ export const AlertDialogOverlay = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnAlertDialogOverlay ref={ref} {...props}>
         {children}
@@ -160,15 +145,8 @@ export const AlertDialogOverlay = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-alert-dialog-overlay" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'AlertDialogOverlay',
-        description: devDescription || 'Overlay background for alert dialog',
-        filePath: 'src/lib/dev-container/shadcn/AlertDialog.tsx',
-        category: 'ui',
-        semanticTags: ['alert-dialog', 'overlay', 'modal', 'ui'],
-      }}
     >
       <ShadcnAlertDialogOverlay ref={ref} {...props}>
         {children}
@@ -194,7 +172,7 @@ export const AlertDialogTrigger = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnAlertDialogTrigger ref={ref} {...props}>
         {children}
@@ -205,15 +183,8 @@ export const AlertDialogTrigger = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-alert-dialog-trigger" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'AlertDialogTrigger',
-        description: devDescription || 'Button that triggers the alert dialog',
-        filePath: 'src/lib/dev-container/shadcn/AlertDialog.tsx',
-        category: 'ui',
-        semanticTags: ['alert-dialog', 'trigger', 'button', 'interactive', 'ui'],
-      }}
     >
       <ShadcnAlertDialogTrigger ref={ref} {...props}>
         {children}
@@ -239,7 +210,7 @@ export const AlertDialogContent = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnAlertDialogContent ref={ref} {...props}>
         {children}
@@ -250,15 +221,8 @@ export const AlertDialogContent = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-alert-dialog-content" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'AlertDialogContent',
-        description: devDescription || 'Main content area of the alert dialog',
-        filePath: 'src/lib/dev-container/shadcn/AlertDialog.tsx',
-        category: 'ui',
-        semanticTags: ['alert-dialog', 'content', 'modal', 'ui'],
-      }}
     >
       <ShadcnAlertDialogContent ref={ref} {...props}>
         {children}
@@ -281,7 +245,7 @@ export const AlertDialogHeader = ({ devId, devName, devDescription, devSelectabl
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnAlertDialogHeader {...props}>
         {children}
@@ -292,15 +256,8 @@ export const AlertDialogHeader = ({ devId, devName, devDescription, devSelectabl
   return (
     <Container
       componentId={devId}
+      definitionId="dev-alert-dialog-header" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'AlertDialogHeader',
-        description: devDescription || 'Header section of the alert dialog',
-        filePath: 'src/lib/dev-container/shadcn/AlertDialog.tsx',
-        category: 'ui',
-        semanticTags: ['alert-dialog', 'header', 'layout', 'ui'],
-      }}
     >
       <ShadcnAlertDialogHeader {...props}>
         {children}
@@ -311,10 +268,7 @@ export const AlertDialogHeader = ({ devId, devName, devDescription, devSelectabl
 
 AlertDialogHeader.displayName = 'DevAlertDialogHeader';
 
-export const AlertDialogFooter = React.forwardRef<
-  HTMLDivElement,
-  DevAlertDialogFooterProps
->(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }) => {
+export const AlertDialogFooter = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevAlertDialogFooterProps) => {
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
@@ -326,7 +280,7 @@ export const AlertDialogFooter = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnAlertDialogFooter {...props}>
         {children}
@@ -337,22 +291,15 @@ export const AlertDialogFooter = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-alert-dialog-footer" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'AlertDialogFooter',
-        description: devDescription || 'Footer section of the alert dialog',
-        filePath: 'src/lib/dev-container/shadcn/AlertDialog.tsx',
-        category: 'ui',
-        semanticTags: ['alert-dialog', 'footer', 'layout', 'ui'],
-      }}
     >
       <ShadcnAlertDialogFooter {...props}>
         {children}
       </ShadcnAlertDialogFooter>
     </Container>
   );
-});
+};
 
 AlertDialogFooter.displayName = 'DevAlertDialogFooter';
 
@@ -371,7 +318,7 @@ export const AlertDialogTitle = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnAlertDialogTitle ref={ref} {...props}>
         {children}
@@ -382,15 +329,8 @@ export const AlertDialogTitle = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-alert-dialog-title" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'AlertDialogTitle',
-        description: devDescription || 'Title text of the alert dialog',
-        filePath: 'src/lib/dev-container/shadcn/AlertDialog.tsx',
-        category: 'ui',
-        semanticTags: ['alert-dialog', 'title', 'heading', 'ui'],
-      }}
     >
       <ShadcnAlertDialogTitle ref={ref} {...props}>
         {children}
@@ -416,7 +356,7 @@ export const AlertDialogDescription = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnAlertDialogDescription ref={ref} {...props}>
         {children}
@@ -427,15 +367,8 @@ export const AlertDialogDescription = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-alert-dialog-description" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'AlertDialogDescription',
-        description: devDescription || 'Description text of the alert dialog',
-        filePath: 'src/lib/dev-container/shadcn/AlertDialog.tsx',
-        category: 'ui',
-        semanticTags: ['alert-dialog', 'description', 'text', 'ui'],
-      }}
     >
       <ShadcnAlertDialogDescription ref={ref} {...props}>
         {children}
@@ -461,7 +394,7 @@ export const AlertDialogAction = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnAlertDialogAction ref={ref} {...props}>
         {children}
@@ -472,15 +405,8 @@ export const AlertDialogAction = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-alert-dialog-action" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'AlertDialogAction',
-        description: devDescription || 'Action button that confirms the alert dialog',
-        filePath: 'src/lib/dev-container/shadcn/AlertDialog.tsx',
-        category: 'ui',
-        semanticTags: ['alert-dialog', 'action', 'button', 'interactive', 'ui'],
-      }}
     >
       <ShadcnAlertDialogAction ref={ref} {...props}>
         {children}
@@ -506,7 +432,7 @@ export const AlertDialogCancel = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnAlertDialogCancel ref={ref} {...props}>
         {children}
@@ -517,15 +443,8 @@ export const AlertDialogCancel = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-alert-dialog-cancel" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'AlertDialogCancel',
-        description: devDescription || 'Cancel button that dismisses the alert dialog',
-        filePath: 'src/lib/dev-container/shadcn/AlertDialog.tsx',
-        category: 'ui',
-        semanticTags: ['alert-dialog', 'cancel', 'button', 'interactive', 'ui'],
-      }}
     >
       <ShadcnAlertDialogCancel ref={ref} {...props}>
         {children}
@@ -536,3 +455,17 @@ export const AlertDialogCancel = React.forwardRef<
 
 AlertDialogCancel.displayName = 'DevAlertDialogCancel';
 
+// Export types
+export { 
+  type DevAlertDialogProps, 
+  type DevAlertDialogPortalProps, 
+  type DevAlertDialogOverlayProps, 
+  type DevAlertDialogTriggerProps, 
+  type DevAlertDialogContentProps, 
+  type DevAlertDialogHeaderProps, 
+  type DevAlertDialogFooterProps, 
+  type DevAlertDialogTitleProps, 
+  type DevAlertDialogDescriptionProps, 
+  type DevAlertDialogActionProps, 
+  type DevAlertDialogCancelProps 
+};

@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-
 import { DevProps } from '../types';
 import { useDevMode } from '../hooks/useDevMode';
 
@@ -34,15 +33,8 @@ export const Nav = React.forwardRef<HTMLElement, DevNavProps>(
     return (
       <Container
         componentId={devId}
+        definitionId='dev-nav' // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Nav',
-          description: devDescription || 'A navigation element',
-          filePath: 'src/lib/dev-container/geenius/Nav.tsx',
-          category: 'layout',
-          semanticTags: ['nav', 'navigation', 'menu', 'layout', 'semantic'],
-        }}
       >
         <nav ref={ref} {...props}>
           {children}

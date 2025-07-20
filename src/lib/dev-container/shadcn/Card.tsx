@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-
 import { DevProps } from '../types';
 import { useDevMode } from '../hooks/useDevMode';
 
@@ -44,7 +43,7 @@ export const Card = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnCard ref={ref} {...props}>
         {children}
@@ -55,15 +54,8 @@ export const Card = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-card" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Card',
-        description: devDescription || 'Container card component',
-        filePath: 'src/lib/dev-container/shadcn/Card.tsx',
-        category: 'layout',
-        semanticTags: ['card', 'container', 'layout', 'ui'],
-      }}
     >
       <ShadcnCard ref={ref} {...props}>
         {children}
@@ -89,7 +81,7 @@ export const CardHeader = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnCardHeader ref={ref} {...props}>
         {children}
@@ -100,15 +92,8 @@ export const CardHeader = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-card-header" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'CardHeader',
-        description: devDescription || 'Header section of a card',
-        filePath: 'src/lib/dev-container/shadcn/Card.tsx',
-        category: 'layout',
-        semanticTags: ['card', 'header', 'layout', 'ui'],
-      }}
     >
       <ShadcnCardHeader ref={ref} {...props}>
         {children}
@@ -134,7 +119,7 @@ export const CardFooter = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnCardFooter ref={ref} {...props}>
         {children}
@@ -145,15 +130,8 @@ export const CardFooter = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-card-footer" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'CardFooter',
-        description: devDescription || 'Footer section of a card',
-        filePath: 'src/lib/dev-container/shadcn/Card.tsx',
-        category: 'layout',
-        semanticTags: ['card', 'footer', 'layout', 'ui'],
-      }}
     >
       <ShadcnCardFooter ref={ref} {...props}>
         {children}
@@ -179,7 +157,7 @@ export const CardTitle = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnCardTitle ref={ref} {...props}>
         {children}
@@ -190,15 +168,8 @@ export const CardTitle = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-card-title" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'CardTitle',
-        description: devDescription || 'Title text of a card',
-        filePath: 'src/lib/dev-container/shadcn/Card.tsx',
-        category: 'typography',
-        semanticTags: ['card', 'title', 'heading', 'text', 'ui'],
-      }}
     >
       <ShadcnCardTitle ref={ref} {...props}>
         {children}
@@ -224,7 +195,7 @@ export const CardDescription = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnCardDescription ref={ref} {...props}>
         {children}
@@ -235,15 +206,8 @@ export const CardDescription = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-card-description" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'CardDescription',
-        description: devDescription || 'Description text of a card',
-        filePath: 'src/lib/dev-container/shadcn/Card.tsx',
-        category: 'typography',
-        semanticTags: ['card', 'description', 'text', 'ui'],
-      }}
     >
       <ShadcnCardDescription ref={ref} {...props}>
         {children}
@@ -269,7 +233,7 @@ export const CardContent = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnCardContent ref={ref} {...props}>
         {children}
@@ -280,15 +244,8 @@ export const CardContent = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-card-content" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'CardContent',
-        description: devDescription || 'Main content area of a card',
-        filePath: 'src/lib/dev-container/shadcn/Card.tsx',
-        category: 'layout',
-        semanticTags: ['card', 'content', 'layout', 'ui'],
-      }}
     >
       <ShadcnCardContent ref={ref} {...props}>
         {children}
@@ -299,3 +256,12 @@ export const CardContent = React.forwardRef<
 
 CardContent.displayName = 'DevCardContent';
 
+// Export types
+export { 
+  type DevCardProps, 
+  type DevCardHeaderProps, 
+  type DevCardFooterProps, 
+  type DevCardTitleProps, 
+  type DevCardDescriptionProps, 
+  type DevCardContentProps 
+};

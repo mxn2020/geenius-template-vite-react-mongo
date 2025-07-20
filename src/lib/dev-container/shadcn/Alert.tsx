@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-
 import { DevProps } from '../types';
 import { useDevMode } from '../hooks/useDevMode';
 
@@ -37,7 +36,7 @@ export const Alert = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnAlert ref={ref} {...props}>
         {children}
@@ -48,15 +47,8 @@ export const Alert = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-alert" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Alert',
-        description: devDescription || 'An alert component for displaying important messages',
-        filePath: 'src/lib/dev-container/shadcn/Alert.tsx',
-        category: 'ui',
-        semanticTags: ['alert', 'notification', 'message', 'ui'],
-      }}
     >
       <ShadcnAlert ref={ref} {...props}>
         {children}
@@ -82,7 +74,7 @@ export const AlertTitle = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnAlertTitle ref={ref} {...props}>
         {children}
@@ -93,15 +85,8 @@ export const AlertTitle = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-alert-title" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'AlertTitle',
-        description: devDescription || 'Title text for an alert component',
-        filePath: 'src/lib/dev-container/shadcn/Alert.tsx',
-        category: 'ui',
-        semanticTags: ['alert-title', 'heading', 'text', 'ui'],
-      }}
     >
       <ShadcnAlertTitle ref={ref} {...props}>
         {children}
@@ -127,7 +112,7 @@ export const AlertDescription = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnAlertDescription ref={ref} {...props}>
         {children}
@@ -138,15 +123,8 @@ export const AlertDescription = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-alert-description" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'AlertDescription',
-        description: devDescription || 'Description text for an alert component',
-        filePath: 'src/lib/dev-container/shadcn/Alert.tsx',
-        category: 'ui',
-        semanticTags: ['alert-description', 'text', 'content', 'ui'],
-      }}
     >
       <ShadcnAlertDescription ref={ref} {...props}>
         {children}
@@ -157,3 +135,5 @@ export const AlertDescription = React.forwardRef<
 
 AlertDescription.displayName = 'DevAlertDescription';
 
+// Export types
+export { type DevAlertProps, type DevAlertTitleProps, type DevAlertDescriptionProps };

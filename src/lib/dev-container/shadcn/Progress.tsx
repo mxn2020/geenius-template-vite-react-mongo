@@ -34,15 +34,8 @@ export const Progress = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-progress"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Progress',
-        description: devDescription || 'Progress bar component',
-        filePath: 'src/lib/dev-container/shadcn/Progress.tsx',
-        category: 'feedback',
-        semanticTags: ['progress', 'loading', 'indicator', 'ui'],
-      }}
     >
       <ShadcnProgress ref={ref} {...props} />
     </Container>

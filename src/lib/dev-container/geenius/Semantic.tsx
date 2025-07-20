@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-
 import { DevProps } from '../types';
 import { useDevMode } from '../hooks/useDevMode';
 
@@ -35,15 +34,8 @@ export const Article = React.forwardRef<HTMLElement, DevArticleProps>(
     return (
       <Container
         componentId={devId}
+        definitionId="dev-article" // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Article',
-          description: devDescription || 'An article element',
-          filePath: 'src/lib/dev-container/geenius/Semantic.tsx',
-          category: 'layout',
-          semanticTags: ['article', 'content', 'semantic', 'layout'],
-        }}
       >
         <article ref={ref} {...props}>
           {children}
@@ -82,15 +74,8 @@ export const Aside = React.forwardRef<HTMLElement, DevAsideProps>(
     return (
       <Container
         componentId={devId}
+        definitionId="dev-aside" // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Aside',
-          description: devDescription || 'An aside element for sidebar content',
-          filePath: 'src/lib/dev-container/geenius/Semantic.tsx',
-          category: 'layout',
-          semanticTags: ['aside', 'sidebar', 'semantic', 'layout'],
-        }}
       >
         <aside ref={ref} {...props}>
           {children}
@@ -129,15 +114,8 @@ export const Main = React.forwardRef<HTMLElement, DevMainProps>(
     return (
       <Container
         componentId={devId}
+        definitionId="dev-main" // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Main',
-          description: devDescription || 'The main content element',
-          filePath: 'src/lib/dev-container/geenius/Semantic.tsx',
-          category: 'layout',
-          semanticTags: ['main', 'content', 'semantic', 'layout'],
-        }}
       >
         <main ref={ref} {...props}>
           {children}
@@ -147,6 +125,8 @@ export const Main = React.forwardRef<HTMLElement, DevMainProps>(
   }
 );
 
+Article.displayName = 'DevArticle';
+Aside.displayName = 'DevAside';
 // Figure
 interface DevFigureProps extends React.HTMLAttributes<HTMLElement>, DevProps {
   children?: React.ReactNode;
@@ -157,14 +137,12 @@ export const Figure = React.forwardRef<HTMLElement, DevFigureProps>(
     const { config } = useDevMode();
     const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
     
-    // If no devId provided, throw build error
     if (!devId && shouldContainerize) {
       if (import.meta.env.DEV) {
         throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
       }
     }
     
-    // If no devId provided or explicitly set to "noID", don't containerize
     if (!devId || devId === "noID" || !shouldContainerize) {
       return (
         <figure ref={ref} {...props}>
@@ -176,15 +154,8 @@ export const Figure = React.forwardRef<HTMLElement, DevFigureProps>(
     return (
       <Container
         componentId={devId}
+        definitionId="dev-figure" // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Figure',
-          description: devDescription || 'A figure element for media content',
-          filePath: 'src/lib/dev-container/geenius/Semantic.tsx',
-          category: 'media',
-          semanticTags: ['figure', 'media', 'semantic', 'content'],
-        }}
       >
         <figure ref={ref} {...props}>
           {children}
@@ -204,14 +175,12 @@ export const Figcaption = React.forwardRef<HTMLElement, DevFigcaptionProps>(
     const { config } = useDevMode();
     const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
     
-    // If no devId provided, throw build error
     if (!devId && shouldContainerize) {
       if (import.meta.env.DEV) {
         throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
       }
     }
     
-    // If no devId provided or explicitly set to "noID", don't containerize
     if (!devId || devId === "noID" || !shouldContainerize) {
       return (
         <figcaption ref={ref} {...props}>
@@ -223,15 +192,8 @@ export const Figcaption = React.forwardRef<HTMLElement, DevFigcaptionProps>(
     return (
       <Container
         componentId={devId}
+        definitionId="dev-figcaption" // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Figcaption',
-          description: devDescription || 'A caption for figure element',
-          filePath: 'src/lib/dev-container/geenius/Semantic.tsx',
-          category: 'content',
-          semanticTags: ['figcaption', 'caption', 'semantic', 'content'],
-        }}
       >
         <figcaption ref={ref} {...props}>
           {children}
@@ -241,11 +203,8 @@ export const Figcaption = React.forwardRef<HTMLElement, DevFigcaptionProps>(
   }
 );
 
-Article.displayName = 'DevArticle';
-Aside.displayName = 'DevAside';
 Main.displayName = 'DevMain';
 Figure.displayName = 'DevFigure';
 Figcaption.displayName = 'DevFigcaption';
 
 export { type DevArticleProps, type DevAsideProps, type DevMainProps, type DevFigureProps, type DevFigcaptionProps };
-

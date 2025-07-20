@@ -1,3 +1,5 @@
+// src/lib/dev-container/components/DevModeProvider.tsx
+
 import React, { createContext, useContext, useEffect, ReactNode, useState, useRef } from 'react';
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
@@ -9,7 +11,7 @@ import {
   ChangeCategory, 
   ChangePriority, 
   ChangeStatus,
-  ComponentRegistry,
+  ComponentSystem, // Changed from ComponentRegistry
   SubmissionPayload,
   GlobalContext,
   PopoverPosition
@@ -39,9 +41,9 @@ const defaultConfig: DevModeConfig = {
 // Zustand store for dev mode state
 interface DevModeStore extends DevModeState, DevModeActions {
   config: DevModeConfig;
-  registry: ComponentRegistry;
+  system: ComponentSystem; // Changed from registry
   setConfig: (config: Partial<DevModeConfig>) => void;
-  setRegistry: (registry: ComponentRegistry) => void;
+  setSystem: (system: ComponentSystem) => void; // Changed from setRegistry
 }
 
 const useDevModeStore = create<DevModeStore>()(
@@ -57,7 +59,7 @@ const useDevModeStore = create<DevModeStore>()(
       showComponentTree: false,
       popoverState: null,
       config: defaultConfig,
-      registry: {},
+      system: { library: {}, registry: {} }, // Changed from registry: {}
 
       // Actions
       toggleDevMode: () => set((state) => ({ 
@@ -82,21 +84,40 @@ const useDevModeStore = create<DevModeStore>()(
       }),
 
       addChange: (change: Omit<ChangeRequest, 'id' | 'timestamp'>) => {
-        const { changes, config } = get();
+        const { changes, config, system } = get();
         
         if (changes.length >= config.maxChanges) {
           console.warn(`Maximum changes limit (${config.maxChanges}) reached`);
           return;
         }
 
-        const newChange: ChangeRequest = {
+        // Enrich change with component system data
+        const usage = system.registry[change.componentId];
+        const definition = usage ? system.library[usage.definitionId] : undefined;
+
+        const enrichedChange: ChangeRequest = {
           ...change,
           id: generateId(),
           timestamp: Date.now(),
           status: ChangeStatus.PENDING,
+          componentContext: {
+            ...change.componentContext,
+            // Add component system data if available
+            ...(usage && {
+              name: usage.name,
+              description: usage.description,
+              usageFilePath: usage.filePath,
+              usageRepositoryPath: usage.repositoryPath,
+              semanticTags: [...(change.componentContext.semanticTags || []), ...usage.semanticTags],
+            }),
+            ...(definition && {
+              filePath: definition.componentPath,
+              repositoryPath: definition.repositoryPath,
+            }),
+          },
         };
 
-        set({ changes: [...changes, newChange] });
+        set({ changes: [...changes, enrichedChange] });
       },
 
       updateChange: (id: string, updates: Partial<ChangeRequest>) => {
@@ -223,7 +244,7 @@ const useDevModeStore = create<DevModeStore>()(
         config: { ...state.config, ...newConfig }
       })),
 
-      setRegistry: (registry: ComponentRegistry) => set({ registry }),
+      setSystem: (system: ComponentSystem) => set({ system }), // Changed from setRegistry
     }),
     {
       name: 'dev-mode-storage',
@@ -245,20 +266,20 @@ const DevModeContext = createContext<DevModeStore | null>(null);
 interface DevModeProviderProps {
   children: ReactNode;
   config?: Partial<DevModeConfig>;
-  registry: ComponentRegistry;
+  system: ComponentSystem; // Changed from registry
 }
 
 export const DevModeProvider: React.FC<DevModeProviderProps> = ({ 
   children, 
   config = {}, 
-  registry 
+  system // Changed from registry
 }) => {
   const store = useDevModeStore();
 
-  // Set registry synchronously before render
+  // Set system synchronously before render
   React.useMemo(() => {
-    store.setRegistry(registry);
-  }, [registry, store.setRegistry]);
+    store.setSystem(system); // Changed from setRegistry
+  }, [system, store.setSystem]);
 
   useEffect(() => {
     // Update config when prop changes
@@ -283,7 +304,7 @@ export const useDevMode = () => {
   return context;
 };
 
-// Dev mode toggle component
+// Rest of the components remain exactly the same...
 export const DevModeToggle: React.FC = () => {
   const { isEnabled, toggleDevMode } = useDevMode();
 
@@ -319,7 +340,6 @@ export const DevModeToggle: React.FC = () => {
   );
 };
 
-// Dev mode floating icon
 export const DevModeFloatingIcon: React.FC = () => {
   const { isEnabled, changes, toggleSidebar, toggleDevMode } = useDevMode();
   const [showSettings, setShowSettings] = useState(false);
@@ -338,15 +358,15 @@ export const DevModeFloatingIcon: React.FC = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [toggleDevMode]);
 
-  // Debounced settings visibility
-  const handleMouseEnter = () => {
+  // Settings-specific hover handlers
+  const handleSettingsMouseEnter = () => {
     if (settingsTimeoutRef.current) {
       clearTimeout(settingsTimeoutRef.current);
     }
     setShowSettings(true);
   };
 
-  const handleMouseLeave = () => {
+  const handleSettingsMouseLeave = () => {
     settingsTimeoutRef.current = setTimeout(() => {
       setShowSettings(false);
     }, 200); // 200ms debounce
@@ -365,11 +385,14 @@ export const DevModeFloatingIcon: React.FC = () => {
     <div className="fixed bottom-6 left-6 z-50">
       <div className="flex flex-col items-center gap-2">
         {/* Settings button positioned above main icon - only show in dev mode */}
-        {isEnabled && showSettings && (
+        {isEnabled && (
           <div 
-            className="relative w-12 h-12 rounded-full shadow-lg cursor-pointer transition-all duration-300 transform hover:scale-110 bg-gray-600 text-white hover:bg-gray-500"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
+            className={`
+              relative w-12 h-12 rounded-full shadow-lg cursor-pointer transition-all duration-300 transform hover:scale-110 bg-gray-600 text-white hover:bg-gray-500
+              ${showSettings ? 'opacity-100 scale-100' : 'opacity-0 scale-90 pointer-events-none'}
+            `}
+            onMouseEnter={handleSettingsMouseEnter}
+            onMouseLeave={handleSettingsMouseLeave}
           >
             <DevModeSettings />
           </div>
@@ -385,8 +408,7 @@ export const DevModeFloatingIcon: React.FC = () => {
             }
           `}
           onClick={toggleDevMode}
-          onMouseEnter={handleMouseEnter}
-          onMouseLeave={handleMouseLeave}
+          onMouseEnter={handleSettingsMouseEnter}
           title={`${isEnabled ? 'Exit' : 'Enter'} Dev Mode (Ctrl+Shift+D)`}
         >
           <div className="flex items-center justify-center w-full h-full">
@@ -437,7 +459,6 @@ export const DevModeFloatingIcon: React.FC = () => {
   );
 };
 
-// Dev mode status indicator (legacy - kept for backward compatibility)
 export const DevModeIndicator: React.FC = () => {
   const { isEnabled, changes, toggleSidebar } = useDevMode();
 

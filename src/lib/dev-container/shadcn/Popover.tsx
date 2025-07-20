@@ -29,7 +29,7 @@ export const Popover = ({ devId, devName, devDescription, devSelectable = true, 
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnPopover {...props}>
         {children}
@@ -40,15 +40,8 @@ export const Popover = ({ devId, devName, devDescription, devSelectable = true, 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-popover"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Popover',
-        description: devDescription || 'Popover root component',
-        filePath: 'src/lib/dev-container/shadcn/Popover.tsx',
-        category: 'overlay',
-        semanticTags: ['popover', 'overlay', 'tooltip', 'ui'],
-      }}
     >
       <ShadcnPopover {...props}>
         {children}
@@ -78,7 +71,7 @@ export const PopoverTrigger = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnPopoverTrigger ref={ref} {...props}>
         {children}
@@ -89,15 +82,8 @@ export const PopoverTrigger = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-popover-trigger"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'PopoverTrigger',
-        description: devDescription || 'Button that opens the popover',
-        filePath: 'src/lib/dev-container/shadcn/Popover.tsx',
-        category: 'overlay',
-        semanticTags: ['popover', 'trigger', 'button', 'interactive', 'ui'],
-      }}
     >
       <ShadcnPopoverTrigger ref={ref} {...props}>
         {children}
@@ -127,7 +113,7 @@ export const PopoverContent = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnPopoverContent ref={ref} {...props}>
         {children}
@@ -138,15 +124,8 @@ export const PopoverContent = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-popover-content"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'PopoverContent',
-        description: devDescription || 'Popover content area',
-        filePath: 'src/lib/dev-container/shadcn/Popover.tsx',
-        category: 'overlay',
-        semanticTags: ['popover', 'content', 'overlay', 'ui'],
-      }}
     >
       <ShadcnPopoverContent ref={ref} {...props}>
         {children}
@@ -160,3 +139,4 @@ PopoverContent.displayName = 'DevPopoverContent';
 // PopoverAnchor component
 export const PopoverAnchor = ShadcnPopoverAnchor;
 
+export { type DevPopoverProps, type DevPopoverTriggerProps, type DevPopoverContentProps };

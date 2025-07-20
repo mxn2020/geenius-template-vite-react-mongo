@@ -43,15 +43,8 @@ export const Pagination = ({ devId, devName, devDescription, devSelectable = tru
   return (
     <Container
       componentId={devId}
+      definitionId="dev-pagination"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Pagination',
-        description: devDescription || 'Pagination navigation component',
-        filePath: 'src/lib/dev-container/shadcn/Pagination.tsx',
-        category: 'navigation',
-        semanticTags: ['pagination', 'navigation', 'pages', 'ui'],
-      }}
     >
       <ShadcnPagination {...props}>
         {children}
@@ -92,15 +85,8 @@ export const PaginationContent = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-pagination-content"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'PaginationContent',
-        description: devDescription || 'Container for pagination items',
-        filePath: 'src/lib/dev-container/shadcn/Pagination.tsx',
-        category: 'navigation',
-        semanticTags: ['pagination', 'content', 'container', 'ui'],
-      }}
     >
       <ShadcnPaginationContent ref={ref} {...props}>
         {children}
@@ -136,15 +122,8 @@ export const PaginationItem = React.forwardRef<HTMLLIElement, React.ComponentPro
     return (
       <Container
         componentId={devId}
+        definitionId="dev-pagination-item"
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'PaginationItem',
-          description: devDescription || 'Pagination list item',
-          filePath: 'src/lib/dev-container/shadcn/Pagination.tsx',
-          category: 'navigation',
-          semanticTags: ['pagination', 'item', 'list', 'ui'],
-        }}
       >
         <ShadcnPaginationItem ref={ref} {...props}>
           {children}

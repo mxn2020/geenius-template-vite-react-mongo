@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-
 import { DevProps } from '../types';
 import { useDevMode } from '../hooks/useDevMode';
 
@@ -34,15 +33,8 @@ export const Div = React.forwardRef<HTMLDivElement, DevDivProps>(
     return (
       <Container
         componentId={devId}
+        definitionId='dev-div' // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Div',
-          description: devDescription || 'A div container element',
-          filePath: 'src/lib/dev-container/geenius/Div.tsx',
-          category: 'layout',
-          semanticTags: ['div', 'container', 'layout', 'wrapper'],
-        }}
       >
         <div ref={ref} {...props}>
           {children}

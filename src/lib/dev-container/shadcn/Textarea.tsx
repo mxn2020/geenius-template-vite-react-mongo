@@ -27,22 +27,15 @@ export const Textarea = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return <ShadcnTextarea ref={ref} {...props} />;
   }
 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-textarea"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Textarea',
-        description: devDescription || 'Multi-line text input field',
-        filePath: 'src/lib/dev-container/shadcn/Textarea.tsx',
-        category: 'form',
-        semanticTags: ['textarea', 'input', 'form', 'text', 'ui'],
-      }}
     >
       <ShadcnTextarea ref={ref} {...props} />
     </Container>
@@ -50,3 +43,5 @@ export const Textarea = React.forwardRef<
 });
 
 Textarea.displayName = 'DevTextarea';
+
+export { type DevTextareaProps };

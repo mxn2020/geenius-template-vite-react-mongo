@@ -19,7 +19,9 @@ import {
 
 // Table root component
 type ShadcnTableProps = React.ComponentPropsWithoutRef<typeof ShadcnTable>;
-type DevTableProps = ShadcnTableProps & DevProps & { children?: React.ReactNode };
+interface DevTableProps extends ShadcnTableProps, DevProps {
+  children?: React.ReactNode;
+}
 
 export const Table = React.forwardRef<
   React.ElementRef<typeof ShadcnTable>,
@@ -36,7 +38,7 @@ export const Table = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnTable ref={ref} {...props}>
         {children}
@@ -47,15 +49,8 @@ export const Table = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-table"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Table',
-        description: devDescription || 'Table root component',
-        filePath: 'src/lib/dev-container/shadcn/Table.tsx',
-        category: 'data-display',
-        semanticTags: ['table', 'data', 'grid', 'ui'],
-      }}
     >
       <ShadcnTable ref={ref} {...props}>
         {children}
@@ -68,7 +63,9 @@ Table.displayName = 'DevTable';
 
 // TableHeader component
 type ShadcnTableHeaderProps = React.ComponentPropsWithoutRef<typeof ShadcnTableHeader>;
-type DevTableHeaderProps = ShadcnTableHeaderProps & DevProps & { children?: React.ReactNode };
+interface DevTableHeaderProps extends ShadcnTableHeaderProps, DevProps {
+  children?: React.ReactNode;
+}
 
 export const TableHeader = React.forwardRef<
   React.ElementRef<typeof ShadcnTableHeader>,
@@ -85,7 +82,7 @@ export const TableHeader = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnTableHeader ref={ref} {...props}>
         {children}
@@ -96,15 +93,8 @@ export const TableHeader = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-table-header"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'TableHeader',
-        description: devDescription || 'Table header section',
-        filePath: 'src/lib/dev-container/shadcn/Table.tsx',
-        category: 'data-display',
-        semanticTags: ['table', 'header', 'thead', 'ui'],
-      }}
     >
       <ShadcnTableHeader ref={ref} {...props}>
         {children}
@@ -117,7 +107,9 @@ TableHeader.displayName = 'DevTableHeader';
 
 // TableBody component
 type ShadcnTableBodyProps = React.ComponentPropsWithoutRef<typeof ShadcnTableBody>;
-type DevTableBodyProps = ShadcnTableBodyProps & DevProps & { children?: React.ReactNode };
+interface DevTableBodyProps extends ShadcnTableBodyProps, DevProps {
+  children?: React.ReactNode;
+}
 
 export const TableBody = React.forwardRef<
   React.ElementRef<typeof ShadcnTableBody>,
@@ -134,7 +126,7 @@ export const TableBody = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnTableBody ref={ref} {...props}>
         {children}
@@ -145,15 +137,8 @@ export const TableBody = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-table-body"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'TableBody',
-        description: devDescription || 'Table body section',
-        filePath: 'src/lib/dev-container/shadcn/Table.tsx',
-        category: 'data-display',
-        semanticTags: ['table', 'body', 'tbody', 'ui'],
-      }}
     >
       <ShadcnTableBody ref={ref} {...props}>
         {children}
@@ -166,7 +151,9 @@ TableBody.displayName = 'DevTableBody';
 
 // TableFooter component
 type ShadcnTableFooterProps = React.ComponentPropsWithoutRef<typeof ShadcnTableFooter>;
-type DevTableFooterProps = ShadcnTableFooterProps & DevProps & { children?: React.ReactNode };
+interface DevTableFooterProps extends ShadcnTableFooterProps, DevProps {
+  children?: React.ReactNode;
+}
 
 export const TableFooter = React.forwardRef<
   React.ElementRef<typeof ShadcnTableFooter>,
@@ -183,7 +170,7 @@ export const TableFooter = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnTableFooter ref={ref} {...props}>
         {children}
@@ -194,15 +181,8 @@ export const TableFooter = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-table-footer"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'TableFooter',
-        description: devDescription || 'Table footer section',
-        filePath: 'src/lib/dev-container/shadcn/Table.tsx',
-        category: 'data-display',
-        semanticTags: ['table', 'footer', 'tfoot', 'ui'],
-      }}
     >
       <ShadcnTableFooter ref={ref} {...props}>
         {children}
@@ -215,7 +195,9 @@ TableFooter.displayName = 'DevTableFooter';
 
 // TableRow component
 type ShadcnTableRowProps = React.ComponentPropsWithoutRef<typeof ShadcnTableRow>;
-type DevTableRowProps = ShadcnTableRowProps & DevProps & { children?: React.ReactNode };
+interface DevTableRowProps extends ShadcnTableRowProps, DevProps {
+  children?: React.ReactNode;
+}
 
 export const TableRow = React.forwardRef<
   React.ElementRef<typeof ShadcnTableRow>,
@@ -232,7 +214,7 @@ export const TableRow = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnTableRow ref={ref} {...props}>
         {children}
@@ -243,15 +225,8 @@ export const TableRow = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-table-row"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'TableRow',
-        description: devDescription || 'Table row element',
-        filePath: 'src/lib/dev-container/shadcn/Table.tsx',
-        category: 'data-display',
-        semanticTags: ['table', 'row', 'tr', 'ui'],
-      }}
     >
       <ShadcnTableRow ref={ref} {...props}>
         {children}
@@ -264,7 +239,9 @@ TableRow.displayName = 'DevTableRow';
 
 // TableHead component
 type ShadcnTableHeadProps = React.ComponentPropsWithoutRef<typeof ShadcnTableHead>;
-type DevTableHeadProps = ShadcnTableHeadProps & DevProps & { children?: React.ReactNode };
+interface DevTableHeadProps extends ShadcnTableHeadProps, DevProps {
+  children?: React.ReactNode;
+}
 
 export const TableHead = React.forwardRef<
   React.ElementRef<typeof ShadcnTableHead>,
@@ -281,7 +258,7 @@ export const TableHead = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnTableHead ref={ref} {...props}>
         {children}
@@ -292,15 +269,8 @@ export const TableHead = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-table-head"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'TableHead',
-        description: devDescription || 'Table header cell',
-        filePath: 'src/lib/dev-container/shadcn/Table.tsx',
-        category: 'data-display',
-        semanticTags: ['table', 'head', 'th', 'cell', 'ui'],
-      }}
     >
       <ShadcnTableHead ref={ref} {...props}>
         {children}
@@ -313,7 +283,9 @@ TableHead.displayName = 'DevTableHead';
 
 // TableCell component
 type ShadcnTableCellProps = React.ComponentPropsWithoutRef<typeof ShadcnTableCell>;
-type DevTableCellProps = ShadcnTableCellProps & DevProps & { children?: React.ReactNode };
+interface DevTableCellProps extends ShadcnTableCellProps, DevProps {
+  children?: React.ReactNode;
+}
 
 export const TableCell = React.forwardRef<
   React.ElementRef<typeof ShadcnTableCell>,
@@ -330,7 +302,7 @@ export const TableCell = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnTableCell ref={ref} {...props}>
         {children}
@@ -341,15 +313,8 @@ export const TableCell = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-table-cell"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'TableCell',
-        description: devDescription || 'Table data cell',
-        filePath: 'src/lib/dev-container/shadcn/Table.tsx',
-        category: 'data-display',
-        semanticTags: ['table', 'cell', 'td', 'data', 'ui'],
-      }}
     >
       <ShadcnTableCell ref={ref} {...props}>
         {children}
@@ -362,7 +327,9 @@ TableCell.displayName = 'DevTableCell';
 
 // TableCaption component
 type ShadcnTableCaptionProps = React.ComponentPropsWithoutRef<typeof ShadcnTableCaption>;
-type DevTableCaptionProps = ShadcnTableCaptionProps & DevProps & { children?: React.ReactNode };
+interface DevTableCaptionProps extends ShadcnTableCaptionProps, DevProps {
+  children?: React.ReactNode;
+}
 
 export const TableCaption = React.forwardRef<
   React.ElementRef<typeof ShadcnTableCaption>,
@@ -379,7 +346,7 @@ export const TableCaption = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnTableCaption ref={ref} {...props}>
         {children}
@@ -390,15 +357,8 @@ export const TableCaption = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-table-caption"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'TableCaption',
-        description: devDescription || 'Table caption element',
-        filePath: 'src/lib/dev-container/shadcn/Table.tsx',
-        category: 'data-display',
-        semanticTags: ['table', 'caption', 'title', 'ui'],
-      }}
     >
       <ShadcnTableCaption ref={ref} {...props}>
         {children}
@@ -408,3 +368,15 @@ export const TableCaption = React.forwardRef<
 });
 
 TableCaption.displayName = 'DevTableCaption';
+
+// Export prop types
+export {
+  type DevTableProps,
+  type DevTableHeaderProps,
+  type DevTableBodyProps,
+  type DevTableFooterProps,
+  type DevTableRowProps,
+  type DevTableHeadProps,
+  type DevTableCellProps,
+  type DevTableCaptionProps,
+};

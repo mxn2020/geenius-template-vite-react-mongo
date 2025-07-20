@@ -33,7 +33,7 @@ export const Form = ({ devId, devName, devDescription, devSelectable = true, dev
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnForm {...props}>
         {children}
@@ -44,15 +44,8 @@ export const Form = ({ devId, devName, devDescription, devSelectable = true, dev
   return (
     <Container
       componentId={devId}
+      definitionId="dev-form"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Form',
-        description: devDescription || 'Form root component using react-hook-form',
-        filePath: 'src/lib/dev-container/shadcn/Form.tsx',
-        category: 'form',
-        semanticTags: ['form', 'react-hook-form', 'validation', 'ui'],
-      }}
     >
       <ShadcnForm {...props}>
         {children}
@@ -79,7 +72,7 @@ export const FormField = ({ devId, devName, devDescription, devSelectable = true
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnFormField {...props}>
         {children}
@@ -90,15 +83,8 @@ export const FormField = ({ devId, devName, devDescription, devSelectable = true
   return (
     <Container
       componentId={devId}
+      definitionId="dev-form-field"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'FormField',
-        description: devDescription || 'Form field wrapper with validation context',
-        filePath: 'src/lib/dev-container/shadcn/Form.tsx',
-        category: 'form',
-        semanticTags: ['form', 'field', 'validation', 'context', 'ui'],
-      }}
     >
       <ShadcnFormField {...props}>
         {children}
@@ -128,7 +114,7 @@ export const FormItem = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnFormItem ref={ref} {...props}>
         {children}
@@ -139,15 +125,8 @@ export const FormItem = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-form-item"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'FormItem',
-        description: devDescription || 'Form item container with spacing and context',
-        filePath: 'src/lib/dev-container/shadcn/Form.tsx',
-        category: 'form',
-        semanticTags: ['form', 'item', 'container', 'spacing', 'ui'],
-      }}
     >
       <ShadcnFormItem ref={ref} {...props}>
         {children}
@@ -177,7 +156,7 @@ export const FormLabel = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnFormLabel ref={ref} {...props}>
         {children}
@@ -188,15 +167,8 @@ export const FormLabel = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-form-label"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'FormLabel',
-        description: devDescription || 'Form label with error state styling',
-        filePath: 'src/lib/dev-container/shadcn/Form.tsx',
-        category: 'form',
-        semanticTags: ['form', 'label', 'accessibility', 'error', 'ui'],
-      }}
     >
       <ShadcnFormLabel ref={ref} {...props}>
         {children}
@@ -226,7 +198,7 @@ export const FormControl = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnFormControl ref={ref} {...props}>
         {children}
@@ -237,15 +209,8 @@ export const FormControl = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-form-control"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'FormControl',
-        description: devDescription || 'Form control wrapper with accessibility attributes',
-        filePath: 'src/lib/dev-container/shadcn/Form.tsx',
-        category: 'form',
-        semanticTags: ['form', 'control', 'accessibility', 'wrapper', 'ui'],
-      }}
     >
       <ShadcnFormControl ref={ref} {...props}>
         {children}
@@ -275,7 +240,7 @@ export const FormDescription = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnFormDescription ref={ref} {...props}>
         {children}
@@ -286,15 +251,8 @@ export const FormDescription = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-form-description"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'FormDescription',
-        description: devDescription || 'Form field description text',
-        filePath: 'src/lib/dev-container/shadcn/Form.tsx',
-        category: 'form',
-        semanticTags: ['form', 'description', 'help', 'text', 'ui'],
-      }}
     >
       <ShadcnFormDescription ref={ref} {...props}>
         {children}
@@ -324,7 +282,7 @@ export const FormMessage = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnFormMessage ref={ref} {...props}>
         {children}
@@ -335,15 +293,8 @@ export const FormMessage = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-form-message"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'FormMessage',
-        description: devDescription || 'Form validation error message',
-        filePath: 'src/lib/dev-container/shadcn/Form.tsx',
-        category: 'form',
-        semanticTags: ['form', 'message', 'error', 'validation', 'ui'],
-      }}
     >
       <ShadcnFormMessage ref={ref} {...props}>
         {children}
@@ -356,3 +307,15 @@ FormMessage.displayName = 'DevFormMessage';
 
 // Export the hook as-is since it doesn't need containerization
 export const useFormField = shadcnUseFormField;
+
+// Export types
+export { 
+  type DevFormProps,
+  type DevFormFieldProps,
+  type DevFormItemProps,
+  type DevFormLabelProps,
+  type DevFormControlProps,
+  type DevFormDescriptionProps,
+  type DevFormMessageProps
+};
+

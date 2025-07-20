@@ -35,7 +35,7 @@ export const Drawer = ({ devId, devName, devDescription, devSelectable = true, d
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnDrawer {...props}>
         {children}
@@ -46,15 +46,8 @@ export const Drawer = ({ devId, devName, devDescription, devSelectable = true, d
   return (
     <Container
       componentId={devId}
+      definitionId="dev-drawer"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Drawer',
-        description: devDescription || 'Drawer root component',
-        filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
-        category: 'overlay',
-        semanticTags: ['drawer', 'modal', 'slide', 'overlay', 'ui'],
-      }}
     >
       <ShadcnDrawer {...props}>
         {children}
@@ -81,7 +74,7 @@ export const DrawerPortal = ({ devId, devName, devDescription, devSelectable = t
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnDrawerPortal {...props}>
         {children}
@@ -92,15 +85,8 @@ export const DrawerPortal = ({ devId, devName, devDescription, devSelectable = t
   return (
     <Container
       componentId={devId}
+      definitionId="dev-drawer-portal"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'DrawerPortal',
-        description: devDescription || 'Portal container for drawer content',
-        filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
-        category: 'overlay',
-        semanticTags: ['drawer', 'portal', 'container', 'ui'],
-      }}
     >
       <ShadcnDrawerPortal {...props}>
         {children}
@@ -130,7 +116,7 @@ export const DrawerOverlay = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnDrawerOverlay ref={ref} {...props}>
         {children}
@@ -141,15 +127,8 @@ export const DrawerOverlay = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-drawer-overlay"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'DrawerOverlay',
-        description: devDescription || 'Background overlay for drawer',
-        filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
-        category: 'overlay',
-        semanticTags: ['drawer', 'overlay', 'background', 'ui'],
-      }}
     >
       <ShadcnDrawerOverlay ref={ref} {...props}>
         {children}
@@ -179,7 +158,7 @@ export const DrawerTrigger = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnDrawerTrigger ref={ref} {...props}>
         {children}
@@ -190,15 +169,8 @@ export const DrawerTrigger = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-drawer-trigger"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'DrawerTrigger',
-        description: devDescription || 'Button that opens the drawer',
-        filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
-        category: 'overlay',
-        semanticTags: ['drawer', 'trigger', 'button', 'interactive', 'ui'],
-      }}
     >
       <ShadcnDrawerTrigger ref={ref} {...props}>
         {children}
@@ -228,7 +200,7 @@ export const DrawerClose = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnDrawerClose ref={ref} {...props}>
         {children}
@@ -239,15 +211,8 @@ export const DrawerClose = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-drawer-close"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'DrawerClose',
-        description: devDescription || 'Button that closes the drawer',
-        filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
-        category: 'overlay',
-        semanticTags: ['drawer', 'close', 'button', 'interactive', 'ui'],
-      }}
     >
       <ShadcnDrawerClose ref={ref} {...props}>
         {children}
@@ -277,7 +242,7 @@ export const DrawerContent = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnDrawerContent ref={ref} {...props}>
         {children}
@@ -288,15 +253,8 @@ export const DrawerContent = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-drawer-content"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'DrawerContent',
-        description: devDescription || 'Main content area of the drawer',
-        filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
-        category: 'overlay',
-        semanticTags: ['drawer', 'content', 'modal', 'ui'],
-      }}
     >
       <ShadcnDrawerContent ref={ref} {...props}>
         {children}
@@ -323,7 +281,7 @@ export const DrawerHeader = ({ devId, devName, devDescription, devSelectable = t
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnDrawerHeader {...props}>
         {children}
@@ -334,15 +292,8 @@ export const DrawerHeader = ({ devId, devName, devDescription, devSelectable = t
   return (
     <Container
       componentId={devId}
+      definitionId="dev-drawer-header"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'DrawerHeader',
-        description: devDescription || 'Header section of the drawer',
-        filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
-        category: 'overlay',
-        semanticTags: ['drawer', 'header', 'layout', 'ui'],
-      }}
     >
       <ShadcnDrawerHeader {...props}>
         {children}
@@ -369,7 +320,7 @@ export const DrawerFooter = ({ devId, devName, devDescription, devSelectable = t
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnDrawerFooter {...props}>
         {children}
@@ -380,15 +331,8 @@ export const DrawerFooter = ({ devId, devName, devDescription, devSelectable = t
   return (
     <Container
       componentId={devId}
+      definitionId="dev-drawer-footer"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'DrawerFooter',
-        description: devDescription || 'Footer section of the drawer',
-        filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
-        category: 'overlay',
-        semanticTags: ['drawer', 'footer', 'layout', 'ui'],
-      }}
     >
       <ShadcnDrawerFooter {...props}>
         {children}
@@ -418,7 +362,7 @@ export const DrawerTitle = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnDrawerTitle ref={ref} {...props}>
         {children}
@@ -429,15 +373,8 @@ export const DrawerTitle = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-drawer-title"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'DrawerTitle',
-        description: devDescription || 'Title text of the drawer',
-        filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
-        category: 'overlay',
-        semanticTags: ['drawer', 'title', 'heading', 'ui'],
-      }}
     >
       <ShadcnDrawerTitle ref={ref} {...props}>
         {children}
@@ -467,7 +404,7 @@ export const DrawerDescription = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnDrawerDescription ref={ref} {...props}>
         {children}
@@ -478,15 +415,8 @@ export const DrawerDescription = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-drawer-description"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'DrawerDescription',
-        description: devDescription || 'Description text of the drawer',
-        filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
-        category: 'overlay',
-        semanticTags: ['drawer', 'description', 'text', 'ui'],
-      }}
     >
       <ShadcnDrawerDescription ref={ref} {...props}>
         {children}
@@ -496,3 +426,17 @@ export const DrawerDescription = React.forwardRef<
 });
 
 DrawerDescription.displayName = 'DevDrawerDescription';
+
+// Export types
+export { 
+  type DevDrawerProps, 
+  type DevDrawerPortalProps, 
+  type DevDrawerOverlayProps, 
+  type DevDrawerTriggerProps, 
+  type DevDrawerCloseProps, 
+  type DevDrawerContentProps, 
+  type DevDrawerHeaderProps, 
+  type DevDrawerFooterProps, 
+  type DevDrawerTitleProps, 
+  type DevDrawerDescriptionProps 
+};

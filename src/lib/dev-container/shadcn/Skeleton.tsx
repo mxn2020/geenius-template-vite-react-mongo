@@ -24,22 +24,15 @@ export const Skeleton = ({ devId, devName, devDescription, devSelectable = true,
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return <ShadcnSkeleton {...props} />;
   }
 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-skeleton"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Skeleton',
-        description: devDescription || 'Loading skeleton placeholder',
-        filePath: 'src/lib/dev-container/shadcn/Skeleton.tsx',
-        category: 'feedback',
-        semanticTags: ['skeleton', 'loading', 'placeholder', 'ui'],
-      }}
     >
       <ShadcnSkeleton {...props} />
     </Container>
@@ -47,3 +40,5 @@ export const Skeleton = ({ devId, devName, devDescription, devSelectable = true,
 };
 
 Skeleton.displayName = 'DevSkeleton';
+
+export { type DevSkeletonProps };

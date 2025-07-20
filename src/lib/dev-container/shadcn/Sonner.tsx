@@ -24,22 +24,15 @@ export const Toaster = ({ devId, devName, devDescription, devSelectable = true, 
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return <ShadcnToaster {...props} />;
   }
 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-toaster"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Toaster',
-        description: devDescription || 'Toast notification container',
-        filePath: 'src/lib/dev-container/shadcn/Toaster.tsx',
-        category: 'feedback',
-        semanticTags: ['toaster', 'toast', 'notification', 'feedback', 'ui'],
-      }}
     >
       <ShadcnToaster {...props} />
     </Container>
@@ -47,3 +40,5 @@ export const Toaster = ({ devId, devName, devDescription, devSelectable = true, 
 };
 
 Toaster.displayName = 'DevToaster';
+
+export { type DevToasterProps };

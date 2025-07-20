@@ -1,3 +1,5 @@
+// src/lib/dev-container/components/GeeniusProvider.tsx
+
 import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import { PopoverProps, ChangeCategory, ChangePriority } from '../types';
@@ -8,9 +10,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Label } from '../../../components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../../../components/ui/card';
 import { Badge } from '../../../components/ui/badge';
-import { X } from 'lucide-react';
+import { X, FileText, MapPin } from 'lucide-react';
 
-export const Popover: React.FC<PopoverProps> = ({
+export const GeeniusPopover: React.FC<PopoverProps> = ({
   componentId,
   isVisible,
   position,
@@ -23,9 +25,13 @@ export const Popover: React.FC<PopoverProps> = ({
   const [editingChangeId, setEditingChangeId] = useState<string | null>(null);
   const [currentPosition, setCurrentPosition] = useState(position);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const { registry, changes, popoverState, updateChange, config } = useDevMode();
+  const { system, changes, popoverState, updateChange, config } = useDevMode();
 
-  const componentMeta = registry[componentId];
+  const componentMeta = system.registry[componentId];
+  
+  // Get usage filepath from existing changes for this component
+  const existingChange = changes.find(c => c.componentId === componentId);
+  const usageFilePath = existingChange?.componentContext?.usageFilePath;
 
   // Update position when position prop changes
   useEffect(() => {
@@ -185,13 +191,42 @@ export const Popover: React.FC<PopoverProps> = ({
       <CardContent className="space-y-4">
         {/* Component info badges */}
         {componentMeta && (
-          <div className="flex flex-wrap gap-1">
-            <Badge variant="secondary" className="text-xs">
-              {componentMeta.category}
-            </Badge>
-            <Badge variant="outline" className="text-xs">
-              {componentMeta.filePath.split('/').pop()}
-            </Badge>
+          <div className="space-y-2">
+            <div className="flex flex-wrap gap-1">
+              <Badge variant="secondary" className="text-xs">
+                {componentMeta.category}
+              </Badge>
+            </div>
+            
+            {/* File path information */}
+            <div className="space-y-1 text-xs text-muted-foreground">
+              <div className="flex items-center gap-1">
+                <FileText className="h-3 w-3" />
+                <span className="font-medium">Defined in:</span>
+                <span className="font-mono">{componentMeta.filePath}</span>
+              </div>
+              {usageFilePath && (
+                <div className="space-y-1">
+                  <div className="flex items-center gap-1">
+                    <MapPin className="h-3 w-3" />
+                    <span className="font-medium">Used in:</span>
+                    <span className="font-mono">{usageFilePath}</span>
+                  </div>
+                  {existingChange?.componentContext?.usageLineNumber && (
+                    <div className="flex items-center gap-1 ml-4 text-xs">
+                      <span className="font-medium">Line:</span>
+                      <span className="font-mono">{existingChange.componentContext.usageLineNumber}</span>
+                      {existingChange.componentContext.usageColumnNumber && (
+                        <>
+                          <span className="font-medium">Col:</span>
+                          <span className="font-mono">{existingChange.componentContext.usageColumnNumber}</span>
+                        </>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
           </div>
         )}
 
@@ -311,4 +346,4 @@ export const Popover: React.FC<PopoverProps> = ({
   return createPortal(popoverContent, document.body);
 };
 
-export default Popover;
+export default GeeniusPopover;

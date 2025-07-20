@@ -41,15 +41,8 @@ export const ScrollArea = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId='dev-scroll-area'
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ScrollArea',
-        description: devDescription || 'Custom scrollable area with styled scrollbars',
-        filePath: 'src/lib/dev-container/shadcn/ScrollArea.tsx',
-        category: 'layout',
-        semanticTags: ['scroll', 'area', 'scrollbar', 'container', 'ui'],
-      }}
     >
       <ShadcnScrollArea ref={ref} {...props}>
         {children}
@@ -86,15 +79,8 @@ export const ScrollBar = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId='dev-scroll-bar'
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ScrollBar',
-        description: devDescription || 'Custom styled scrollbar',
-        filePath: 'src/lib/dev-container/shadcn/ScrollArea.tsx',
-        category: 'layout',
-        semanticTags: ['scroll', 'bar', 'scrollbar', 'ui'],
-      }}
     >
       <ShadcnScrollBar ref={ref} {...props} />
     </Container>
@@ -102,3 +88,9 @@ export const ScrollBar = React.forwardRef<
 });
 
 ScrollBar.displayName = 'DevScrollBar';
+
+// Export dev prop types
+export {
+  type DevScrollAreaProps,
+  type DevScrollBarProps,
+};

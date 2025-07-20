@@ -1,3 +1,5 @@
+// src/lib/dev-container/components/DevModeSettings.tsx
+
 import React from 'react';
 import { Switch } from '../../../components/ui/switch';
 import { Label } from '../../../components/ui/label';

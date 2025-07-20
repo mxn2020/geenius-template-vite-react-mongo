@@ -1,3 +1,5 @@
+// src/lib/dev-container/hooks/useContainer.ts
+
 import { useRef } from 'react';
 import { useDevMode } from '../components/DevModeProvider';
 import { UseContainerReturn } from '../types';

@@ -16,13 +16,6 @@ export const AspectRatio = React.forwardRef<
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  // If no devId provided, throw build error
-  if (!devId && shouldContainerize) {
-    if (import.meta.env.DEV) {
-      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
-    }
-  }
-  
   // If no devId provided or explicitly set to "noID", don't containerize
   if (!devId || devId === "noID" || !shouldContainerize) {
     return (
@@ -35,15 +28,8 @@ export const AspectRatio = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-aspect-ratio"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'AspectRatio',
-        description: devDescription || 'Container that maintains a specific aspect ratio',
-        filePath: 'src/lib/dev-container/shadcn/AspectRatio.tsx',
-        category: 'layout',
-        semanticTags: ['aspect-ratio', 'layout', 'container', 'ui'],
-      }}
     >
       <ShadcnAspectRatio ref={ref} {...props}>
         {children}

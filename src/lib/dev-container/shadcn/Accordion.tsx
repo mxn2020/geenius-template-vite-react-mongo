@@ -31,13 +31,6 @@ export const Accordion = React.forwardRef<
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  // If no devId provided, throw build error
-  if (!devId && shouldContainerize) {
-    if (import.meta.env.DEV) {
-      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
-    }
-  }
-  
   // If no devId provided or explicitly set to "noID", don't containerize
   if (!devId || devId === "noID" || !shouldContainerize) {
     return (
@@ -50,15 +43,8 @@ export const Accordion = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-accordion"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Accordion',
-        description: devDescription || 'A collapsible accordion component',
-        filePath: 'src/lib/dev-container/shadcn/Accordion.tsx',
-        category: 'ui',
-        semanticTags: ['accordion', 'collapsible', 'expand', 'ui'],
-      }}
     >
       <ShadcnAccordion ref={ref} {...props}>
         {children}
@@ -76,13 +62,6 @@ export const AccordionItem = React.forwardRef<
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  // If no devId provided, throw build error
-  if (!devId && shouldContainerize) {
-    if (import.meta.env.DEV) {
-      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
-    }
-  }
-  
   // If no devId provided or explicitly set to "noID", don't containerize
   if (!devId || devId === "noID" || !shouldContainerize) {
     return (
@@ -95,15 +74,8 @@ export const AccordionItem = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-accordion-item"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'AccordionItem',
-        description: devDescription || 'An individual item within an accordion',
-        filePath: 'src/lib/dev-container/shadcn/Accordion.tsx',
-        category: 'ui',
-        semanticTags: ['accordion-item', 'section', 'ui'],
-      }}
     >
       <ShadcnAccordionItem ref={ref} {...props}>
         {children}
@@ -121,13 +93,6 @@ export const AccordionTrigger = React.forwardRef<
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  // If no devId provided, throw build error
-  if (!devId && shouldContainerize) {
-    if (import.meta.env.DEV) {
-      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
-    }
-  }
-  
   // If no devId provided or explicitly set to "noID", don't containerize
   if (!devId || devId === "noID" || !shouldContainerize) {
     return (
@@ -140,15 +105,8 @@ export const AccordionTrigger = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-accordion-trigger"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'AccordionTrigger',
-        description: devDescription || 'Clickable trigger that expands/collapses accordion content',
-        filePath: 'src/lib/dev-container/shadcn/Accordion.tsx',
-        category: 'ui',
-        semanticTags: ['accordion-trigger', 'button', 'interactive', 'ui'],
-      }}
     >
       <ShadcnAccordionTrigger ref={ref} {...props}>
         {children}
@@ -166,13 +124,6 @@ export const AccordionContent = React.forwardRef<
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
   
-  // If no devId provided, throw build error
-  if (!devId && shouldContainerize) {
-    if (import.meta.env.DEV) {
-      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
-    }
-  }
-  
   // If no devId provided or explicitly set to "noID", don't containerize
   if (!devId || devId === "noID" || !shouldContainerize) {
     return (
@@ -185,15 +136,8 @@ export const AccordionContent = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-accordion-content"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'AccordionContent',
-        description: devDescription || 'Collapsible content area of an accordion item',
-        filePath: 'src/lib/dev-container/shadcn/Accordion.tsx',
-        category: 'ui',
-        semanticTags: ['accordion-content', 'content', 'collapsible', 'ui'],
-      }}
     >
       <ShadcnAccordionContent ref={ref} {...props}>
         {children}

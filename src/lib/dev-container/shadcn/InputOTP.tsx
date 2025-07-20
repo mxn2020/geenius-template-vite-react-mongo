@@ -32,22 +32,15 @@ export const InputOTP = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return <ShadcnInputOTP ref={ref} {...props} />;
   }
 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-input-otp"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'InputOTP',
-        description: devDescription || 'One-time password input component',
-        filePath: 'src/lib/dev-container/shadcn/InputOTP.tsx',
-        category: 'form',
-        semanticTags: ['input', 'otp', 'password', 'form', 'ui'],
-      }}
     >
       <ShadcnInputOTP ref={ref} {...props} />
     </Container>
@@ -75,7 +68,7 @@ export const InputOTPGroup = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnInputOTPGroup ref={ref} {...props}>
         {children}
@@ -86,15 +79,8 @@ export const InputOTPGroup = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-input-otp-group"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'InputOTPGroup',
-        description: devDescription || 'Group container for OTP input slots',
-        filePath: 'src/lib/dev-container/shadcn/InputOTP.tsx',
-        category: 'form',
-        semanticTags: ['input', 'otp', 'group', 'container', 'ui'],
-      }}
     >
       <ShadcnInputOTPGroup ref={ref} {...props}>
         {children}
@@ -124,22 +110,15 @@ export const InputOTPSlot = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return <ShadcnInputOTPSlot ref={ref} {...props} />;
   }
 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-input-otp-slot"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'InputOTPSlot',
-        description: devDescription || 'Individual slot for OTP digit input',
-        filePath: 'src/lib/dev-container/shadcn/InputOTP.tsx',
-        category: 'form',
-        semanticTags: ['input', 'otp', 'slot', 'digit', 'ui'],
-      }}
     >
       <ShadcnInputOTPSlot ref={ref} {...props} />
     </Container>
@@ -167,22 +146,15 @@ export const InputOTPSeparator = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return <ShadcnInputOTPSeparator ref={ref} {...props} />;
   }
 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-input-otp-separator"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'InputOTPSeparator',
-        description: devDescription || 'Visual separator between OTP groups',
-        filePath: 'src/lib/dev-container/shadcn/InputOTP.tsx',
-        category: 'form',
-        semanticTags: ['input', 'otp', 'separator', 'divider', 'ui'],
-      }}
     >
       <ShadcnInputOTPSeparator ref={ref} {...props} />
     </Container>
@@ -190,3 +162,11 @@ export const InputOTPSeparator = React.forwardRef<
 });
 
 InputOTPSeparator.displayName = 'DevInputOTPSeparator';
+
+// Export types
+export { 
+  type DevInputOTPProps,
+  type DevInputOTPGroupProps,
+  type DevInputOTPSlotProps,
+  type DevInputOTPSeparatorProps
+};

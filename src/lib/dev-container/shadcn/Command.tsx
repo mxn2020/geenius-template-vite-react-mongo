@@ -37,7 +37,7 @@ export const Command = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnCommand ref={ref} {...props}>
         {children}
@@ -48,15 +48,8 @@ export const Command = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-command"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Command',
-        description: devDescription || 'Command palette root component',
-        filePath: 'src/lib/dev-container/shadcn/Command.tsx',
-        category: 'navigation',
-        semanticTags: ['command', 'search', 'palette', 'ui'],
-      }}
     >
       <ShadcnCommand ref={ref} {...props}>
         {children}
@@ -83,7 +76,7 @@ export const CommandDialog = ({ devId, devName, devDescription, devSelectable = 
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnCommandDialog {...props}>
         {children}
@@ -94,15 +87,8 @@ export const CommandDialog = ({ devId, devName, devDescription, devSelectable = 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-command-dialog"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'CommandDialog',
-        description: devDescription || 'Command palette in dialog form',
-        filePath: 'src/lib/dev-container/shadcn/Command.tsx',
-        category: 'navigation',
-        semanticTags: ['command', 'dialog', 'modal', 'search', 'ui'],
-      }}
     >
       <ShadcnCommandDialog {...props}>
         {children}
@@ -132,22 +118,15 @@ export const CommandInput = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return <ShadcnCommandInput ref={ref} {...props} />;
   }
 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-command-input"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'CommandInput',
-        description: devDescription || 'Search input for command palette',
-        filePath: 'src/lib/dev-container/shadcn/Command.tsx',
-        category: 'navigation',
-        semanticTags: ['command', 'input', 'search', 'ui'],
-      }}
     >
       <ShadcnCommandInput ref={ref} {...props} />
     </Container>
@@ -175,7 +154,7 @@ export const CommandList = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnCommandList ref={ref} {...props}>
         {children}
@@ -186,15 +165,8 @@ export const CommandList = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-command-list"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'CommandList',
-        description: devDescription || 'Scrollable list container for command items',
-        filePath: 'src/lib/dev-container/shadcn/Command.tsx',
-        category: 'navigation',
-        semanticTags: ['command', 'list', 'container', 'ui'],
-      }}
     >
       <ShadcnCommandList ref={ref} {...props}>
         {children}
@@ -224,7 +196,7 @@ export const CommandEmpty = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnCommandEmpty ref={ref} {...props}>
         {children}
@@ -235,15 +207,8 @@ export const CommandEmpty = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-command-empty"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'CommandEmpty',
-        description: devDescription || 'Message shown when no commands match',
-        filePath: 'src/lib/dev-container/shadcn/Command.tsx',
-        category: 'navigation',
-        semanticTags: ['command', 'empty', 'message', 'ui'],
-      }}
     >
       <ShadcnCommandEmpty ref={ref} {...props}>
         {children}
@@ -273,7 +238,7 @@ export const CommandGroup = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnCommandGroup ref={ref} {...props}>
         {children}
@@ -284,15 +249,8 @@ export const CommandGroup = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-command-group"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'CommandGroup',
-        description: devDescription || 'Group container for related command items',
-        filePath: 'src/lib/dev-container/shadcn/Command.tsx',
-        category: 'navigation',
-        semanticTags: ['command', 'group', 'container', 'ui'],
-      }}
     >
       <ShadcnCommandGroup ref={ref} {...props}>
         {children}
@@ -322,22 +280,15 @@ export const CommandSeparator = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return <ShadcnCommandSeparator ref={ref} {...props} />;
   }
 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-command-separator"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'CommandSeparator',
-        description: devDescription || 'Visual separator between command groups',
-        filePath: 'src/lib/dev-container/shadcn/Command.tsx',
-        category: 'navigation',
-        semanticTags: ['command', 'separator', 'divider', 'ui'],
-      }}
     >
       <ShadcnCommandSeparator ref={ref} {...props} />
     </Container>
@@ -365,7 +316,7 @@ export const CommandItem = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnCommandItem ref={ref} {...props}>
         {children}
@@ -376,15 +327,8 @@ export const CommandItem = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-command-item"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'CommandItem',
-        description: devDescription || 'Individual command item',
-        filePath: 'src/lib/dev-container/shadcn/Command.tsx',
-        category: 'navigation',
-        semanticTags: ['command', 'item', 'interactive', 'ui'],
-      }}
     >
       <ShadcnCommandItem ref={ref} {...props}>
         {children}
@@ -411,7 +355,7 @@ export const CommandShortcut = ({ devId, devName, devDescription, devSelectable 
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnCommandShortcut {...props}>
         {children}
@@ -422,15 +366,8 @@ export const CommandShortcut = ({ devId, devName, devDescription, devSelectable 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-command-shortcut"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'CommandShortcut',
-        description: devDescription || 'Keyboard shortcut display for command items',
-        filePath: 'src/lib/dev-container/shadcn/Command.tsx',
-        category: 'navigation',
-        semanticTags: ['command', 'shortcut', 'keyboard', 'text', 'ui'],
-      }}
     >
       <ShadcnCommandShortcut {...props}>
         {children}
@@ -441,3 +378,15 @@ export const CommandShortcut = ({ devId, devName, devDescription, devSelectable 
 
 CommandShortcut.displayName = 'DevCommandShortcut';
 
+// Export types
+export { 
+  type DevCommandProps, 
+  type DevCommandDialogProps, 
+  type DevCommandInputProps, 
+  type DevCommandListProps, 
+  type DevCommandEmptyProps, 
+  type DevCommandGroupProps, 
+  type DevCommandSeparatorProps, 
+  type DevCommandItemProps, 
+  type DevCommandShortcutProps 
+};

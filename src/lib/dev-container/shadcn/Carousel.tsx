@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-
 import { DevProps } from '../types';
 import { useDevMode } from '../hooks/useDevMode';
 
@@ -42,7 +41,7 @@ export const Carousel = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnCarousel ref={ref} {...props}>
         {children}
@@ -53,15 +52,8 @@ export const Carousel = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-carousel" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Carousel',
-        description: devDescription || 'Carousel slider component',
-        filePath: 'src/lib/dev-container/shadcn/Carousel.tsx',
-        category: 'layout',
-        semanticTags: ['carousel', 'slider', 'navigation', 'interactive', 'ui'],
-      }}
     >
       <ShadcnCarousel ref={ref} {...props}>
         {children}
@@ -87,7 +79,7 @@ export const CarouselContent = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnCarouselContent ref={ref} {...props}>
         {children}
@@ -98,15 +90,8 @@ export const CarouselContent = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-carousel-content" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'CarouselContent',
-        description: devDescription || 'Content container for carousel items',
-        filePath: 'src/lib/dev-container/shadcn/Carousel.tsx',
-        category: 'layout',
-        semanticTags: ['carousel', 'content', 'container', 'ui'],
-      }}
     >
       <ShadcnCarouselContent ref={ref} {...props}>
         {children}
@@ -132,7 +117,7 @@ export const CarouselItem = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnCarouselItem ref={ref} {...props}>
         {children}
@@ -143,15 +128,8 @@ export const CarouselItem = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-carousel-item" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'CarouselItem',
-        description: devDescription || 'Individual item in a carousel',
-        filePath: 'src/lib/dev-container/shadcn/Carousel.tsx',
-        category: 'layout',
-        semanticTags: ['carousel', 'item', 'slide', 'ui'],
-      }}
     >
       <ShadcnCarouselItem ref={ref} {...props}>
         {children}
@@ -177,7 +155,7 @@ export const CarouselPrevious = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnCarouselPrevious ref={ref} {...props}>
         {children}
@@ -188,15 +166,8 @@ export const CarouselPrevious = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-carousel-previous" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'CarouselPrevious',
-        description: devDescription || 'Previous button for carousel navigation',
-        filePath: 'src/lib/dev-container/shadcn/Carousel.tsx',
-        category: 'navigation',
-        semanticTags: ['carousel', 'previous', 'button', 'navigation', 'interactive', 'ui'],
-      }}
     >
       <ShadcnCarouselPrevious ref={ref} {...props}>
         {children}
@@ -222,7 +193,7 @@ export const CarouselNext = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnCarouselNext ref={ref} {...props}>
         {children}
@@ -233,15 +204,8 @@ export const CarouselNext = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-carousel-next" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'CarouselNext',
-        description: devDescription || 'Next button for carousel navigation',
-        filePath: 'src/lib/dev-container/shadcn/Carousel.tsx',
-        category: 'navigation',
-        semanticTags: ['carousel', 'next', 'button', 'navigation', 'interactive', 'ui'],
-      }}
     >
       <ShadcnCarouselNext ref={ref} {...props}>
         {children}
@@ -254,3 +218,12 @@ CarouselNext.displayName = 'DevCarouselNext';
 
 // Export CarouselApi type for convenience
 export type { CarouselApi };
+
+// Export types
+export { 
+  type DevCarouselProps, 
+  type DevCarouselContentProps, 
+  type DevCarouselItemProps, 
+  type DevCarouselPreviousProps, 
+  type DevCarouselNextProps 
+};

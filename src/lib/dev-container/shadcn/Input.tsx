@@ -27,22 +27,15 @@ export const Input = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return <ShadcnInput ref={ref} {...props} />;
   }
 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-input"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Input',
-        description: devDescription || 'Standard text input field',
-        filePath: 'src/lib/dev-container/shadcn/Input.tsx',
-        category: 'form',
-        semanticTags: ['input', 'form', 'text', 'field', 'ui'],
-      }}
     >
       <ShadcnInput ref={ref} {...props} />
     </Container>
@@ -50,3 +43,7 @@ export const Input = React.forwardRef<
 });
 
 Input.displayName = 'DevInput';
+
+// Export types
+export { type DevInputProps };
+

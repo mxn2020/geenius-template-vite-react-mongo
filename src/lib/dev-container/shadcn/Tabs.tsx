@@ -15,7 +15,9 @@ import {
 
 // Tabs root component (FC type)
 type ShadcnTabsProps = React.ComponentProps<typeof ShadcnTabs>;
-type DevTabsProps = ShadcnTabsProps & DevProps & { children?: React.ReactNode };
+interface DevTabsProps extends ShadcnTabsProps, DevProps {
+  children?: React.ReactNode;
+}
 
 export const Tabs = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevTabsProps) => {
   const { config } = useDevMode();
@@ -29,7 +31,7 @@ export const Tabs = ({ devId, devName, devDescription, devSelectable = true, dev
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnTabs {...props}>
         {children}
@@ -40,15 +42,8 @@ export const Tabs = ({ devId, devName, devDescription, devSelectable = true, dev
   return (
     <Container
       componentId={devId}
+      definitionId="dev-tabs"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Tabs',
-        description: devDescription || 'Tabs root component',
-        filePath: 'src/lib/dev-container/shadcn/Tabs.tsx',
-        category: 'navigation',
-        semanticTags: ['tabs', 'navigation', 'content', 'ui'],
-      }}
     >
       <ShadcnTabs {...props}>
         {children}
@@ -61,7 +56,9 @@ Tabs.displayName = 'DevTabs';
 
 // TabsList component
 type ShadcnTabsListProps = React.ComponentPropsWithoutRef<typeof ShadcnTabsList>;
-type DevTabsListProps = ShadcnTabsListProps & DevProps & { children?: React.ReactNode };
+interface DevTabsListProps extends ShadcnTabsListProps, DevProps {
+  children?: React.ReactNode;
+}
 
 export const TabsList = React.forwardRef<
   React.ElementRef<typeof ShadcnTabsList>,
@@ -78,7 +75,7 @@ export const TabsList = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnTabsList ref={ref} {...props}>
         {children}
@@ -89,15 +86,8 @@ export const TabsList = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-tabs-list"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'TabsList',
-        description: devDescription || 'Container for tab triggers',
-        filePath: 'src/lib/dev-container/shadcn/Tabs.tsx',
-        category: 'navigation',
-        semanticTags: ['tabs', 'list', 'container', 'ui'],
-      }}
     >
       <ShadcnTabsList ref={ref} {...props}>
         {children}
@@ -110,7 +100,9 @@ TabsList.displayName = 'DevTabsList';
 
 // TabsTrigger component
 type ShadcnTabsTriggerProps = React.ComponentPropsWithoutRef<typeof ShadcnTabsTrigger>;
-type DevTabsTriggerProps = ShadcnTabsTriggerProps & DevProps & { children?: React.ReactNode };
+interface DevTabsTriggerProps extends ShadcnTabsTriggerProps, DevProps {
+  children?: React.ReactNode;
+}
 
 export const TabsTrigger = React.forwardRef<
   React.ElementRef<typeof ShadcnTabsTrigger>,
@@ -127,7 +119,7 @@ export const TabsTrigger = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnTabsTrigger ref={ref} {...props}>
         {children}
@@ -138,15 +130,8 @@ export const TabsTrigger = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-tabs-trigger"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'TabsTrigger',
-        description: devDescription || 'Button that activates a tab',
-        filePath: 'src/lib/dev-container/shadcn/Tabs.tsx',
-        category: 'navigation',
-        semanticTags: ['tabs', 'trigger', 'button', 'interactive', 'ui'],
-      }}
     >
       <ShadcnTabsTrigger ref={ref} {...props}>
         {children}
@@ -159,7 +144,9 @@ TabsTrigger.displayName = 'DevTabsTrigger';
 
 // TabsContent component
 type ShadcnTabsContentProps = React.ComponentPropsWithoutRef<typeof ShadcnTabsContent>;
-type DevTabsContentProps = ShadcnTabsContentProps & DevProps & { children?: React.ReactNode };
+interface DevTabsContentProps extends ShadcnTabsContentProps, DevProps {
+  children?: React.ReactNode;
+}
 
 export const TabsContent = React.forwardRef<
   React.ElementRef<typeof ShadcnTabsContent>,
@@ -176,7 +163,7 @@ export const TabsContent = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnTabsContent ref={ref} {...props}>
         {children}
@@ -187,15 +174,8 @@ export const TabsContent = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-tabs-content"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'TabsContent',
-        description: devDescription || 'Content area for a tab',
-        filePath: 'src/lib/dev-container/shadcn/Tabs.tsx',
-        category: 'navigation',
-        semanticTags: ['tabs', 'content', 'panel', 'ui'],
-      }}
     >
       <ShadcnTabsContent ref={ref} {...props}>
         {children}
@@ -205,3 +185,11 @@ export const TabsContent = React.forwardRef<
 });
 
 TabsContent.displayName = 'DevTabsContent';
+
+// Export prop types
+export {
+  type DevTabsProps,
+  type DevTabsListProps,
+  type DevTabsTriggerProps,
+  type DevTabsContentProps,
+};

@@ -36,7 +36,7 @@ export const ResizablePanelGroup = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnResizablePanelGroup ref={ref} {...props}>
         {children}
@@ -47,15 +47,8 @@ export const ResizablePanelGroup = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-resizable-panel-group"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ResizablePanelGroup',
-        description: devDescription || 'Resizable panel group container',
-        filePath: 'src/lib/dev-container/shadcn/Resizable.tsx',
-        category: 'layout',
-        semanticTags: ['resizable', 'panel', 'group', 'layout', 'ui'],
-      }}
     >
       <ShadcnResizablePanelGroup ref={ref} {...props}>
         {children}
@@ -82,7 +75,7 @@ export const ResizablePanel = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnResizablePanel ref={ref} {...props}>
         {children}
@@ -93,15 +86,8 @@ export const ResizablePanel = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-resizable-panel"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ResizablePanel',
-        description: devDescription || 'Individual resizable panel',
-        filePath: 'src/lib/dev-container/shadcn/Resizable.tsx',
-        category: 'layout',
-        semanticTags: ['resizable', 'panel', 'layout', 'ui'],
-      }}
     >
       <ShadcnResizablePanel ref={ref} {...props}>
         {children}
@@ -128,22 +114,15 @@ export const ResizableHandle = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return <ShadcnResizableHandle {...props} />;
   }
 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-resizable-handle"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ResizableHandle',
-        description: devDescription || 'Handle for resizing panels',
-        filePath: 'src/lib/dev-container/shadcn/Resizable.tsx',
-        category: 'layout',
-        semanticTags: ['resizable', 'handle', 'interactive', 'ui'],
-      }}
     >
       <ShadcnResizableHandle {...props} />
     </Container>
@@ -151,3 +130,5 @@ export const ResizableHandle = React.forwardRef<
 });
 
 ResizableHandle.displayName = 'DevResizableHandle';
+
+export { type DevResizablePanelGroupProps, type DevResizablePanelProps, type DevResizableHandleProps };

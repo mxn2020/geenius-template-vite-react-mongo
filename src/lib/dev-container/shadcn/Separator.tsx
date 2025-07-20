@@ -34,15 +34,8 @@ export const Separator = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId='dev-separator'
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Separator',
-        description: devDescription || 'Visual separator line',
-        filePath: 'src/lib/dev-container/shadcn/Separator.tsx',
-        category: 'layout',
-        semanticTags: ['separator', 'divider', 'line', 'ui'],
-      }}
     >
       <ShadcnSeparator ref={ref} {...props} />
     </Container>
@@ -50,3 +43,8 @@ export const Separator = React.forwardRef<
 });
 
 Separator.displayName = 'DevSeparator';
+
+// Export prop types
+export {
+  type DevSeparatorProps,
+};

@@ -27,7 +27,7 @@ export const Label = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnLabel ref={ref} {...props}>
         {children}
@@ -38,15 +38,8 @@ export const Label = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-label"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Label',
-        description: devDescription || 'Form label with accessibility support',
-        filePath: 'src/lib/dev-container/shadcn/Label.tsx',
-        category: 'form',
-        semanticTags: ['label', 'form', 'accessibility', 'text', 'ui'],
-      }}
     >
       <ShadcnLabel ref={ref} {...props}>
         {children}
@@ -56,3 +49,6 @@ export const Label = React.forwardRef<
 });
 
 Label.displayName = 'DevLabel';
+
+// Export types
+export { type DevLabelProps };

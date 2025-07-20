@@ -2,56 +2,8 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-
 import { DevProps } from '../types';
 import { useDevMode } from '../hooks/useDevMode';
-
-// Anchor (keeping from previous)
-interface DevAnchorProps extends React.AnchorHTMLAttributes<HTMLAnchorElement>, DevProps {
-  children?: React.ReactNode;
-}
-
-export const A = React.forwardRef<HTMLAnchorElement, DevAnchorProps>(
-  ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-    const { config } = useDevMode();
-    const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
-    
-    // If no devId provided, throw build error
-    if (!devId && shouldContainerize) {
-      if (import.meta.env.DEV) {
-        throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
-      }
-    }
-    
-    // If no devId provided or explicitly set to "noID", don't containerize
-    if (!devId || devId === "noID" || !shouldContainerize) {
-      return (
-        <a ref={ref} {...props}>
-          {children}
-        </a>
-      );
-    }
-
-    return (
-      <Container
-        componentId={devId}
-        selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Anchor',
-          description: devDescription || 'A link/anchor element',
-          filePath: 'src/lib/dev-container/geenius/Text.tsx',
-          category: 'interactive',
-          semanticTags: ['a', 'anchor', 'link', 'navigation', 'interactive'],
-        }}
-      >
-        <a ref={ref} {...props}>
-          {children}
-        </a>
-      </Container>
-    );
-  }
-);
 
 // Strong
 interface DevStrongProps extends React.HTMLAttributes<HTMLElement>, DevProps {
@@ -82,15 +34,8 @@ export const Strong = React.forwardRef<HTMLElement, DevStrongProps>(
     return (
       <Container
         componentId={devId}
+        definitionId="dev-strong" // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Strong',
-          description: devDescription || 'A strong importance element',
-          filePath: 'src/lib/dev-container/geenius/Text.tsx',
-          category: 'content',
-          semanticTags: ['strong', 'emphasis', 'bold', 'text', 'semantic'],
-        }}
       >
         <strong ref={ref} {...props}>
           {children}
@@ -129,19 +74,92 @@ export const Em = React.forwardRef<HTMLElement, DevEmProps>(
     return (
       <Container
         componentId={devId}
+        definitionId="dev-em" // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Emphasis',
-          description: devDescription || 'An emphasis element',
-          filePath: 'src/lib/dev-container/geenius/Text.tsx',
-          category: 'content',
-          semanticTags: ['em', 'emphasis', 'italic', 'text', 'semantic'],
-        }}
       >
         <em ref={ref} {...props}>
           {children}
         </em>
+      </Container>
+    );
+  }
+);
+
+// Small
+interface DevSmallProps extends React.HTMLAttributes<HTMLElement>, DevProps {
+  children?: React.ReactNode;
+}
+
+export const Small = React.forwardRef<HTMLElement, DevSmallProps>(
+  ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
+    const { config } = useDevMode();
+    const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+    
+    // If no devId provided, throw build error
+    if (!devId && shouldContainerize) {
+      if (import.meta.env.DEV) {
+        throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+      }
+    }
+    
+    // If no devId provided or explicitly set to "noID", don't containerize
+    if (!devId || devId === "noID" || !shouldContainerize) {
+      return (
+        <small ref={ref} {...props}>
+          {children}
+        </small>
+      );
+    }
+
+    return (
+      <Container
+        componentId={devId}
+        definitionId="dev-small" // Reference to ComponentDefinition
+        selectable={devSelectable}
+      >
+        <small ref={ref} {...props}>
+          {children}
+        </small>
+      </Container>
+    );
+  }
+);
+
+Strong.displayName = 'DevStrong';
+Em.displayName = 'DevEm';
+// Anchor
+interface DevAnchorProps extends React.AnchorHTMLAttributes<HTMLAnchorElement>, DevProps {
+  children?: React.ReactNode;
+}
+
+export const A = React.forwardRef<HTMLAnchorElement, DevAnchorProps>(
+  ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
+    const { config } = useDevMode();
+    const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
+    
+    if (!devId && shouldContainerize) {
+      if (import.meta.env.DEV) {
+        throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+      }
+    }
+    
+    if (!devId || devId === "noID" || !shouldContainerize) {
+      return (
+        <a ref={ref} {...props}>
+          {children}
+        </a>
+      );
+    }
+
+    return (
+      <Container
+        componentId={devId}
+        definitionId="dev-anchor" // Reference to ComponentDefinition
+        selectable={devSelectable}
+      >
+        <a ref={ref} {...props}>
+          {children}
+        </a>
       </Container>
     );
   }
@@ -157,14 +175,12 @@ export const Code = React.forwardRef<HTMLElement, DevCodeProps>(
     const { config } = useDevMode();
     const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
     
-    // If no devId provided, throw build error
     if (!devId && shouldContainerize) {
       if (import.meta.env.DEV) {
         throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
       }
     }
     
-    // If no devId provided or explicitly set to "noID", don't containerize
     if (!devId || devId === "noID" || !shouldContainerize) {
       return (
         <code ref={ref} {...props}>
@@ -176,15 +192,8 @@ export const Code = React.forwardRef<HTMLElement, DevCodeProps>(
     return (
       <Container
         componentId={devId}
+        definitionId="dev-code" // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Code',
-          description: devDescription || 'An inline code element',
-          filePath: 'src/lib/dev-container/geenius/Text.tsx',
-          category: 'content',
-          semanticTags: ['code', 'programming', 'inline', 'text', 'semantic'],
-        }}
       >
         <code ref={ref} {...props}>
           {children}
@@ -204,14 +213,12 @@ export const Pre = React.forwardRef<HTMLPreElement, DevPreProps>(
     const { config } = useDevMode();
     const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
     
-    // If no devId provided, throw build error
     if (!devId && shouldContainerize) {
       if (import.meta.env.DEV) {
         throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
       }
     }
     
-    // If no devId provided or explicitly set to "noID", don't containerize
     if (!devId || devId === "noID" || !shouldContainerize) {
       return (
         <pre ref={ref} {...props}>
@@ -223,15 +230,8 @@ export const Pre = React.forwardRef<HTMLPreElement, DevPreProps>(
     return (
       <Container
         componentId={devId}
+        definitionId="dev-pre" // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Preformatted',
-          description: devDescription || 'A preformatted text element',
-          filePath: 'src/lib/dev-container/geenius/Text.tsx',
-          category: 'content',
-          semanticTags: ['pre', 'preformatted', 'code-block', 'text', 'semantic'],
-        }}
       >
         <pre ref={ref} {...props}>
           {children}
@@ -251,14 +251,12 @@ export const Blockquote = React.forwardRef<HTMLQuoteElement, DevBlockquoteProps>
     const { config } = useDevMode();
     const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
     
-    // If no devId provided, throw build error
     if (!devId && shouldContainerize) {
       if (import.meta.env.DEV) {
         throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
       }
     }
     
-    // If no devId provided or explicitly set to "noID", don't containerize
     if (!devId || devId === "noID" || !shouldContainerize) {
       return (
         <blockquote ref={ref} {...props}>
@@ -270,15 +268,8 @@ export const Blockquote = React.forwardRef<HTMLQuoteElement, DevBlockquoteProps>
     return (
       <Container
         componentId={devId}
+        definitionId="dev-blockquote" // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Blockquote',
-          description: devDescription || 'A blockquote element',
-          filePath: 'src/lib/dev-container/geenius/Text.tsx',
-          category: 'content',
-          semanticTags: ['blockquote', 'quote', 'citation', 'text', 'semantic'],
-        }}
       >
         <blockquote ref={ref} {...props}>
           {children}
@@ -288,11 +279,11 @@ export const Blockquote = React.forwardRef<HTMLQuoteElement, DevBlockquoteProps>
   }
 );
 
+Small.displayName = 'DevSmall';
+
 A.displayName = 'DevAnchor';
-Strong.displayName = 'DevStrong';
-Em.displayName = 'DevEm';
 Code.displayName = 'DevCode';
 Pre.displayName = 'DevPre';
 Blockquote.displayName = 'DevBlockquote';
 
-export { type DevAnchorProps, type DevStrongProps, type DevEmProps, type DevCodeProps, type DevPreProps, type DevBlockquoteProps };
+export { type DevStrongProps, type DevEmProps, type DevSmallProps, type DevAnchorProps, type DevCodeProps, type DevPreProps, type DevBlockquoteProps };

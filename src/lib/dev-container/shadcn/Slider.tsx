@@ -27,22 +27,15 @@ export const Slider = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return <ShadcnSlider ref={ref} {...props} />;
   }
 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-slider"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Slider',
-        description: devDescription || 'Range slider input component',
-        filePath: 'src/lib/dev-container/shadcn/Slider.tsx',
-        category: 'form',
-        semanticTags: ['slider', 'range', 'input', 'form', 'ui'],
-      }}
     >
       <ShadcnSlider ref={ref} {...props} />
     </Container>
@@ -50,3 +43,5 @@ export const Slider = React.forwardRef<
 });
 
 Slider.displayName = 'DevSlider';
+
+export { type DevSliderProps };

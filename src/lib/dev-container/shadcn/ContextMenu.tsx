@@ -40,7 +40,7 @@ export const ContextMenu = ({ devId, devName, devDescription, devSelectable = tr
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnContextMenu {...props}>
         {children}
@@ -51,15 +51,8 @@ export const ContextMenu = ({ devId, devName, devDescription, devSelectable = tr
   return (
     <Container
       componentId={devId}
+      definitionId="dev-context-menu"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ContextMenu',
-        description: devDescription || 'Context menu root component',
-        filePath: 'src/lib/dev-container/shadcn/ContextMenu.tsx',
-        category: 'overlay',
-        semanticTags: ['context-menu', 'menu', 'overlay', 'ui'],
-      }}
     >
       <ShadcnContextMenu {...props}>
         {children}
@@ -89,7 +82,7 @@ export const ContextMenuTrigger = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnContextMenuTrigger ref={ref} {...props}>
         {children}
@@ -100,15 +93,8 @@ export const ContextMenuTrigger = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-context-menu-trigger"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ContextMenuTrigger',
-        description: devDescription || 'Element that triggers the context menu on right-click',
-        filePath: 'src/lib/dev-container/shadcn/ContextMenu.tsx',
-        category: 'overlay',
-        semanticTags: ['context-menu', 'trigger', 'interactive', 'ui'],
-      }}
     >
       <ShadcnContextMenuTrigger ref={ref} {...props}>
         {children}
@@ -138,7 +124,7 @@ export const ContextMenuContent = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnContextMenuContent ref={ref} {...props}>
         {children}
@@ -149,15 +135,8 @@ export const ContextMenuContent = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-context-menu-content"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ContextMenuContent',
-        description: devDescription || 'Context menu content container',
-        filePath: 'src/lib/dev-container/shadcn/ContextMenu.tsx',
-        category: 'overlay',
-        semanticTags: ['context-menu', 'content', 'overlay', 'ui'],
-      }}
     >
       <ShadcnContextMenuContent ref={ref} {...props}>
         {children}
@@ -187,7 +166,7 @@ export const ContextMenuItem = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnContextMenuItem ref={ref} {...props}>
         {children}
@@ -198,15 +177,8 @@ export const ContextMenuItem = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-context-menu-item"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ContextMenuItem',
-        description: devDescription || 'Individual context menu item',
-        filePath: 'src/lib/dev-container/shadcn/ContextMenu.tsx',
-        category: 'overlay',
-        semanticTags: ['context-menu', 'item', 'interactive', 'ui'],
-      }}
     >
       <ShadcnContextMenuItem ref={ref} {...props}>
         {children}
@@ -236,7 +208,7 @@ export const ContextMenuCheckboxItem = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnContextMenuCheckboxItem ref={ref} {...props}>
         {children}
@@ -247,15 +219,8 @@ export const ContextMenuCheckboxItem = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-context-menu-checkbox-item"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ContextMenuCheckboxItem',
-        description: devDescription || 'Checkbox item with checkmark indicator',
-        filePath: 'src/lib/dev-container/shadcn/ContextMenu.tsx',
-        category: 'overlay',
-        semanticTags: ['context-menu', 'checkbox', 'item', 'interactive', 'ui'],
-      }}
     >
       <ShadcnContextMenuCheckboxItem ref={ref} {...props}>
         {children}
@@ -285,7 +250,7 @@ export const ContextMenuRadioGroup = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnContextMenuRadioGroup ref={ref} {...props}>
         {children}
@@ -296,15 +261,8 @@ export const ContextMenuRadioGroup = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-context-menu-radio-group"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ContextMenuRadioGroup',
-        description: devDescription || 'Radio group container for menu items',
-        filePath: 'src/lib/dev-container/shadcn/ContextMenu.tsx',
-        category: 'overlay',
-        semanticTags: ['context-menu', 'radio', 'group', 'ui'],
-      }}
     >
       <ShadcnContextMenuRadioGroup ref={ref} {...props}>
         {children}
@@ -334,7 +292,7 @@ export const ContextMenuRadioItem = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnContextMenuRadioItem ref={ref} {...props}>
         {children}
@@ -345,15 +303,8 @@ export const ContextMenuRadioItem = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-context-menu-radio-item"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ContextMenuRadioItem',
-        description: devDescription || 'Radio item with selection indicator',
-        filePath: 'src/lib/dev-container/shadcn/ContextMenu.tsx',
-        category: 'overlay',
-        semanticTags: ['context-menu', 'radio', 'item', 'interactive', 'ui'],
-      }}
     >
       <ShadcnContextMenuRadioItem ref={ref} {...props}>
         {children}
@@ -383,7 +334,7 @@ export const ContextMenuLabel = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnContextMenuLabel ref={ref} {...props}>
         {children}
@@ -394,15 +345,8 @@ export const ContextMenuLabel = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-context-menu-label"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ContextMenuLabel',
-        description: devDescription || 'Non-interactive label for menu sections',
-        filePath: 'src/lib/dev-container/shadcn/ContextMenu.tsx',
-        category: 'overlay',
-        semanticTags: ['context-menu', 'label', 'text', 'ui'],
-      }}
     >
       <ShadcnContextMenuLabel ref={ref} {...props}>
         {children}
@@ -432,22 +376,15 @@ export const ContextMenuSeparator = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return <ShadcnContextMenuSeparator ref={ref} {...props} />;
   }
 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-context-menu-separator"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ContextMenuSeparator',
-        description: devDescription || 'Visual separator between menu items',
-        filePath: 'src/lib/dev-container/shadcn/ContextMenu.tsx',
-        category: 'overlay',
-        semanticTags: ['context-menu', 'separator', 'divider', 'ui'],
-      }}
     >
       <ShadcnContextMenuSeparator ref={ref} {...props} />
     </Container>
@@ -475,7 +412,7 @@ export const ContextMenuGroup = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnContextMenuGroup ref={ref} {...props}>
         {children}
@@ -486,15 +423,8 @@ export const ContextMenuGroup = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-context-menu-group"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ContextMenuGroup',
-        description: devDescription || 'Group container for related menu items',
-        filePath: 'src/lib/dev-container/shadcn/ContextMenu.tsx',
-        category: 'overlay',
-        semanticTags: ['context-menu', 'group', 'container', 'ui'],
-      }}
     >
       <ShadcnContextMenuGroup ref={ref} {...props}>
         {children}
@@ -521,7 +451,7 @@ export const ContextMenuPortal = ({ devId, devName, devDescription, devSelectabl
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnContextMenuPortal {...props}>
         {children}
@@ -532,15 +462,8 @@ export const ContextMenuPortal = ({ devId, devName, devDescription, devSelectabl
   return (
     <Container
       componentId={devId}
+      definitionId="dev-context-menu-portal"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ContextMenuPortal',
-        description: devDescription || 'Portal container for context menu content',
-        filePath: 'src/lib/dev-container/shadcn/ContextMenu.tsx',
-        category: 'overlay',
-        semanticTags: ['context-menu', 'portal', 'container', 'ui'],
-      }}
     >
       <ShadcnContextMenuPortal {...props}>
         {children}
@@ -567,7 +490,7 @@ export const ContextMenuSub = ({ devId, devName, devDescription, devSelectable =
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnContextMenuSub {...props}>
         {children}
@@ -578,15 +501,8 @@ export const ContextMenuSub = ({ devId, devName, devDescription, devSelectable =
   return (
     <Container
       componentId={devId}
+      definitionId="dev-context-menu-sub"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ContextMenuSub',
-        description: devDescription || 'Submenu container',
-        filePath: 'src/lib/dev-container/shadcn/ContextMenu.tsx',
-        category: 'overlay',
-        semanticTags: ['context-menu', 'submenu', 'nested', 'ui'],
-      }}
     >
       <ShadcnContextMenuSub {...props}>
         {children}
@@ -616,7 +532,7 @@ export const ContextMenuSubTrigger = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnContextMenuSubTrigger ref={ref} {...props}>
         {children}
@@ -627,15 +543,8 @@ export const ContextMenuSubTrigger = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-context-menu-sub-trigger"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ContextMenuSubTrigger',
-        description: devDescription || 'Button that opens a submenu',
-        filePath: 'src/lib/dev-container/shadcn/ContextMenu.tsx',
-        category: 'overlay',
-        semanticTags: ['context-menu', 'submenu', 'trigger', 'interactive', 'ui'],
-      }}
     >
       <ShadcnContextMenuSubTrigger ref={ref} {...props}>
         {children}
@@ -665,7 +574,7 @@ export const ContextMenuSubContent = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnContextMenuSubContent ref={ref} {...props}>
         {children}
@@ -676,15 +585,8 @@ export const ContextMenuSubContent = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-context-menu-sub-content"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ContextMenuSubContent',
-        description: devDescription || 'Submenu content container',
-        filePath: 'src/lib/dev-container/shadcn/ContextMenu.tsx',
-        category: 'overlay',
-        semanticTags: ['context-menu', 'submenu', 'content', 'ui'],
-      }}
     >
       <ShadcnContextMenuSubContent ref={ref} {...props}>
         {children}
@@ -711,7 +613,7 @@ export const ContextMenuShortcut = ({ devId, devName, devDescription, devSelecta
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnContextMenuShortcut {...props}>
         {children}
@@ -722,15 +624,8 @@ export const ContextMenuShortcut = ({ devId, devName, devDescription, devSelecta
   return (
     <Container
       componentId={devId}
+      definitionId="dev-context-menu-shortcut"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ContextMenuShortcut',
-        description: devDescription || 'Keyboard shortcut text for menu items',
-        filePath: 'src/lib/dev-container/shadcn/ContextMenu.tsx',
-        category: 'overlay',
-        semanticTags: ['context-menu', 'shortcut', 'keyboard', 'text', 'ui'],
-      }}
     >
       <ShadcnContextMenuShortcut {...props}>
         {children}
@@ -740,3 +635,22 @@ export const ContextMenuShortcut = ({ devId, devName, devDescription, devSelecta
 };
 
 ContextMenuShortcut.displayName = 'DevContextMenuShortcut';
+
+// Export types
+export { 
+  type DevContextMenuProps, 
+  type DevContextMenuTriggerProps, 
+  type DevContextMenuContentProps, 
+  type DevContextMenuItemProps, 
+  type DevContextMenuCheckboxItemProps, 
+  type DevContextMenuRadioGroupProps, 
+  type DevContextMenuRadioItemProps, 
+  type DevContextMenuLabelProps, 
+  type DevContextMenuSeparatorProps, 
+  type DevContextMenuGroupProps, 
+  type DevContextMenuPortalProps, 
+  type DevContextMenuSubProps, 
+  type DevContextMenuSubTriggerProps, 
+  type DevContextMenuSubContentProps, 
+  type DevContextMenuShortcutProps 
+};

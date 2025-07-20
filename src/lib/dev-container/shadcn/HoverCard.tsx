@@ -28,7 +28,7 @@ export const HoverCard = ({ devId, devName, devDescription, devSelectable = true
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnHoverCard {...props}>
         {children}
@@ -39,15 +39,8 @@ export const HoverCard = ({ devId, devName, devDescription, devSelectable = true
   return (
     <Container
       componentId={devId}
+      definitionId="dev-hover-card"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'HoverCard',
-        description: devDescription || 'Hover card root component',
-        filePath: 'src/lib/dev-container/shadcn/HoverCard.tsx',
-        category: 'overlay',
-        semanticTags: ['hover-card', 'popover', 'tooltip', 'ui'],
-      }}
     >
       <ShadcnHoverCard {...props}>
         {children}
@@ -77,7 +70,7 @@ export const HoverCardTrigger = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnHoverCardTrigger ref={ref} {...props}>
         {children}
@@ -88,15 +81,8 @@ export const HoverCardTrigger = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-hover-card-trigger"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'HoverCardTrigger',
-        description: devDescription || 'Element that triggers the hover card on hover',
-        filePath: 'src/lib/dev-container/shadcn/HoverCard.tsx',
-        category: 'overlay',
-        semanticTags: ['hover-card', 'trigger', 'interactive', 'ui'],
-      }}
     >
       <ShadcnHoverCardTrigger ref={ref} {...props}>
         {children}
@@ -126,7 +112,7 @@ export const HoverCardContent = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnHoverCardContent ref={ref} {...props}>
         {children}
@@ -137,15 +123,8 @@ export const HoverCardContent = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-hover-card-content"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'HoverCardContent',
-        description: devDescription || 'Content area of the hover card',
-        filePath: 'src/lib/dev-container/shadcn/HoverCard.tsx',
-        category: 'overlay',
-        semanticTags: ['hover-card', 'content', 'popover', 'ui'],
-      }}
     >
       <ShadcnHoverCardContent ref={ref} {...props}>
         {children}
@@ -155,3 +134,11 @@ export const HoverCardContent = React.forwardRef<
 });
 
 HoverCardContent.displayName = 'DevHoverCardContent';
+
+// Export types
+export { 
+  type DevHoverCardProps,
+  type DevHoverCardTriggerProps,
+  type DevHoverCardContentProps
+};
+

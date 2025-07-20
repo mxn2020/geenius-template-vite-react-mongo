@@ -35,7 +35,7 @@ export const Select = ({ devId, devName, devDescription, devSelectable = true, d
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnSelect {...props}>
         {children}
@@ -46,15 +46,8 @@ export const Select = ({ devId, devName, devDescription, devSelectable = true, d
   return (
     <Container
       componentId={devId}
+      definitionId="dev-select"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Select',
-        description: devDescription || 'Select root component',
-        filePath: 'src/lib/dev-container/shadcn/Select.tsx',
-        category: 'form',
-        semanticTags: ['select', 'dropdown', 'form', 'ui'],
-      }}
     >
       <ShadcnSelect {...props}>
         {children}
@@ -84,7 +77,7 @@ export const SelectGroup = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnSelectGroup ref={ref} {...props}>
         {children}
@@ -95,15 +88,8 @@ export const SelectGroup = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-select-group"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'SelectGroup',
-        description: devDescription || 'Group container for select items',
-        filePath: 'src/lib/dev-container/shadcn/Select.tsx',
-        category: 'form',
-        semanticTags: ['select', 'group', 'container', 'ui'],
-      }}
     >
       <ShadcnSelectGroup ref={ref} {...props}>
         {children}
@@ -133,22 +119,15 @@ export const SelectValue = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return <ShadcnSelectValue ref={ref} {...props} />;
   }
 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-select-value"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'SelectValue',
-        description: devDescription || 'Displays the selected value',
-        filePath: 'src/lib/dev-container/shadcn/Select.tsx',
-        category: 'form',
-        semanticTags: ['select', 'value', 'display', 'ui'],
-      }}
     >
       <ShadcnSelectValue ref={ref} {...props} />
     </Container>
@@ -176,7 +155,7 @@ export const SelectTrigger = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnSelectTrigger ref={ref} {...props}>
         {children}
@@ -187,15 +166,8 @@ export const SelectTrigger = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-select-trigger"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'SelectTrigger',
-        description: devDescription || 'Button that opens the select dropdown',
-        filePath: 'src/lib/dev-container/shadcn/Select.tsx',
-        category: 'form',
-        semanticTags: ['select', 'trigger', 'button', 'interactive', 'ui'],
-      }}
     >
       <ShadcnSelectTrigger ref={ref} {...props}>
         {children}
@@ -225,7 +197,7 @@ export const SelectContent = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnSelectContent ref={ref} {...props}>
         {children}
@@ -236,15 +208,8 @@ export const SelectContent = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-select-content"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'SelectContent',
-        description: devDescription || 'Dropdown content container for select options',
-        filePath: 'src/lib/dev-container/shadcn/Select.tsx',
-        category: 'form',
-        semanticTags: ['select', 'content', 'dropdown', 'ui'],
-      }}
     >
       <ShadcnSelectContent ref={ref} {...props}>
         {children}
@@ -274,7 +239,7 @@ export const SelectLabel = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnSelectLabel ref={ref} {...props}>
         {children}
@@ -285,15 +250,8 @@ export const SelectLabel = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-select-label"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'SelectLabel',
-        description: devDescription || 'Label for select option groups',
-        filePath: 'src/lib/dev-container/shadcn/Select.tsx',
-        category: 'form',
-        semanticTags: ['select', 'label', 'text', 'ui'],
-      }}
     >
       <ShadcnSelectLabel ref={ref} {...props}>
         {children}
@@ -323,7 +281,7 @@ export const SelectItem = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnSelectItem ref={ref} {...props}>
         {children}
@@ -334,15 +292,8 @@ export const SelectItem = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-select-item"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'SelectItem',
-        description: devDescription || 'Individual select option',
-        filePath: 'src/lib/dev-container/shadcn/Select.tsx',
-        category: 'form',
-        semanticTags: ['select', 'item', 'option', 'interactive', 'ui'],
-      }}
     >
       <ShadcnSelectItem ref={ref} {...props}>
         {children}
@@ -372,22 +323,15 @@ export const SelectSeparator = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return <ShadcnSelectSeparator ref={ref} {...props} />;
   }
 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-select-separator"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'SelectSeparator',
-        description: devDescription || 'Visual separator between select groups',
-        filePath: 'src/lib/dev-container/shadcn/Select.tsx',
-        category: 'form',
-        semanticTags: ['select', 'separator', 'divider', 'ui'],
-      }}
     >
       <ShadcnSelectSeparator ref={ref} {...props} />
     </Container>
@@ -415,7 +359,7 @@ export const SelectScrollUpButton = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnSelectScrollUpButton ref={ref} {...props}>
         {children}
@@ -426,15 +370,8 @@ export const SelectScrollUpButton = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-select-scroll-up-button"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'SelectScrollUpButton',
-        description: devDescription || 'Button to scroll up in select dropdown',
-        filePath: 'src/lib/dev-container/shadcn/Select.tsx',
-        category: 'form',
-        semanticTags: ['select', 'scroll', 'button', 'navigation', 'ui'],
-      }}
     >
       <ShadcnSelectScrollUpButton ref={ref} {...props}>
         {children}
@@ -464,7 +401,7 @@ export const SelectScrollDownButton = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnSelectScrollDownButton ref={ref} {...props}>
         {children}
@@ -475,15 +412,8 @@ export const SelectScrollDownButton = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-select-scroll-down-button"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'SelectScrollDownButton',
-        description: devDescription || 'Button to scroll down in select dropdown',
-        filePath: 'src/lib/dev-container/shadcn/Select.tsx',
-        category: 'form',
-        semanticTags: ['select', 'scroll', 'button', 'navigation', 'ui'],
-      }}
     >
       <ShadcnSelectScrollDownButton ref={ref} {...props}>
         {children}
@@ -493,3 +423,16 @@ export const SelectScrollDownButton = React.forwardRef<
 });
 
 SelectScrollDownButton.displayName = 'DevSelectScrollDownButton';
+
+export { 
+  type DevSelectProps, 
+  type DevSelectGroupProps, 
+  type DevSelectValueProps, 
+  type DevSelectTriggerProps, 
+  type DevSelectContentProps, 
+  type DevSelectLabelProps, 
+  type DevSelectItemProps, 
+  type DevSelectSeparatorProps, 
+  type DevSelectScrollUpButtonProps, 
+  type DevSelectScrollDownButtonProps 
+};

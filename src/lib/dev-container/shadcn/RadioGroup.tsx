@@ -41,15 +41,8 @@ export const RadioGroup = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId='dev-radio-group'
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'RadioGroup',
-        description: devDescription || 'Radio group for single selection',
-        filePath: 'src/lib/dev-container/shadcn/RadioGroup.tsx',
-        category: 'form',
-        semanticTags: ['radio', 'group', 'form', 'selection', 'ui'],
-      }}
     >
       <ShadcnRadioGroup ref={ref} {...props}>
         {children}
@@ -86,15 +79,8 @@ export const RadioGroupItem = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId='dev-radio-group-item'
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'RadioGroupItem',
-        description: devDescription || 'Individual radio button',
-        filePath: 'src/lib/dev-container/shadcn/RadioGroup.tsx',
-        category: 'form',
-        semanticTags: ['radio', 'item', 'button', 'interactive', 'ui'],
-      }}
     >
       <ShadcnRadioGroupItem ref={ref} {...props} />
     </Container>
@@ -102,3 +88,9 @@ export const RadioGroupItem = React.forwardRef<
 });
 
 RadioGroupItem.displayName = 'DevRadioGroupItem';
+
+// Export dev prop types
+export {
+  type DevRadioGroupProps,
+  type DevRadioGroupItemProps,
+};

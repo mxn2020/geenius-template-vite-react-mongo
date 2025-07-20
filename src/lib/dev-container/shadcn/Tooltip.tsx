@@ -15,7 +15,9 @@ import {
 
 // TooltipProvider component (FC type)
 type ShadcnTooltipProviderProps = React.ComponentProps<typeof ShadcnTooltipProvider>;
-type DevTooltipProviderProps = ShadcnTooltipProviderProps & DevProps & { children?: React.ReactNode };
+interface DevTooltipProviderProps extends ShadcnTooltipProviderProps, DevProps {
+  children: React.ReactNode;
+}
 
 export const TooltipProvider = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevTooltipProviderProps) => {
   const { config } = useDevMode();
@@ -29,7 +31,7 @@ export const TooltipProvider = ({ devId, devName, devDescription, devSelectable 
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnTooltipProvider {...props}>
         {children}
@@ -40,15 +42,8 @@ export const TooltipProvider = ({ devId, devName, devDescription, devSelectable 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-tooltip-provider"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'TooltipProvider',
-        description: devDescription || 'Provider for tooltip context',
-        filePath: 'src/lib/dev-container/shadcn/Tooltip.tsx',
-        category: 'overlay',
-        semanticTags: ['tooltip', 'provider', 'context', 'ui'],
-      }}
     >
       <ShadcnTooltipProvider {...props}>
         {children}
@@ -61,7 +56,9 @@ TooltipProvider.displayName = 'DevTooltipProvider';
 
 // Tooltip root component (FC type)
 type ShadcnTooltipProps = React.ComponentProps<typeof ShadcnTooltip>;
-type DevTooltipProps = ShadcnTooltipProps & DevProps & { children?: React.ReactNode };
+interface DevTooltipProps extends ShadcnTooltipProps, DevProps {
+  children?: React.ReactNode;
+}
 
 export const Tooltip = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevTooltipProps) => {
   const { config } = useDevMode();
@@ -75,7 +72,7 @@ export const Tooltip = ({ devId, devName, devDescription, devSelectable = true, 
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnTooltip {...props}>
         {children}
@@ -86,15 +83,8 @@ export const Tooltip = ({ devId, devName, devDescription, devSelectable = true, 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-tooltip"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Tooltip',
-        description: devDescription || 'Tooltip root component',
-        filePath: 'src/lib/dev-container/shadcn/Tooltip.tsx',
-        category: 'overlay',
-        semanticTags: ['tooltip', 'overlay', 'popup', 'ui'],
-      }}
     >
       <ShadcnTooltip {...props}>
         {children}
@@ -107,7 +97,9 @@ Tooltip.displayName = 'DevTooltip';
 
 // TooltipTrigger component
 type ShadcnTooltipTriggerProps = React.ComponentPropsWithoutRef<typeof ShadcnTooltipTrigger>;
-type DevTooltipTriggerProps = ShadcnTooltipTriggerProps & DevProps & { children?: React.ReactNode };
+interface DevTooltipTriggerProps extends ShadcnTooltipTriggerProps, DevProps {
+  children?: React.ReactNode;
+}
 
 export const TooltipTrigger = React.forwardRef<
   React.ElementRef<typeof ShadcnTooltipTrigger>,
@@ -124,7 +116,7 @@ export const TooltipTrigger = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnTooltipTrigger ref={ref} {...props}>
         {children}
@@ -135,15 +127,8 @@ export const TooltipTrigger = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-tooltip-trigger"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'TooltipTrigger',
-        description: devDescription || 'Element that triggers the tooltip on hover',
-        filePath: 'src/lib/dev-container/shadcn/Tooltip.tsx',
-        category: 'overlay',
-        semanticTags: ['tooltip', 'trigger', 'interactive', 'ui'],
-      }}
     >
       <ShadcnTooltipTrigger ref={ref} {...props}>
         {children}
@@ -156,7 +141,9 @@ TooltipTrigger.displayName = 'DevTooltipTrigger';
 
 // TooltipContent component
 type ShadcnTooltipContentProps = React.ComponentPropsWithoutRef<typeof ShadcnTooltipContent>;
-type DevTooltipContentProps = ShadcnTooltipContentProps & DevProps & { children?: React.ReactNode };
+interface DevTooltipContentProps extends ShadcnTooltipContentProps, DevProps {
+  children?: React.ReactNode;
+}
 
 export const TooltipContent = React.forwardRef<
   React.ElementRef<typeof ShadcnTooltipContent>,
@@ -173,7 +160,7 @@ export const TooltipContent = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnTooltipContent ref={ref} {...props}>
         {children}
@@ -184,15 +171,8 @@ export const TooltipContent = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-tooltip-content"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'TooltipContent',
-        description: devDescription || 'Content area of the tooltip',
-        filePath: 'src/lib/dev-container/shadcn/Tooltip.tsx',
-        category: 'overlay',
-        semanticTags: ['tooltip', 'content', 'popup', 'ui'],
-      }}
     >
       <ShadcnTooltipContent ref={ref} {...props}>
         {children}
@@ -202,3 +182,11 @@ export const TooltipContent = React.forwardRef<
 });
 
 TooltipContent.displayName = 'DevTooltipContent';
+
+// Export prop types
+export {
+  type DevTooltipProviderProps,
+  type DevTooltipProps,
+  type DevTooltipTriggerProps,
+  type DevTooltipContentProps,
+};

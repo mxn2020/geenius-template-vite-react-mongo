@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-
 import { DevProps } from '../types';
 import { useDevMode } from '../hooks/useDevMode';
 
@@ -34,15 +33,8 @@ export const H1 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
     return (
       <Container
         componentId={devId}
+        definitionId="dev-h1" // Connect to component library definition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'H1',
-          description: devDescription || 'A main heading element',
-          filePath: 'src/lib/dev-container/geenius/Headings.tsx',
-          category: 'content',
-          semanticTags: ['h1', 'heading', 'title', 'semantic', 'content'],
-        }}
       >
         <h1 ref={ref} {...props}>
           {children}
@@ -57,14 +49,12 @@ export const H2 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
     const { config } = useDevMode();
     const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
     
-    // If no devId provided, throw build error
     if (!devId && shouldContainerize) {
       if (import.meta.env.DEV) {
         throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
       }
     }
     
-    // If no devId provided or explicitly set to "noID", don't containerize
     if (!devId || devId === "noID" || !shouldContainerize) {
       return (
         <h2 ref={ref} {...props}>
@@ -76,15 +66,8 @@ export const H2 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
     return (
       <Container
         componentId={devId}
+        definitionId="dev-h2"
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'H2',
-          description: devDescription || 'A secondary heading element',
-          filePath: 'src/lib/dev-container/geenius/Headings.tsx',
-          category: 'content',
-          semanticTags: ['h2', 'heading', 'subtitle', 'semantic', 'content'],
-        }}
       >
         <h2 ref={ref} {...props}>
           {children}
@@ -99,14 +82,12 @@ export const H3 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
     const { config } = useDevMode();
     const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
     
-    // If no devId provided, throw build error
     if (!devId && shouldContainerize) {
       if (import.meta.env.DEV) {
         throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
       }
     }
     
-    // If no devId provided or explicitly set to "noID", don't containerize
     if (!devId || devId === "noID" || !shouldContainerize) {
       return (
         <h3 ref={ref} {...props}>
@@ -118,15 +99,8 @@ export const H3 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
     return (
       <Container
         componentId={devId}
+        definitionId="dev-h3" // Connect to component library definition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'H3',
-          description: devDescription || 'A tertiary heading element',
-          filePath: 'src/lib/dev-container/geenius/Headings.tsx',
-          category: 'content',
-          semanticTags: ['h3', 'heading', 'section-title', 'semantic', 'content'],
-        }}
       >
         <h3 ref={ref} {...props}>
           {children}
@@ -141,14 +115,12 @@ export const H4 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
     const { config } = useDevMode();
     const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
     
-    // If no devId provided, throw build error
     if (!devId && shouldContainerize) {
       if (import.meta.env.DEV) {
         throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
       }
     }
     
-    // If no devId provided or explicitly set to "noID", don't containerize
     if (!devId || devId === "noID" || !shouldContainerize) {
       return (
         <h4 ref={ref} {...props}>
@@ -160,15 +132,8 @@ export const H4 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
     return (
       <Container
         componentId={devId}
+        definitionId="dev-h4" // Connect to component library definition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'H4',
-          description: devDescription || 'A fourth level heading element',
-          filePath: 'src/lib/dev-container/geenius/Headings.tsx',
-          category: 'content',
-          semanticTags: ['h4', 'heading', 'subsection-title', 'semantic', 'content'],
-        }}
       >
         <h4 ref={ref} {...props}>
           {children}
@@ -183,14 +148,12 @@ export const H5 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
     const { config } = useDevMode();
     const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
     
-    // If no devId provided, throw build error
     if (!devId && shouldContainerize) {
       if (import.meta.env.DEV) {
         throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
       }
     }
     
-    // If no devId provided or explicitly set to "noID", don't containerize
     if (!devId || devId === "noID" || !shouldContainerize) {
       return (
         <h5 ref={ref} {...props}>
@@ -202,15 +165,8 @@ export const H5 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
     return (
       <Container
         componentId={devId}
+        definitionId="dev-h5" // Connect to component library definition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'H5',
-          description: devDescription || 'A fifth level heading element',
-          filePath: 'src/lib/dev-container/geenius/Headings.tsx',
-          category: 'content',
-          semanticTags: ['h5', 'heading', 'minor-title', 'semantic', 'content'],
-        }}
       >
         <h5 ref={ref} {...props}>
           {children}
@@ -225,14 +181,12 @@ export const H6 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
     const { config } = useDevMode();
     const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
     
-    // If no devId provided, throw build error
     if (!devId && shouldContainerize) {
       if (import.meta.env.DEV) {
         throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
       }
     }
     
-    // If no devId provided or explicitly set to "noID", don't containerize
     if (!devId || devId === "noID" || !shouldContainerize) {
       return (
         <h6 ref={ref} {...props}>
@@ -244,15 +198,8 @@ export const H6 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
     return (
       <Container
         componentId={devId}
+        definitionId="dev-h6" // Connect to component library definition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'H6',
-          description: devDescription || 'A sixth level heading element',
-          filePath: 'src/lib/dev-container/geenius/Headings.tsx',
-          category: 'content',
-          semanticTags: ['h6', 'heading', 'smallest-title', 'semantic', 'content'],
-        }}
       >
         <h6 ref={ref} {...props}>
           {children}

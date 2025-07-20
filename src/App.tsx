@@ -1,3 +1,5 @@
+// src/App.tsx
+
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Landing } from './pages/Landing';
 import { Login } from './components/auth/Login';
@@ -6,14 +8,15 @@ import { Dashboard } from './components/auth/Dashboard';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { AuthProvider } from './components/auth/AuthProvider';
 import { DevModeApp, Container } from './lib/dev-container';
-import { componentRegistry, COMPONENT_IDS } from './registry';
+import { componentRegistry } from './registry/componentRegistry';
+import { componentLibrary } from './registry/componentLibrary';
 
 function App() {
   return (
-    <DevModeApp registry={componentRegistry}>
+    <DevModeApp system={{ registry: componentRegistry, library: componentLibrary }}>
       <AuthProvider>
         <Router>
-          <Container componentId={COMPONENT_IDS.APP_ROOT}>
+          <Container componentId="app-root">
             <div className="App">
               <Routes>
                 <Route path="/" element={<Landing />} />

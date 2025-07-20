@@ -35,7 +35,7 @@ export const Sheet = ({ devId, devName, devDescription, devSelectable = true, de
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnSheet {...props}>
         {children}
@@ -46,15 +46,8 @@ export const Sheet = ({ devId, devName, devDescription, devSelectable = true, de
   return (
     <Container
       componentId={devId}
+      definitionId="dev-sheet"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Sheet',
-        description: devDescription || 'Sheet root component',
-        filePath: 'src/lib/dev-container/shadcn/Sheet.tsx',
-        category: 'overlay',
-        semanticTags: ['sheet', 'modal', 'slide', 'overlay', 'ui'],
-      }}
     >
       <ShadcnSheet {...props}>
         {children}
@@ -81,7 +74,7 @@ export const SheetPortal = ({ devId, devName, devDescription, devSelectable = tr
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnSheetPortal {...props}>
         {children}
@@ -92,15 +85,8 @@ export const SheetPortal = ({ devId, devName, devDescription, devSelectable = tr
   return (
     <Container
       componentId={devId}
+      definitionId="dev-sheet-portal"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'SheetPortal',
-        description: devDescription || 'Portal container for sheet content',
-        filePath: 'src/lib/dev-container/shadcn/Sheet.tsx',
-        category: 'overlay',
-        semanticTags: ['sheet', 'portal', 'container', 'ui'],
-      }}
     >
       <ShadcnSheetPortal {...props}>
         {children}
@@ -130,7 +116,7 @@ export const SheetOverlay = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnSheetOverlay ref={ref} {...props}>
         {children}
@@ -141,15 +127,8 @@ export const SheetOverlay = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-sheet-overlay"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'SheetOverlay',
-        description: devDescription || 'Background overlay for sheet',
-        filePath: 'src/lib/dev-container/shadcn/Sheet.tsx',
-        category: 'overlay',
-        semanticTags: ['sheet', 'overlay', 'background', 'ui'],
-      }}
     >
       <ShadcnSheetOverlay ref={ref} {...props}>
         {children}
@@ -179,7 +158,7 @@ export const SheetTrigger = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnSheetTrigger ref={ref} {...props}>
         {children}
@@ -190,15 +169,8 @@ export const SheetTrigger = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-sheet-trigger"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'SheetTrigger',
-        description: devDescription || 'Button that opens the sheet',
-        filePath: 'src/lib/dev-container/shadcn/Sheet.tsx',
-        category: 'overlay',
-        semanticTags: ['sheet', 'trigger', 'button', 'interactive', 'ui'],
-      }}
     >
       <ShadcnSheetTrigger ref={ref} {...props}>
         {children}
@@ -228,7 +200,7 @@ export const SheetClose = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnSheetClose ref={ref} {...props}>
         {children}
@@ -239,15 +211,8 @@ export const SheetClose = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-sheet-close"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'SheetClose',
-        description: devDescription || 'Button that closes the sheet',
-        filePath: 'src/lib/dev-container/shadcn/Sheet.tsx',
-        category: 'overlay',
-        semanticTags: ['sheet', 'close', 'button', 'interactive', 'ui'],
-      }}
     >
       <ShadcnSheetClose ref={ref} {...props}>
         {children}
@@ -277,7 +242,7 @@ export const SheetContent = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnSheetContent ref={ref} {...props}>
         {children}
@@ -288,15 +253,8 @@ export const SheetContent = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-sheet-content"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'SheetContent',
-        description: devDescription || 'Main content area of the sheet',
-        filePath: 'src/lib/dev-container/shadcn/Sheet.tsx',
-        category: 'overlay',
-        semanticTags: ['sheet', 'content', 'modal', 'ui'],
-      }}
     >
       <ShadcnSheetContent ref={ref} {...props}>
         {children}
@@ -323,7 +281,7 @@ export const SheetHeader = ({ devId, devName, devDescription, devSelectable = tr
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnSheetHeader {...props}>
         {children}
@@ -334,15 +292,8 @@ export const SheetHeader = ({ devId, devName, devDescription, devSelectable = tr
   return (
     <Container
       componentId={devId}
+      definitionId="dev-sheet-header"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'SheetHeader',
-        description: devDescription || 'Header section of the sheet',
-        filePath: 'src/lib/dev-container/shadcn/Sheet.tsx',
-        category: 'overlay',
-        semanticTags: ['sheet', 'header', 'layout', 'ui'],
-      }}
     >
       <ShadcnSheetHeader {...props}>
         {children}
@@ -369,7 +320,7 @@ export const SheetFooter = ({ devId, devName, devDescription, devSelectable = tr
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnSheetFooter {...props}>
         {children}
@@ -380,15 +331,8 @@ export const SheetFooter = ({ devId, devName, devDescription, devSelectable = tr
   return (
     <Container
       componentId={devId}
+      definitionId="dev-sheet-footer"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'SheetFooter',
-        description: devDescription || 'Footer section of the sheet',
-        filePath: 'src/lib/dev-container/shadcn/Sheet.tsx',
-        category: 'overlay',
-        semanticTags: ['sheet', 'footer', 'layout', 'ui'],
-      }}
     >
       <ShadcnSheetFooter {...props}>
         {children}
@@ -418,7 +362,7 @@ export const SheetTitle = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnSheetTitle ref={ref} {...props}>
         {children}
@@ -429,15 +373,8 @@ export const SheetTitle = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-sheet-title"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'SheetTitle',
-        description: devDescription || 'Title text of the sheet',
-        filePath: 'src/lib/dev-container/shadcn/Sheet.tsx',
-        category: 'overlay',
-        semanticTags: ['sheet', 'title', 'heading', 'ui'],
-      }}
     >
       <ShadcnSheetTitle ref={ref} {...props}>
         {children}
@@ -467,7 +404,7 @@ export const SheetDescription = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnSheetDescription ref={ref} {...props}>
         {children}
@@ -478,15 +415,8 @@ export const SheetDescription = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-sheet-description"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'SheetDescription',
-        description: devDescription || 'Description text of the sheet',
-        filePath: 'src/lib/dev-container/shadcn/Sheet.tsx',
-        category: 'overlay',
-        semanticTags: ['sheet', 'description', 'text', 'ui'],
-      }}
     >
       <ShadcnSheetDescription ref={ref} {...props}>
         {children}
@@ -496,3 +426,16 @@ export const SheetDescription = React.forwardRef<
 });
 
 SheetDescription.displayName = 'DevSheetDescription';
+
+export { 
+  type DevSheetProps, 
+  type DevSheetPortalProps, 
+  type DevSheetOverlayProps, 
+  type DevSheetTriggerProps, 
+  type DevSheetCloseProps, 
+  type DevSheetContentProps, 
+  type DevSheetHeaderProps, 
+  type DevSheetFooterProps, 
+  type DevSheetTitleProps, 
+  type DevSheetDescriptionProps 
+};

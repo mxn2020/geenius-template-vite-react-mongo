@@ -1,20 +1,22 @@
+// src/lib/dev-container/components/DevModeApp.tsx
+
 import React from 'react';
 import { DevModeProvider, DevModeFloatingIcon } from './DevModeProvider';
-import { Sidebar } from './Sidebar';
-import { ComponentRegistry } from '../types';
+import { GeeniusSidebar } from './GeeniusSidebar';
+import { ComponentSystem } from '../types';
 
 interface DevModeAppProps {
   children: React.ReactNode;
-  registry: ComponentRegistry;
+  system: ComponentSystem; // Changed from registry
 }
 
-export const DevModeApp: React.FC<DevModeAppProps> = ({ children, registry }) => {
+export const DevModeApp: React.FC<DevModeAppProps> = ({ children, system }) => {
   return (
-    <DevModeProvider registry={registry}>
+    <DevModeProvider system={system}>
       <div className="min-h-screen relative">
         {children}
         <DevModeFloatingIcon />
-        <Sidebar />
+        <GeeniusSidebar />
       </div>
     </DevModeProvider>
   );

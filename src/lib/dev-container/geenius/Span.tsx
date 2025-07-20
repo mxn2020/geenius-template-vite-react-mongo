@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-
 import { DevProps } from '../types';
 import { useDevMode } from '../hooks/useDevMode';
 
@@ -34,15 +33,8 @@ export const Span = React.forwardRef<HTMLSpanElement, DevSpanProps>(
     return (
       <Container
         componentId={devId}
+        definitionId="dev-span" // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Span',
-          description: devDescription || 'A span element',
-          filePath: 'src/lib/dev-container/geenius/Span.tsx',
-          category: 'content',
-          semanticTags: ['span', 'inline', 'text', 'content'],
-        }}
       >
         <span ref={ref} {...props}>
           {children}

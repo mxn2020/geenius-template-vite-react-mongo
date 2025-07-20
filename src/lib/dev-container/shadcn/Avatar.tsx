@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-
 import { DevProps } from '../types';
 import { useDevMode } from '../hooks/useDevMode';
 
@@ -35,7 +34,7 @@ export const Avatar = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnAvatar ref={ref} {...props}>
         {children}
@@ -46,15 +45,8 @@ export const Avatar = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-avatar" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Avatar',
-        description: devDescription || 'User profile picture or placeholder',
-        filePath: 'src/lib/dev-container/shadcn/Avatar.tsx',
-        category: 'ui',
-        semanticTags: ['avatar', 'profile', 'image', 'user', 'ui'],
-      }}
     >
       <ShadcnAvatar ref={ref} {...props}>
         {children}
@@ -80,7 +72,7 @@ export const AvatarImage = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnAvatarImage ref={ref} {...props}>
         {children}
@@ -91,15 +83,8 @@ export const AvatarImage = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-avatar-image" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'AvatarImage',
-        description: devDescription || 'The actual image displayed in the avatar',
-        filePath: 'src/lib/dev-container/shadcn/Avatar.tsx',
-        category: 'ui',
-        semanticTags: ['avatar', 'image', 'media', 'ui'],
-      }}
     >
       <ShadcnAvatarImage ref={ref} {...props}>
         {children}
@@ -125,7 +110,7 @@ export const AvatarFallback = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnAvatarFallback ref={ref} {...props}>
         {children}
@@ -136,15 +121,8 @@ export const AvatarFallback = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-avatar-fallback" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'AvatarFallback',
-        description: devDescription || 'Fallback content when avatar image fails to load',
-        filePath: 'src/lib/dev-container/shadcn/Avatar.tsx',
-        category: 'ui',
-        semanticTags: ['avatar', 'fallback', 'placeholder', 'ui'],
-      }}
     >
       <ShadcnAvatarFallback ref={ref} {...props}>
         {children}
@@ -154,3 +132,6 @@ export const AvatarFallback = React.forwardRef<
 });
 
 AvatarFallback.displayName = 'DevAvatarFallback';
+
+// Export types
+export { type DevAvatarProps, type DevAvatarImageProps, type DevAvatarFallbackProps };

@@ -35,7 +35,7 @@ export const Dialog = ({ devId, devName, devDescription, devSelectable = true, d
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnDialog {...props}>
         {children}
@@ -46,15 +46,8 @@ export const Dialog = ({ devId, devName, devDescription, devSelectable = true, d
   return (
     <Container
       componentId={devId}
+      definitionId="dev-dialog"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Dialog',
-        description: devDescription || 'Dialog root component',
-        filePath: 'src/lib/dev-container/shadcn/Dialog.tsx',
-        category: 'overlay',
-        semanticTags: ['dialog', 'modal', 'overlay', 'ui'],
-      }}
     >
       <ShadcnDialog {...props}>
         {children}
@@ -84,7 +77,7 @@ export const DialogTrigger = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnDialogTrigger ref={ref} {...props}>
         {children}
@@ -95,15 +88,8 @@ export const DialogTrigger = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-dialog-trigger"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'DialogTrigger',
-        description: devDescription || 'Button that opens the dialog',
-        filePath: 'src/lib/dev-container/shadcn/Dialog.tsx',
-        category: 'overlay',
-        semanticTags: ['dialog', 'trigger', 'button', 'interactive', 'ui'],
-      }}
     >
       <ShadcnDialogTrigger ref={ref} {...props}>
         {children}
@@ -130,7 +116,7 @@ export const DialogPortal = ({ devId, devName, devDescription, devSelectable = t
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnDialogPortal {...props}>
         {children}
@@ -141,15 +127,8 @@ export const DialogPortal = ({ devId, devName, devDescription, devSelectable = t
   return (
     <Container
       componentId={devId}
+      definitionId="dev-dialog-portal"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'DialogPortal',
-        description: devDescription || 'Portal container for dialog content',
-        filePath: 'src/lib/dev-container/shadcn/Dialog.tsx',
-        category: 'overlay',
-        semanticTags: ['dialog', 'portal', 'container', 'ui'],
-      }}
     >
       <ShadcnDialogPortal {...props}>
         {children}
@@ -179,7 +158,7 @@ export const DialogOverlay = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnDialogOverlay ref={ref} {...props}>
         {children}
@@ -190,15 +169,8 @@ export const DialogOverlay = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-dialog-overlay"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'DialogOverlay',
-        description: devDescription || 'Background overlay for dialog',
-        filePath: 'src/lib/dev-container/shadcn/Dialog.tsx',
-        category: 'overlay',
-        semanticTags: ['dialog', 'overlay', 'background', 'ui'],
-      }}
     >
       <ShadcnDialogOverlay ref={ref} {...props}>
         {children}
@@ -228,7 +200,7 @@ export const DialogContent = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnDialogContent ref={ref} {...props}>
         {children}
@@ -239,15 +211,8 @@ export const DialogContent = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-dialog-content"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'DialogContent',
-        description: devDescription || 'Main content area of the dialog',
-        filePath: 'src/lib/dev-container/shadcn/Dialog.tsx',
-        category: 'overlay',
-        semanticTags: ['dialog', 'content', 'modal', 'ui'],
-      }}
     >
       <ShadcnDialogContent ref={ref} {...props}>
         {children}
@@ -274,7 +239,7 @@ export const DialogHeader = ({ devId, devName, devDescription, devSelectable = t
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnDialogHeader {...props}>
         {children}
@@ -285,15 +250,8 @@ export const DialogHeader = ({ devId, devName, devDescription, devSelectable = t
   return (
     <Container
       componentId={devId}
+      definitionId="dev-dialog-header"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'DialogHeader',
-        description: devDescription || 'Header section of the dialog',
-        filePath: 'src/lib/dev-container/shadcn/Dialog.tsx',
-        category: 'overlay',
-        semanticTags: ['dialog', 'header', 'layout', 'ui'],
-      }}
     >
       <ShadcnDialogHeader {...props}>
         {children}
@@ -320,7 +278,7 @@ export const DialogFooter = ({ devId, devName, devDescription, devSelectable = t
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnDialogFooter {...props}>
         {children}
@@ -331,15 +289,8 @@ export const DialogFooter = ({ devId, devName, devDescription, devSelectable = t
   return (
     <Container
       componentId={devId}
+      definitionId="dev-dialog-footer"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'DialogFooter',
-        description: devDescription || 'Footer section of the dialog',
-        filePath: 'src/lib/dev-container/shadcn/Dialog.tsx',
-        category: 'overlay',
-        semanticTags: ['dialog', 'footer', 'layout', 'ui'],
-      }}
     >
       <ShadcnDialogFooter {...props}>
         {children}
@@ -369,7 +320,7 @@ export const DialogTitle = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnDialogTitle ref={ref} {...props}>
         {children}
@@ -380,15 +331,8 @@ export const DialogTitle = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-dialog-title"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'DialogTitle',
-        description: devDescription || 'Title text of the dialog',
-        filePath: 'src/lib/dev-container/shadcn/Dialog.tsx',
-        category: 'overlay',
-        semanticTags: ['dialog', 'title', 'heading', 'ui'],
-      }}
     >
       <ShadcnDialogTitle ref={ref} {...props}>
         {children}
@@ -418,7 +362,7 @@ export const DialogDescription = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnDialogDescription ref={ref} {...props}>
         {children}
@@ -429,15 +373,8 @@ export const DialogDescription = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-dialog-description"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'DialogDescription',
-        description: devDescription || 'Description text of the dialog',
-        filePath: 'src/lib/dev-container/shadcn/Dialog.tsx',
-        category: 'overlay',
-        semanticTags: ['dialog', 'description', 'text', 'ui'],
-      }}
     >
       <ShadcnDialogDescription ref={ref} {...props}>
         {children}
@@ -467,7 +404,7 @@ export const DialogClose = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnDialogClose ref={ref} {...props}>
         {children}
@@ -478,15 +415,8 @@ export const DialogClose = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-dialog-close"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'DialogClose',
-        description: devDescription || 'Button that closes the dialog',
-        filePath: 'src/lib/dev-container/shadcn/Dialog.tsx',
-        category: 'overlay',
-        semanticTags: ['dialog', 'close', 'button', 'interactive', 'ui'],
-      }}
     >
       <ShadcnDialogClose ref={ref} {...props}>
         {children}
@@ -496,3 +426,17 @@ export const DialogClose = React.forwardRef<
 });
 
 DialogClose.displayName = 'DevDialogClose';
+
+// Export types
+export { 
+  type DevDialogProps, 
+  type DevDialogTriggerProps, 
+  type DevDialogPortalProps, 
+  type DevDialogOverlayProps, 
+  type DevDialogContentProps, 
+  type DevDialogHeaderProps, 
+  type DevDialogFooterProps, 
+  type DevDialogTitleProps, 
+  type DevDialogDescriptionProps, 
+  type DevDialogCloseProps 
+};

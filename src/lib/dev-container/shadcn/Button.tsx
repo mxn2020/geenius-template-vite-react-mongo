@@ -28,15 +28,8 @@ export const Button = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId='dev-button' // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Button',
-        description: devDescription || 'Interactive button component',
-        filePath: 'src/lib/dev-container/shadcn/Button.tsx',
-        category: 'ui',
-        semanticTags: ['button', 'interactive', 'action', 'ui'],
-      }}
     >
       <ShadcnButton ref={ref} {...props}>
         {children}
@@ -49,4 +42,3 @@ Button.displayName = 'DevButton';
 
 // Export buttonVariants for convenience
 export { buttonVariants };
-

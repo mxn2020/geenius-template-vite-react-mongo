@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-
 import { DevProps } from '../types';
 import { useDevMode } from '../hooks/useDevMode';
 
@@ -27,6 +26,8 @@ type DevBreadcrumbListProps = ShadcnBreadcrumbListProps & DevProps & { children?
 type DevBreadcrumbItemProps = ShadcnBreadcrumbItemProps & DevProps & { children?: React.ReactNode };
 type DevBreadcrumbLinkProps = ShadcnBreadcrumbLinkProps & DevProps & { children?: React.ReactNode };
 type DevBreadcrumbPageProps = ShadcnBreadcrumbPageProps & DevProps & { children?: React.ReactNode };
+type DevBreadcrumbSeparatorProps = React.ComponentProps<"li"> & DevProps & { children?: React.ReactNode };
+type DevBreadcrumbEllipsisProps = React.ComponentProps<"span"> & DevProps & { children?: React.ReactNode };
 
 export const Breadcrumb = React.forwardRef<
   HTMLElement,
@@ -43,7 +44,7 @@ export const Breadcrumb = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnBreadcrumb ref={ref} {...props}>
         {children}
@@ -54,15 +55,8 @@ export const Breadcrumb = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-breadcrumb" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Breadcrumb',
-        description: devDescription || 'Navigation breadcrumb showing current page location',
-        filePath: 'src/lib/dev-container/shadcn/Breadcrumb.tsx',
-        category: 'navigation',
-        semanticTags: ['breadcrumb', 'navigation', 'hierarchy', 'ui'],
-      }}
     >
       <ShadcnBreadcrumb ref={ref} {...props}>
         {children}
@@ -77,7 +71,6 @@ export const BreadcrumbList = React.forwardRef<
   HTMLOListElement,
   DevBreadcrumbListProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
 
@@ -89,7 +82,7 @@ export const BreadcrumbList = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnBreadcrumbList ref={ref} {...props}>
         {children}
@@ -97,28 +90,17 @@ export const BreadcrumbList = React.forwardRef<
     );
   }
 
-  if (shouldContainerize) {
-    return (
-      <Container
-        componentId={devId}
-        selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'BreadcrumbList',
-          description: devDescription || 'Ordered list containing breadcrumb items',
-          filePath: 'src/lib/dev-container/shadcn/Breadcrumb.tsx',
-          category: 'navigation',
-          semanticTags: ['breadcrumb', 'list', 'navigation', 'ui'],
-        }}
-      >
-        <ShadcnBreadcrumbList ref={ref} {...props}>
-          {children}
-        </ShadcnBreadcrumbList>
-      </Container>
-    );
-  }
-
-
+  return (
+    <Container
+      componentId={devId}
+      definitionId="dev-breadcrumb-list" // Reference to ComponentDefinition
+      selectable={devSelectable}
+    >
+      <ShadcnBreadcrumbList ref={ref} {...props}>
+        {children}
+      </ShadcnBreadcrumbList>
+    </Container>
+  );
 });
 
 BreadcrumbList.displayName = 'DevBreadcrumbList';
@@ -127,7 +109,6 @@ export const BreadcrumbItem = React.forwardRef<
   HTMLLIElement,
   DevBreadcrumbItemProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
 
@@ -139,7 +120,7 @@ export const BreadcrumbItem = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnBreadcrumbItem ref={ref} {...props}>
         {children}
@@ -147,28 +128,17 @@ export const BreadcrumbItem = React.forwardRef<
     );
   }
 
-  if (shouldContainerize) {
-    return (
-      <Container
-        componentId={devId}
-        selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'BreadcrumbItem',
-          description: devDescription || 'Individual item in the breadcrumb navigation',
-          filePath: 'src/lib/dev-container/shadcn/Breadcrumb.tsx',
-          category: 'navigation',
-          semanticTags: ['breadcrumb', 'item', 'navigation', 'ui'],
-        }}
-      >
-        <ShadcnBreadcrumbItem ref={ref} {...props}>
-          {children}
-        </ShadcnBreadcrumbItem>
-      </Container>
-    );
-  }
-
-
+  return (
+    <Container
+      componentId={devId}
+      definitionId="dev-breadcrumb-item" // Reference to ComponentDefinition
+      selectable={devSelectable}
+    >
+      <ShadcnBreadcrumbItem ref={ref} {...props}>
+        {children}
+      </ShadcnBreadcrumbItem>
+    </Container>
+  );
 });
 
 BreadcrumbItem.displayName = 'DevBreadcrumbItem';
@@ -177,7 +147,6 @@ export const BreadcrumbLink = React.forwardRef<
   HTMLAnchorElement,
   DevBreadcrumbLinkProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
 
@@ -189,7 +158,7 @@ export const BreadcrumbLink = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnBreadcrumbLink ref={ref} {...props}>
         {children}
@@ -197,31 +166,16 @@ export const BreadcrumbLink = React.forwardRef<
     );
   }
 
-  if (shouldContainerize) {
-    return (
-      <Container
-        componentId={devId}
-        selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'BreadcrumbLink',
-          description: devDescription || 'Clickable link in breadcrumb navigation',
-          filePath: 'src/lib/dev-container/shadcn/Breadcrumb.tsx',
-          category: 'navigation',
-          semanticTags: ['breadcrumb', 'link', 'navigation', 'interactive', 'ui'],
-        }}
-      >
-        <ShadcnBreadcrumbLink ref={ref} {...props}>
-          {children}
-        </ShadcnBreadcrumbLink>
-      </Container>
-    );
-  }
-
   return (
-    <ShadcnBreadcrumbLink ref={ref} {...props}>
-      {children}
-    </ShadcnBreadcrumbLink>
+    <Container
+      componentId={devId}
+      definitionId="dev-breadcrumb-link" // Reference to ComponentDefinition
+      selectable={devSelectable}
+    >
+      <ShadcnBreadcrumbLink ref={ref} {...props}>
+        {children}
+      </ShadcnBreadcrumbLink>
+    </Container>
   );
 });
 
@@ -231,8 +185,6 @@ export const BreadcrumbPage = React.forwardRef<
   HTMLSpanElement,
   DevBreadcrumbPageProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-
-
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
 
@@ -244,7 +196,7 @@ export const BreadcrumbPage = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnBreadcrumbPage ref={ref} {...props}>
         {children}
@@ -255,15 +207,8 @@ export const BreadcrumbPage = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-breadcrumb-page" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'BreadcrumbPage',
-        description: devDescription || 'Current page indicator in breadcrumb navigation',
-        filePath: 'src/lib/dev-container/shadcn/Breadcrumb.tsx',
-        category: 'navigation',
-        semanticTags: ['breadcrumb', 'page', 'current', 'navigation', 'ui'],
-      }}
     >
       <ShadcnBreadcrumbPage ref={ref} {...props}>
         {children}
@@ -274,15 +219,10 @@ export const BreadcrumbPage = React.forwardRef<
 
 BreadcrumbPage.displayName = 'DevBreadcrumbPage';
 
-// Containerize separator and ellipsis too
-type DevBreadcrumbSeparatorProps = React.ComponentProps<"li"> & DevProps & { children?: React.ReactNode };
-type DevBreadcrumbEllipsisProps = React.ComponentProps<"span"> & DevProps & { children?: React.ReactNode };
-
 export const BreadcrumbSeparator = React.forwardRef<
   HTMLLIElement,
   DevBreadcrumbSeparatorProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
 
@@ -294,7 +234,7 @@ export const BreadcrumbSeparator = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnBreadcrumbSeparator ref={ref} {...props}>
         {children}
@@ -305,22 +245,14 @@ export const BreadcrumbSeparator = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-breadcrumb-separator" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'BreadcrumbSeparator',
-        description: devDescription || 'Visual separator between breadcrumb items',
-        filePath: 'src/lib/dev-container/shadcn/Breadcrumb.tsx',
-        category: 'navigation',
-        semanticTags: ['breadcrumb', 'separator', 'visual', 'ui'],
-      }}
     >
       <ShadcnBreadcrumbSeparator ref={ref} {...props}>
         {children}
       </ShadcnBreadcrumbSeparator>
     </Container>
   );
-
 });
 
 BreadcrumbSeparator.displayName = 'DevBreadcrumbSeparator';
@@ -329,7 +261,6 @@ export const BreadcrumbEllipsis = React.forwardRef<
   HTMLSpanElement,
   DevBreadcrumbEllipsisProps
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
-
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
 
@@ -341,7 +272,7 @@ export const BreadcrumbEllipsis = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnBreadcrumbEllipsis ref={ref} {...props}>
         {children}
@@ -352,22 +283,25 @@ export const BreadcrumbEllipsis = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-breadcrumb-ellipsis" // Reference to ComponentDefinition
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'BreadcrumbEllipsis',
-        description: devDescription || 'Ellipsis indicator for collapsed breadcrumb items',
-        filePath: 'src/lib/dev-container/shadcn/Breadcrumb.tsx',
-        category: 'navigation',
-        semanticTags: ['breadcrumb', 'ellipsis', 'collapsed', 'ui'],
-      }}
     >
       <ShadcnBreadcrumbEllipsis ref={ref} {...props}>
         {children}
       </ShadcnBreadcrumbEllipsis>
     </Container>
   );
-
 });
 
 BreadcrumbEllipsis.displayName = 'DevBreadcrumbEllipsis';
+
+// Export types
+export { 
+  type DevBreadcrumbProps, 
+  type DevBreadcrumbListProps, 
+  type DevBreadcrumbItemProps, 
+  type DevBreadcrumbLinkProps, 
+  type DevBreadcrumbPageProps, 
+  type DevBreadcrumbSeparatorProps, 
+  type DevBreadcrumbEllipsisProps 
+};

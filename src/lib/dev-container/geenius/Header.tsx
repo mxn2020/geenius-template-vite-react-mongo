@@ -14,8 +14,15 @@ export const Header = React.forwardRef<HTMLElement, DevHeaderProps>(
     const { config } = useDevMode();
     const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
     
+    // If no devId provided, throw build error
+    if (!devId && shouldContainerize) {
+      if (import.meta.env.DEV) {
+        throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+      }
+    }
+    
     // If no devId provided or explicitly set to "noID", don't containerize
-    if (!devId || devId === "noID" || !shouldContainerize) {
+    if (devId === "noID" || !shouldContainerize) {
       return (
         <header ref={ref} {...props}>
           {children}
@@ -26,15 +33,8 @@ export const Header = React.forwardRef<HTMLElement, DevHeaderProps>(
     return (
       <Container
         componentId={devId}
+        definitionId="dev-header" // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Header',
-          description: devDescription || 'A header element',
-          filePath: 'src/lib/dev-container/geenius/Header.tsx',
-          category: 'layout',
-          semanticTags: ['header', 'navigation', 'layout', 'semantic'],
-        }}
       >
         <header ref={ref} {...props}>
           {children}

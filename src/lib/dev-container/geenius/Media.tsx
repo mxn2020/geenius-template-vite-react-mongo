@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-
 import { DevProps } from '../types';
 import { useDevMode } from '../hooks/useDevMode';
 
@@ -29,15 +28,8 @@ export const Img = React.forwardRef<HTMLImageElement, DevImageProps>(
     return (
       <Container
         componentId={devId}
+        definitionId='dev-img' // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Image',
-          description: devDescription || 'An image element',
-          filePath: 'src/lib/dev-container/geenius/Media.tsx',
-          category: 'media',
-          semanticTags: ['img', 'image', 'media', 'content'],
-        }}
       >
         <img ref={ref} {...props} />
       </Container>
@@ -74,15 +66,8 @@ export const Video = React.forwardRef<HTMLVideoElement, DevVideoProps>(
     return (
       <Container
         componentId={devId}
+        definitionId='dev-video' // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Video',
-          description: devDescription || 'A video element',
-          filePath: 'src/lib/dev-container/geenius/Media.tsx',
-          category: 'media',
-          semanticTags: ['video', 'media', 'player', 'content'],
-        }}
       >
         <video ref={ref} {...props}>
           {children}
@@ -121,15 +106,8 @@ export const Audio = React.forwardRef<HTMLAudioElement, DevAudioProps>(
     return (
       <Container
         componentId={devId}
+        definitionId='dev-audio' // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Audio',
-          description: devDescription || 'An audio element',
-          filePath: 'src/lib/dev-container/geenius/Media.tsx',
-          category: 'media',
-          semanticTags: ['audio', 'media', 'player', 'content'],
-        }}
       >
         <audio ref={ref} {...props}>
           {children}

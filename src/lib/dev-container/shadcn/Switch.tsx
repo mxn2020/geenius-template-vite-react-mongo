@@ -27,22 +27,15 @@ export const Switch = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return <ShadcnSwitch ref={ref} {...props} />;
   }
 
   return (
     <Container
       componentId={devId}
+      definitionId="dev-switch"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Switch',
-        description: devDescription || 'Toggle switch component',
-        filePath: 'src/lib/dev-container/shadcn/Switch.tsx',
-        category: 'form',
-        semanticTags: ['switch', 'toggle', 'form', 'input', 'ui'],
-      }}
     >
       <ShadcnSwitch ref={ref} {...props} />
     </Container>
@@ -50,3 +43,5 @@ export const Switch = React.forwardRef<
 });
 
 Switch.displayName = 'DevSwitch';
+
+export { type DevSwitchProps };

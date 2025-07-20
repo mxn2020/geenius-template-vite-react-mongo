@@ -30,7 +30,7 @@ export const ToggleGroup = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnToggleGroup ref={ref} {...props}>
         {children}
@@ -41,15 +41,8 @@ export const ToggleGroup = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-toggle-group"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ToggleGroup',
-        description: devDescription || 'Group of toggle buttons',
-        filePath: 'src/lib/dev-container/shadcn/ToggleGroup.tsx',
-        category: 'form',
-        semanticTags: ['toggle', 'group', 'buttons', 'selection', 'ui'],
-      }}
     >
       <ShadcnToggleGroup ref={ref} {...props}>
         {children}
@@ -79,7 +72,7 @@ export const ToggleGroupItem = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnToggleGroupItem ref={ref} {...props}>
         {children}
@@ -90,15 +83,8 @@ export const ToggleGroupItem = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-toggle-group-item"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'ToggleGroupItem',
-        description: devDescription || 'Individual toggle within a group',
-        filePath: 'src/lib/dev-container/shadcn/ToggleGroup.tsx',
-        category: 'form',
-        semanticTags: ['toggle', 'item', 'button', 'interactive', 'ui'],
-      }}
     >
       <ShadcnToggleGroupItem ref={ref} {...props}>
         {children}
@@ -109,3 +95,4 @@ export const ToggleGroupItem = React.forwardRef<
 
 ToggleGroupItem.displayName = 'DevToggleGroupItem';
 
+export { type DevToggleGroupProps, type DevToggleGroupItemProps };

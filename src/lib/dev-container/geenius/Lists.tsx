@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-
 import { DevProps } from '../types';
 import { useDevMode } from '../hooks/useDevMode';
 
@@ -35,15 +34,8 @@ export const Ul = React.forwardRef<HTMLUListElement, DevUlProps>(
     return (
       <Container
         componentId={devId}
+        definitionId='dev-ul' // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Unordered List',
-          description: devDescription || 'An unordered list element',
-          filePath: 'src/lib/dev-container/geenius/Lists.tsx',
-          category: 'content',
-          semanticTags: ['ul', 'list', 'unordered', 'content'],
-        }}
       >
         <ul ref={ref} {...props}>
           {children}
@@ -82,15 +74,8 @@ export const Ol = React.forwardRef<HTMLOListElement, DevOlProps>(
     return (
       <Container
         componentId={devId}
+        definitionId='dev-ol' // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Ordered List',
-          description: devDescription || 'An ordered list element',
-          filePath: 'src/lib/dev-container/geenius/Lists.tsx',
-          category: 'content',
-          semanticTags: ['ol', 'list', 'ordered', 'numbered', 'content'],
-        }}
       >
         <ol ref={ref} {...props}>
           {children}
@@ -129,15 +114,8 @@ export const Li = React.forwardRef<HTMLLIElement, DevLiProps>(
     return (
       <Container
         componentId={devId}
+        definitionId='dev-li' // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'List Item',
-          description: devDescription || 'A list item element',
-          filePath: 'src/lib/dev-container/geenius/Lists.tsx',
-          category: 'content',
-          semanticTags: ['li', 'list-item', 'item', 'content'],
-        }}
       >
         <li ref={ref} {...props}>
           {children}

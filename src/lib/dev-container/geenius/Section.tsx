@@ -2,7 +2,6 @@
 
 import React from 'react';
 import { Container } from '../components/Container';
-
 import { DevProps } from '../types';
 import { useDevMode } from '../hooks/useDevMode';
 
@@ -34,15 +33,8 @@ export const Section = React.forwardRef<HTMLElement, DevSectionProps>(
     return (
       <Container
         componentId={devId}
+        definitionId='dev-section' // Reference to ComponentDefinition
         selectable={devSelectable}
-        meta={{
-          id: devId,
-          name: devName || 'Section',
-          description: devDescription || 'A section element',
-          filePath: 'src/lib/dev-container/geenius/Section.tsx',
-          category: 'layout',
-          semanticTags: ['section', 'content', 'layout', 'semantic'],
-        }}
       >
         <section ref={ref} {...props}>
           {children}

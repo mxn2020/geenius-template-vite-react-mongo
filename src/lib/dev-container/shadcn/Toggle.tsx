@@ -27,7 +27,7 @@ export const Toggle = React.forwardRef<
   }
 
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return (
       <ShadcnToggle ref={ref} {...props}>
         {children}
@@ -38,15 +38,8 @@ export const Toggle = React.forwardRef<
   return (
     <Container
       componentId={devId}
+      definitionId="dev-toggle"
       selectable={devSelectable}
-      meta={{
-        id: devId,
-        name: devName || 'Toggle',
-        description: devDescription || 'Toggle button component',
-        filePath: 'src/lib/dev-container/shadcn/Toggle.tsx',
-        category: 'form',
-        semanticTags: ['toggle', 'button', 'switch', 'interactive', 'ui'],
-      }}
     >
       <ShadcnToggle ref={ref} {...props}>
         {children}
@@ -59,3 +52,5 @@ Toggle.displayName = 'DevToggle';
 
 // Export the toggle variants utility
 export { toggleVariants };
+
+export { type DevToggleProps };

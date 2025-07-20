@@ -1,8 +1,9 @@
+// src/pages/Landing.tsx
+
 import React, { useState, useEffect } from 'react';
 import { Database, Zap, Code, Globe, Users, Star, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Container, Button, Card, CardContent, Badge, Header, Nav, Section, Span, H1, H2, P, Div, Footer } from '../lib/dev-container';
-import { COMPONENT_IDS } from '../registry';
 import { useAuth } from '../components/auth/AuthProvider';
 
 export const Landing: React.FC = () => {
@@ -44,7 +45,7 @@ export const Landing: React.FC = () => {
   ];
 
   return (
-    <Container componentId={COMPONENT_IDS.LANDING_PAGE}>
+    <Container componentId="landing-page-root"> {/* Changed to direct ID */}
       <Div 
         devId="main-wrapper" 
         devName="Main Wrapper" 
@@ -159,7 +160,7 @@ export const Landing: React.FC = () => {
       </Header>
 
       {/* Hero Section */}
-      <Container componentId={COMPONENT_IDS.HERO_SECTION}>
+      <Container componentId="hero-section"> {/* Changed to direct ID */}
         <Section 
           devId="hero-content" 
           devName="Hero Content" 
@@ -241,7 +242,7 @@ export const Landing: React.FC = () => {
       </Container>
 
       {/* Stats Section */}
-      <Container componentId={COMPONENT_IDS.STATS_SECTION}>
+      <Container componentId="stats-section"> {/* Changed to direct ID */}
         <Section 
           devId="stats-content" 
           devName="Stats Content" 
@@ -273,7 +274,7 @@ export const Landing: React.FC = () => {
       </Container>
 
       {/* Features Section */}
-      <Container componentId={COMPONENT_IDS.FEATURES_SECTION}>
+      <Container componentId="features-section"> {/* Changed to direct ID */}
         <Section devId="noID" className="container mx-auto px-4 py-20">
           <Div devId="noID" className="text-center mb-16">
             <H2 devId="noID" className="text-4xl font-bold text-white mb-4">Why Choose This Template?</H2>
@@ -302,7 +303,7 @@ export const Landing: React.FC = () => {
       </Container>
 
       {/* Tech Stack Section */}
-      <Container componentId={COMPONENT_IDS.TECH_STACK_SECTION}>
+      <Container componentId="tech-stack-section"> {/* Changed to direct ID */}
         <Section devId="noID" className="container mx-auto px-4 py-20">
           <Div devId="noID" className="text-center mb-16">
             <H2 devId="noID" className="text-4xl font-bold text-white mb-4">Modern Tech Stack</H2>
@@ -338,7 +339,7 @@ export const Landing: React.FC = () => {
       </Container>
 
       {/* CTA Section */}
-      <Container componentId={COMPONENT_IDS.CTA_SECTION}>
+      <Container componentId="cta-section"> {/* Changed to direct ID */}
         <Section devId="noID" className="container mx-auto px-4 py-20">
           <Div devId="noID" className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-2xl p-12 text-center border border-purple-500/30">
             <H2 devId="noID" className="text-4xl font-bold text-white mb-4">Ready to Build Something Amazing?</H2>
