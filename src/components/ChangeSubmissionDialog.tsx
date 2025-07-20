@@ -28,11 +28,13 @@ interface ChangeSubmissionDialogProps {
 }
 
 interface ProcessingStatus {
-  status: 'idle' | 'submitting' | 'sandbox_creating' | 'ai_processing' | 'testing' | 'pr_creating' | 'deploying' | 'completed' | 'failed';
+  status: 'idle' | 'submitting' | 'received' | 'validating' | 'analyzing' | 'processing' | 'creating_branch' | 'committing' | 'testing' | 'pr_creating' | 'deploying' | 'completed' | 'failed';
   sessionId?: string;
   previewUrl?: string;
   prUrl?: string;
   error?: string;
+  progress?: number;
+  currentStep?: string;
   logs: Array<{
     timestamp: number;
     level: 'info' | 'success' | 'warning' | 'error';
@@ -45,43 +47,61 @@ const statusSteps = [
     key: 'submitting', 
     label: 'Submitting changes...', 
     icon: RefreshCw,
-    description: 'Sending changes to processing server'
+    description: 'Sending changes to enhanced processing server'
   },
   { 
-    key: 'sandbox_creating', 
-    label: 'Creating sandbox...', 
+    key: 'validating', 
+    label: 'Validating changes...', 
     icon: Settings,
-    description: 'Setting up StackBlitz development environment'
+    description: 'AI agent validating change requests for security and relevance'
   },
   { 
-    key: 'ai_processing', 
-    label: 'AI agent working...', 
+    key: 'analyzing', 
+    label: 'Analyzing dependencies...', 
     icon: Code,
-    description: 'Implementing your requested changes'
+    description: 'Smart dependency analysis and processing strategy'
+  },
+  { 
+    key: 'processing', 
+    label: 'AI agents working...', 
+    icon: Code,
+    description: 'Multi-agent team implementing your changes file-by-file'
+  },
+  { 
+    key: 'creating_branch', 
+    label: 'Creating feature branch...', 
+    icon: GitPullRequest,
+    description: 'AI generating feature branch and preparing repository'
+  },
+  { 
+    key: 'committing', 
+    label: 'Committing changes...', 
+    icon: Code,
+    description: 'Step-by-step commits with continuous refinements'
   },
   { 
     key: 'testing', 
     label: 'Running tests...', 
     icon: TestTube,
-    description: 'Verifying changes work correctly'
+    description: 'Generating and executing comprehensive test suite'
   },
   { 
     key: 'pr_creating', 
     label: 'Creating PR...', 
     icon: GitPullRequest,
-    description: 'Preparing pull request for review'
+    description: 'Creating pull request with detailed documentation'
   },
   { 
     key: 'deploying', 
     label: 'Deploying preview...', 
     icon: Rocket,
-    description: 'Building and deploying preview version'
+    description: 'Preview deployment and automated testing'
   },
   { 
     key: 'completed', 
     label: 'Ready for review!', 
     icon: CheckCircle,
-    description: 'Changes implemented and preview ready'
+    description: 'Changes implemented with AI-generated tests and documentation'
   }
 ];
 
@@ -147,6 +167,7 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
           projectId: window.location.hostname,
           version: '1.0.0',
           repositoryUrl: 'https://github.com/mehdinabhani/geenius-template-vite-react-mongo',
+          aiProvider: (import.meta.env.VITE_AI_PROVIDER as 'anthropic' | 'openai' | 'google' | 'grok') || 'anthropic',
           userInfo: {
             sessionId: generateId(),
             userAgent: navigator.userAgent,
@@ -171,9 +192,9 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
         },
       };
 
-      // Submit to Geenius processing endpoint
+      // Submit to Geenius enhanced processing endpoint
       const geeniusApiUrl = import.meta.env.VITE_GEENIUS_API_URL || 'http://localhost:8888';
-      const response = await fetch(`${geeniusApiUrl}/api/process-changes`, {
+      const response = await fetch(`${geeniusApiUrl}/api/process-changes-enhanced`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -191,19 +212,19 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
         throw new Error(result.error || 'Submission failed');
       }
 
-      // Use submission ID from response
-      const sessionId = result.submissionId;
+      // Use session ID from response
+      const sessionId = result.sessionId;
       
       setProcessing(prev => ({
         ...prev,
-        status: 'sandbox_creating',
+        status: 'received',
         sessionId,
         logs: [
           ...prev.logs,
           {
             timestamp: Date.now(),
             level: 'success',
-            message: 'Changes submitted successfully! Starting processing...'
+            message: 'Changes submitted successfully! Enhanced AI processing started...'
           }
         ]
       }));
@@ -237,7 +258,7 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
     const pollInterval = setInterval(async () => {
       try {
         const geeniusApiUrl = import.meta.env.VITE_GEENIUS_API_URL || 'http://localhost:8888';
-        const response = await fetch(`${geeniusApiUrl}/api/process-changes/${sessionId}`);
+        const response = await fetch(`${geeniusApiUrl}/api/process-changes-enhanced/${sessionId}`);
         
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}: ${response.statusText}`);
@@ -248,6 +269,8 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
         setProcessing(prev => ({
           ...prev,
           status: data.status,
+          progress: data.progress,
+          currentStep: data.currentStep,
           previewUrl: data.previewUrl,
           prUrl: data.prUrl,
           error: data.error,
@@ -292,7 +315,7 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
 
   const currentStep = statusSteps.find(step => step.key === processing.status);
   const CurrentIcon = currentStep?.icon || Info;
-  const progress = getProgressPercentage(processing.status);
+  const progress = processing.progress || getProgressPercentage(processing.status);
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
@@ -301,8 +324,8 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
           <DialogTitle>Submit Changes</DialogTitle>
           <DialogDescription>
             {processing.status === 'idle' 
-              ? `Ready to submit ${changes.length} change${changes.length !== 1 ? 's' : ''} for AI processing`
-              : 'Processing your changes with AI agent'
+              ? `Ready to submit ${changes.length} change${changes.length !== 1 ? 's' : ''} for enhanced multi-agent AI processing`
+              : 'Processing your changes with specialized AI agent team'
             }
           </DialogDescription>
         </DialogHeader>
@@ -358,7 +381,9 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
                     }`} />
                     <div>
                       <h3 className="font-medium">{currentStep?.label}</h3>
-                      <p className="text-sm text-gray-600">{currentStep?.description}</p>
+                      <p className="text-sm text-gray-600">
+                        {processing.currentStep || currentStep?.description}
+                      </p>
                     </div>
                   </div>
 
@@ -452,7 +477,7 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
             <Alert className="border-green-200">
               <CheckCircle className="h-4 w-4" />
               <AlertDescription>
-                Changes processed successfully! You can now preview the changes and review the pull request.
+                Changes processed successfully by AI agent team! Comprehensive tests generated, preview deployed, and pull request created with detailed documentation.
               </AlertDescription>
             </Alert>
           )}
