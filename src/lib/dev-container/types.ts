@@ -1,6 +1,7 @@
 // src/lib/dev-container/types.ts
 
 import { ComponentLibraryId } from '@/registry/componentLibrary';
+import { ComponentRegistryId } from '@/registry/componentRegistry';
 import { ReactNode, ComponentType, CSSProperties, RefObject } from 'react';
 
 // =====================================
@@ -74,7 +75,7 @@ export interface ComponentSystem {
 // DEV PROPS INTERFACE
 // =====================================
 export interface DevProps {
-  devId: string | 'noID'; // Unique identifier for the component in dev mode
+  devId: ComponentRegistryId | 'noID'; // Unique identifier for the component in dev mode
   devName?: string;
   devDescription?: string;
   devSelectable?: boolean;
@@ -85,7 +86,7 @@ export interface DevProps {
 // CONTAINER COMPONENT TYPES
 // =====================================
 export interface ContainerProps {
-  componentId: string; // Usage ID from ComponentRegistry
+  componentId: ComponentRegistryId; // Usage ID from ComponentRegistry
   children: ReactNode;
   className?: string;
   style?: CSSProperties;
@@ -291,6 +292,7 @@ export interface GlobalContext {
   repositoryUrl?: string;
   branch?: string;
   commitHash?: string;
+  aiProvider?: 'anthropic' | 'openai' | 'google' | 'grok';
   userInfo?: UserContext;
 }
 
@@ -305,6 +307,7 @@ export interface SubmissionSummary {
 export interface SubmissionResponse {
   success: boolean;
   submissionId: string;
+  sessionId?: string;
   message: string;
   trackingUrl?: string;
   estimatedProcessingTime?: number;
@@ -336,7 +339,7 @@ export interface ComponentTreeProps {
 // =====================================
 // UTILITY TYPES
 // =====================================
-export type ComponentRegistryId = keyof ComponentRegistry;
+// export type ComponentRegistryId = keyof ComponentRegistry;
 // export type ComponentLibraryId = keyof ComponentLibrary;
 
 export interface DevModeConfig {

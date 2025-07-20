@@ -5,6 +5,28 @@ import { Database, Zap, Code, Globe, Users, Star, User } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Container, Button, Card, CardContent, Badge, Header, Nav, Section, Span, H1, H2, P, Div, Footer } from '../lib/dev-container';
 import { useAuth } from '../components/auth/AuthProvider';
+import type { ComponentRegistryId } from '../registry/componentRegistry';
+
+// Helper functions to ensure type safety for dynamic IDs
+const getStatCardId = (index: number): ComponentRegistryId => {
+  const ids: ComponentRegistryId[] = ['stat-card-0', 'stat-card-1', 'stat-card-2', 'stat-card-3'];
+  return ids[index] || 'noID';
+};
+
+const getFeatureCardId = (index: number): ComponentRegistryId => {
+  const ids: ComponentRegistryId[] = ['feature-card-0', 'feature-card-1', 'feature-card-2', 'feature-card-3'];
+  return ids[index] || 'noID';
+};
+
+const getTechLetterId = (index: number): ComponentRegistryId => {
+  const ids: ComponentRegistryId[] = ['tech-letter-0', 'tech-letter-1', 'tech-letter-2', 'tech-letter-3', 'tech-letter-4', 'tech-letter-5'];
+  return ids[index] || 'noID';
+};
+
+const getTechBadgeId = (index: number): ComponentRegistryId => {
+  const ids: ComponentRegistryId[] = ['tech-badge-0', 'tech-badge-1', 'tech-badge-2', 'tech-badge-3', 'tech-badge-4', 'tech-badge-5'];
+  return ids[index] || 'noID';
+};
 
 export const Landing: React.FC = () => {
   const [mounted, setMounted] = useState(false);
@@ -258,7 +280,7 @@ export const Landing: React.FC = () => {
             {stats.map((stat, index) => (
               <Card 
                 key={index} 
-                devId={`stat-card-${index}`}
+                devId={getStatCardId(index)}
                 devName={`${stat.label} Stat Card`}
                 devDescription={`Statistical card showing ${stat.label}: ${stat.value}`}
                 className="bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10"
@@ -286,7 +308,7 @@ export const Landing: React.FC = () => {
             {features.map((feature, index) => (
               <Card 
                 key={index} 
-                devId={`feature-card-${index}`}
+                devId={getFeatureCardId(index)}
                 devName={`${feature.title} Feature Card`}
                 devDescription={`Feature card highlighting ${feature.title}: ${feature.description}`}
                 className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-purple-500/50 transition-all"
@@ -321,11 +343,11 @@ export const Landing: React.FC = () => {
               { name: "Tailwind", color: "from-teal-400 to-teal-500" }
             ].map((tech, index) => (
               <Div key={index} devId="noID" className="text-center">
-                <Div devId={`tech-letter-${index}`} className={`w-16 h-16 mx-auto mb-3 rounded-xl bg-gradient-to-br ${tech.color} flex items-center justify-center`}>
+                <Div devId={getTechLetterId(index)} className={`w-16 h-16 mx-auto mb-3 rounded-xl bg-gradient-to-br ${tech.color} flex items-center justify-center`}>
                   <span className="text-white font-bold text-lg">{tech.name[0]}</span>
                 </Div>
                 <Badge 
-                  devId={`tech-badge-${index}`}
+                  devId={getTechBadgeId(index)}
                   devName={`${tech.name} Technology Badge`}
                   devDescription={`Technology badge for ${tech.name}`}
                   className="text-gray-300 font-medium bg-transparent border-none"
