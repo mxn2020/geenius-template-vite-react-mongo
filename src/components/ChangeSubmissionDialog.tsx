@@ -166,7 +166,8 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
           environment: 'development',
           projectId: window.location.hostname,
           version: '1.0.0',
-          repositoryUrl: 'https://github.com/mehdinabhani/geenius-template-vite-react-mongo',
+          repositoryUrl: import.meta.env.VITE_REPOSITORY_URL || 'https://github.com/mxn2020/geenius-template-vite-react-mongo',
+          branch: import.meta.env.VITE_BASE_BRANCH || 'main',
           aiProvider: (import.meta.env.VITE_AI_PROVIDER as 'anthropic' | 'openai' | 'google' | 'grok') || 'anthropic',
           userInfo: {
             sessionId: generateId(),
