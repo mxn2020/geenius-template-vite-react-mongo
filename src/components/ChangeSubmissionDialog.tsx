@@ -178,7 +178,13 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
           environment: 'development',
           projectId: window.location.hostname,
           version: '1.0.0',
-          repositoryUrl: import.meta.env.VITE_REPOSITORY_URL || 'https://github.com/mxn2020/geenius-template-vite-react-mongo',
+          repositoryUrl: import.meta.env.VITE_REPOSITORY_URL || (() => {
+            // Show clear error if repository URL is not configured
+            const error = 'VITE_REPOSITORY_URL environment variable not set. Please configure your repository URL in Netlify environment variables.';
+            console.error(error);
+            alert(error);
+            throw new Error(error);
+          })(),
           branch: import.meta.env.VITE_BASE_BRANCH || 'main',
           aiProvider: (import.meta.env.VITE_AI_PROVIDER as 'anthropic' | 'openai' | 'google' | 'grok') || 'anthropic',
           userInfo: {
