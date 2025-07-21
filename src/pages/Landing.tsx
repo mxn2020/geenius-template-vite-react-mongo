@@ -61,10 +61,46 @@ export const Landing: React.FC = () => {
 
   const stats = [
     { label: "Build Time", value: "< 2s" },
-    { label: "Bundle Size", value: "< 50KB" },
-    { label: "TypeScript", value: "100%" },
+    { label: "Bundle Size", value: "< 128KB" },
+    { label: "TypeScript", value: "95% 🚀" },
     { label: "Performance", value: "A+" }
   ];
+
+  // Helper function to get custom styling for specific stat cards
+  const getStatCardStyling = (label: string) => {
+    switch (label) {
+      case "Bundle Size":
+        return "bg-white text-black rounded-xl p-6 text-center border border-gray-300";
+      case "TypeScript":
+        return "bg-black text-white rounded-xl p-6 text-center border border-gray-600";
+      default:
+        return "bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10";
+    }
+  };
+
+  // Helper function to get custom text styling for stat values
+  const getStatValueStyling = (label: string) => {
+    switch (label) {
+      case "Bundle Size":
+        return "text-2xl font-bold text-black mb-2";
+      case "TypeScript":
+        return "text-2xl font-bold text-white mb-2";
+      default:
+        return "text-2xl font-bold text-white mb-2";
+    }
+  };
+
+  // Helper function to get custom text styling for stat labels
+  const getStatLabelStyling = (label: string) => {
+    switch (label) {
+      case "Bundle Size":
+        return "text-gray-600";
+      case "TypeScript":
+        return "text-gray-300";
+      default:
+        return "text-gray-400";
+    }
+  };
 
   return (
     <Container componentId="landing-page-root"> {/* Changed to direct ID */}
@@ -283,11 +319,11 @@ export const Landing: React.FC = () => {
                 devId={getStatCardId(index)}
                 devName={`${stat.label} Stat Card`}
                 devDescription={`Statistical card showing ${stat.label}: ${stat.value}`}
-                className="bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10"
+                className={getStatCardStyling(stat.label)}
               >
                 <CardContent devId="noID"  className="p-0">
-                  <Div devId="noID" className="text-2xl font-bold text-white mb-2">{stat.value}</Div>
-                  <Div devId="noID" className="text-gray-400">{stat.label}</Div>
+                  <Div devId="noID" className={getStatValueStyling(stat.label)}>{stat.value}</Div>
+                  <Div devId="noID" className={getStatLabelStyling(stat.label)}>{stat.label}</Div>
                 </CardContent>
               </Card>
             ))}
