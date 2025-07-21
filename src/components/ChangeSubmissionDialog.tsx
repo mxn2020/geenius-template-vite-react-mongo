@@ -128,7 +128,7 @@ function getProgressPercentage(status: ProcessingStatus['status']): number {
 }
 
 function generateId(): string {
-  return `${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  return `${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
 }
 
 export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
@@ -182,7 +182,7 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
             // Show clear error if repository URL is not configured
             const error = 'VITE_REPOSITORY_URL environment variable not set. Please configure your repository URL in Netlify environment variables.';
             console.error(error);
-            alert(error);
+            window.alert(error);
             throw new Error(error);
           })(),
           branch: import.meta.env.VITE_BASE_BRANCH || 'main',
@@ -377,7 +377,7 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
       });
 
       if (response.ok) {
-        const result = await response.json();
+        await response.json();
         setProcessing(prev => ({
           ...prev,
           status: 'merged',
@@ -570,7 +570,7 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
               </div>
               
               {/* Merge Actions */}
-              {processing.previewUrl && processing.prUrl && (processing.status === 'completed' || processing.status === 'preview_ready') && processing.status !== 'merged' && (
+              {processing.previewUrl && processing.prUrl && (processing.status === 'completed' || processing.status === 'preview_ready') && (
                 <div className="border-t pt-3">
                   <p className="text-sm text-gray-600 mb-2">✅ Preview is ready! Review the changes and merge when satisfied.</p>
                   <div className="flex gap-2">
