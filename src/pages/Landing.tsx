@@ -1,7 +1,7 @@
 // src/pages/Landing.tsx
 
 import React, { useState, useEffect } from 'react';
-import { Database, Zap, Code, Globe, Users, Star, User } from 'lucide-react';
+import { Database, Zap, Code, Globe, Users, Star, User, Mail, MessageSquare, Send } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Container, Button, Card, CardContent, Badge, Header, Nav, Section, Span, H1, H2, P, Div, Footer } from '../lib/dev-container';
 import { useAuth } from '../components/auth/AuthProvider';
@@ -19,12 +19,12 @@ const getFeatureCardId = (index: number): ComponentRegistryId => {
 };
 
 const getTechLetterId = (index: number): ComponentRegistryId => {
-  const ids: ComponentRegistryId[] = ['tech-letter-0', 'tech-letter-1', 'tech-letter-2', 'tech-letter-3', 'tech-letter-4', 'tech-letter-5'];
+  const ids: ComponentRegistryId[] = ['tech-letter-0', 'tech-letter-1', 'tech-letter-2', 'tech-letter-3', 'tech-letter-4', 'tech-letter-5', 'tech-letter-6'];
   return ids[index] || 'noID';
 };
 
 const getTechBadgeId = (index: number): ComponentRegistryId => {
-  const ids: ComponentRegistryId[] = ['tech-badge-0', 'tech-badge-1', 'tech-badge-2', 'tech-badge-3', 'tech-badge-4', 'tech-badge-5'];
+  const ids: ComponentRegistryId[] = ['tech-badge-0', 'tech-badge-1', 'tech-badge-2', 'tech-badge-3', 'tech-badge-4', 'tech-badge-5', 'tech-badge-6'];
   return ids[index] || 'noID';
 };
 
@@ -333,14 +333,15 @@ export const Landing: React.FC = () => {
               Built with the most popular and reliable technologies
             </P>
           </Div>
-          <Div devId="noID" className="grid grid-cols-2 md:grid-cols-6 gap-8">
+          <Div devId="noID" className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-8">
             {[
               { name: "Vite", color: "from-yellow-400 to-orange-500" },
               { name: "React", color: "from-blue-400 to-cyan-400" },
               { name: "TypeScript", color: "from-blue-500 to-blue-600" },
               { name: "MongoDB", color: "from-green-400 to-green-500" },
               { name: "Prisma", color: "from-purple-400 to-purple-500" },
-              { name: "Tailwind", color: "from-teal-400 to-teal-500" }
+              { name: "Tailwind", color: "from-teal-400 to-teal-500" },
+              { name: "Netlify", color: "from-cyan-400 to-blue-500" }
             ].map((tech, index) => (
               <Div key={index} devId="noID" className="text-center">
                 <Div devId={getTechLetterId(index)} className={`w-16 h-16 mx-auto mb-3 rounded-xl bg-gradient-to-br ${tech.color} flex items-center justify-center`}>
@@ -356,6 +357,69 @@ export const Landing: React.FC = () => {
                 </Badge>
               </Div>
             ))}
+          </Div>
+        </Section>
+      </Container>
+
+      {/* Contact Us Section */}
+      <Container componentId="contact-section">
+        <Section devId="noID" className="container mx-auto px-4 py-20">
+          <Div devId="noID" className="text-center mb-16">
+            <H2 devId="noID" className="text-4xl font-bold text-white mb-4">Get in Touch</H2>
+            <P devId="noID" className="text-gray-300 max-w-2xl mx-auto">
+              Have questions about the template or need help getting started? We'd love to hear from you.
+            </P>
+          </Div>
+          <Div devId="noID" className="max-w-2xl mx-auto">
+            <Card 
+              devId="contact-form-card"
+              devName="Contact Form Card"
+              devDescription="Contact form container with input fields"
+              className="bg-white/5 backdrop-blur-sm rounded-xl p-8 border border-white/10"
+            >
+              <CardContent devId="noID" className="p-0">
+                <form className="space-y-6">
+                  <Div devId="noID" className="grid md:grid-cols-2 gap-6">
+                    <Div devId="noID">
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Name</label>
+                      <input
+                        type="text"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors"
+                        placeholder="Your name"
+                      />
+                    </Div>
+                    <Div devId="noID">
+                      <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
+                      <input
+                        type="email"
+                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors"
+                        placeholder="your@email.com"
+                      />
+                    </Div>
+                  </Div>
+                  <Div devId="noID">
+                    <label className="block text-sm font-medium text-gray-300 mb-2">Message</label>
+                    <textarea
+                      rows={5}
+                      className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:border-purple-500 transition-colors resize-none"
+                      placeholder="Tell us about your project or ask any questions..."
+                    />
+                  </Div>
+                  <Button 
+                    devId="contact-submit-button"
+                    devName="Contact Submit Button"
+                    devDescription="Submit button for the contact form"
+                    type="submit"
+                    className="w-full bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-lg font-semibold transition-all transform hover:scale-105"
+                  >
+                    <span className="flex items-center justify-center gap-2">
+                      <Send className="w-5 h-5" />
+                      Send Message
+                    </span>
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
           </Div>
         </Section>
       </Container>
