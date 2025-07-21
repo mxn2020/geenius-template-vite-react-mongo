@@ -283,11 +283,15 @@ export const Landing: React.FC = () => {
                 devId={getStatCardId(index)}
                 devName={`${stat.label} Stat Card`}
                 devDescription={`Statistical card showing ${stat.label}: ${stat.value}`}
-                className="bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10"
+                className={`${
+                  index === 1 
+                    ? 'bg-gradient-to-br from-yellow-400/20 to-orange-500/20 backdrop-blur-sm rounded-xl p-6 text-center border border-yellow-400/30' 
+                    : 'bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10'
+                }`}
               >
                 <CardContent devId="noID"  className="p-0">
-                  <Div devId="noID" className="text-2xl font-bold text-white mb-2">{stat.value}</Div>
-                  <Div devId="noID" className="text-gray-400">{stat.label}</Div>
+                  <Div devId="noID" className={`text-2xl font-bold mb-2 ${index === 1 ? 'text-white' : 'text-white'}`}>{stat.value}</Div>
+                  <Div devId="noID" className={`${index === 1 ? 'text-yellow-100' : 'text-gray-400'}`}>{stat.label}</Div>
                 </CardContent>
               </Card>
             ))}
