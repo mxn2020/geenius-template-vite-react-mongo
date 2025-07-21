@@ -119,11 +119,22 @@ export const GeeniusPopover: React.FC<PopoverProps> = ({
     e.stopPropagation();
   };
 
-  // Handle escape key and scroll events
+  // Handle escape key, command+enter, and scroll events
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
         onClose();
+      }
+      // Handle Command+Enter (Mac) or Ctrl+Enter (Windows/Linux) to submit
+      if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        e.stopPropagation();
+        if (feedback.trim()) {
+          const form = document.querySelector('.geenius-popover-form') as HTMLFormElement;
+          if (form) {
+            form.requestSubmit();
+          }
+        }
       }
     };
 
@@ -231,7 +242,7 @@ export const GeeniusPopover: React.FC<PopoverProps> = ({
         )}
 
         {/* Form */}
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form onSubmit={handleSubmit} className="space-y-4 geenius-popover-form">
           {/* Feedback textarea */}
           <div className="space-y-2">
             <Label htmlFor="feedback" className="text-sm font-medium">
@@ -315,6 +326,7 @@ export const GeeniusPopover: React.FC<PopoverProps> = ({
               size="sm"
               disabled={!feedback.trim()}
               onClick={(e) => e.stopPropagation()}
+              title="Press ⌘+Enter to submit quickly"
             >
               {editingChangeId ? 'Update Change' : 'Add Change'}
             </Button>

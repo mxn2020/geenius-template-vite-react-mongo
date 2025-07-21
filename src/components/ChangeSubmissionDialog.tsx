@@ -307,6 +307,45 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
     }
   };
 
+  const handleCancelProcessing = async () => {
+    if (!processing.sessionId) return;
+
+    try {
+      const geeniusApiUrl = import.meta.env.VITE_GEENIUS_API_URL || 'http://localhost:8888';
+      const response = await fetch(`${geeniusApiUrl}/api/cancel-session/${processing.sessionId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        setProcessing(prev => ({
+          ...prev,
+          status: 'failed',
+          error: 'Processing cancelled by user',
+          logs: [
+            ...prev.logs,
+            {
+              timestamp: Date.now(),
+              level: 'warning',
+              message: 'Processing cancelled by user'
+            }
+          ]
+        }));
+        
+        if (polling) {
+          clearInterval(polling);
+          setPolling(null);
+        }
+      } else {
+        console.error('Failed to cancel session');
+      }
+    } catch (error) {
+      console.error('Error cancelling session:', error);
+    }
+  };
+
   const handleClose = () => {
     if (polling) {
       clearInterval(polling);
@@ -499,9 +538,14 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
           )}
           
           {processing.status !== 'idle' && processing.status !== 'completed' && processing.status !== 'failed' && (
-            <Button variant="outline" onClick={handleClose}>
-              Close (Processing continues)
-            </Button>
+            <>
+              <Button variant="destructive" onClick={handleCancelProcessing}>
+                Stop Processing
+              </Button>
+              <Button variant="outline" onClick={handleClose}>
+                Close (Processing continues)
+              </Button>
+            </>
           )}
           
           {(processing.status === 'completed' || processing.status === 'failed') && (
