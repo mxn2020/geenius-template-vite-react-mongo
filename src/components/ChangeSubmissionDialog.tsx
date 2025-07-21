@@ -28,7 +28,7 @@ interface ChangeSubmissionDialogProps {
 }
 
 interface ProcessingStatus {
-  status: 'idle' | 'submitting' | 'received' | 'validating' | 'analyzing' | 'processing' | 'creating_branch' | 'committing' | 'testing' | 'pr_creating' | 'deploying' | 'completed' | 'failed';
+  status: 'idle' | 'submitting' | 'received' | 'validating' | 'analyzing' | 'processing' | 'creating_branch' | 'committing' | 'testing' | 'pr_creating' | 'deploying' | 'preview_ready' | 'merged' | 'completed' | 'failed';
   sessionId?: string;
   previewUrl?: string;
   prUrl?: string;
@@ -96,6 +96,18 @@ const statusSteps = [
     label: 'Deploying preview...', 
     icon: Rocket,
     description: 'Preview deployment and automated testing'
+  },
+  { 
+    key: 'preview_ready', 
+    label: 'Preview ready!', 
+    icon: Eye,
+    description: 'Preview deployment is live and ready for testing'
+  },
+  { 
+    key: 'merged', 
+    label: 'Successfully merged!', 
+    icon: CheckCircle,
+    description: 'Pull request merged - changes are now live'
   },
   { 
     key: 'completed', 
@@ -278,8 +290,8 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
           logs: data.logs || []
         }));
 
-        // Stop polling when completed or failed
-        if (data.status === 'completed' || data.status === 'failed') {
+        // Stop polling when completed, merged, or failed
+        if (data.status === 'completed' || data.status === 'merged' || data.status === 'failed') {
           clearInterval(pollInterval);
           setPolling(null);
         }
@@ -343,6 +355,51 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
       }
     } catch (error) {
       console.error('Error cancelling session:', error);
+    }
+  };
+
+  const handleMergePR = async () => {
+    if (!processing.prUrl || !processing.sessionId) return;
+
+    try {
+      const geeniusApiUrl = import.meta.env.VITE_GEENIUS_API_URL || 'http://localhost:8888';
+      const response = await fetch(`${geeniusApiUrl}/api/merge-pr/${processing.sessionId}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setProcessing(prev => ({
+          ...prev,
+          status: 'merged',
+          logs: [
+            ...prev.logs,
+            {
+              timestamp: Date.now(),
+              level: 'success',
+              message: `✅ Pull Request merged successfully!`
+            }
+          ]
+        }));
+      } else {
+        console.error('Failed to merge PR');
+        setProcessing(prev => ({
+          ...prev,
+          logs: [
+            ...prev.logs,
+            {
+              timestamp: Date.now(),
+              level: 'error',
+              message: '❌ Failed to merge Pull Request'
+            }
+          ]
+        }));
+      }
+    } catch (error) {
+      console.error('Error merging PR:', error);
     }
   };
 
@@ -479,28 +536,61 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
 
           {/* Action Links */}
           {(processing.previewUrl || processing.prUrl || processing.sessionId) && (
-            <div className="flex flex-wrap gap-2">
-              {processing.previewUrl && (
-                <Button size="sm" asChild>
-                  <a href={processing.previewUrl} target="_blank" rel="noopener noreferrer">
-                    <Eye className="w-4 h-4 mr-2" />
-                    View Preview
-                  </a>
-                </Button>
+            <div className="space-y-3">
+              {/* Preview & PR Links */}
+              <div className="flex flex-wrap gap-2">
+                {processing.previewUrl && (
+                  <Button size="sm" className="bg-green-600 hover:bg-green-700" asChild>
+                    <a href={processing.previewUrl} target="_blank" rel="noopener noreferrer">
+                      <Eye className="w-4 h-4 mr-2" />
+                      🌐 View Preview
+                    </a>
+                  </Button>
+                )}
+                {processing.prUrl && (
+                  <Button size="sm" variant="outline" asChild>
+                    <a href={processing.prUrl} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      🔀 View PR
+                    </a>
+                  </Button>
+                )}
+                {processing.sessionId && (
+                  <Button size="sm" variant="outline" onClick={handleViewLogs}>
+                    <Settings className="w-4 h-4 mr-2" />
+                    📋 View Logs
+                  </Button>
+                )}
+              </div>
+              
+              {/* Merge Actions */}
+              {processing.previewUrl && processing.prUrl && (processing.status === 'completed' || processing.status === 'preview_ready') && processing.status !== 'merged' && (
+                <div className="border-t pt-3">
+                  <p className="text-sm text-gray-600 mb-2">✅ Preview is ready! Review the changes and merge when satisfied.</p>
+                  <div className="flex gap-2">
+                    <Button 
+                      size="sm" 
+                      className="bg-blue-600 hover:bg-blue-700"
+                      onClick={handleMergePR}
+                    >
+                      🚀 Merge Pull Request
+                    </Button>
+                    <Button size="sm" variant="outline" asChild>
+                      <a href={processing.prUrl} target="_blank" rel="noopener noreferrer">
+                        📝 Review First
+                      </a>
+                    </Button>
+                  </div>
+                </div>
               )}
-              {processing.prUrl && (
-                <Button size="sm" variant="outline" asChild>
-                  <a href={processing.prUrl} target="_blank" rel="noopener noreferrer">
-                    <ExternalLink className="w-4 h-4 mr-2" />
-                    View PR
-                  </a>
-                </Button>
-              )}
-              {processing.sessionId && (
-                <Button size="sm" variant="outline" onClick={handleViewLogs}>
-                  <Settings className="w-4 h-4 mr-2" />
-                  View Logs
-                </Button>
+              
+              {processing.status === 'merged' && (
+                <div className="border-t pt-3">
+                  <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                    <p className="text-sm text-green-800 font-medium">🎉 Successfully merged!</p>
+                    <p className="text-xs text-green-600 mt-1">Your changes are now live in the main branch.</p>
+                  </div>
+                </div>
               )}
             </div>
           )}
@@ -513,12 +603,30 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
             </Alert>
           )}
 
-          {/* Success Message */}
+          {/* Success Messages */}
           {processing.status === 'completed' && (
             <Alert className="border-green-200">
               <CheckCircle className="h-4 w-4" />
               <AlertDescription>
                 Changes processed successfully by AI agent team! Comprehensive tests generated, preview deployed, and pull request created with detailed documentation.
+              </AlertDescription>
+            </Alert>
+          )}
+          
+          {processing.status === 'preview_ready' && (
+            <Alert className="border-blue-200">
+              <Eye className="h-4 w-4" />
+              <AlertDescription>
+                Preview deployment is ready! Review the changes in the preview environment and merge when satisfied.
+              </AlertDescription>
+            </Alert>
+          )}
+          
+          {processing.status === 'merged' && (
+            <Alert className="border-green-200">
+              <CheckCircle className="h-4 w-4" />
+              <AlertDescription>
+                🎉 Pull request merged successfully! Your changes are now live in the main branch.
               </AlertDescription>
             </Alert>
           )}
@@ -537,7 +645,7 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
             </>
           )}
           
-          {processing.status !== 'idle' && processing.status !== 'completed' && processing.status !== 'failed' && (
+          {processing.status !== 'idle' && processing.status !== 'completed' && processing.status !== 'preview_ready' && processing.status !== 'merged' && processing.status !== 'failed' && (
             <>
               <Button variant="destructive" onClick={handleCancelProcessing}>
                 Stop Processing
@@ -548,7 +656,7 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
             </>
           )}
           
-          {(processing.status === 'completed' || processing.status === 'failed') && (
+          {(processing.status === 'completed' || processing.status === 'preview_ready' || processing.status === 'merged' || processing.status === 'failed') && (
             <Button onClick={handleClose}>
               Close
             </Button>

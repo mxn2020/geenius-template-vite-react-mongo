@@ -797,92 +797,9 @@ const authComponentUsages = [
   },
 ] as const;
 
-// ShadCN component usages for dynamic/specialized components
-const shadcnComponentUsages = [
-  {
-    id: 'dev-calendar-day-button',
-    definitionId: 'dev-button',
-    name: 'Calendar Day Button',
-    description: 'Calendar component day button',
-    filePath: 'src/lib/dev-container/shadcn/Calendar.tsx',
-    repositoryPath: 'https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/lib/dev-container/shadcn/Calendar.tsx',
-    category: 'interactive',
-    semanticTags: ['calendar', 'day', 'button', 'date'],
-  },
-  {
-    id: 'dev-command-dialog',
-    definitionId: 'dev-dialog',
-    name: 'Command Dialog',
-    description: 'Command palette dialog component',
-    filePath: 'src/lib/dev-container/shadcn/Command.tsx',
-    repositoryPath: 'https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/lib/dev-container/shadcn/Command.tsx',
-    category: 'overlay',
-    semanticTags: ['command', 'dialog', 'palette', 'search'],
-  },
-  {
-    id: 'dev-dialog-portal',
-    definitionId: 'dev-container',
-    name: 'Dialog Portal',
-    description: 'Dialog portal component for modal rendering',
-    filePath: 'src/lib/dev-container/shadcn/Dialog.tsx',
-    repositoryPath: 'https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/lib/dev-container/shadcn/Dialog.tsx',
-    category: 'overlay',
-    semanticTags: ['dialog', 'portal', 'modal', 'overlay'],
-  },
-  {
-    id: 'dev-drawer-portal',
-    definitionId: 'dev-container',
-    name: 'Drawer Portal',
-    description: 'Drawer portal component for slide-out panels',
-    filePath: 'src/lib/dev-container/shadcn/Drawer.tsx',
-    repositoryPath: 'https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/lib/dev-container/shadcn/Drawer.tsx',
-    category: 'overlay',
-    semanticTags: ['drawer', 'portal', 'slide', 'panel'],
-  },
-  {
-    id: 'dev-input-otp-separator',
-    definitionId: 'dev-div',
-    name: 'Input OTP Separator',
-    description: 'Input OTP separator element',
-    filePath: 'src/lib/dev-container/shadcn/InputOTP.tsx',
-    repositoryPath: 'https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/lib/dev-container/shadcn/InputOTP.tsx',
-    category: 'ui',
-    semanticTags: ['input', 'otp', 'separator', 'delimiter'],
-  },
-  {
-    id: 'dev-select-group',
-    definitionId: 'dev-div',
-    name: 'Select Group',
-    description: 'Select component option group',
-    filePath: 'src/lib/dev-container/shadcn/Select.tsx',
-    repositoryPath: 'https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/lib/dev-container/shadcn/Select.tsx',
-    category: 'form',
-    semanticTags: ['select', 'group', 'options', 'form'],
-  },
-  {
-    id: 'dev-sheet-overlay',
-    definitionId: 'dev-div',
-    name: 'Sheet Overlay',
-    description: 'Sheet component overlay background',
-    filePath: 'src/lib/dev-container/shadcn/Sheet.tsx',
-    repositoryPath: 'https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/lib/dev-container/shadcn/Sheet.tsx',
-    category: 'overlay',
-    semanticTags: ['sheet', 'overlay', 'background', 'modal'],
-  },
-  {
-    id: 'dev-sheet-portal',
-    definitionId: 'dev-container',
-    name: 'Sheet Portal',
-    description: 'Sheet portal component for slide-out sheets',
-    filePath: 'src/lib/dev-container/shadcn/Sheet.tsx',
-    repositoryPath: 'https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/lib/dev-container/shadcn/Sheet.tsx',
-    category: 'overlay',
-    semanticTags: ['sheet', 'portal', 'slide', 'sidebar'],
-  },
-] as const;
 
 // Merge all component definitions
-const allComponentUsages = [...landingPageUsages, ...authComponentUsages, ...shadcnComponentUsages]
+const allComponentUsages = [...landingPageUsages, ...authComponentUsages]
 
 
 export type ComponentRegistryId = typeof allComponentUsages[number]['id'];
