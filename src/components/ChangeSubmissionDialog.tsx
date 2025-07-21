@@ -302,7 +302,8 @@ export const ChangeSubmissionDialog: React.FC<ChangeSubmissionDialogProps> = ({
   const handleViewLogs = () => {
     if (processing.sessionId) {
       const geeniusApiUrl = import.meta.env.VITE_GEENIUS_API_URL || 'http://localhost:8888';
-      window.open(`${geeniusApiUrl}/logs/${processing.sessionId}`, '_blank');
+      // Open logs in the main Geenius app which supports the new logging system
+      window.open(`${geeniusApiUrl}/?session=${processing.sessionId}&view=logs`, '_blank');
     }
   };
 

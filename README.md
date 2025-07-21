@@ -1,17 +1,27 @@
-# Geenius Template - Vite + React + MongoDB + Better Auth
+# Geenius Template - Vite + React + MongoDB
 
-A modern, full-stack React template with authentication, database integration, and AI-powered development feedback system.
+> Multi-provider AI development workflow tool that automates project initialization, feature development, testing, and deployment using various AI providers (Claude, GPT-4, Gemini, Grok).
 
-## 🚀 Features
+## 🎯 **Core Concept**
+AI-powered development platform that handles the entire development lifecycle from idea to deployment - essentially "AI-powered DevOps" with sophisticated multi-agent orchestration.
 
-- **⚡ Vite** - Lightning-fast development and build tool
-- **⚛️ React 18** - Latest React with TypeScript support
-- **🔐 Better Auth** - Modern authentication with MongoDB adapter
-- **🗄️ MongoDB + Prisma** - NoSQL database with type-safe ORM
-- **🎨 Tailwind CSS** - Utility-first CSS framework
-- **🧩 Radix UI** - Accessible component primitives
-- **🚀 React Router** - Client-side routing
-- **🤖 Dev Container** - Live feedback and change management system
+## 🏗️ **Architecture**
+- **Dual Interface**: CLI tool (`geenius` command) + Web dashboard (React/Vite)
+- **Multi-Agent System**: Specialized AI roles (architect, developer, tester, reviewer, documenter)
+- **Template System**: 8 pre-configured tech stacks (Next.js, React, Vue, SvelteKit, etc.)
+- **Orchestration**: 4 strategies (hierarchical, collaborative, parallel, sequential)
+
+## 🛠️ **Tech Stack**
+- **Backend**: Netlify Functions, Redis (Upstash), MongoDB Atlas
+- **Frontend**: React, Vite, Tailwind, TypeScript
+- **CLI**: Commander.js, TypeScript
+- **Integrations**: GitHub API, Netlify API, StackBlitz sandbox
+
+## 🚀 **Key Features**
+- **Project Init**: `geenius init` - Fork templates, setup GitHub/Netlify, configure environment
+- **AI Development**: `geenius develop` - AI writes code, runs tests, creates PRs, deploys previews  
+- **Provider Comparison**: Benchmark different AI models on tasks
+- **Memory System**: Persistent learning across sessions
 
 ## 📋 Prerequisites
 
@@ -145,9 +155,14 @@ pnpm lint           # Run ESLint
 ## 📦 Dependencies
 
 ### Core
-- **React** - UI library
-- **Vite** - Build tool and dev server
-- **TypeScript** - Type safety
+- **⚡ Vite** - Lightning-fast development and build tool
+- **⚛️ React 18** - Latest React with TypeScript support
+- **🔐 Better Auth** - Modern authentication with MongoDB adapter
+- **🗄️ MongoDB + Prisma** - NoSQL database with type-safe ORM
+- **🎨 Tailwind CSS** - Utility-first CSS framework
+- **🧩 Radix UI** - Accessible component primitives
+- **🚀 React Router** - Client-side routing
+- **🤖 Dev Container** - Live feedback and change management system
 
 ### Database
 - **Prisma** - Database ORM
@@ -223,4 +238,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Built with ❤️ for modern web development
+Built with ❤️ for modern AI-powered development workflow automation
