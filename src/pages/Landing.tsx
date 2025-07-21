@@ -1,7 +1,7 @@
 // src/pages/Landing.tsx
 
 import React, { useState, useEffect } from 'react';
-import { Database, Zap, Code, Globe, Users, Star, User } from 'lucide-react';
+import { Heart, Shield, Calendar, FileText, Users, Star, User, Stethoscope, Clock, Award } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Container, Button, Card, CardContent, Badge, Header, Nav, Section, Span, H1, H2, P, Div, Footer } from '../lib/dev-container';
 import { useAuth } from '../components/auth/AuthProvider';
@@ -13,18 +13,18 @@ const getStatCardId = (index: number): ComponentRegistryId => {
   return ids[index] || 'noID';
 };
 
-const getFeatureCardId = (index: number): ComponentRegistryId => {
-  const ids: ComponentRegistryId[] = ['feature-card-0', 'feature-card-1', 'feature-card-2', 'feature-card-3'];
+const getServiceCardId = (index: number): ComponentRegistryId => {
+  const ids: ComponentRegistryId[] = ['service-card-0', 'service-card-1', 'service-card-2', 'service-card-3'];
   return ids[index] || 'noID';
 };
 
-const getTechLetterId = (index: number): ComponentRegistryId => {
-  const ids: ComponentRegistryId[] = ['tech-letter-0', 'tech-letter-1', 'tech-letter-2', 'tech-letter-3', 'tech-letter-4', 'tech-letter-5'];
+const getSpecialtyBadgeId = (index: number): ComponentRegistryId => {
+  const ids: ComponentRegistryId[] = ['specialty-badge-0', 'specialty-badge-1', 'specialty-badge-2', 'specialty-badge-3', 'specialty-badge-4', 'specialty-badge-5'];
   return ids[index] || 'noID';
 };
 
-const getTechBadgeId = (index: number): ComponentRegistryId => {
-  const ids: ComponentRegistryId[] = ['tech-badge-0', 'tech-badge-1', 'tech-badge-2', 'tech-badge-3', 'tech-badge-4', 'tech-badge-5'];
+const getSpecialtyIconId = (index: number): ComponentRegistryId => {
+  const ids: ComponentRegistryId[] = ['specialty-icon-0', 'specialty-icon-1', 'specialty-icon-2', 'specialty-icon-3', 'specialty-icon-4', 'specialty-icon-5'];
   return ids[index] || 'noID';
 };
 
@@ -36,102 +36,121 @@ export const Landing: React.FC = () => {
     setMounted(true);
   }, []);
 
-  const features = [
+  const services = [
     {
-      icon: <Zap className="w-8 h-8 text-yellow-500" />,
-      title: "Lightning Fast",
-      description: "Built with Vite for instant hot module replacement and blazing fast builds"
+      icon: <Stethoscope className="w-8 h-8 text-medical-primary" />,
+      title: "Comprehensive Care",
+      description: "Complete medical examinations and preventive care tailored to your individual health needs"
     },
     {
-      icon: <Database className="w-8 h-8 text-green-500" />,
-      title: "MongoDB + Prisma",
-      description: "Type-safe database access with MongoDB flexibility and Prisma's developer experience"
+      icon: <Calendar className="w-8 h-8 text-medical-secondary" />,
+      title: "Easy Scheduling",
+      description: "Book appointments online with flexible scheduling options that fit your busy lifestyle"
     },
     {
-      icon: <Code className="w-8 h-8 text-blue-500" />,
-      title: "TypeScript Ready",
-      description: "Full TypeScript support with strict type checking and IntelliSense"
+      icon: <FileText className="w-8 h-8 text-medical-accent" />,
+      title: "Digital Records",
+      description: "Secure, accessible medical records with complete treatment history and test results"
     },
     {
-      icon: <Globe className="w-8 h-8 text-purple-500" />,
-      title: "Deploy Anywhere",
-      description: "Ready for Netlify, Vercel, or any modern hosting platform"
+      icon: <Shield className="w-8 h-8 text-medical-trust" />,
+      title: "HIPAA Compliant",
+      description: "Your privacy and medical information are protected with the highest security standards"
     }
   ];
 
   const stats = [
-    { label: "Build Time", value: "< 2s" },
-    { label: "Bundle Size", value: "< 50KB" },
-    { label: "TypeScript", value: "100%" },
-    { label: "Performance", value: "A+" }
+    { label: "Years Experience", value: "15+" },
+    { label: "Patients Served", value: "5,000+" },
+    { label: "Success Rate", value: "98%" },
+    { label: "Board Certifications", value: "3" }
   ];
 
   return (
-    <Container componentId="landing-page-root"> {/* Changed to direct ID */}
+    <Container componentId="landing-page-root">
       <Div 
         devId="main-wrapper" 
         devName="Main Wrapper" 
-        devDescription="Main page wrapper with gradient background"
-        className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900"
+        devDescription="Main page wrapper with medical gradient background"
+        className="min-h-screen bg-gradient-to-br from-medical-bg via-white to-medical-light"
       >
       {/* Header */}
       <Header 
         devId="main-header" 
         devName="Main Header" 
-        devDescription="Primary site header with navigation"
+        devDescription="Primary medical practice header with navigation"
         className="container mx-auto px-4 py-6"
       >
         <Nav 
           devId="main-nav" 
           devName="Main Navigation" 
-          devDescription="Primary navigation bar"
+          devDescription="Primary navigation bar for medical practice"
           className="flex items-center justify-between"
         >
           <Div 
             devId="logo-section" 
             devName="Logo Section" 
-            devDescription="Company logo and brand name"
-            className="flex items-center space-x-2"
+            devDescription="Dr. Krautz medical practice logo and brand name"
+            className="flex items-center space-x-3"
           >
-            <Div devId="noID" className="w-8 h-8 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
-              <Code className="w-5 h-5 text-white" />
+            <Div devId="noID" className="w-10 h-10 bg-gradient-to-r from-medical-primary to-medical-secondary rounded-full flex items-center justify-center shadow-lg">
+              <Heart className="w-6 h-6 text-white" />
             </Div>
-            <Span 
-              devId="brand-name" 
-              devName="Brand Name" 
-              devDescription="Geenius Template brand name"
-              className="text-xl font-bold text-white"
-            >
-              Geenius Template
-            </Span>
+            <Div devId="noID" className="flex flex-col">
+              <Span 
+                devId="doctor-name" 
+                devName="Doctor Name" 
+                devDescription="Dr. Krautz practice name"
+                className="text-xl font-bold text-medical-dark"
+              >
+                Dr. Krautz
+              </Span>
+              <Span 
+                devId="practice-subtitle" 
+                devName="Practice Subtitle" 
+                devDescription="Medical practice subtitle"
+                className="text-sm text-medical-muted"
+              >
+                Medical Practice
+              </Span>
+            </Div>
           </Div>
           <Div 
             devId="nav-actions" 
             devName="Navigation Actions" 
-            devDescription="Navigation buttons and user menu"
+            devDescription="Navigation buttons and user menu for medical practice"
             className="flex items-center space-x-4"
           >
             <Button 
-              devId="docs-button" 
-              devName="Docs Button" 
-              devDescription="Link to documentation"
+              devId="services-button" 
+              devName="Services Button" 
+              devDescription="Link to medical services information"
               variant="ghost" 
-              className="text-gray-300 hover:text-white transition-colors"
+              className="text-medical-muted hover:text-medical-dark transition-colors"
             >
-              Docs
+              Services
+            </Button>
+            <Button 
+              devId="about-button" 
+              devName="About Button" 
+              devDescription="Link to about Dr. Krautz information"
+              variant="ghost" 
+              className="text-medical-muted hover:text-medical-dark transition-colors"
+            >
+              About
             </Button>
             {isAuthenticated ? (
               <Div 
                 devId="user-section" 
                 devName="User Section" 
-                devDescription="Authenticated user welcome area"
+                devDescription="Authenticated patient welcome area"
                 className="flex items-center space-x-4"
               >
                 <Span 
                   devId="welcome-message" 
                   devName="Welcome Message" 
-                  devDescription="Welcome message for authenticated user"
-                  className="text-gray-300"
+                  devDescription="Welcome message for authenticated patient"
+                  className="text-medical-muted"
                 >
                   Welcome, {user?.name?.split(' ')[0]}!
                 </Span>
@@ -139,11 +158,11 @@ export const Landing: React.FC = () => {
                   <Button 
                     devId="nav-dashboard-button"
                     devName="Navigation Dashboard Button"
-                    devDescription="Dashboard button in navigation header for authenticated users"
-                    className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
+                    devDescription="Patient portal button in navigation header"
+                    className="bg-medical-primary hover:bg-medical-primary-dark text-white px-4 py-2 rounded-lg transition-colors shadow-md"
                   >
                     <User className="w-4 h-4 mr-2" />
-                    Dashboard
+                    Patient Portal
                   </Button>
                 </Link>
               </Div>
@@ -151,28 +170,28 @@ export const Landing: React.FC = () => {
               <Div 
                 devId="auth-buttons" 
                 devName="Authentication Buttons" 
-                devDescription="Login and register buttons for unauthenticated users"
+                devDescription="Login and register buttons for new patients"
                 className="flex items-center space-x-2"
               >
                 <Link to="/login">
                   <Button 
                     devId="nav-login-button"
                     devName="Navigation Login Button"
-                    devDescription="Login button in navigation header"
+                    devDescription="Patient login button in navigation header"
                     variant="ghost" 
-                    className="text-gray-300 hover:text-white transition-colors"
+                    className="text-medical-muted hover:text-medical-dark transition-colors"
                   >
-                    Login
+                    Patient Login
                   </Button>
                 </Link>
                 <Link to="/register">
                   <Button 
                     devId="nav-register-button"
                     devName="Navigation Register Button"
-                    devDescription="Get started button in navigation header"
-                    className="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-colors"
+                    devDescription="New patient registration button in navigation header"
+                    className="bg-medical-primary hover:bg-medical-primary-dark text-white px-4 py-2 rounded-lg transition-colors shadow-md"
                   >
-                    Get Started
+                    New Patient
                   </Button>
                 </Link>
               </Div>
@@ -182,11 +201,11 @@ export const Landing: React.FC = () => {
       </Header>
 
       {/* Hero Section */}
-      <Container componentId="hero-section"> {/* Changed to direct ID */}
+      <Container componentId="hero-section">
         <Section 
           devId="hero-content" 
           devName="Hero Content" 
-          devDescription="Main hero Section with title and call-to-action"
+          devDescription="Main hero section with Dr. Krautz introduction and call-to-action"
           className="container mx-auto px-4 py-20 text-center"
         >
           <Div 
@@ -198,65 +217,68 @@ export const Landing: React.FC = () => {
             <H1 
               devId="hero-title" 
               devName="Hero Title" 
-              devDescription="Main hero title showcasing the tech stack"
-              className="text-5xl md:text-7xl font-bold text-white mb-6"
+              devDescription="Main hero title showcasing Dr. Krautz medical practice"
+              className="text-5xl md:text-7xl font-bold text-medical-dark mb-6"
             >
-              Vite + React + 
+              Compassionate Care with 
               <Span 
-                devId="mongodb-highlight" 
-                devName="MongoDB Highlight" 
-                devDescription="Highlighted MongoDB text in gradient"
-                className="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent"
+                devId="expertise-highlight" 
+                devName="Expertise Highlight" 
+                devDescription="Highlighted expertise text in medical gradient"
+                className="bg-gradient-to-r from-medical-primary to-medical-secondary bg-clip-text text-transparent"
               >
-                {' '}MongoDB
+                {' '}Dr. Krautz
               </Span>
             </H1>
             <P 
               devId="hero-description" 
               devName="Hero Description" 
-              devDescription="Hero Section description explaining the template benefits"
-              className="text-xl text-gray-300 mb-8 max-w-2xl mx-auto"
+              devDescription="Hero section description explaining Dr. Krautz medical practice approach"
+              className="text-xl text-medical-muted mb-8 max-w-3xl mx-auto"
             >
-              Modern full-stack template with lightning-fast development, type-safe database access, 
-              and production-ready deployment configuration.
+              Providing personalized, comprehensive medical care with over 15 years of experience. 
+              Your health and well-being are our top priorities in a comfortable, professional environment.
             </P>
             <Div 
               devId="hero-cta-buttons" 
               devName="Hero CTA Buttons" 
-              devDescription="Call-to-action buttons in hero Section"
+              devDescription="Call-to-action buttons for scheduling appointments"
               className="flex flex-col sm:flex-row gap-4 justify-center"
             >
               {isAuthenticated ? (
                 <Link to="/dashboard">
                   <Button 
-                    devId="hero-start-building"
-                    devName="Start Building Button"
-                    devDescription="Primary call-to-action button for starting to build with the template"
-                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-lg font-semibold transition-all transform hover:scale-105"
+                    devId="hero-portal-access"
+                    devName="Patient Portal Access Button"
+                    devDescription="Primary call-to-action button for accessing patient portal"
+                    className="bg-gradient-to-r from-medical-primary to-medical-secondary hover:from-medical-primary-dark hover:to-medical-secondary-dark text-white px-8 py-3 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg"
                   >
-                    Go to Dashboard
+                    <Calendar className="w-5 h-5 mr-2" />
+                    Access Patient Portal
                   </Button>
                 </Link>
               ) : (
                 <Link to="/register">
                   <Button 
-                    devId="hero-start-building"
-                    devName="Start Building Button"
-                    devDescription="Primary call-to-action button for starting to build with the template"
-                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-lg font-semibold transition-all transform hover:scale-105"
+                    devId="hero-schedule-appointment"
+                    devName="Schedule Appointment Button"
+                    devDescription="Primary call-to-action button for scheduling appointments"
+                    className="bg-gradient-to-r from-medical-primary to-medical-secondary hover:from-medical-primary-dark hover:to-medical-secondary-dark text-white px-8 py-3 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg"
                   >
-                    Start Building
+                    <Calendar className="w-5 h-5 mr-2" />
+                    Schedule Appointment
                   </Button>
                 </Link>
               )}
               <Button 
-                devId="hero-github-button"
-                devName="View on GitHub Button"
-                devDescription="Secondary button to view the project on GitHub"
+                devId="hero-learn-more"
+                devName="Learn More Button"
+                devDescription="Secondary button to learn more about Dr. Krautz"
                 variant="outline"
-                className="border border-purple-500 text-purple-400 hover:bg-purple-500 hover:text-white px-8 py-3 rounded-lg font-semibold transition-all"
+                className="border-2 border-medical-primary text-medical-primary hover:bg-medical-primary hover:text-white px-8 py-3 rounded-lg font-semibold transition-all"
               >
-                View on GitHub
+                <Stethoscope className="w-5 h-5 mr-2" />
+                Learn More
               </Button>
             </Div>
           </Div>
@@ -264,17 +286,17 @@ export const Landing: React.FC = () => {
       </Container>
 
       {/* Stats Section */}
-      <Container componentId="stats-section"> {/* Changed to direct ID */}
+      <Container componentId="stats-section">
         <Section 
           devId="stats-content" 
           devName="Stats Content" 
-          devDescription="Statistics Section showing performance metrics"
+          devDescription="Statistics section showing Dr. Krautz practice achievements"
           className="container mx-auto px-4 py-12"
         >
           <Div 
             devId="stats-grid" 
             devName="Stats Grid" 
-            devDescription="Grid container for statistics cards"
+            devDescription="Grid container for practice statistics cards"
             className="grid grid-cols-2 md:grid-cols-4 gap-6"
           >
             {stats.map((stat, index) => (
@@ -283,11 +305,11 @@ export const Landing: React.FC = () => {
                 devId={getStatCardId(index)}
                 devName={`${stat.label} Stat Card`}
                 devDescription={`Statistical card showing ${stat.label}: ${stat.value}`}
-                className="bg-white/5 backdrop-blur-sm rounded-xl p-6 text-center border border-white/10"
+                className="bg-white/90 backdrop-blur-sm rounded-xl p-6 text-center border border-medical-light shadow-lg hover:shadow-xl transition-shadow"
               >
-                <CardContent devId="noID"  className="p-0">
-                  <Div devId="noID" className="text-2xl font-bold text-white mb-2">{stat.value}</Div>
-                  <Div devId="noID" className="text-gray-400">{stat.label}</Div>
+                <CardContent devId="noID" className="p-0">
+                  <Div devId="noID" className="text-3xl font-bold text-medical-primary mb-2">{stat.value}</Div>
+                  <Div devId="noID" className="text-medical-muted font-medium">{stat.label}</Div>
                 </CardContent>
               </Card>
             ))}
@@ -295,28 +317,28 @@ export const Landing: React.FC = () => {
         </Section>
       </Container>
 
-      {/* Features Section */}
-      <Container componentId="features-section"> {/* Changed to direct ID */}
+      {/* Services Section */}
+      <Container componentId="services-section">
         <Section devId="noID" className="container mx-auto px-4 py-20">
           <Div devId="noID" className="text-center mb-16">
-            <H2 devId="noID" className="text-4xl font-bold text-white mb-4">Why Choose This Template?</H2>
-            <P devId="noID" className="text-gray-300 max-w-2xl mx-auto">
-              Everything you need to build modern web applications with the latest technologies
+            <H2 devId="noID" className="text-4xl font-bold text-medical-dark mb-4">Comprehensive Medical Services</H2>
+            <P devId="noID" className="text-medical-muted max-w-2xl mx-auto text-lg">
+              Providing complete healthcare solutions with personalized attention and the latest medical practices
             </P>
           </Div>
           <Div devId="noID" className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((feature, index) => (
+            {services.map((service, index) => (
               <Card 
                 key={index} 
-                devId={getFeatureCardId(index)}
-                devName={`${feature.title} Feature Card`}
-                devDescription={`Feature card highlighting ${feature.title}: ${feature.description}`}
-                className="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-purple-500/50 transition-all"
+                devId={getServiceCardId(index)}
+                devName={`${service.title} Service Card`}
+                devDescription={`Service card highlighting ${service.title}: ${service.description}`}
+                className="bg-white/90 backdrop-blur-sm rounded-xl p-6 border border-medical-light hover:border-medical-primary/50 transition-all shadow-lg hover:shadow-xl"
               >
                 <CardContent devId="noID" className="p-0">
-                  <Div devId="noID" className="mb-4">{feature.icon}</Div>
-                  <h3 className="text-xl font-semibold text-white mb-2">{feature.title}</h3>
-                  <P devId="noID" className="text-gray-400">{feature.description}</P>
+                  <Div devId="noID" className="mb-4 flex justify-center">{service.icon}</Div>
+                  <h3 className="text-xl font-semibold text-medical-dark mb-3 text-center">{service.title}</h3>
+                  <P devId="noID" className="text-medical-muted text-center leading-relaxed">{service.description}</P>
                 </CardContent>
               </Card>
             ))}
@@ -324,35 +346,35 @@ export const Landing: React.FC = () => {
         </Section>
       </Container>
 
-      {/* Tech Stack Section */}
-      <Container componentId="tech-stack-section"> {/* Changed to direct ID */}
-        <Section devId="noID" className="container mx-auto px-4 py-20">
+      {/* Specialties Section */}
+      <Container componentId="specialties-section">
+        <Section devId="noID" className="container mx-auto px-4 py-20 bg-white/50 rounded-3xl mx-4">
           <Div devId="noID" className="text-center mb-16">
-            <H2 devId="noID" className="text-4xl font-bold text-white mb-4">Modern Tech Stack</H2>
-            <P devId="noID" className="text-gray-300 max-w-2xl mx-auto">
-              Built with the most popular and reliable technologies
+            <H2 devId="noID" className="text-4xl font-bold text-medical-dark mb-4">Medical Specialties</H2>
+            <P devId="noID" className="text-medical-muted max-w-2xl mx-auto text-lg">
+              Dr. Krautz specializes in multiple areas of medicine to provide comprehensive care
             </P>
           </Div>
           <Div devId="noID" className="grid grid-cols-2 md:grid-cols-6 gap-8">
             {[
-              { name: "Vite", color: "from-yellow-400 to-orange-500" },
-              { name: "React", color: "from-blue-400 to-cyan-400" },
-              { name: "TypeScript", color: "from-blue-500 to-blue-600" },
-              { name: "MongoDB", color: "from-green-400 to-green-500" },
-              { name: "Prisma", color: "from-purple-400 to-purple-500" },
-              { name: "Tailwind", color: "from-teal-400 to-teal-500" }
-            ].map((tech, index) => (
+              { name: "Internal Medicine", color: "from-medical-primary to-medical-primary-dark", icon: "IM" },
+              { name: "Cardiology", color: "from-red-500 to-red-600", icon: "CA" },
+              { name: "Preventive Care", color: "from-medical-secondary to-medical-secondary-dark", icon: "PC" },
+              { name: "Geriatrics", color: "from-medical-accent to-medical-accent-dark", icon: "GE" },
+              { name: "Diabetes Care", color: "from-medical-trust to-medical-trust-dark", icon: "DC" },
+              { name: "Hypertension", color: "from-purple-500 to-purple-600", icon: "HT" }
+            ].map((specialty, index) => (
               <Div key={index} devId="noID" className="text-center">
-                <Div devId={getTechLetterId(index)} className={`w-16 h-16 mx-auto mb-3 rounded-xl bg-gradient-to-br ${tech.color} flex items-center justify-center`}>
-                  <span className="text-white font-bold text-lg">{tech.name[0]}</span>
+                <Div devId={getSpecialtyIconId(index)} className={`w-16 h-16 mx-auto mb-3 rounded-xl bg-gradient-to-br ${specialty.color} flex items-center justify-center shadow-lg`}>
+                  <span className="text-white font-bold text-sm">{specialty.icon}</span>
                 </Div>
                 <Badge 
-                  devId={getTechBadgeId(index)}
-                  devName={`${tech.name} Technology Badge`}
-                  devDescription={`Technology badge for ${tech.name}`}
-                  className="text-gray-300 font-medium bg-transparent border-none"
+                  devId={getSpecialtyBadgeId(index)}
+                  devName={`${specialty.name} Specialty Badge`}
+                  devDescription={`Medical specialty badge for ${specialty.name}`}
+                  className="text-medical-dark font-medium bg-transparent border-none text-center"
                 >
-                  {tech.name}
+                  {specialty.name}
                 </Badge>
               </Div>
             ))}
@@ -360,36 +382,39 @@ export const Landing: React.FC = () => {
         </Section>
       </Container>
 
-      {/* CTA Section */}
-      <Container componentId="cta-section"> {/* Changed to direct ID */}
+      {/* Trust Section */}
+      <Container componentId="trust-section">
         <Section devId="noID" className="container mx-auto px-4 py-20">
-          <Div devId="noID" className="bg-gradient-to-r from-purple-600/20 to-pink-600/20 rounded-2xl p-12 text-center border border-purple-500/30">
-            <H2 devId="noID" className="text-4xl font-bold text-white mb-4">Ready to Build Something Amazing?</H2>
-            <P devId="noID" className="text-gray-300 mb-8 max-w-2xl mx-auto">
-              Get started with this template and build your next project with confidence
+          <Div devId="noID" className="bg-gradient-to-r from-medical-primary/10 to-medical-secondary/10 rounded-2xl p-12 text-center border border-medical-primary/20">
+            <Award className="w-16 h-16 text-medical-primary mx-auto mb-6" />
+            <H2 devId="noID" className="text-4xl font-bold text-medical-dark mb-4">Your Health, Our Priority</H2>
+            <P devId="noID" className="text-medical-muted mb-8 max-w-3xl mx-auto text-lg">
+              With board certifications and over 15 years of experience, Dr. Krautz provides evidence-based 
+              medical care in a compassionate, patient-centered environment. Your trust is earned through 
+              consistent, quality healthcare delivery.
             </P>
             <Div devId="noID" className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button 
-                devId="cta-start-project"
-                devName="Start Project Button"
-                devDescription="Primary CTA button to start a new project"
-                className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-8 py-3 rounded-lg font-semibold transition-all transform hover:scale-105"
+                devId="trust-schedule-consultation"
+                devName="Schedule Consultation Button"
+                devDescription="Primary CTA button to schedule a consultation"
+                className="bg-gradient-to-r from-medical-primary to-medical-secondary hover:from-medical-primary-dark hover:to-medical-secondary-dark text-white px-8 py-3 rounded-lg font-semibold transition-all transform hover:scale-105 shadow-lg"
               >
                 <span className="flex items-center gap-2">
-                  <Star className="w-5 h-5" />
-                  Start Project
+                  <Clock className="w-5 h-5" />
+                  Schedule Consultation
                 </span>
               </Button>
               <Button 
-                devId="cta-join-community"
-                devName="Join Community Button"
-                devDescription="Secondary CTA button to join the community"
+                devId="trust-patient-testimonials"
+                devName="Patient Testimonials Button"
+                devDescription="Secondary CTA button to view patient testimonials"
                 variant="outline"
-                className="border border-purple-500 text-purple-400 hover:bg-purple-500 hover:text-white px-8 py-3 rounded-lg font-semibold transition-all"
+                className="border-2 border-medical-primary text-medical-primary hover:bg-medical-primary hover:text-white px-8 py-3 rounded-lg font-semibold transition-all"
               >
                 <span className="flex items-center gap-2">
                   <Users className="w-5 h-5" />
-                  Join Community
+                  Patient Testimonials
                 </span>
               </Button>
             </Div>
@@ -401,17 +426,17 @@ export const Landing: React.FC = () => {
       <Footer 
         devId="main-footer" 
         devName="Main Footer" 
-        devDescription="Site footer with links and copyright"
-        className="container mx-auto px-4 py-8 border-t border-white/10"
+        devDescription="Medical practice footer with contact information and links"
+        className="container mx-auto px-4 py-8 border-t border-medical-light"
       >
         <Div devId="noID" className="flex flex-col md:flex-row justify-between items-center">
-          <Div devId="noID" className="text-gray-400 mb-4 md:mb-0">
-            © 2024 Geenius Template. Built with ❤️ for developers.
+          <Div devId="noID" className="text-medical-muted mb-4 md:mb-0">
+            © 2024 Dr. Krautz Medical Practice. Committed to your health and well-being.
           </Div>
           <Div devId="noID" className="flex space-x-6">
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">Documentation</a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">GitHub</a>
-            <a href="#" className="text-gray-400 hover:text-white transition-colors">Support</a>
+            <a href="#" className="text-medical-muted hover:text-medical-primary transition-colors">Privacy Policy</a>
+            <a href="#" className="text-medical-muted hover:text-medical-primary transition-colors">Patient Rights</a>
+            <a href="#" className="text-medical-muted hover:text-medical-primary transition-colors">Contact</a>
           </Div>
         </Div>
       </Footer>
