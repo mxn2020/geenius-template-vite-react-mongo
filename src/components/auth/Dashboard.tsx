@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar';
 import { Separator } from '../ui/separator';
-import { LogOut, User, Mail, Calendar, Shield } from 'lucide-react';
+import { LogOut, User, Mail, Calendar, Shield, Home } from 'lucide-react';
 import { Container } from '../../lib/dev-container';
 
 export const Dashboard: React.FC = () => {
@@ -81,14 +81,24 @@ export const Dashboard: React.FC = () => {
                     Dashboard
                   </h1>
                 </div>
-                <Button
-                  variant="ghost"
-                  onClick={handleLogout}
-                  className="flex items-center gap-2"
-                >
-                  <LogOut className="h-4 w-4" />
-                  Logout
-                </Button>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="ghost"
+                    onClick={() => navigate('/')}
+                    className="flex items-center gap-2"
+                  >
+                    <Home className="h-4 w-4" />
+                    Back to Home
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    onClick={handleLogout}
+                    className="flex items-center gap-2"
+                  >
+                    <LogOut className="h-4 w-4" />
+                    Logout
+                  </Button>
+                </div>
               </div>
             </div>
           </div>
