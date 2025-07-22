@@ -62,7 +62,11 @@ export const Register: React.FC = () => {
 
     try {
       console.log('✅ Validation passed, proceeding with registration');
-      const baseUrl = import.meta.env.VITE_APP_URL || window.location.origin;
+      const baseUrl = import.meta.env.VITE_APP_URL 
+        ? (import.meta.env.VITE_APP_URL.startsWith('http') 
+            ? import.meta.env.VITE_APP_URL 
+            : `https://${import.meta.env.VITE_APP_URL}`)
+        : window.location.origin;
       const callbackURL = `${baseUrl}/dashboard`;
       console.log('📍 Callback URL:', callbackURL);
       console.log('🔧 Base URL source:', import.meta.env.VITE_APP_URL ? 'VITE_APP_URL' : 'window.location.origin');
@@ -129,6 +133,19 @@ export const Register: React.FC = () => {
           console.log('  - Check BETTER_AUTH_SECRET in Netlify environment');
           console.log('  - Check BETTER_AUTH_URL in Netlify environment');
           console.log('  - Current origin:', window.location.origin);
+        } else if (result.error.status === 502) {
+          errorMessage = 'Server error (502). The auth function is crashing during startup. Common causes:\n' +
+                        '• Missing MONGODB_URI or DATABASE_URL environment variable\n' +
+                        '• Invalid MongoDB connection string\n' +
+                        '• MongoDB database not accessible from Netlify\n' +
+                        '• Missing BETTER_AUTH_SECRET environment variable\n' +
+                        'Check Netlify function logs for detailed error information.';
+          console.log('🚨 502 Error Debug Info:');
+          console.log('  - Function is crashing during initialization');
+          console.log('  - Check these Netlify environment variables:');
+          console.log('    - MONGODB_URI or DATABASE_URL');
+          console.log('    - BETTER_AUTH_SECRET');
+          console.log('  - Error details:', result.error);
         } else if (result.error.status === 500) {
           errorMessage = 'Server error (500). Check Netlify function logs for database connection or configuration errors.';
         } else if (result.error.status === 403) {
