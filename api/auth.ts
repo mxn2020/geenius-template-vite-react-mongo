@@ -2,7 +2,7 @@
 import { Handler } from "@netlify/functions";
 import { auth } from "../src/lib/auth";
 
-export const handler: Handler = async (event, context) => {
+export const handler: Handler = async (event, _context) => {
   try {
     console.log('🚀 Auth API called:', {
       method: event.httpMethod,
@@ -11,10 +11,10 @@ export const handler: Handler = async (event, context) => {
       userAgent: event.headers['user-agent'],
     });
 
-    const url = new URL(event.rawUrl);
-    const request = new Request(url.toString(), {
+    const url = new globalThis.URL(event.rawUrl);
+    const request = new globalThis.Request(url.toString(), {
       method: event.httpMethod,
-      headers: event.headers as HeadersInit,
+      headers: event.headers as globalThis.HeadersInit,
       body: event.body ? event.body : undefined,
     });
 
