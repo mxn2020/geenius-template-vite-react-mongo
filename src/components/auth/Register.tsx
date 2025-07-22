@@ -81,6 +81,26 @@ export const Register: React.FC = () => {
         passwordProvided: !!registrationData.password,
       });
 
+      // Debug Better Auth configuration
+      console.log('🔧 Better Auth config check:');
+      console.log('  - authClient baseURL:', (authClient as any)?.options?.baseURL);
+      console.log('  - window.location.origin:', window.location.origin);
+      console.log('  - Expected auth endpoint:', `${window.location.origin}/api/auth`);
+      
+      // Test if auth endpoint is accessible
+      console.log('🧪 Testing auth endpoint accessibility...');
+      try {
+        const testResponse = await fetch(`${window.location.origin}/api/auth`);
+        console.log('  - Auth endpoint status:', testResponse.status);
+        console.log('  - Auth endpoint accessible:', testResponse.ok);
+        if (!testResponse.ok) {
+          const errorText = await testResponse.text();
+          console.log('  - Auth endpoint error:', errorText);
+        }
+      } catch (testError: any) {
+        console.log('  - Auth endpoint test failed:', testError.message);
+      }
+
       console.log('🚀 Calling signUp.email...');
       const result = await signUp.email(registrationData);
 
@@ -94,7 +114,30 @@ export const Register: React.FC = () => {
           status: result.error.status,
           full: result.error,
         });
-        setError(result.error.message || 'Registration failed');
+        
+        // Enhanced error handling for common deployment issues
+        let errorMessage = result.error.message || 'Registration failed';
+        
+        if (result.error.status === 504) {
+          errorMessage = 'Server timeout (504). This usually means:\n' +
+                        '• Database connection issues\n' +
+                        '• Missing environment variables\n' +
+                        '• Server overloaded\n' +
+                        'Please check Netlify logs and environment variables.';
+          console.log('🚨 504 Error Debug Info:');
+          console.log('  - Check MONGODB_URI in Netlify environment');
+          console.log('  - Check BETTER_AUTH_SECRET in Netlify environment');
+          console.log('  - Check BETTER_AUTH_URL in Netlify environment');
+          console.log('  - Current origin:', window.location.origin);
+        } else if (result.error.status === 500) {
+          errorMessage = 'Server error (500). Check Netlify function logs for database connection or configuration errors.';
+        } else if (result.error.status === 403) {
+          errorMessage = 'Access denied (403). This may be due to CORS or trusted origins configuration.';
+        } else if (result.error.status === 0 || !result.error.status) {
+          errorMessage = 'Network error. Check if the auth endpoint is accessible and configured correctly.';
+        }
+        
+        setError(errorMessage);
         setIsLoading(false);
       } else {
         console.log('✅ Registration successful:', result);
