@@ -31,11 +31,11 @@ export const auth = betterAuth({
     process.env.BETTER_AUTH_URL || "http://localhost:5176",
     "http://localhost:8889",
     "https://localhost:8889",
-    // Add common Netlify patterns
-    /https:\/\/.*\.netlify\.app$/,
-    /https:\/\/.*\.netlify\.com$/,
     // Add specific site URL if provided
     ...(process.env.SITE_URL ? [process.env.SITE_URL] : []),
     ...(process.env.URL ? [process.env.URL] : []),
+    // Add current Netlify deployment URL
+    ...(process.env.DEPLOY_URL ? [process.env.DEPLOY_URL] : []),
+    ...(process.env.DEPLOY_PRIME_URL ? [process.env.DEPLOY_PRIME_URL] : []),
   ],
 });
