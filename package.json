@@ -4,7 +4,7 @@
   "type": "module",
   "description": "Modern React app with Vite, MongoDB, and Prisma",
   "scripts": {
-    "generate-types": "tsx scripts/generateRegistryTypes.ts",
+    "generate-types": "node scripts/generateRegistryTypes.js",
     "prebuild": "npm run generate-types",
     "predev": "npm run generate-types",
     "dev": "vite",
