@@ -7,6 +7,11 @@ import landingUsagesData from './registry-data/landingUsages.json';
 import authUsagesData from './registry-data/authUsages.json';
 import statsAndFeaturesData from './registry-data/statsAndFeatures.json';
 import newData from './registry-data/newUsages.json';
+import { isValidComponentId } from './generatedTypes';
+
+// ✅ Import the generated types (this restores TypeScript errors!)
+export type { ComponentRegistryId } from './generatedTypes';
+export { isValidComponentId, validateComponentId, VALID_COMPONENT_IDS } from './generatedTypes';
 
 // Cast JSON data to ComponentUsage arrays with proper typing
 const landingPageUsages: ComponentUsage[] = landingUsagesData as ComponentUsage[];
@@ -14,7 +19,7 @@ const authComponentUsages: ComponentUsage[] = authUsagesData as ComponentUsage[]
 const statsAndFeaturesUsages: ComponentUsage[] = statsAndFeaturesData as ComponentUsage[];
 const testUsages: ComponentUsage[] = newData as ComponentUsage[];
 
-// Merge all component definitions
+// Merge all component definitions (remove 'as const' since we have generated types)
 const allComponentUsages = [
   ...landingPageUsages,
   ...statsAndFeaturesUsages,
@@ -22,7 +27,17 @@ const allComponentUsages = [
   ...testUsages
 ];
 
-export type ComponentRegistryId = typeof allComponentUsages[number]['id'];
+// Development-time validation
+if (process.env.NODE_ENV === 'development') {
+  // Validate that all IDs in JSON match our generated types
+  allComponentUsages.forEach(usage => {
+    if (!isValidComponentId(usage.id)) {
+      console.error(`❌ Invalid component ID in JSON: "${usage.id}"`);
+      console.error('This component exists in JSON but not in generated types.');
+      console.error('Run "npm run generate-types" to regenerate type definitions.');
+    }
+  });
+}
 
 // Create a typed version for runtime use
 export const componentUsageArray: ComponentUsage[] = allComponentUsages;
@@ -36,7 +51,7 @@ export const componentRegistry: ComponentRegistry = componentUsageArray.reduce((
 // Export for convenience
 export { landingPageUsages, authComponentUsages, statsAndFeaturesUsages };
 
-// Helper functions
+// Helper functions remain the same
 export const getComponentUsage = (id: string): ComponentUsage | undefined => {
   return componentRegistry[id];
 };

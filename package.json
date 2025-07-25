@@ -4,6 +4,9 @@
   "type": "module",
   "description": "Modern React app with Vite, MongoDB, and Prisma",
   "scripts": {
+    "generate-types": "tsx scripts/generateRegistryTypes.ts",
+    "prebuild": "npm run generate-types",
+    "predev": "npm run generate-types",
     "dev": "vite",
     "dev:netlify": "netlify dev",
     "build": "prisma generate && tsc -b && vite build",
@@ -87,7 +90,8 @@
     "eslint-plugin-react-refresh": "^0.4.3",
     "netlify-cli": "^22.3.0",
     "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^3.4.17",
+    "tsx": "^4.20.3"
   },
   "keywords": [
     "vite",

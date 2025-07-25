@@ -71,7 +71,7 @@ The Geenius system needs these environment variables configured:
 ANTHROPIC_API_KEY=your_key
 OPENAI_API_KEY=your_key  
 GOOGLE_API_KEY=your_key
-GROK_API_KEY=your_key
+XAI_API_KEY=your_key
 
 # GitHub Integration
 GITHUB_TOKEN=your_github_token
