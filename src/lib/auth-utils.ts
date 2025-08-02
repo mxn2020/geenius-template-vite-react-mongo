@@ -17,7 +17,7 @@ export type UserRole = 'user' | 'admin';
 export async function getUserRole(userId: string): Promise<UserRole> {
   try {
     const userPref = await dataService.findOne('userPreference', { userId });
-    return (userPref?.role as UserRole) || 'user';
+    return ((userPref as any)?.role as UserRole) || 'user';
   } catch (error) {
     console.error('Error fetching user role:', error);
     return 'user';

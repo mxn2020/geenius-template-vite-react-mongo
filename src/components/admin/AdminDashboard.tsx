@@ -8,7 +8,6 @@ import {
   Activity,
   TrendingUp,
   UserCheck,
-  AlertCircle,
   Clock,
   BarChart3,
   Settings,

@@ -11,8 +11,7 @@ interface AdminRouteProps {
 }
 
 export const AdminRoute: React.FC<AdminRouteProps> = ({ 
-  children, 
-  fallback = '/' 
+  children
 }) => {
   const { isAuthenticated, isAdmin, isLoading } = useAuth();
   const location = useLocation();

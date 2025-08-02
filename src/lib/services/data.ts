@@ -57,7 +57,7 @@ class DataServiceImpl implements DataService {
     });
   }
 
-  async findUserByEmail(email: string) {
+  async findUserByEmail(_email: string) {
     // Note: This would typically query Better Auth's user table
     // For now, returning null as Better Auth handles user queries
     console.warn('findUserByEmail: Use Better Auth methods for user queries');
@@ -132,7 +132,7 @@ class DataServiceImpl implements DataService {
   }
 
   // Additional utility methods
-  async transaction<T>(fn: (prisma: PrismaClient) => Promise<T>): Promise<T> {
+  async transaction<T>(fn: (prisma: Omit<PrismaClient, "$connect" | "$disconnect" | "$on" | "$transaction" | "$use" | "$extends">) => Promise<T>): Promise<T> {
     return await this.prisma.$transaction(fn);
   }
 

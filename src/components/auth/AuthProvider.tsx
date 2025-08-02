@@ -49,7 +49,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   useEffect(() => {
     console.log('[AuthProvider] Session data:', session);
     console.log('[AuthProvider] Is valid session:', isValidSession);
-    if (session && typeof session === 'string' && session.includes('<!doctype html>')) {
+    if (session && typeof session === 'string' && (session as string).includes('<!doctype html>')) {
       console.error('[AuthProvider] Session returned HTML instead of JSON. Check auth endpoint configuration.');
     }
   }, [session, isValidSession]);
@@ -91,7 +91,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     user: isValidSession ? session.user : null,
     role,
     isLoading: isPending || roleLoading,
-    isAuthenticated: isValidSession,
+    isAuthenticated: !!isValidSession,
     isAdmin: role === 'admin',
     signIn,
     signOut,

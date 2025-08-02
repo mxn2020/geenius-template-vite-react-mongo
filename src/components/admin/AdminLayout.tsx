@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
 import { Button } from '../ui/button';
-import { Container, Div, Nav, Span } from '../../lib/dev-container';
+import { Container, Nav, Span } from '../../lib/dev-container';
 import {
   LayoutDashboard,
   Users,

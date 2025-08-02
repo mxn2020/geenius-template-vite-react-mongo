@@ -218,5 +218,55 @@
     "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/auth/ProtectedRoute.tsx",
     "category": "feedback",
     "semanticTags": ["protected", "route", "loading", "authentication"]
+  },
+  {
+    "id": "admin-dashboard",
+    "definitionId": "dev-container",
+    "name": "Admin Dashboard",
+    "description": "Main admin dashboard page container",
+    "filePath": "src/components/admin/AdminDashboard.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminDashboard.tsx",
+    "category": "page",
+    "semanticTags": ["admin", "dashboard", "page", "container"]
+  },
+  {
+    "id": "admin-layout",
+    "definitionId": "dev-div",
+    "name": "Admin Layout",
+    "description": "Admin page layout wrapper with navigation",
+    "filePath": "src/components/admin/AdminLayout.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminLayout.tsx",
+    "category": "layout",
+    "semanticTags": ["admin", "layout", "wrapper", "navigation"]
+  },
+  {
+    "id": "admin-nav",
+    "definitionId": "dev-nav",
+    "name": "Admin Navigation",
+    "description": "Admin navigation menu and links",
+    "filePath": "src/components/admin/AdminNav.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminNav.tsx",
+    "category": "navigation",
+    "semanticTags": ["admin", "navigation", "menu", "links"]
+  },
+  {
+    "id": "admin-route-loading",
+    "definitionId": "dev-container",
+    "name": "Admin Route Loading",
+    "description": "Loading spinner while checking admin authentication status",
+    "filePath": "src/components/admin/AdminRoute.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminRoute.tsx",
+    "category": "feedback",
+    "semanticTags": ["admin", "route", "loading", "authentication"]
+  },
+  {
+    "id": "admin-route-denied",
+    "definitionId": "dev-container",
+    "name": "Admin Route Access Denied",
+    "description": "Access denied page for non-admin users",
+    "filePath": "src/components/admin/AdminRoute.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminRoute.tsx",
+    "category": "page",
+    "semanticTags": ["admin", "route", "denied", "access", "unauthorized"]
   }
 ]

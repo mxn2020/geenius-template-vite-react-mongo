@@ -1,8 +1,13 @@
 // This file is auto-generated from JSON registry data
-// Generated on 2025-08-02T06:57:35.165Z
+// Generated on 2025-08-02T07:02:55.237Z
 // DO NOT EDIT MANUALLY - Run 'npm run generate-types' to regenerate
 
 export type ComponentRegistryId = 
+  | 'admin-dashboard'
+  | 'admin-layout'
+  | 'admin-nav'
+  | 'admin-route-denied'
+  | 'admin-route-loading'
   | 'app-root'
   | 'auth-buttons'
   | 'brand-name'
@@ -82,6 +87,11 @@ export type ComponentRegistryId =
 
 // Runtime validation array
 export const VALID_COMPONENT_IDS = [
+  'admin-dashboard',
+  'admin-layout',
+  'admin-nav',
+  'admin-route-denied',
+  'admin-route-loading',
   'app-root',
   'auth-buttons',
   'brand-name',
@@ -186,4 +196,4 @@ export function validateComponentId(id: string): asserts id is ComponentRegistry
 }
 
 // Export count for debugging
-export const COMPONENT_ID_COUNT = 75;
+export const COMPONENT_ID_COUNT = 80;
