@@ -7,9 +7,10 @@
 
 [dev]
   command = "pnpm dev"
-  publish = "dist"
+  framework = "#custom"
   port = 8889
   targetPort = 5176
+  autoLaunch = false
 
 # Handle auth routes
 [[redirects]]
