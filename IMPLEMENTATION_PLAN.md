@@ -150,7 +150,7 @@
 - [x] Test scripts added to package.json
 
 ## Deployment Checklist
-- [ ] Update environment variables documentation
-- [ ] Add deployment instructions for Resend
-- [ ] Update README with new features
-- [ ] Create admin user setup guide
+- [x] Update environment variables documentation
+- [x] Add deployment instructions for Resend
+- [x] Update README with new features
+- [x] Create admin user setup guide

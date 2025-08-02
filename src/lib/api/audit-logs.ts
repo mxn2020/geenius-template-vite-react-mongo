@@ -50,12 +50,19 @@ export async function getAuditLogs(params?: AuditLogsParams): Promise<AuditLogsR
   if (params?.startDate) queryParams.append('startDate', params.startDate);
   if (params?.endDate) queryParams.append('endDate', params.endDate);
 
-  const response = await fetch(`${getApiUrl()}/audit-logs?${queryParams}`, {
+  const response = await fetch(`${getApiUrl()}/admin-audit-logs?${queryParams}`, {
     credentials: 'include',
   });
 
   if (!response.ok) {
-    throw new Error('Failed to fetch audit logs');
+    if (response.status === 401) {
+      const errorData = await response.json().catch(() => ({ error: 'Unauthorized' }));
+      throw new Error(errorData.error || 'Not authenticated. Please log in again.');
+    }
+    if (response.status === 403) {
+      throw new Error('Access denied. Admin privileges required.');
+    }
+    throw new Error(`Failed to fetch audit logs: ${response.statusText}`);
   }
 
   return response.json();

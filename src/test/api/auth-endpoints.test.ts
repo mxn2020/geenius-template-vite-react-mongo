@@ -1,5 +1,4 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { createRequest, createResponse } from 'node-mocks-http';
 import { auth } from '../../lib/auth';
 import { MongoClient } from 'mongodb';
 import { PrismaClient } from '@prisma/client';
@@ -389,7 +388,7 @@ describe('Auth API Endpoints', () => {
     let sessionToken: string;
 
     beforeEach(async () => {
-      const signupResponse = await auth.handler(new Request('http://localhost/api/auth/signup', {
+      await auth.handler(new Request('http://localhost/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -444,7 +443,6 @@ describe('Auth API Endpoints', () => {
 
   describe('POST /api/auth/revoke-session', () => {
     let sessionToken1: string;
-    let sessionToken2: string;
     let sessionId2: string;
 
     beforeEach(async () => {
@@ -479,7 +477,7 @@ describe('Auth API Endpoints', () => {
         }),
       }));
       const data2 = await login2.json();
-      sessionToken2 = data2.session.token;
+      // sessionToken2 = data2.session.token; // Not used
       sessionId2 = data2.session.id;
     });
 

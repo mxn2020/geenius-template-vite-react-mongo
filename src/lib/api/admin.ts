@@ -48,18 +48,26 @@ export interface AdminStats {
 }
 
 function getApiUrl() {
-  // In production, API routes are at the same origin
-  // In development, they might be at a different port
-  const baseUrl = import.meta.env.VITE_API_URL || '';
-  return `${baseUrl}/api`;
+  // Always use relative URLs so Vite proxy can handle them in development
+  return '/api';
 }
 
 export async function getAdminStats(): Promise<AdminStats> {
   const response = await fetch(`${getApiUrl()}/admin-stats`, {
+    method: 'GET',
     credentials: 'include',
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
 
   if (!response.ok) {
+    if (response.status === 401) {
+      throw new Error('Authentication required');
+    }
+    if (response.status === 403) {
+      throw new Error('Admin access required');
+    }
     throw new Error('Failed to fetch admin stats');
   }
 

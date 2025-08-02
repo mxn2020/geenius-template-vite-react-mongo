@@ -5,7 +5,7 @@ import { auth } from "../src/lib/auth";
 export const handler: Handler = async (event, _context) => {
   // Handle CORS preflight requests
   if (event.httpMethod === 'OPTIONS') {
-    const origin = event.headers.origin || 'http://localhost:8889';
+    const origin = event.headers.origin || 'http://localhost:5176' || 'http://localhost:8889';
     return {
       statusCode: 200,
       headers: {
@@ -44,7 +44,7 @@ export const handler: Handler = async (event, _context) => {
     });
 
     // Add CORS headers to all responses
-    const origin = event.headers.origin || 'http://localhost:8889';
+    const origin = event.headers.origin || 'http://localhost:5176' || 'http://localhost:8889';
     const corsHeaders = {
       'Access-Control-Allow-Origin': origin,
       'Access-Control-Allow-Credentials': 'true',
@@ -77,7 +77,7 @@ export const handler: Handler = async (event, _context) => {
       name: error.name,
     });
     
-    const origin = event.headers.origin || 'http://localhost:8889';
+    const origin = event.headers.origin || 'http://localhost:5176' || 'http://localhost:8889';
     return {
       statusCode: 500,
       headers: {

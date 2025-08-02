@@ -2,7 +2,7 @@
 
 import { ComponentLibraryId } from '@/registry/componentLibrary';
 import { ComponentRegistryId } from '@/registry/componentRegistry';
-import { ReactNode, ComponentType, CSSProperties, RefObject } from 'react';
+import React, { ReactNode, ComponentType, CSSProperties, RefObject } from 'react';
 
 // =====================================
 // CORE COMPONENT TYPES

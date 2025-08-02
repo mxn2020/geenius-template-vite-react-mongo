@@ -1,70 +1,60 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
-import { getUserById, updateUser, deleteUser, type User } from '../../lib/api/users';
+import { useUser, useUserDetails, useUpdateUser, useDeleteUser } from '../../hooks/useUserQueries';
 import { Container, Button, Card, Badge, Alert, Tabs, TabsContent, TabsList, TabsTrigger } from '../../lib/dev-container';
-import { ArrowLeft, User as UserIcon, Mail, Calendar, Shield, Trash2, Save, AlertCircle } from 'lucide-react';
+import { ArrowLeft, Mail, Shield, Trash2, AlertCircle } from 'lucide-react';
 
 export function UserDetailsPage() {
   const { userId } = useParams<{ userId: string }>();
   const navigate = useNavigate();
-  const [user, setUser] = useState<User | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [saving, setSaving] = useState(false);
-  const [deleting, setDeleting] = useState(false);
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
 
-  useEffect(() => {
-    if (userId) {
-      fetchUser();
-    }
-  }, [userId]);
+  // React Query hooks
+  const { data: user, isLoading, error, isError } = useUser(userId);
+  const { data: userDetails, isLoading: detailsLoading } = useUserDetails(userId);
+  const updateUserMutation = useUpdateUser();
+  const deleteUserMutation = useDeleteUser();
 
-  const fetchUser = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const userData = await getUserById(userId!);
-      setUser(userData);
-    } catch (err) {
-      console.error('Error fetching user:', err);
-      setError('Failed to load user details. Please try again later.');
-    } finally {
-      setLoading(false);
-    }
-  };
+  // Debug logging
+  console.log('UserDetailsPage Debug:', {
+    userId,
+    user,
+    userDetails,
+    isLoading,
+    detailsLoading,
+    error,
+    isError
+  });
 
   const handleRoleChange = async (newRole: 'user' | 'admin') => {
     if (!user) return;
     
-    try {
-      setSaving(true);
-      setError(null);
-      const updatedUser = await updateUser(user.id, { role: newRole });
-      setUser(updatedUser);
-    } catch (err) {
-      console.error('Error updating user role:', err);
-      setError('Failed to update user role. Please try again.');
-    } finally {
-      setSaving(false);
-    }
+    console.log('Changing role to:', newRole);
+    updateUserMutation.mutate(
+      { userId: user.id, data: { role: newRole } },
+      {
+        onSuccess: (data) => {
+          console.log('Role change success:', data);
+        },
+        onError: (error) => {
+          console.error('Error updating user role:', error);
+        },
+      }
+    );
   };
 
   const handleDelete = async () => {
     if (!user) return;
     
-    try {
-      setDeleting(true);
-      setError(null);
-      await deleteUser(user.id);
-      navigate('/admin/users');
-    } catch (err) {
-      console.error('Error deleting user:', err);
-      setError('Failed to delete user. Please try again.');
-      setShowDeleteConfirm(false);
-    } finally {
-      setDeleting(false);
-    }
+    deleteUserMutation.mutate(user.id, {
+      onSuccess: () => {
+        navigate('/admin/users');
+      },
+      onError: (error) => {
+        console.error('Error deleting user:', error);
+        setShowDeleteConfirm(false);
+      },
+    });
   };
 
   const formatDate = (dateString: string) => {
@@ -77,7 +67,7 @@ export function UserDetailsPage() {
     });
   };
 
-  if (loading) {
+  if (isLoading) {
     return (
       <Container componentId="user-details-loading" className="p-8">
         <div className="flex flex-col items-center justify-center space-y-4">
@@ -94,7 +84,7 @@ export function UserDetailsPage() {
         <Card devId="error-card" className="bg-red-50 border-red-200 p-6">
           <div className="flex items-center gap-2 text-red-700">
             <AlertCircle className="h-5 w-5" />
-            <p>{error}</p>
+            <p>{error instanceof Error ? error.message : 'Failed to load user details'}</p>
           </div>
           <Button
             devId="back-button"
@@ -111,6 +101,9 @@ export function UserDetailsPage() {
   }
 
   if (!user) return null;
+
+  // Get error states from mutations
+  const mutationError = updateUserMutation.error || deleteUserMutation.error;
 
   return (
     <Container componentId="user-details-page" className="space-y-6">
@@ -132,7 +125,7 @@ export function UserDetailsPage() {
           devId="delete-button"
           variant="destructive"
           onClick={() => setShowDeleteConfirm(true)}
-          disabled={deleting}
+          disabled={deleteUserMutation.isPending}
         >
           <Trash2 className="h-4 w-4 mr-2" />
           Delete User
@@ -140,10 +133,12 @@ export function UserDetailsPage() {
       </div>
 
       {/* Error Alert */}
-      {error && (
+      {mutationError && (
         <Alert devId="error-alert" variant="destructive">
           <AlertCircle className="h-4 w-4" />
-          <span className="ml-2">{error}</span>
+          <span className="ml-2">
+            {mutationError instanceof Error ? mutationError.message : 'An error occurred'}
+          </span>
         </Alert>
       )}
 
@@ -161,7 +156,7 @@ export function UserDetailsPage() {
                 variant="outline"
                 size="sm"
                 onClick={() => setShowDeleteConfirm(false)}
-                disabled={deleting}
+                disabled={deleteUserMutation.isPending}
               >
                 Cancel
               </Button>
@@ -170,9 +165,9 @@ export function UserDetailsPage() {
                 variant="destructive"
                 size="sm"
                 onClick={handleDelete}
-                disabled={deleting}
+                disabled={deleteUserMutation.isPending}
               >
-                {deleting ? 'Deleting...' : 'Delete'}
+                {deleteUserMutation.isPending ? 'Deleting...' : 'Delete'}
               </Button>
             </div>
           </div>
@@ -184,18 +179,18 @@ export function UserDetailsPage() {
         <div className="flex items-start gap-6">
           <div className="h-20 w-20 rounded-full bg-gray-200 flex items-center justify-center">
             <span className="text-2xl font-medium text-gray-600">
-              {user.name.charAt(0).toUpperCase()}
+              {user.name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase() || 'U'}
             </span>
           </div>
           <div className="flex-1">
-            <h2 className="text-2xl font-bold text-gray-900">{user.name}</h2>
+            <h2 className="text-2xl font-bold text-gray-900">{user.name || user.email}</h2>
             <div className="flex items-center gap-4 mt-2">
               <div className="flex items-center text-gray-600">
                 <Mail className="h-4 w-4 mr-1" />
                 <span>{user.email}</span>
               </div>
               <Badge devId="role-badge" variant={user.role === 'admin' ? 'destructive' : 'secondary'}>
-                {user.role}
+                {user.role || 'user'}
               </Badge>
               {user.emailVerified && (
                 <Badge devId="verified-badge" variant="outline" className="text-green-700 border-green-300">
@@ -258,14 +253,114 @@ export function UserDetailsPage() {
         <TabsContent devId="activity-content" value="activity">
           <Card devId="activity-card" className="p-6">
             <h3 className="text-lg font-semibold mb-4">Recent Activity</h3>
-            <p className="text-gray-600">Activity tracking coming soon...</p>
+            {detailsLoading ? (
+              <p className="text-gray-600">Loading activity...</p>
+            ) : userDetails?.recentActivity && userDetails.recentActivity.length > 0 ? (
+              <div className="space-y-3">
+                {userDetails.recentActivity.map((activity) => {
+                  // Format activity details
+                  const getActivityDescription = (action: string, details: any) => {
+                    // If details is a string, return it as-is
+                    if (typeof details === 'string') return details;
+                    
+                    // Format based on action type
+                    switch (action) {
+                      case 'login':
+                        return details.success ? 'Successfully logged in' : `Login failed: ${details.error || 'Invalid credentials'}`;
+                      case 'logout':
+                        return `Logged out after ${details.sessionDuration || 'unknown duration'}`;
+                      case 'profile_update':
+                        return `Updated ${details.fieldsUpdated?.join(', ') || 'profile'}`;
+                      case 'password_change':
+                        return details.success ? 'Password changed successfully' : 'Password change failed';
+                      case 'post_created':
+                        return `Created post: ${details.postTitle || details.postId || 'Untitled'}`;
+                      case 'post_updated':
+                        return `Updated post: ${details.postTitle || details.postId || 'Unknown'}`;
+                      case 'post_deleted':
+                        return `Deleted post: ${details.postTitle || details.postId || 'Unknown'}`;
+                      case 'comment_created':
+                        return `Commented on post ${details.postId || 'unknown'}`;
+                      case 'comment_deleted':
+                        return `Deleted comment ${details.commentId || 'unknown'}`;
+                      case 'permission_granted':
+                        return `Granted ${details.permission || 'permission'} to ${details.targetUser || 'user'}`;
+                      case 'permission_revoked':
+                        return `Revoked ${details.permission || 'permission'} from ${details.targetUser || 'user'}`;
+                      case 'role_change':
+                        return `Role changed from ${details.oldRole || 'unknown'} to ${details.newRole || 'unknown'}`;
+                      case 'user_created':
+                        return 'Account created';
+                      case 'user_updated':
+                        return `Updated user: ${details.targetUserId || 'unknown'}`;
+                      case 'user_deleted':
+                        return `Deleted user: ${details.targetUserId || 'unknown'}`;
+                      case 'data_export':
+                        return `Exported ${details.dataTypes?.join(', ') || 'user data'}`;
+                      case 'api_access':
+                        return `API ${details.method || 'request'} to ${details.endpoint || 'unknown endpoint'}`;
+                      case 'settings_update':
+                        return `Updated ${details.settings?.join(', ') || 'settings'}`;
+                      default:
+                        return JSON.stringify(details);
+                    }
+                  };
+                  
+                  const description = getActivityDescription(activity.action, activity.details);
+                  
+                  return (
+                    <div key={activity.id} className="border-l-2 border-gray-200 pl-4 py-2">
+                      <div className="flex justify-between items-start">
+                        <div>
+                          <p className="font-medium text-sm capitalize">{activity.action.replace(/_/g, ' ')}</p>
+                          <p className="text-sm text-gray-600">{description}</p>
+                        </div>
+                        <span className="text-xs text-gray-500">
+                          {new Date(activity.timestamp).toLocaleString()}
+                        </span>
+                      </div>
+                      <p className="text-xs text-gray-500 mt-1">IP: {activity.ip}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            ) : (
+              <p className="text-gray-600">No recent activity recorded.</p>
+            )}
           </Card>
         </TabsContent>
 
         <TabsContent devId="sessions-content" value="sessions">
           <Card devId="sessions-card" className="p-6">
             <h3 className="text-lg font-semibold mb-4">Active Sessions</h3>
-            <p className="text-gray-600">Session management coming soon...</p>
+            {detailsLoading ? (
+              <p className="text-gray-600">Loading sessions...</p>
+            ) : userDetails?.sessions && userDetails.sessions.length > 0 ? (
+              <div className="space-y-3">
+                {userDetails.sessions.map((session) => (
+                  <div key={session.id} className="border rounded-lg p-4">
+                    <div className="flex justify-between items-start">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <div className={`h-2 w-2 rounded-full ${session.active ? 'bg-green-500' : 'bg-gray-300'}`} />
+                          <span className="font-medium text-sm">
+                            {session.active ? 'Active' : 'Inactive'}
+                          </span>
+                        </div>
+                        <p className="text-sm text-gray-600 mt-1">{session.userAgent}</p>
+                        <p className="text-xs text-gray-500">IP: {session.ip}</p>
+                      </div>
+                      <div className="text-right text-xs text-gray-500">
+                        <p>Created: {new Date(session.createdAt).toLocaleString()}</p>
+                        <p>Expires: {new Date(session.expiresAt).toLocaleString()}</p>
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-600">No active sessions found.</p>
+            )}
           </Card>
         </TabsContent>
 
@@ -284,10 +379,10 @@ export function UserDetailsPage() {
                     variant="outline"
                     size="sm"
                     onClick={() => handleRoleChange(user.role === 'admin' ? 'user' : 'admin')}
-                    disabled={saving}
+                    disabled={updateUserMutation.isPending}
                   >
                     <Shield className="h-4 w-4 mr-2" />
-                    {saving ? 'Saving...' : `Change to ${user.role === 'admin' ? 'User' : 'Admin'}`}
+                    {updateUserMutation.isPending ? 'Saving...' : `Change to ${user.role === 'admin' ? 'User' : 'Admin'}`}
                   </Button>
                 </div>
               </div>

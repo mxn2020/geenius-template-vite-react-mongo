@@ -48,6 +48,12 @@ export default [
         MouseEvent: 'readonly',
         Node: 'readonly',
         URLSearchParams: 'readonly',
+        URL: 'readonly',
+        Blob: 'readonly',
+        Request: 'readonly',
+        Response: 'readonly',
+        Headers: 'readonly',
+        FormData: 'readonly',
         // Node.js globals
         process: 'readonly',
         global: 'readonly',

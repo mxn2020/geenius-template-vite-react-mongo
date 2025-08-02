@@ -1,8 +1,7 @@
-import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { MongoClient } from 'mongodb';
 import { PrismaClient } from '@prisma/client';
 import { auth } from '../../lib/auth';
-import { AuditService } from '../../lib/services/audit';
 import { RateLimitService } from '../../lib/services/rate-limit';
 
 // Mock environment variables

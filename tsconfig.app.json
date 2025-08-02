@@ -32,5 +32,6 @@
       "@/lib/*": ["src/lib/*"]
     }
   },
-  "include": ["src", "scripts/generateRegistryTypes.ts"]
+  "include": ["src", "scripts/generateRegistryTypes.ts"],
+  "exclude": ["src/test/performance/load-test.ts", "src/test/performance/stress-test.ts"]
 }

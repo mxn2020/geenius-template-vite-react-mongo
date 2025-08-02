@@ -56,7 +56,7 @@ test.describe('Admin Features', () => {
 
   test('admin should view users list', async ({ page }) => {
     await page.click('a:has-text("Users")');
-    await expect(page).toHaveURL('/admin/users');
+    await expect(page).toHaveURL('/admin-users');
 
     // Should see users table
     await expect(page.locator('table')).toBeVisible();
@@ -71,7 +71,7 @@ test.describe('Admin Features', () => {
   });
 
   test('admin should search users', async ({ page }) => {
-    await page.goto('/admin/users');
+    await page.goto('/admin-users');
 
     // Search for user
     await page.fill('input[placeholder*="Search"]', userEmail);
@@ -83,13 +83,13 @@ test.describe('Admin Features', () => {
   });
 
   test('admin should view user details', async ({ page }) => {
-    await page.goto('/admin/users');
+    await page.goto('/admin-users');
 
     // Click on a user row
     await page.click(`tr:has-text("${userEmail}")`);
 
     // Should navigate to user details
-    expect(page.url()).toContain('/admin/users/');
+    expect(page.url()).toContain('/admin-users/');
 
     // Check tabs are visible
     await expect(page.locator('button[role="tab"]:has-text("Details")')).toBeVisible();
@@ -99,7 +99,7 @@ test.describe('Admin Features', () => {
   });
 
   test('admin should update user role', async ({ page }) => {
-    await page.goto('/admin/users');
+    await page.goto('/admin-users');
     await page.click(`tr:has-text("${userEmail}")`);
 
     // Go to permissions tab
@@ -118,7 +118,7 @@ test.describe('Admin Features', () => {
 
   test('admin should view audit logs', async ({ page }) => {
     await page.click('a:has-text("Audit Logs")');
-    await expect(page).toHaveURL('/admin/audit-logs');
+    await expect(page).toHaveURL('/admin-audit-logs');
 
     // Should see audit log entries
     await expect(page.locator('table')).toBeVisible();
@@ -129,7 +129,7 @@ test.describe('Admin Features', () => {
   });
 
   test('admin should filter audit logs', async ({ page }) => {
-    await page.goto('/admin/audit-logs');
+    await page.goto('/admin-audit-logs');
 
     // Filter by action
     await page.selectOption('select[name="action"]', 'login');
@@ -145,7 +145,7 @@ test.describe('Admin Features', () => {
   });
 
   test('admin should export audit logs', async ({ page }) => {
-    await page.goto('/admin/audit-logs');
+    await page.goto('/admin-audit-logs');
 
     // Start download promise before clicking
     const downloadPromise = page.waitForEvent('download');
@@ -159,7 +159,7 @@ test.describe('Admin Features', () => {
   });
 
   test('admin should manage sessions', async ({ page }) => {
-    await page.goto('/admin/users');
+    await page.goto('/admin-users');
     await page.click(`tr:has-text("${userEmail}")`);
 
     // Go to sessions tab
@@ -177,7 +177,7 @@ test.describe('Admin Features', () => {
   });
 
   test('admin should not delete themselves', async ({ page }) => {
-    await page.goto('/admin/users');
+    await page.goto('/admin-users');
     await page.click(`tr:has-text("${adminEmail}")`);
 
     // Delete button should be disabled for own account

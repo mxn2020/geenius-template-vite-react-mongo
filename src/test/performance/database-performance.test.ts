@@ -31,12 +31,14 @@ describe('Database Performance Tests', () => {
     // Create audit logs
     const auditLogs = [];
     for (let i = 0; i < 50000; i++) {
+      const success = Math.random() > 0.1;
       auditLogs.push({
         userId: testUserIds[Math.floor(Math.random() * testUserIds.length)],
         action: ['login', 'logout', 'profile_updated', 'password_changed'][Math.floor(Math.random() * 4)],
-        success: Math.random() > 0.1,
+        success: success,
         ip: `192.168.1.${Math.floor(Math.random() * 255)}`,
         createdAt: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000), // Last 30 days
+        error: success ? null : 'Test error',
       });
     }
 
@@ -49,7 +51,7 @@ describe('Database Performance Tests', () => {
       id: { $in: testUserIds },
     });
     await prisma.auditLog.deleteMany({
-      userId: { in: testUserIds },
+      where: { userId: { in: testUserIds } },
     });
     
     await mongoClient.close();
@@ -200,7 +202,7 @@ describe('Database Performance Tests', () => {
 
       // Query active sessions
       const queryStart = performance.now();
-      const activeSessions = await mongoClient.db().collection('session').find({
+      await mongoClient.db().collection('session').find({
         expiresAt: { $gt: new Date() },
       }).limit(50).toArray();
       const queryDuration = performance.now() - queryStart;
@@ -227,14 +229,16 @@ describe('Database Performance Tests', () => {
       expect(emailExplain.executionStats.totalDocsExamined).toBeLessThanOrEqual(1);
       expect(emailExplain.executionStats.executionTimeMillis).toBeLessThan(10);
 
-      // Check audit log index usage
-      const auditExplain = await prisma.$queryRaw`
-        EXPLAIN ANALYZE 
-        SELECT * FROM "AuditLog" 
-        WHERE "userId" = ${testUserIds[0]} 
-        ORDER BY "createdAt" DESC 
-        LIMIT 10
-      `;
+      // For MongoDB, we can't use $queryRaw with SQL syntax
+      // Just verify the query works efficiently
+      const auditStart = performance.now();
+      await prisma.auditLog.findMany({
+        where: { userId: testUserIds[0] },
+        orderBy: { createdAt: 'desc' },
+        take: 10,
+      });
+      const auditDuration = performance.now() - auditStart;
+      expect(auditDuration).toBeLessThan(50);
 
       console.log('Index usage verified for email and audit log queries');
     });
@@ -247,6 +251,7 @@ describe('Database Performance Tests', () => {
         userId: testUserIds[Math.floor(Math.random() * testUserIds.length)],
         action: 'bulk_test' as const,
         success: true,
+        error: null,
       }));
 
       const start = performance.now();

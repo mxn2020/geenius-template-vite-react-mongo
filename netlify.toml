@@ -18,6 +18,11 @@
   to = "/.netlify/functions/auth/:splat"
   status = 200
 
+[[redirects]]
+  from = "/api/admin/*"
+  to = "/.netlify/functions/admin/:splat"
+  status = 200
+
 # Handle other API routes (if you have more functions)
 [[redirects]]
   from = "/api/*"

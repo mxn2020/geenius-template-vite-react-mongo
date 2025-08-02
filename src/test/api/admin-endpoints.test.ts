@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
 import { MongoClient } from 'mongodb';
 import { PrismaClient } from '@prisma/client';
 
@@ -21,7 +21,7 @@ describe('Admin API Endpoints', () => {
     // Clear test data
     await mongoClient.db().collection('user').deleteMany({});
     await mongoClient.db().collection('session').deleteMany({});
-    await prisma.userRole.deleteMany({});
+    await prisma.userPreference.deleteMany({});
     await prisma.auditLog.deleteMany({});
 
     // Create admin user
@@ -39,7 +39,7 @@ describe('Admin API Endpoints', () => {
       userId: adminId,
       expiresAt: new Date(Date.now() + 86400000),
     });
-    await prisma.userRole.create({
+    await prisma.userPreference.create({
       data: { userId: adminId, role: 'admin' },
     });
 
@@ -58,7 +58,7 @@ describe('Admin API Endpoints', () => {
       userId: userId,
       expiresAt: new Date(Date.now() + 86400000),
     });
-    await prisma.userRole.create({
+    await prisma.userPreference.create({
       data: { userId: userId, role: 'user' },
     });
   });
@@ -69,7 +69,7 @@ describe('Admin API Endpoints', () => {
     vi.clearAllMocks();
   });
 
-  describe('GET /api/admin/users', () => {
+  describe('GET /api/admin-users', () => {
     it('should return all users for admin', async () => {
       const mockUsers = [
         { id: adminId, email: 'admin@example.com', name: 'Admin User' },
@@ -82,7 +82,7 @@ describe('Admin API Endpoints', () => {
         json: async () => mockUsers,
       });
 
-      const response = await fetch('/api/admin/users', {
+      const response = await fetch('/api/admin-users', {
         headers: { 'Authorization': `Bearer ${adminToken}` },
       });
 
@@ -98,7 +98,7 @@ describe('Admin API Endpoints', () => {
         json: async () => ({ error: 'Forbidden' }),
       });
 
-      const response = await fetch('/api/admin/users', {
+      const response = await fetch('/api/admin-users', {
         headers: { 'Authorization': `Bearer ${userToken}` },
       });
 
@@ -117,7 +117,7 @@ describe('Admin API Endpoints', () => {
         }),
       });
 
-      const response = await fetch('/api/admin/users?page=1&limit=10', {
+      const response = await fetch('/api/admin-users?page=1&limit=10', {
         headers: { 'Authorization': `Bearer ${adminToken}` },
       });
 
@@ -136,7 +136,7 @@ describe('Admin API Endpoints', () => {
         ],
       });
 
-      const response = await fetch('/api/admin/users?search=user@example', {
+      const response = await fetch('/api/admin-users?search=user@example', {
         headers: { 'Authorization': `Bearer ${adminToken}` },
       });
 
@@ -147,7 +147,7 @@ describe('Admin API Endpoints', () => {
     });
   });
 
-  describe('GET /api/admin/users/:id', () => {
+  describe('GET /api/admin-users/:id', () => {
     it('should return user details with role', async () => {
       (global.fetch as any).mockResolvedValueOnce({
         ok: true,
@@ -168,7 +168,7 @@ describe('Admin API Endpoints', () => {
         }),
       });
 
-      const response = await fetch(`/api/admin/users/${userId}`, {
+      const response = await fetch(`/api/admin-users/${userId}`, {
         headers: { 'Authorization': `Bearer ${adminToken}` },
       });
 
@@ -186,7 +186,7 @@ describe('Admin API Endpoints', () => {
         json: async () => ({ error: 'User not found' }),
       });
 
-      const response = await fetch('/api/admin/users/non-existent', {
+      const response = await fetch('/api/admin-users/non-existent', {
         headers: { 'Authorization': `Bearer ${adminToken}` },
       });
 
@@ -194,7 +194,7 @@ describe('Admin API Endpoints', () => {
     });
   });
 
-  describe('PUT /api/admin/users/:id/role', () => {
+  describe('PUT /api/admin-users/:id/role', () => {
     it('should update user role', async () => {
       (global.fetch as any).mockResolvedValueOnce({
         ok: true,
@@ -202,7 +202,7 @@ describe('Admin API Endpoints', () => {
         json: async () => ({ success: true, newRole: 'admin' }),
       });
 
-      const response = await fetch(`/api/admin/users/${userId}/role`, {
+      const response = await fetch(`/api/admin-users/${userId}/role`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${adminToken}`,
@@ -217,7 +217,7 @@ describe('Admin API Endpoints', () => {
     });
 
     it('should create audit log for role change', async () => {
-      await prisma.userRole.update({
+      await prisma.userPreference.update({
         where: { userId },
         data: { role: 'admin' },
       });
@@ -254,7 +254,7 @@ describe('Admin API Endpoints', () => {
         json: async () => ({ error: 'Cannot change own role' }),
       });
 
-      const response = await fetch(`/api/admin/users/${adminId}/role`, {
+      const response = await fetch(`/api/admin-users/${adminId}/role`, {
         method: 'PUT',
         headers: {
           'Authorization': `Bearer ${adminToken}`,
@@ -267,7 +267,7 @@ describe('Admin API Endpoints', () => {
     });
   });
 
-  describe('DELETE /api/admin/users/:id', () => {
+  describe('DELETE /api/admin-users/:id', () => {
     it('should delete user and all related data', async () => {
       (global.fetch as any).mockResolvedValueOnce({
         ok: true,
@@ -275,7 +275,7 @@ describe('Admin API Endpoints', () => {
         json: async () => ({ success: true }),
       });
 
-      const response = await fetch(`/api/admin/users/${userId}`, {
+      const response = await fetch(`/api/admin-users/${userId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${adminToken}` },
       });
@@ -290,7 +290,7 @@ describe('Admin API Endpoints', () => {
         json: async () => ({ error: 'Cannot delete own account' }),
       });
 
-      const response = await fetch(`/api/admin/users/${adminId}`, {
+      const response = await fetch(`/api/admin-users/${adminId}`, {
         method: 'DELETE',
         headers: { 'Authorization': `Bearer ${adminToken}` },
       });
@@ -299,7 +299,7 @@ describe('Admin API Endpoints', () => {
     });
   });
 
-  describe('GET /api/admin/stats', () => {
+  describe('GET /api/admin-stats', () => {
     it('should return dashboard statistics', async () => {
       (global.fetch as any).mockResolvedValueOnce({
         ok: true,
@@ -317,7 +317,7 @@ describe('Admin API Endpoints', () => {
         }),
       });
 
-      const response = await fetch('/api/admin/stats', {
+      const response = await fetch('/api/admin-stats', {
         headers: { 'Authorization': `Bearer ${adminToken}` },
       });
 
@@ -337,7 +337,7 @@ describe('Admin API Endpoints', () => {
         json: async () => ({ totalUsers: 10 }),
       });
 
-      await fetch('/api/admin/stats', {
+      await fetch('/api/admin-stats', {
         headers: { 'Authorization': `Bearer ${adminToken}` },
       });
 
@@ -349,7 +349,7 @@ describe('Admin API Endpoints', () => {
         json: async () => ({ totalUsers: 10 }),
       });
 
-      const response = await fetch('/api/admin/stats', {
+      const response = await fetch('/api/admin-stats', {
         headers: { 'Authorization': `Bearer ${adminToken}` },
       });
 
@@ -357,7 +357,7 @@ describe('Admin API Endpoints', () => {
     });
   });
 
-  describe('GET /api/admin/audit-logs', () => {
+  describe('GET /api/admin-audit-logs', () => {
     beforeEach(async () => {
       // Create test audit logs
       await prisma.auditLog.createMany({
@@ -383,7 +383,7 @@ describe('Admin API Endpoints', () => {
         }),
       });
 
-      const response = await fetch('/api/admin/audit-logs', {
+      const response = await fetch('/api/admin-audit-logs', {
         headers: { 'Authorization': `Bearer ${adminToken}` },
       });
 
@@ -407,7 +407,7 @@ describe('Admin API Endpoints', () => {
         }),
       });
 
-      const response = await fetch(`/api/admin/audit-logs?userId=${userId}`, {
+      const response = await fetch(`/api/admin-audit-logs?userId=${userId}`, {
         headers: { 'Authorization': `Bearer ${adminToken}` },
       });
 
@@ -431,7 +431,7 @@ describe('Admin API Endpoints', () => {
         }),
       });
 
-      const response = await fetch('/api/admin/audit-logs?action=login_failed', {
+      const response = await fetch('/api/admin-audit-logs?action=login_failed', {
         headers: { 'Authorization': `Bearer ${adminToken}` },
       });
 

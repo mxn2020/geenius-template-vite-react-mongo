@@ -1,10 +1,39 @@
-// api/debug.ts - Create this file to test basic function execution
+// api/admin-debug.ts - Debug endpoint for system information
 import { Handler } from "@netlify/functions";
+import { MongoClient } from "mongodb";
+import { checkAdminAuth } from "./admin/_auth-check";
 
 export const handler: Handler = async (event, context) => {
-  console.log('=== DEBUG FUNCTION START ===');
+  const origin = event.headers.origin || 'http://localhost:8889';
   
+  // Handle CORS preflight
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': origin,
+        'Access-Control-Allow-Methods': 'GET, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Allow-Credentials': 'true',
+      },
+      body: '',
+    };
+  }
+
+  const mongoUri = process.env.MONGODB_URI || process.env.DATABASE_URL || "mongodb://localhost:27017/geenius-template";
+  const client = new MongoClient(mongoUri);
+
   try {
+    await client.connect();
+    const db = client.db();
+
+    // Check admin authentication
+    const authResult = await checkAdminAuth(event, db, origin);
+    if (authResult.error) {
+      return authResult.error;
+    }
+
+    console.log('=== DEBUG FUNCTION START ===');
     console.log('✅ Function is executing');
     console.log('📍 Path:', event.path);
     console.log('🔧 Method:', event.httpMethod);
@@ -73,7 +102,8 @@ export const handler: Handler = async (event, context) => {
       statusCode: 200,
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': origin,
+        'Access-Control-Allow-Credentials': 'true',
       },
       body: JSON.stringify(response, null, 2),
     };
@@ -86,7 +116,8 @@ export const handler: Handler = async (event, context) => {
       statusCode: 500,
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': origin,
+        'Access-Control-Allow-Credentials': 'true',
       },
       body: JSON.stringify({
         success: false,
@@ -95,5 +126,7 @@ export const handler: Handler = async (event, context) => {
         timestamp: new Date().toISOString(),
       }, null, 2),
     };
+  } finally {
+    await client.close();
   }
 };

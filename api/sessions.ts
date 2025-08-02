@@ -23,9 +23,17 @@ export const handler: Handler = async (event, _context) => {
 
   // Get session token from cookies
   const cookies = event.headers.cookie || '';
-  const sessionToken = cookies.split(';')
+  let sessionTokenCookie = cookies.split(';')
     .find(c => c.trim().startsWith('better-auth.session_token='))
     ?.split('=')[1];
+    
+  // URL decode and extract just the token part (before the dot)
+  let sessionToken: string | undefined;
+  if (sessionTokenCookie) {
+    sessionTokenCookie = decodeURIComponent(sessionTokenCookie);
+    const tokenParts = sessionTokenCookie.split('.');
+    sessionToken = tokenParts[0]; // Just the token, not the signature
+  }
 
   if (!sessionToken) {
     return {

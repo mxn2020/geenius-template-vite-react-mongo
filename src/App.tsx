@@ -2,21 +2,22 @@
 
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Landing } from './pages/Landing';
-import { Login } from './components/auth/Login';
-import { Register } from './components/auth/Register';
-import { ForgotPassword } from './components/auth/ForgotPassword';
-import { ResetPassword } from './components/auth/ResetPassword';
-import { Dashboard } from './components/auth/Dashboard';
-import { SessionsPage } from './components/auth/SessionsPage';
-import { AuditLogsPage } from './components/auth/AuditLogsPage';
+import { Login } from './pages/Login';
+import { Register } from './pages/Register';
+import { ForgotPassword } from './pages/ForgotPassword';
+import { ResetPassword } from './pages/ResetPassword';
+import { Dashboard } from './pages/Dashboard';
+import { SessionsPage } from './pages/SessionsPage';
+import { AuditLogsPage } from './pages/AuditLogsPage';
+import { AdminDashboard } from './pages/AdminDashboard';
+import { UsersPage } from './pages/UsersPage';
+import { UserDetailsPage } from './pages/UserDetailsPage';
+import { AdminAuditLogsPage } from './pages/AdminAuditLogsPage';
+import { SettingsPage } from './pages/SettingsPage';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { AdminRoute } from './components/auth/AdminRoute';
 import { AuthProvider } from './components/auth/AuthProvider';
 import { AdminLayout } from './components/admin/AdminLayout';
-import { AdminDashboard } from './components/admin/AdminDashboard';
-import { UsersPage } from './components/admin/UsersPage';
-import { UserDetailsPage } from './components/admin/UserDetailsPage';
-import { AdminAuditLogsPage } from './components/admin/AdminAuditLogsPage';
 import { DevModeApp, Container } from './lib/dev-container';
 import { componentRegistry } from './registry/componentRegistry';
 import { componentLibrary } from './registry/componentLibrary';
@@ -72,7 +73,7 @@ function App() {
                   <Route path="users" element={<UsersPage />} />
                   <Route path="users/:userId" element={<UserDetailsPage />} />
                   <Route path="audit-logs" element={<AdminAuditLogsPage />} />
-                  <Route path="settings" element={<div>Settings Page (Coming Soon)</div>} />
+                  <Route path="settings" element={<SettingsPage />} />
                 </Route>
                 
                 <Route path="*" element={<Navigate to="/" replace />} />

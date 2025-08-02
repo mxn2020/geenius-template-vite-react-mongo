@@ -1,6 +1,7 @@
-// api/audit-logs.ts
+// api/admin-audit-logs.ts
 import { Handler } from "@netlify/functions";
 import { MongoClient } from "mongodb";
+import { checkAdminAuth } from "./admin/_auth-check";
 
 export const handler: Handler = async (event, _context) => {
   // Get origin for CORS
@@ -20,24 +21,6 @@ export const handler: Handler = async (event, _context) => {
     };
   }
 
-  // Get session token from cookies
-  const cookies = event.headers.cookie || '';
-  const sessionToken = cookies.split(';')
-    .find(c => c.trim().startsWith('better-auth.session_token='))
-    ?.split('=')[1];
-
-  if (!sessionToken) {
-    return {
-      statusCode: 401,
-      headers: { 
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': origin,
-        'Access-Control-Allow-Credentials': 'true',
-      },
-      body: JSON.stringify({ error: 'Not authenticated' }),
-    };
-  }
-
   const mongoUri = process.env.MONGODB_URI || process.env.DATABASE_URL || "mongodb://localhost:27017/geenius-template";
   const client = new MongoClient(mongoUri);
 
@@ -45,25 +28,13 @@ export const handler: Handler = async (event, _context) => {
     await client.connect();
     const db = client.db();
 
-    // Get current session to identify user
-    const currentSession = await db.collection('session').findOne({ token: sessionToken });
-    if (!currentSession) {
-      return {
-        statusCode: 401,
-        headers: { 
-          'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': origin,
-          'Access-Control-Allow-Credentials': 'true',
-        },
-        body: JSON.stringify({ error: 'Invalid session' }),
-      };
+    // Check admin authentication
+    const authResult = await checkAdminAuth(event, db, origin);
+    if (authResult.error) {
+      return authResult.error;
     }
 
-    const userId = currentSession.userId;
-    
-    // Check if user is admin
-    const userPref = await db.collection('UserPreference').findOne({ userId });
-    const isAdmin = userPref?.role === 'admin';
+    const { userId, isAdmin } = authResult;
 
     if (event.httpMethod === 'GET') {
       const params = event.queryStringParameters || {};
@@ -74,11 +45,8 @@ export const handler: Handler = async (event, _context) => {
       // Build query
       const query: any = {};
       
-      // For non-admin users, only show their own logs
-      if (!isAdmin) {
-        query.userId = userId;
-      } else if (params.userId) {
-        // Admin can filter by specific user
+      // Admin can filter by specific user
+      if (params.userId) {
         query.userId = params.userId;
       }
       

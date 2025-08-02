@@ -51,10 +51,8 @@ export interface UsersResponse {
 }
 
 function getApiUrl() {
-  // In production, API routes are at the same origin
-  // In development, they might be at a different port
-  const baseUrl = import.meta.env.VITE_API_URL || '';
-  return `${baseUrl}/api`;
+  // Always use relative URLs so Vite proxy can handle them in development
+  return '/api';
 }
 
 export async function getUsers(params?: {
@@ -69,11 +67,17 @@ export async function getUsers(params?: {
   if (params?.search) queryParams.append('search', params.search);
   if (params?.role) queryParams.append('role', params.role);
 
-  const response = await fetch(`${getApiUrl()}/users?${queryParams}`, {
+  const response = await fetch(`${getApiUrl()}/admin-users?${queryParams}`, {
     credentials: 'include',
   });
 
   if (!response.ok) {
+    if (response.status === 401) {
+      throw new Error('Authentication required');
+    }
+    if (response.status === 403) {
+      throw new Error('Admin access required');
+    }
     throw new Error('Failed to fetch users');
   }
 
@@ -105,7 +109,7 @@ export async function getUserDetails(userId: string): Promise<UserDetails> {
 }
 
 export async function updateUser(userId: string, updates: Partial<Pick<User, 'role'>>): Promise<User> {
-  const response = await fetch(`${getApiUrl()}/users/${userId}`, {
+  const response = await fetch(`${getApiUrl()}/admin-users/${userId}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -115,6 +119,12 @@ export async function updateUser(userId: string, updates: Partial<Pick<User, 'ro
   });
 
   if (!response.ok) {
+    if (response.status === 401) {
+      throw new Error('Authentication required');
+    }
+    if (response.status === 403) {
+      throw new Error('Admin access required');
+    }
     throw new Error('Failed to update user');
   }
 
@@ -122,12 +132,18 @@ export async function updateUser(userId: string, updates: Partial<Pick<User, 'ro
 }
 
 export async function deleteUser(userId: string): Promise<void> {
-  const response = await fetch(`${getApiUrl()}/users/${userId}`, {
+  const response = await fetch(`${getApiUrl()}/admin-users/${userId}`, {
     method: 'DELETE',
     credentials: 'include',
   });
 
   if (!response.ok) {
+    if (response.status === 401) {
+      throw new Error('Authentication required');
+    }
+    if (response.status === 403) {
+      throw new Error('Admin access required');
+    }
     throw new Error('Failed to delete user');
   }
 }

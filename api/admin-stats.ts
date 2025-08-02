@@ -1,10 +1,11 @@
 // api/admin-stats.ts
 import { Handler } from "@netlify/functions";
 import { MongoClient } from "mongodb";
+import { checkAdminAuth } from "./admin/_auth-check";
 
 export const handler: Handler = async (event, _context) => {
-  // Get origin for CORS
-  const origin = event.headers.origin || 'http://localhost:8889';
+  // Get origin for CORS - support both Vite and Netlify dev servers
+  const origin = event.headers.origin || 'http://localhost:5176' || 'http://localhost:8889';
   
   // Handle CORS preflight
   if (event.httpMethod === 'OPTIONS') {
@@ -38,6 +39,12 @@ export const handler: Handler = async (event, _context) => {
   try {
     await client.connect();
     const db = client.db();
+
+    // Check admin authentication
+    const authResult = await checkAdminAuth(event, db, origin);
+    if (authResult.error) {
+      return authResult.error;
+    }
 
     const now = new Date();
     const oneDayAgo = new Date(now.getTime() - 24 * 60 * 60 * 1000);

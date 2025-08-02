@@ -2,14 +2,19 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import { SessionsPage } from '../SessionsPage';
+import * as sessionsApi from '../../../lib/api/sessions';
 import * as authClient from '../../../lib/auth-client';
 
-// Mock auth client
+// Mock sessions API
+vi.mock('../../../lib/api/sessions', () => ({
+  getUserSessions: vi.fn(),
+  revokeSession: vi.fn(),
+  revokeAllOtherSessions: vi.fn(),
+}));
+
+// Mock auth client for useSession
 vi.mock('../../../lib/auth-client', () => ({
   useSession: vi.fn(),
-  listSessions: vi.fn(),
-  revokeSession: vi.fn(),
-  revokeSessions: vi.fn(),
 }));
 
 // Mock UAParser
@@ -61,9 +66,8 @@ describe('SessionsPage Component', () => {
   });
 
   it('should render sessions list', async () => {
-    vi.mocked(authClient.listSessions).mockResolvedValueOnce({
-      data: mockSessions,
-      error: null,
+    vi.mocked(sessionsApi.getUserSessions).mockResolvedValueOnce({
+      sessions: mockSessions,
     } as any);
 
     renderSessionsPage();
@@ -75,7 +79,7 @@ describe('SessionsPage Component', () => {
   });
 
   it('should show loading state', () => {
-    vi.mocked(authClient.listSessions).mockImplementation(() => new Promise(() => {}));
+    vi.mocked(sessionsApi.getUserSessions).mockImplementation(() => new Promise(() => {}));
 
     renderSessionsPage();
     
@@ -83,9 +87,8 @@ describe('SessionsPage Component', () => {
   });
 
   it('should display session details', async () => {
-    vi.mocked(authClient.listSessions).mockResolvedValueOnce({
-      data: mockSessions,
-      error: null,
+    vi.mocked(sessionsApi.getUserSessions).mockResolvedValueOnce({
+      sessions: mockSessions,
     } as any);
 
     renderSessionsPage();
@@ -98,9 +101,8 @@ describe('SessionsPage Component', () => {
   });
 
   it('should show device icons', async () => {
-    vi.mocked(authClient.listSessions).mockResolvedValueOnce({
-      data: mockSessions,
-      error: null,
+    vi.mocked(sessionsApi.getUserSessions).mockResolvedValueOnce({
+      sessions: mockSessions,
     } as any);
 
     renderSessionsPage();
@@ -113,16 +115,12 @@ describe('SessionsPage Component', () => {
   });
 
   it('should handle session revocation', async () => {
-    vi.mocked(authClient.listSessions).mockResolvedValueOnce({
-      data: mockSessions,
-      error: null,
+    vi.mocked(sessionsApi.getUserSessions).mockResolvedValueOnce({
+      sessions: mockSessions,
     } as any);
     
-    const mockRevokeSession = vi.mocked(authClient.revokeSession);
-    mockRevokeSession.mockResolvedValueOnce({
-      data: {},
-      error: null,
-    } as any);
+    const mockRevokeSession = vi.mocked(sessionsApi.revokeSession);
+    mockRevokeSession.mockResolvedValueOnce(undefined as any);
 
     renderSessionsPage();
     
@@ -131,7 +129,7 @@ describe('SessionsPage Component', () => {
       expect(revokeButtons.length).toBeGreaterThan(0);
       
       // Find the non-current session revoke button
-      const otherSessionRevoke = revokeButtons.find(btn => 
+      const otherSessionRevoke = revokeButtons.find((btn: HTMLElement) => 
         !btn.closest('[data-current-session="true"]')
       );
       
@@ -146,9 +144,8 @@ describe('SessionsPage Component', () => {
   });
 
   it('should confirm before revoking all other sessions', async () => {
-    vi.mocked(authClient.listSessions).mockResolvedValueOnce({
-      data: mockSessions,
-      error: null,
+    vi.mocked(sessionsApi.getUserSessions).mockResolvedValueOnce({
+      sessions: mockSessions,
     } as any);
 
     renderSessionsPage();
@@ -165,15 +162,13 @@ describe('SessionsPage Component', () => {
   });
 
   it('should handle revoking all other sessions', async () => {
-    vi.mocked(authClient.listSessions).mockResolvedValueOnce({
-      data: mockSessions,
-      error: null,
+    vi.mocked(sessionsApi.getUserSessions).mockResolvedValueOnce({
+      sessions: mockSessions,
     } as any);
     
-    const mockRevokeSessions = vi.mocked(authClient.revokeSessions);
-    mockRevokeSessions.mockResolvedValueOnce({
-      data: {},
-      error: null,
+    const mockRevokeAllOthers = vi.mocked(sessionsApi.revokeAllOtherSessions);
+    mockRevokeAllOthers.mockResolvedValueOnce({
+      count: 3
     } as any);
 
     renderSessionsPage();
@@ -187,15 +182,14 @@ describe('SessionsPage Component', () => {
     fireEvent.click(confirmButton);
 
     await waitFor(() => {
-      expect(mockRevokeSessions).toHaveBeenCalled();
+      expect(mockRevokeAllOthers).toHaveBeenCalled();
     });
   });
 
   it('should display error on fetch failure', async () => {
-    vi.mocked(authClient.listSessions).mockResolvedValueOnce({
-      data: null,
-      error: { message: 'Failed to fetch sessions' },
-    } as any);
+    vi.mocked(sessionsApi.getUserSessions).mockRejectedValueOnce(
+      new Error('Failed to fetch sessions')
+    );
 
     renderSessionsPage();
     
@@ -230,28 +224,23 @@ describe('SessionsPage Component', () => {
   });
 
   it('should refresh sessions after revocation', async () => {
-    const listSessionsMock = vi.mocked(authClient.listSessions);
-    listSessionsMock
+    const getUserSessionsMock = vi.mocked(sessionsApi.getUserSessions);
+    getUserSessionsMock
       .mockResolvedValueOnce({
-        data: mockSessions,
-        error: null,
+        sessions: mockSessions,
       } as any)
       .mockResolvedValueOnce({
-        data: [mockSessions[0]], // Only current session remains
-        error: null,
+        sessions: [mockSessions[0]], // Only current session remains
       } as any);
     
-    const mockRevokeSession = vi.mocked(authClient.revokeSession);
-    mockRevokeSession.mockResolvedValueOnce({
-      data: {},
-      error: null,
-    } as any);
+    const mockRevokeSession = vi.mocked(sessionsApi.revokeSession);
+    mockRevokeSession.mockResolvedValueOnce(undefined as any);
 
     renderSessionsPage();
     
     await waitFor(() => {
       const revokeButtons = screen.getAllByRole('button', { name: /revoke/i });
-      const otherSessionRevoke = revokeButtons.find(btn => 
+      const otherSessionRevoke = revokeButtons.find((btn: HTMLElement) => 
         !btn.closest('[data-current-session="true"]')
       );
       
@@ -261,7 +250,7 @@ describe('SessionsPage Component', () => {
     });
 
     await waitFor(() => {
-      expect(listSessionsMock).toHaveBeenCalledTimes(2);
+      expect(getUserSessionsMock).toHaveBeenCalledTimes(2);
     });
   });
 

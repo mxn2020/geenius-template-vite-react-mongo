@@ -17,24 +17,30 @@ console.log('  - BETTER_AUTH_URL:', process.env.BETTER_AUTH_URL);
 console.log('  - Using MongoDB URI:', mongoUri.replace(/\/\/[^:]+:[^@]+@/, '//[credentials]@')); // Mask credentials
 
 // Initialize MongoDB client with error handling
-let client: MongoClient;
 let authInstance: any;
+let initPromise: Promise<any> | null = null;
 
-try {
-  client = new MongoClient(mongoUri);
-  console.log('✅ MongoDB client created successfully');
-  
-  // Initialize rate limiting service
-  await rateLimitService.initialize(mongoUri);
-  console.log('✅ Rate limiting service initialized');
-} catch (error: any) {
-  console.error('❌ Failed to create MongoDB client:', error.message);
-  throw new Error(`MongoDB client initialization failed: ${error.message}`);
-}
+// Lazy initialization function
+function getAuthInstance() {
+  if (!initPromise) {
+    initPromise = (async () => {
+      let client: MongoClient;
+      
+      try {
+        client = new MongoClient(mongoUri);
+        console.log('✅ MongoDB client created successfully');
+        
+        // Initialize rate limiting service
+        await rateLimitService.initialize(mongoUri);
+        console.log('✅ Rate limiting service initialized');
+      } catch (error: any) {
+        console.error('❌ Failed to create MongoDB client:', error.message);
+        throw new Error(`MongoDB client initialization failed: ${error.message}`);
+      }
 
-// Create auth instance with MongoDB adapter
-try {
-  authInstance = betterAuth({
+      // Create auth instance with MongoDB adapter
+      try {
+        const instance = betterAuth({
     database: mongodbAdapter(client.db()),
     secret: process.env.BETTER_AUTH_SECRET || "fallback-secret-key-change-this-in-production-min-32-chars",
     emailAndPassword: {
@@ -65,6 +71,12 @@ try {
     session: {
       expiresIn: 60 * 60 * 24 * 7, // 7 days
       updateAge: 60 * 60 * 24, // 24 hours
+      cookieOptions: {
+        httpOnly: true,
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production',
+        path: '/',
+      },
     },
     trustedOrigins: [
       process.env.BETTER_AUTH_URL || "http://localhost:5176",
@@ -77,7 +89,7 @@ try {
       ...(process.env.DEPLOY_URL ? [process.env.DEPLOY_URL] : []),
       ...(process.env.DEPLOY_PRIME_URL ? [process.env.DEPLOY_PRIME_URL] : []),
     ],
-    onRequest: async (request) => {
+    onRequest: async (request: Request) => {
       // Log auth-related requests
       const url = new URL(request.url);
       const path = url.pathname;
@@ -115,9 +127,17 @@ try {
       
       // Extract user info from session if available
       const cookies = request.headers.get('cookie') || '';
-      const sessionToken = cookies.split(';')
-        .find(c => c.trim().startsWith('better-auth.session_token='))
+      let sessionTokenCookie = cookies.split(';')
+        .find((c: string) => c.trim().startsWith('better-auth.session_token='))
         ?.split('=')[1];
+      
+      // URL decode and extract just the token part (before the dot)
+      let sessionToken: string | undefined;
+      if (sessionTokenCookie) {
+        sessionTokenCookie = decodeURIComponent(sessionTokenCookie);
+        const tokenParts = sessionTokenCookie.split('.');
+        sessionToken = tokenParts[0]; // Just the token, not the signature
+      }
       
       if (sessionToken) {
         try {
@@ -135,7 +155,7 @@ try {
         }
       }
     },
-    onResponse: async (response, request) => {
+    onResponse: async (response: Response, request: Request) => {
       // Log successful auth events
       const url = new URL(request.url);
       const path = url.pathname;
@@ -179,10 +199,22 @@ try {
       }
     },
   });
-  console.log('✅ Better Auth instance created successfully');
-} catch (error: any) {
-  console.error('❌ Failed to create Better Auth instance:', error.message);
-  throw new Error(`Better Auth initialization failed: ${error.message}`);
+        console.log('✅ Better Auth instance created successfully');
+        return instance;
+      } catch (error: any) {
+        console.error('❌ Failed to create Better Auth instance:', error.message);
+        throw new Error(`Better Auth initialization failed: ${error.message}`);
+      }
+    })();
+  }
+  return initPromise;
+
 }
 
-export const auth = authInstance;
+// Export auth with lazy initialization
+export const auth = {
+  handler: async (request: Request) => {
+    authInstance = await getAuthInstance();
+    return authInstance.handler(request);
+  }
+};

@@ -1,0 +1,192 @@
+[
+  {
+    "id": "admin-audit-logs-loading",
+    "definitionId": "dev-container",
+    "name": "Admin Audit Logs Loading",
+    "description": "Loading state for admin audit logs page",
+    "filePath": "src/components/admin/AdminAuditLogsPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminAuditLogsPage.tsx",
+    "category": "feedback",
+    "semanticTags": ["loading", "spinner", "audit", "logs", "admin"]
+  },
+  {
+    "id": "admin-audit-logs-page",
+    "definitionId": "dev-container",
+    "name": "Admin Audit Logs Page",
+    "description": "Main container for admin audit logs page",
+    "filePath": "src/components/admin/AdminAuditLogsPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminAuditLogsPage.tsx",
+    "category": "page",
+    "semanticTags": ["admin", "audit", "logs", "page", "security"]
+  },
+  {
+    "id": "export-button",
+    "definitionId": "dev-button",
+    "name": "Export CSV Button",
+    "description": "Button to export audit logs as CSV file",
+    "filePath": "src/components/admin/AdminAuditLogsPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminAuditLogsPage.tsx",
+    "category": "action",
+    "semanticTags": ["button", "export", "csv", "download", "action"]
+  },
+  {
+    "id": "filters-card",
+    "definitionId": "dev-card",
+    "name": "Audit Logs Filters Card",
+    "description": "Card containing filter controls for audit logs",
+    "filePath": "src/components/admin/AdminAuditLogsPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminAuditLogsPage.tsx",
+    "category": "form",
+    "semanticTags": ["card", "filters", "form", "audit", "search"]
+  },
+  {
+    "id": "user-filter-label",
+    "definitionId": "dev-label",
+    "name": "User Filter Label",
+    "description": "Label for user filter dropdown",
+    "filePath": "src/components/admin/AdminAuditLogsPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminAuditLogsPage.tsx",
+    "category": "form",
+    "semanticTags": ["label", "user", "filter", "form"]
+  },
+  {
+    "id": "action-filter-label",
+    "definitionId": "dev-label",
+    "name": "Action Filter Label",
+    "description": "Label for action filter dropdown",
+    "filePath": "src/components/admin/AdminAuditLogsPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminAuditLogsPage.tsx",
+    "category": "form",
+    "semanticTags": ["label", "action", "filter", "form"]
+  },
+  {
+    "id": "start-date-label",
+    "definitionId": "dev-label",
+    "name": "Start Date Label",
+    "description": "Label for start date filter input",
+    "filePath": "src/components/admin/AdminAuditLogsPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminAuditLogsPage.tsx",
+    "category": "form",
+    "semanticTags": ["label", "date", "start", "filter", "form"]
+  },
+  {
+    "id": "start-date-input",
+    "definitionId": "dev-input",
+    "name": "Start Date Input",
+    "description": "Date input for filtering audit logs by start date",
+    "filePath": "src/components/admin/AdminAuditLogsPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminAuditLogsPage.tsx",
+    "category": "form",
+    "semanticTags": ["input", "date", "start", "filter", "form"]
+  },
+  {
+    "id": "end-date-label",
+    "definitionId": "dev-label",
+    "name": "End Date Label",
+    "description": "Label for end date filter input",
+    "filePath": "src/components/admin/AdminAuditLogsPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminAuditLogsPage.tsx",
+    "category": "form",
+    "semanticTags": ["label", "date", "end", "filter", "form"]
+  },
+  {
+    "id": "end-date-input",
+    "definitionId": "dev-input",
+    "name": "End Date Input",
+    "description": "Date input for filtering audit logs by end date",
+    "filePath": "src/components/admin/AdminAuditLogsPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminAuditLogsPage.tsx",
+    "category": "form",
+    "semanticTags": ["input", "date", "end", "filter", "form"]
+  },
+  {
+    "id": "clear-filters-button",
+    "definitionId": "dev-button",
+    "name": "Clear Filters Button",
+    "description": "Button to clear all active filters",
+    "filePath": "src/components/admin/AdminAuditLogsPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminAuditLogsPage.tsx",
+    "category": "action",
+    "semanticTags": ["button", "clear", "filters", "reset", "action"]
+  },
+  {
+    "id": "logs-table-card",
+    "definitionId": "dev-card",
+    "name": "Audit Logs Table Card",
+    "description": "Card containing the audit logs data table",
+    "filePath": "src/components/admin/AdminAuditLogsPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminAuditLogsPage.tsx",
+    "category": "data-display",
+    "semanticTags": ["card", "table", "audit", "logs", "data"]
+  },
+  {
+    "id": "audit-status-badge-dynamic",
+    "definitionId": "dev-badge",
+    "name": "Audit Status Badge",
+    "description": "Dynamic badge showing audit log success/failure status",
+    "filePath": "src/components/admin/AdminAuditLogsPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminAuditLogsPage.tsx",
+    "category": "data-display",
+    "semanticTags": ["badge", "status", "audit", "dynamic", "success", "failure"]
+  },
+  {
+    "id": "audit-page-button-1",
+    "definitionId": "dev-button",
+    "name": "Audit Page 1 Button",
+    "description": "Pagination button for page 1 in audit logs",
+    "filePath": "src/components/admin/AdminAuditLogsPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminAuditLogsPage.tsx",
+    "category": "navigation",
+    "semanticTags": ["button", "pagination", "page", "number", "audit", "page-1"]
+  },
+  {
+    "id": "audit-page-button-2",
+    "definitionId": "dev-button",
+    "name": "Audit Page 2 Button",
+    "description": "Pagination button for page 2 in audit logs",
+    "filePath": "src/components/admin/AdminAuditLogsPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminAuditLogsPage.tsx",
+    "category": "navigation",
+    "semanticTags": ["button", "pagination", "page", "number", "audit", "page-2"]
+  },
+  {
+    "id": "audit-page-button-3",
+    "definitionId": "dev-button",
+    "name": "Audit Page 3 Button",
+    "description": "Pagination button for page 3 in audit logs",
+    "filePath": "src/components/admin/AdminAuditLogsPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminAuditLogsPage.tsx",
+    "category": "navigation",
+    "semanticTags": ["button", "pagination", "page", "number", "audit", "page-3"]
+  },
+  {
+    "id": "audit-page-button-4",
+    "definitionId": "dev-button",
+    "name": "Audit Page 4 Button",
+    "description": "Pagination button for page 4 in audit logs",
+    "filePath": "src/components/admin/AdminAuditLogsPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminAuditLogsPage.tsx",
+    "category": "navigation",
+    "semanticTags": ["button", "pagination", "page", "number", "audit", "page-4"]
+  },
+  {
+    "id": "audit-page-button-5",
+    "definitionId": "dev-button",
+    "name": "Audit Page 5 Button",
+    "description": "Pagination button for page 5 in audit logs",
+    "filePath": "src/components/admin/AdminAuditLogsPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminAuditLogsPage.tsx",
+    "category": "navigation",
+    "semanticTags": ["button", "pagination", "page", "number", "audit", "page-5"]
+  },
+  {
+    "id": "audit-page-button-dynamic",
+    "definitionId": "dev-button",
+    "name": "Audit Dynamic Page Button",
+    "description": "Dynamic pagination button for pages > 5 in audit logs",
+    "filePath": "src/components/admin/AdminAuditLogsPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminAuditLogsPage.tsx",
+    "category": "navigation",
+    "semanticTags": ["button", "pagination", "page", "number", "audit", "dynamic"]
+  }
+]

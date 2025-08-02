@@ -1,13 +1,6 @@
 // src/lib/services/rate-limit.ts
 import { MongoClient } from 'mongodb';
 
-interface RateLimitEntry {
-  identifier: string;
-  action: string;
-  attempts: number;
-  lastAttempt: Date;
-  blockedUntil?: Date;
-}
 
 export class RateLimitService {
   private static client: MongoClient;

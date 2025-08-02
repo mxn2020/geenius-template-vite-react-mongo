@@ -26,8 +26,9 @@ const mockLogs = [
     success: true,
     ip: '192.168.1.100',
     userAgent: 'Mozilla/5.0',
-    createdAt: new Date().toISOString(),
+    createdAt: new Date(),
     details: { method: 'email' },
+    error: null,
   },
   {
     id: '2',
@@ -36,8 +37,9 @@ const mockLogs = [
     success: true,
     ip: '192.168.1.100',
     userAgent: 'Mozilla/5.0',
-    createdAt: new Date(Date.now() - 3600000).toISOString(),
+    createdAt: new Date(Date.now() - 3600000),
     details: {},
+    error: null,
   },
   {
     id: '3',
@@ -46,8 +48,9 @@ const mockLogs = [
     success: false,
     ip: '192.168.1.101',
     userAgent: 'Mozilla/5.0',
-    createdAt: new Date(Date.now() - 7200000).toISOString(),
+    createdAt: new Date(Date.now() - 7200000),
     details: { reason: 'Invalid password' },
+    error: 'Invalid password',
   },
 ];
 

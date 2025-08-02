@@ -70,8 +70,8 @@ describe('AuditService', () => {
   describe('getUserAuditLogs', () => {
     it('should retrieve user audit logs with pagination', async () => {
       const mockLogs = [
-        { id: '1', userId: 'user123', action: 'login', createdAt: new Date() },
-        { id: '2', userId: 'user123', action: 'logout', createdAt: new Date() },
+        { id: '1', userId: 'user123', action: 'login', createdAt: new Date(), success: true, error: null },
+        { id: '2', userId: 'user123', action: 'logout', createdAt: new Date(), success: true, error: null },
       ];
 
       const prisma = new (await import('@prisma/client')).PrismaClient();
@@ -140,7 +140,7 @@ describe('AuditService', () => {
   describe('exportAuditLogs', () => {
     it('should export logs as JSON', async () => {
       const mockLogs = [
-        { id: '1', userId: 'user123', action: 'login', createdAt: new Date() },
+        { id: '1', userId: 'user123', action: 'login', createdAt: new Date(), success: true, error: null },
       ];
 
       const prisma = new (await import('@prisma/client')).PrismaClient();
@@ -163,6 +163,7 @@ describe('AuditService', () => {
           userAgent: 'Test',
           createdAt: new Date('2024-01-01'),
           details: { test: 'data' },
+          error: null,
         },
       ];
 
