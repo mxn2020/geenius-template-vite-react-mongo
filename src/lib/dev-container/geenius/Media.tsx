@@ -29,6 +29,8 @@ export const Img = React.forwardRef<HTMLImageElement, DevImageProps>(
       <Container
         componentId={devId}
         definitionId='dev-img' // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <img ref={ref} {...props} />
@@ -67,6 +69,8 @@ export const Video = React.forwardRef<HTMLVideoElement, DevVideoProps>(
       <Container
         componentId={devId}
         definitionId='dev-video' // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <video ref={ref} {...props}>
@@ -107,6 +111,8 @@ export const Audio = React.forwardRef<HTMLAudioElement, DevAudioProps>(
       <Container
         componentId={devId}
         definitionId='dev-audio' // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <audio ref={ref} {...props}>

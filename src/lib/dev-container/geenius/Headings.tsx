@@ -34,6 +34,8 @@ export const H1 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
       <Container
         componentId={devId}
         definitionId="dev-h1" // Connect to component library definition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <h1 ref={ref} {...props}>
@@ -67,6 +69,8 @@ export const H2 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
       <Container
         componentId={devId}
         definitionId="dev-h2"
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <h2 ref={ref} {...props}>
@@ -100,6 +104,8 @@ export const H3 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
       <Container
         componentId={devId}
         definitionId="dev-h3" // Connect to component library definition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <h3 ref={ref} {...props}>
@@ -133,6 +139,8 @@ export const H4 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
       <Container
         componentId={devId}
         definitionId="dev-h4" // Connect to component library definition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <h4 ref={ref} {...props}>
@@ -166,6 +174,8 @@ export const H5 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
       <Container
         componentId={devId}
         definitionId="dev-h5" // Connect to component library definition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <h5 ref={ref} {...props}>
@@ -199,6 +209,8 @@ export const H6 = React.forwardRef<HTMLHeadingElement, DevHeadingProps>(
       <Container
         componentId={devId}
         definitionId="dev-h6" // Connect to component library definition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <h6 ref={ref} {...props}>

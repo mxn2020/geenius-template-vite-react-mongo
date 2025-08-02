@@ -35,6 +35,8 @@ export const Strong = React.forwardRef<HTMLElement, DevStrongProps>(
       <Container
         componentId={devId}
         definitionId="dev-strong" // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <strong ref={ref} {...props}>
@@ -75,6 +77,8 @@ export const Em = React.forwardRef<HTMLElement, DevEmProps>(
       <Container
         componentId={devId}
         definitionId="dev-em" // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <em ref={ref} {...props}>
@@ -115,6 +119,8 @@ export const Small = React.forwardRef<HTMLElement, DevSmallProps>(
       <Container
         componentId={devId}
         definitionId="dev-small" // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <small ref={ref} {...props}>
@@ -155,6 +161,8 @@ export const A = React.forwardRef<HTMLAnchorElement, DevAnchorProps>(
       <Container
         componentId={devId}
         definitionId="dev-anchor" // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <a ref={ref} {...props}>
@@ -193,6 +201,8 @@ export const Code = React.forwardRef<HTMLElement, DevCodeProps>(
       <Container
         componentId={devId}
         definitionId="dev-code" // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <code ref={ref} {...props}>
@@ -231,6 +241,8 @@ export const Pre = React.forwardRef<HTMLPreElement, DevPreProps>(
       <Container
         componentId={devId}
         definitionId="dev-pre" // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <pre ref={ref} {...props}>
@@ -269,6 +281,8 @@ export const Blockquote = React.forwardRef<HTMLQuoteElement, DevBlockquoteProps>
       <Container
         componentId={devId}
         definitionId="dev-blockquote" // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <blockquote ref={ref} {...props}>

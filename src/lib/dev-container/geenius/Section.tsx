@@ -34,6 +34,8 @@ export const Section = React.forwardRef<HTMLElement, DevSectionProps>(
       <Container
         componentId={devId}
         definitionId='dev-section' // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <section ref={ref} {...props}>

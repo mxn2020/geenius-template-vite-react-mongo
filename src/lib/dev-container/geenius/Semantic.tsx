@@ -35,6 +35,8 @@ export const Article = React.forwardRef<HTMLElement, DevArticleProps>(
       <Container
         componentId={devId}
         definitionId="dev-article" // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <article ref={ref} {...props}>
@@ -75,6 +77,8 @@ export const Aside = React.forwardRef<HTMLElement, DevAsideProps>(
       <Container
         componentId={devId}
         definitionId="dev-aside" // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <aside ref={ref} {...props}>
@@ -115,6 +119,8 @@ export const Main = React.forwardRef<HTMLElement, DevMainProps>(
       <Container
         componentId={devId}
         definitionId="dev-main" // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <main ref={ref} {...props}>
@@ -155,6 +161,8 @@ export const Figure = React.forwardRef<HTMLElement, DevFigureProps>(
       <Container
         componentId={devId}
         definitionId="dev-figure" // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <figure ref={ref} {...props}>
@@ -193,6 +201,8 @@ export const Figcaption = React.forwardRef<HTMLElement, DevFigcaptionProps>(
       <Container
         componentId={devId}
         definitionId="dev-figcaption" // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <figcaption ref={ref} {...props}>

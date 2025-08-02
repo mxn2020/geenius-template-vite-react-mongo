@@ -34,6 +34,8 @@ export const Nav = React.forwardRef<HTMLElement, DevNavProps>(
       <Container
         componentId={devId}
         definitionId='dev-nav' // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <nav ref={ref} {...props}>

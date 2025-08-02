@@ -34,6 +34,8 @@ export const P = React.forwardRef<HTMLParagraphElement, DevParagraphProps>(
       <Container
         componentId={devId}
         definitionId='dev-paragraph' // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <p ref={ref} {...props}>

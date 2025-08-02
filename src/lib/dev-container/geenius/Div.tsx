@@ -34,6 +34,8 @@ export const Div = React.forwardRef<HTMLDivElement, DevDivProps>(
       <Container
         componentId={devId}
         definitionId='dev-div' // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <div ref={ref} {...props}>

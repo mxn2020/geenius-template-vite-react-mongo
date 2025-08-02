@@ -34,6 +34,8 @@ export const Footer = React.forwardRef<HTMLElement, DevFooterProps>(
       <Container
         componentId={devId}
         definitionId='dev-footer' // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <footer ref={ref} {...props}>

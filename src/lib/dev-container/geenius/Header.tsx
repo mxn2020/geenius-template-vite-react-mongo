@@ -34,6 +34,8 @@ export const Header = React.forwardRef<HTMLElement, DevHeaderProps>(
       <Container
         componentId={devId}
         definitionId="dev-header" // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <header ref={ref} {...props}>

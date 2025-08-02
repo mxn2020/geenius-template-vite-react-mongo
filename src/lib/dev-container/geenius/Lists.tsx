@@ -35,6 +35,8 @@ export const Ul = React.forwardRef<HTMLUListElement, DevUlProps>(
       <Container
         componentId={devId}
         definitionId='dev-ul' // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <ul ref={ref} {...props}>
@@ -75,6 +77,8 @@ export const Ol = React.forwardRef<HTMLOListElement, DevOlProps>(
       <Container
         componentId={devId}
         definitionId='dev-ol' // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <ol ref={ref} {...props}>
@@ -115,6 +119,8 @@ export const Li = React.forwardRef<HTMLLIElement, DevLiProps>(
       <Container
         componentId={devId}
         definitionId='dev-li' // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <li ref={ref} {...props}>

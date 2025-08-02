@@ -34,6 +34,8 @@ export const Span = React.forwardRef<HTMLSpanElement, DevSpanProps>(
       <Container
         componentId={devId}
         definitionId="dev-span" // Reference to ComponentDefinition
+        {...(devName && { name: devName })}
+        {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <span ref={ref} {...props}>
