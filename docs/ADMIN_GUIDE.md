@@ -4,19 +4,49 @@ This guide explains how to use the admin features in the Geenius Template applic
 
 ## Setting Up Admin Access
 
-### 1. Create an Admin User
+You have three options for creating admin accounts:
 
-After registering a user through the normal registration flow, you can grant admin privileges using the provided script:
+### Option 1: Create Complete Admin Account (Recommended)
+
+This creates a new admin account directly in the database:
+
+```bash
+# Create admin with default credentials
+npm run admin:create
+
+# Or with custom credentials
+ADMIN_EMAIL=admin@mycompany.com ADMIN_PASSWORD=SecurePass123! npm run admin:create
+```
+
+Default credentials:
+- Email: `admin@example.com`
+- Password: `admin123456`
+
+### Option 2: Register Admin via API
+
+This uses the Better Auth API to register an admin (works in production):
+
+```bash
+# Make sure the server is running (npm run dev:netlify)
+npm run admin:register
+
+# For production
+BETTER_AUTH_URL=https://myapp.netlify.app npm run admin:register
+```
+
+### Option 3: Grant Admin to Existing User
+
+If you already have a registered user:
 
 ```bash
 # First, register a user normally through the app
-# Then note the user ID from Better Auth (you can find this in MongoDB or from the session)
+# Then note the user ID from Better Auth (check MongoDB or session logs)
 
-# Grant admin role to a user
-npx tsx scripts/create-admin.ts <userId>
+# Grant admin role to existing user
+npm run admin:grant <userId>
 
 # Example:
-npx tsx scripts/create-admin.ts 507f1f77bcf86cd799439011
+npm run admin:grant 507f1f77bcf86cd799439011
 ```
 
 ### 2. Accessing the Admin Panel
