@@ -46,19 +46,16 @@ export const Login: React.FC = () => {
 
     try {
       const baseUrl = import.meta.env.VITE_APP_URL || window.location.origin;
-      const callbackURL = `${baseUrl}/dashboard`;
-      console.log('📍 Callback URL:', callbackURL);
+      // Don't set a specific callback URL to allow our custom redirect logic
       console.log('🔧 Base URL source:', import.meta.env.VITE_APP_URL ? 'VITE_APP_URL' : 'window.location.origin');
 
       const loginData = {
         email,
         password,
-        callbackURL,
       };
       
       console.log('📦 Login data:', {
         email: loginData.email,
-        callbackURL: loginData.callbackURL,
         passwordProvided: !!loginData.password,
       });
 
@@ -87,13 +84,43 @@ export const Login: React.FC = () => {
         // Login successful, clear loading state
         setIsLoading(false);
         
-        // Check if Better Auth handled the redirect
+        // Get user ID from the result
+        const userId = (result.data as any)?.user?.id;
+        if (userId) {
+          console.log('🔍 Checking user role for redirect...');
+          
+          // Check if user is admin
+          try {
+            const response = await fetch(`/api/user-role/${userId}`, {
+              credentials: 'include',
+            });
+            
+            if (response.ok) {
+              const { role } = await response.json();
+              console.log('👤 User role:', role);
+              
+              // Redirect based on role
+              if (role === 'admin') {
+                console.log('🔄 Redirecting admin to admin dashboard');
+                window.location.href = '/admin';
+              } else {
+                console.log('🔄 Redirecting user to dashboard');
+                window.location.href = '/dashboard';
+              }
+              return;
+            }
+          } catch (error) {
+            console.error('Error checking user role:', error);
+          }
+        }
+        
+        // Fallback redirect
         const redirectUrl = (result.data as any)?.url;
         if (redirectUrl) {
           console.log('🔄 Better Auth provided redirect URL:', redirectUrl);
           window.location.href = redirectUrl;
         } else {
-          console.log('🔄 Manual redirect to dashboard');
+          console.log('🔄 Default redirect to dashboard');
           window.location.href = '/dashboard';
         }
       }

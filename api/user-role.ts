@@ -46,9 +46,21 @@ export const handler: Handler = async (event, _context) => {
       }
 
       // Find user preferences
-      console.log('[user-role API] Looking for userId:', userId);
+      console.log('[user-role API] Looking for userId:', userId, 'type:', typeof userId);
       let userPref = await db.collection('UserPreference').findOne({ userId });
       console.log('[user-role API] Found preference:', userPref);
+      
+      // Debug: try to find any preferences
+      const count = await db.collection('UserPreference').countDocuments();
+      console.log('[user-role API] Total UserPreferences:', count);
+      
+      if (!userPref) {
+        // Try to find by different query methods
+        const byRegex = await db.collection('UserPreference').findOne({ 
+          userId: { $regex: `^${userId}$` } 
+        });
+        console.log('[user-role API] Found by regex:', Boolean(byRegex));
+      }
       
       // Create default preferences if not found
       if (!userPref) {
@@ -74,8 +86,9 @@ export const handler: Handler = async (event, _context) => {
           'Content-Type': 'application/json',
           'Access-Control-Allow-Origin': origin,
           'Access-Control-Allow-Credentials': 'true',
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
         },
-        body: JSON.stringify({ role }),
+        body: JSON.stringify({ role, timestamp: new Date().toISOString() }),
       };
     }
 
