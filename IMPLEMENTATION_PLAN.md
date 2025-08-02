@@ -14,25 +14,25 @@
 ### 1.2 Configure Resend Email Service
 - [ ] Install `resend` package
 - [ ] Add `RESEND_API_KEY` to environment variables
-- [ ] Implement Resend plugin with error handling
-- [ ] Create email templates (verification, password reset, welcome)
+- [x] Implement Resend plugin with error handling
+- [x] Create email templates (verification, password reset, welcome)
 - [ ] Test email sending functionality
 
 ## Phase 2: Role-Based Access Control (RBAC)
 
 ### 2.1 Database Schema Updates
-- [ ] Add `role` field to User model in Prisma schema
-- [ ] Create migration for role field with default 'user'
+- [x] Add `role` field to User model in Prisma schema
+- [x] Create migration for role field with default 'user'
 - [ ] Update seed data to include admin user
 
 ### 2.2 Auth Configuration Updates
-- [ ] Update Better Auth configuration to include roles
-- [ ] Create role checking utilities
-- [ ] Add role-based middleware/guards
-- [ ] Update session types to include role
+- [x] Update Better Auth configuration to include roles
+- [x] Create role checking utilities
+- [x] Add role-based middleware/guards
+- [x] Update session types to include role
 
 ### 2.3 UI Components for RBAC
-- [ ] Create `AdminRoute` component for admin-only routes
+- [x] Create `AdminRoute` component for admin-only routes
 - [ ] Update navigation to show/hide based on roles
 - [ ] Add role indicators in user interface
 

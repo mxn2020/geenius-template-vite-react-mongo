@@ -52,6 +52,7 @@ model Category {
 model UserPreference {
   id                String   @id @default(auto()) @map("_id") @db.ObjectId
   userId            String   @unique // Better Auth user ID
+  role              String   @default("user") // "user" | "admin"
   theme             String   @default("light") // "light" | "dark" | "system"
   emailNotifications Boolean  @default(true)
   language          String   @default("en")
@@ -68,4 +69,20 @@ model AppSetting {
   type      String   @default("string") // "string" | "number" | "boolean" | "json"
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+// Audit log for tracking user actions
+model AuditLog {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String   // Better Auth user ID
+  action     String   // "login" | "logout" | "password_change" | "profile_update" | etc.
+  details    Json?    // Additional details about the action
+  ip         String?  // IP address
+  userAgent  String?  // User agent string
+  success    Boolean  @default(true)
+  error      String?  // Error message if action failed
+  createdAt  DateTime @default(now())
+  
+  @@index([userId, createdAt])
+  @@index([action, createdAt])
 }
