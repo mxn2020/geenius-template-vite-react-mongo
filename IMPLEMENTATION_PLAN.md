@@ -1,0 +1,127 @@
+# Better Auth Implementation Plan
+
+## Phase 1: Infrastructure Refactoring
+
+### 1.1 Reorganize Library Structure
+- [x] Create `lib/plugins/` directory
+- [x] Move `lib/mongodb.ts` to `lib/plugins/mongodb.ts`
+- [x] Move `lib/prisma.ts` to `lib/plugins/prisma.ts`
+- [x] Create `lib/plugins/resend.ts` for Resend email service
+- [x] Create `lib/services/email.ts` for centralized email handling
+- [x] Create `lib/services/data.ts` for general CRUD operations
+- [ ] Update all imports to use new paths
+
+### 1.2 Configure Resend Email Service
+- [ ] Install `resend` package
+- [ ] Add `RESEND_API_KEY` to environment variables
+- [ ] Implement Resend plugin with error handling
+- [ ] Create email templates (verification, password reset, welcome)
+- [ ] Test email sending functionality
+
+## Phase 2: Role-Based Access Control (RBAC)
+
+### 2.1 Database Schema Updates
+- [ ] Add `role` field to User model in Prisma schema
+- [ ] Create migration for role field with default 'user'
+- [ ] Update seed data to include admin user
+
+### 2.2 Auth Configuration Updates
+- [ ] Update Better Auth configuration to include roles
+- [ ] Create role checking utilities
+- [ ] Add role-based middleware/guards
+- [ ] Update session types to include role
+
+### 2.3 UI Components for RBAC
+- [ ] Create `AdminRoute` component for admin-only routes
+- [ ] Update navigation to show/hide based on roles
+- [ ] Add role indicators in user interface
+
+## Phase 3: Admin Dashboard
+
+### 3.1 Admin Layout and Navigation
+- [ ] Create admin layout component
+- [ ] Design admin navigation sidebar
+- [ ] Implement admin route structure
+- [ ] Add admin dashboard home page
+
+### 3.2 User Management
+- [ ] Create users list page with pagination
+- [ ] Implement user search and filtering
+- [ ] Add user details view
+- [ ] Create user edit functionality
+- [ ] Implement user deletion with confirmation
+- [ ] Add role management UI
+
+### 3.3 System Overview
+- [ ] Create dashboard statistics page
+- [ ] Add user activity metrics
+- [ ] Implement system health indicators
+
+## Phase 4: Session Management UI
+
+### 4.1 User Session Management
+- [ ] Create sessions list component
+- [ ] Show active sessions with details (device, location, last active)
+- [ ] Add "Revoke Session" functionality
+- [ ] Implement "Revoke All Other Sessions"
+- [ ] Add session expiry indicators
+
+### 4.2 Current Session Information
+- [ ] Display current session details in user profile
+- [ ] Add session security warnings
+- [ ] Show session remaining time
+
+## Phase 5: Audit Logging
+
+### 5.1 Database Schema for Audit Logs
+- [ ] Create AuditLog model in Prisma
+- [ ] Add fields: userId, action, details, ip, userAgent, timestamp
+- [ ] Create database migration
+
+### 5.2 Logging Implementation
+- [ ] Create audit logging service
+- [ ] Implement logging for auth events (login, logout, password change)
+- [ ] Add logging for admin actions
+- [ ] Log security events (failed logins, password resets)
+
+### 5.3 Audit Log UI
+- [ ] Create audit log viewer for users (own logs only)
+- [ ] Create admin audit log viewer (all logs)
+- [ ] Add filtering by date, action type, user
+- [ ] Implement export functionality
+
+## Phase 6: Password Reset Flow
+
+### 6.1 Password Reset Pages
+- [ ] Create "Forgot Password" page
+- [ ] Implement password reset request form
+- [ ] Create "Reset Password" page with token validation
+- [ ] Add password strength indicator
+- [ ] Implement success/error messaging
+
+### 6.2 Backend Integration
+- [ ] Configure Better Auth password reset with email
+- [ ] Create password reset email template
+- [ ] Add rate limiting for reset requests
+- [ ] Implement token expiration handling
+
+## Phase 7: Testing & Security
+
+### 7.1 Security Enhancements
+- [ ] Add rate limiting to auth endpoints
+- [ ] Implement CSRF protection
+- [ ] Add security headers
+- [ ] Review and fix any security vulnerabilities
+
+### 7.2 Testing
+- [ ] Test all auth flows
+- [ ] Verify email functionality
+- [ ] Test role-based access
+- [ ] Validate audit logging
+- [ ] Check session management
+
+## Deployment Checklist
+- [ ] Update environment variables documentation
+- [ ] Add deployment instructions for Resend
+- [ ] Update README with new features
+- [ ] Create admin user setup guide
