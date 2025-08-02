@@ -31,7 +31,11 @@ export default [
         clearInterval: 'readonly',
         fetch: 'readonly',
         HTMLElement: 'readonly',
+        HTMLDivElement: 'readonly',
         Element: 'readonly',
+        MouseEvent: 'readonly',
+        Node: 'readonly',
+        URLSearchParams: 'readonly',
         // Node.js globals
         process: 'readonly',
         global: 'readonly',

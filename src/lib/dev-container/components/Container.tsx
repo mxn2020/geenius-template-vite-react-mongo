@@ -188,6 +188,7 @@ export const Container: React.FC<ContainerProps> = ({
 
     document.addEventListener('click', handleGlobalClick);
     return () => document.removeEventListener('click', handleGlobalClick);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [popoverState, componentId]);
 
   // Error handling - now more flexible for unregistered components
