@@ -1,9 +1,7 @@
 // scripts/create-admin.ts
 // Run with: npx tsx scripts/create-admin.ts <userId>
 
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
+import { MongoClient } from 'mongodb';
 
 async function createAdmin() {
   const userId = process.argv[2];
@@ -14,40 +12,55 @@ async function createAdmin() {
     process.exit(1);
   }
 
+  const mongoUri = process.env.MONGODB_URI || process.env.DATABASE_URL || 'mongodb://localhost:27017/geenius-template';
+  const client = new MongoClient(mongoUri);
+
   try {
+    await client.connect();
+    const db = client.db();
+
     // Create or update user preferences with admin role
-    const userPref = await prisma.userPreference.upsert({
-      where: { userId },
-      update: { role: 'admin' },
-      create: {
-        userId,
-        role: 'admin',
-        theme: 'light',
-        emailNotifications: true,
-        language: 'en',
-        timezone: 'UTC',
+    const result = await db.collection('UserPreference').updateOne(
+      { userId },
+      { 
+        $set: { 
+          role: 'admin',
+          updatedAt: new Date()
+        },
+        $setOnInsert: {
+          userId,
+          theme: 'light',
+          emailNotifications: true,
+          language: 'en',
+          timezone: 'UTC',
+          createdAt: new Date()
+        }
       },
-    });
+      { upsert: true }
+    );
 
     console.log('✅ Admin role granted successfully!');
     console.log('User ID:', userId);
-    console.log('Role:', userPref.role);
+    console.log('Operation:', result.upsertedCount ? 'Created new preferences' : 'Updated existing preferences');
     
     // Create audit log entry
-    await prisma.auditLog.create({
-      data: {
+    try {
+      await db.collection('AuditLog').insertOne({
         userId,
         action: 'role_change',
         details: { newRole: 'admin', changedBy: 'script' },
         success: true,
-      },
-    });
+        createdAt: new Date(),
+      });
+      console.log('📝 Audit log entry created');
+    } catch {
+      console.log('⚠️  Could not create audit log (replica set may be required)');
+    }
 
-    console.log('📝 Audit log entry created');
-  } catch (error) {
-    console.error('❌ Error creating admin:', error);
+  } catch (error: any) {
+    console.error('❌ Error creating admin:', error.message);
   } finally {
-    await prisma.$disconnect();
+    await client.close();
   }
 }
 

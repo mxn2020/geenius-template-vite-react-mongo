@@ -14,6 +14,12 @@ This creates a new admin account directly in the database:
 # Create admin with default credentials
 npm run admin:create
 
+# Or if you encounter MongoDB replica set errors, use the simple version:
+npm run admin:create:simple
+
+# Then grant admin role:
+npm run admin:grant <userId>
+
 # Or with custom credentials
 ADMIN_EMAIL=admin@mycompany.com ADMIN_PASSWORD=SecurePass123! npm run admin:create
 ```
@@ -21,6 +27,8 @@ ADMIN_EMAIL=admin@mycompany.com ADMIN_PASSWORD=SecurePass123! npm run admin:crea
 Default credentials:
 - Email: `admin@example.com`
 - Password: `admin123456`
+
+**Note**: If you see MongoDB replica set errors, this is because Prisma requires replica sets for transactions. The scripts will still create the user account, and you can manually grant admin role using the user ID provided.
 
 ### Option 2: Register Admin via API
 

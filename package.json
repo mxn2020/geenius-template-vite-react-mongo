@@ -18,11 +18,13 @@
     "db:studio": "prisma studio",
     "db:test": "node scripts/test-mongodb.js",
     "admin:create": "tsx scripts/create-admin-account.ts",
+    "admin:create:simple": "tsx scripts/create-admin-simple.ts",
     "admin:register": "tsx scripts/register-admin.ts",
     "admin:grant": "tsx scripts/create-admin.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
+    "@node-rs/argon2": "^2.0.2",
     "@prisma/client": "^6.12.0",
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-alert-dialog": "^1.1.14",
@@ -87,6 +89,7 @@
   "devDependencies": {
     "@netlify/functions": "^4.1.12",
     "@types/node": "^20.11.0",
+    "@types/node-fetch": "^2.6.13",
     "@types/react": "^19.1.8",
     "@types/react-dom": "^19.1.6",
     "@typescript-eslint/eslint-plugin": "^8.37.0",

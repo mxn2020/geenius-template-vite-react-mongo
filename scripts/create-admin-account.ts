@@ -31,22 +31,33 @@ async function createAdminAccount() {
     if (existingUser) {
       console.log('⚠️  User already exists with this email');
       
-      // Update existing user to admin
-      await prisma.userPreference.upsert({
-        where: { userId: existingUser.id },
-        update: { role: 'admin' },
-        create: {
-          userId: existingUser.id,
-          role: 'admin',
-          theme: 'light',
-          emailNotifications: true,
-          language: 'en',
-          timezone: 'UTC',
-        },
-      });
-      
-      console.log('✅ Existing user updated to admin role');
-      console.log('User ID:', existingUser.id);
+      // Update existing user to admin using MongoDB directly
+      try {
+        await db.collection('UserPreference').updateOne(
+          { userId: existingUser.id },
+          { 
+            $set: { 
+              role: 'admin',
+              updatedAt: new Date()
+            },
+            $setOnInsert: {
+              userId: existingUser.id,
+              theme: 'light',
+              emailNotifications: true,
+              language: 'en',
+              timezone: 'UTC',
+              createdAt: new Date()
+            }
+          },
+          { upsert: true }
+        );
+        
+        console.log('✅ Existing user updated to admin role');
+        console.log('User ID:', existingUser.id);
+      } catch {
+        console.warn('⚠️  Could not update user preferences (MongoDB replica set may be required)');
+        console.log('   You can manually grant admin role using: npm run admin:grant', existingUser.id);
+      }
       return;
     }
 
@@ -93,22 +104,28 @@ async function createAdminAccount() {
     await db.collection('account').insertOne(account);
     console.log('✅ Account created with password');
 
-    // Create user preferences with admin role
-    await prisma.userPreference.create({
-      data: {
+    // Create user preferences with admin role using MongoDB directly
+    try {
+      await db.collection('UserPreference').insertOne({
         userId: userId,
         role: 'admin',
         theme: 'light',
         emailNotifications: true,
         language: 'en',
         timezone: 'UTC',
-      },
-    });
-    console.log('✅ User preferences created with admin role');
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      });
+      console.log('✅ User preferences created with admin role');
+    } catch {
+      // If it fails due to replica set, we'll still continue
+      console.warn('⚠️  Could not create user preferences (MongoDB replica set may be required)');
+      console.log('   You can manually grant admin role using: npm run admin:grant', userId);
+    }
 
-    // Create audit log entry
-    await prisma.auditLog.create({
-      data: {
+    // Create audit log entry using MongoDB directly
+    try {
+      await db.collection('AuditLog').insertOne({
         userId: userId,
         action: 'admin_account_created',
         details: { 
@@ -116,9 +133,13 @@ async function createAdminAccount() {
           createdBy: 'setup_script',
         },
         success: true,
-      },
-    });
-    console.log('✅ Audit log entry created');
+        createdAt: new Date(),
+      });
+      console.log('✅ Audit log entry created');
+    } catch {
+      // Non-critical, continue
+      console.warn('⚠️  Could not create audit log entry')
+    }
 
     console.log('\n🎉 Admin account created successfully!');
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
