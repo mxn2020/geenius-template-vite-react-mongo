@@ -17,10 +17,8 @@
     "db:push": "prisma db push",
     "db:studio": "prisma studio",
     "db:test": "node scripts/test-mongodb.js",
-    "admin:create": "tsx scripts/create-admin-account.ts",
-    "admin:create:simple": "tsx scripts/create-admin-simple.ts",
-    "admin:register": "tsx scripts/register-admin.ts",
-    "admin:grant": "tsx scripts/create-admin.ts"
+    "admin:create": "tsx scripts/create-admin.ts",
+    "admin:register": "tsx scripts/register-admin.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
@@ -61,6 +59,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
+    "crypto": "^1.0.1",
     "date-fns": "^4.1.0",
     "dotenv": "^17.2.0",
     "embla-carousel-react": "^8.6.0",

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { signIn } from '../../lib/auth-client';
-import { checkOAuthProviders } from '../../lib/auth-utils';
+// OAuth providers check - temporarily disabled
+const checkOAuthProviders = async () => ({ github: false, google: false });
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Label } from '../ui/label';

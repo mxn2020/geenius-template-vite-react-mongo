@@ -1,0 +1,124 @@
+// api/user-role.ts
+import { Handler } from "@netlify/functions";
+import { MongoClient } from "mongodb";
+
+export const handler: Handler = async (event, _context) => {
+  // Handle CORS preflight
+  if (event.httpMethod === 'OPTIONS') {
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+        'Access-Control-Allow-Credentials': 'true',
+      },
+      body: '',
+    };
+  }
+
+  const mongoUri = process.env.MONGODB_URI || process.env.DATABASE_URL || "mongodb://localhost:27017/vite-react-mongo";
+  const client = new MongoClient(mongoUri);
+
+  try {
+    await client.connect();
+    const db = client.db();
+    const path = event.path.replace('/.netlify/functions/user-role', '');
+    
+    // GET /api/user-role/:userId
+    if (event.httpMethod === 'GET' && path.startsWith('/')) {
+      const userId = path.substring(1);
+      
+      if (!userId) {
+        return {
+          statusCode: 400,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'User ID required' }),
+        };
+      }
+
+      // Find user preferences
+      const userPref = await db.collection('UserPreference').findOne({ userId });
+      
+      // Create default preferences if not found
+      if (!userPref) {
+        await db.collection('UserPreference').insertOne({
+          userId,
+          role: 'user',
+          theme: 'light',
+          emailNotifications: true,
+          language: 'en',
+          timezone: 'UTC',
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        });
+      }
+
+      const role = userPref?.role || 'user';
+
+      return {
+        statusCode: 200,
+        headers: { 
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: JSON.stringify({ role }),
+      };
+    }
+
+    // PUT /api/user-role/:userId
+    if (event.httpMethod === 'PUT' && path.startsWith('/')) {
+      const userId = path.substring(1);
+      const body = JSON.parse(event.body || '{}');
+      const { role } = body;
+
+      if (!userId || !role) {
+        return {
+          statusCode: 400,
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ error: 'User ID and role required' }),
+        };
+      }
+
+      await db.collection('UserPreference').updateOne(
+        { userId },
+        { 
+          $set: { role, updatedAt: new Date() },
+          $setOnInsert: {
+            theme: 'light',
+            emailNotifications: true,
+            language: 'en',
+            timezone: 'UTC',
+            createdAt: new Date()
+          }
+        },
+        { upsert: true }
+      );
+
+      return {
+        statusCode: 200,
+        headers: { 
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: JSON.stringify({ success: true }),
+      };
+    }
+
+    return {
+      statusCode: 404,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: 'Not found' }),
+    };
+
+  } catch (error: any) {
+    console.error('User role API error:', error);
+    return {
+      statusCode: 500,
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ error: error.message }),
+    };
+  } finally {
+    await client.close();
+  }
+};

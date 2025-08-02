@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useSession, signIn, signOut, signUp } from '../../lib/auth-client';
-import { getUserRole, UserRole, ensureUserPreferences } from '../../lib/auth-utils';
+import { getUserRole, UserRole, ensureUserPreferences } from '../../lib/api/user-role';
 
 type Session = any; // Better Auth session type
 type User = any; // Better Auth user type
