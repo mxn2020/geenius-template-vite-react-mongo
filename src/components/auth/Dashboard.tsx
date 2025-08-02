@@ -1,18 +1,21 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSession, signOut } from '../../lib/auth-client';
+import { useAuth } from './AuthProvider';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar';
 import { Separator } from '../ui/separator';
-import { LogOut, User, Mail, Calendar, Shield, Home } from 'lucide-react';
+import { LogOut, User, Mail, Calendar, Shield, Home, Settings } from 'lucide-react';
 import { Container } from '../../lib/dev-container';
 
 export const Dashboard: React.FC = () => {
   console.log('[Dashboard] Component rendering');
   const { data: session, isPending } = useSession();
+  const { isAdmin, role } = useAuth();
   console.log('[Dashboard] Session state:', { session, isPending });
+  console.log('[Dashboard] User role:', role, 'isAdmin:', isAdmin);
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -124,6 +127,16 @@ export const Dashboard: React.FC = () => {
                     <Home className="h-4 w-4" />
                     Back to Home
                   </Button>
+                  {isAdmin && (
+                    <Button
+                      variant="ghost"
+                      onClick={() => navigate('/admin')}
+                      className="flex items-center gap-2"
+                    >
+                      <Settings className="h-4 w-4" />
+                      Admin Panel
+                    </Button>
+                  )}
                   <Button
                     variant="ghost"
                     onClick={handleLogout}
@@ -162,6 +175,11 @@ export const Dashboard: React.FC = () => {
                         <p className="text-sm text-muted-foreground">
                           {user.email || 'No email'}
                         </p>
+                        {isAdmin && (
+                          <Badge variant="default" className="mt-1">
+                            Administrator
+                          </Badge>
+                        )}
                       </div>
                     </div>
                     

@@ -33,16 +33,16 @@
 
 ### 2.3 UI Components for RBAC
 - [x] Create `AdminRoute` component for admin-only routes
-- [ ] Update navigation to show/hide based on roles
-- [ ] Add role indicators in user interface
+- [x] Update navigation to show/hide based on roles
+- [x] Add role indicators in user interface
 
 ## Phase 3: Admin Dashboard
 
 ### 3.1 Admin Layout and Navigation
-- [ ] Create admin layout component
-- [ ] Design admin navigation sidebar
-- [ ] Implement admin route structure
-- [ ] Add admin dashboard home page
+- [x] Create admin layout component
+- [x] Design admin navigation sidebar
+- [x] Implement admin route structure
+- [x] Add admin dashboard home page
 
 ### 3.2 User Management
 - [ ] Create users list page with pagination
