@@ -27,7 +27,11 @@ export const handler: Handler = async (event, _context) => {
   try {
     await client.connect();
     const db = client.db();
-    const path = event.path.replace('/.netlify/functions/user-role', '');
+    // Remove all API path prefixes to get just the user ID
+    const path = event.path
+      .replace('/.netlify/functions/user-role', '')
+      .replace('/api/user-role', '')
+      .replace('.json', '');
     
     // GET /api/user-role/:userId
     if (event.httpMethod === 'GET' && path.startsWith('/')) {
