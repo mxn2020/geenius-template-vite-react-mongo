@@ -2,6 +2,8 @@ import { betterAuth } from "better-auth";
 import { mongodbAdapter } from "better-auth/adapters/mongodb";
 import { MongoClient } from "mongodb";
 import { auditService } from "./services/audit";
+import { emailService } from "./services/email";
+import { rateLimitService } from "./services/rate-limit";
 
 // Create MongoDB client
 const mongoUri = process.env.MONGODB_URI || process.env.DATABASE_URL || "mongodb://localhost:27017/geenius-template";
@@ -21,6 +23,10 @@ let authInstance: any;
 try {
   client = new MongoClient(mongoUri);
   console.log('✅ MongoDB client created successfully');
+  
+  // Initialize rate limiting service
+  await rateLimitService.initialize(mongoUri);
+  console.log('✅ Rate limiting service initialized');
 } catch (error: any) {
   console.error('❌ Failed to create MongoDB client:', error.message);
   throw new Error(`MongoDB client initialization failed: ${error.message}`);
@@ -34,6 +40,27 @@ try {
     emailAndPassword: {
       enabled: true,
       requireEmailVerification: false,
+      sendResetPassword: async ({ user, url }) => {
+        console.log('[Auth] Sending password reset email to:', user.email);
+        try {
+          const resetToken = url.split('token=')[1];
+          await emailService.sendPasswordResetEmail(
+            user.email,
+            user.name || 'User',
+            resetToken
+          );
+          
+          // Log the password reset request
+          await auditService.logUserAction(
+            user.id,
+            'password_reset_request',
+            { email: user.email },
+          );
+        } catch (error) {
+          console.error('[Auth] Failed to send password reset email:', error);
+          throw new Error('Failed to send password reset email');
+        }
+      },
     },
     session: {
       expiresIn: 60 * 60 * 24 * 7, // 7 days
@@ -57,6 +84,34 @@ try {
       
       // Skip non-auth endpoints
       if (!path.includes('/auth/')) return;
+      
+      // Rate limiting for password reset
+      if (path.includes('/forget-password')) {
+        const body = await request.clone().json().catch(() => ({}));
+        const email = body.email;
+        
+        if (email) {
+          const { allowed, retryAfter } = await rateLimitService.checkLimit(email, 'password_reset');
+          
+          if (!allowed) {
+            return new Response(
+              JSON.stringify({ 
+                error: `Too many password reset attempts. Please try again in ${Math.ceil(retryAfter! / 60)} minutes.` 
+              }),
+              { 
+                status: 429,
+                headers: {
+                  'Content-Type': 'application/json',
+                  'Retry-After': String(retryAfter),
+                }
+              }
+            );
+          }
+          
+          // Record the attempt
+          await rateLimitService.recordAttempt(email, 'password_reset');
+        }
+      }
       
       // Extract user info from session if available
       const cookies = request.headers.get('cookie') || '';
@@ -97,6 +152,14 @@ try {
             await auditService.logUserAction(body.user.id, 'user_created', {
               email: body.user.email,
               name: body.user.name,
+            }, request);
+          } else if (path.includes('/reset-password') && body.user) {
+            await auditService.logUserAction(body.user.id, 'password_reset_complete', {
+              email: body.user.email,
+            }, request);
+          } else if (path.includes('/change-password') && body.user) {
+            await auditService.logUserAction(body.user.id, 'password_change', {
+              email: body.user.email,
             }, request);
           }
         } catch (error) {
