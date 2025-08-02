@@ -52,6 +52,8 @@ export const DropdownMenu = ({ devId, devName, devDescription, devSelectable = t
     <Container
       componentId={devId}
       definitionId="dev-dropdown-menu"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDropdownMenu {...props}>
@@ -94,6 +96,8 @@ export const DropdownMenuTrigger = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-dropdown-menu-trigger"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDropdownMenuTrigger ref={ref} {...props}>
@@ -136,6 +140,8 @@ export const DropdownMenuContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-dropdown-menu-content"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDropdownMenuContent ref={ref} {...props}>
@@ -178,6 +184,8 @@ export const DropdownMenuItem = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-dropdown-menu-item"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDropdownMenuItem ref={ref} {...props}>
@@ -220,6 +228,8 @@ export const DropdownMenuCheckboxItem = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-dropdown-menu-checkbox-item"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDropdownMenuCheckboxItem ref={ref} {...props}>
@@ -262,6 +272,8 @@ export const DropdownMenuRadioGroup = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-dropdown-menu-radio-group"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDropdownMenuRadioGroup ref={ref} {...props}>
@@ -304,6 +316,8 @@ export const DropdownMenuRadioItem = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-dropdown-menu-radio-item"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDropdownMenuRadioItem ref={ref} {...props}>
@@ -346,6 +360,8 @@ export const DropdownMenuLabel = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-dropdown-menu-label"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDropdownMenuLabel ref={ref} {...props}>
@@ -384,6 +400,8 @@ export const DropdownMenuSeparator = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-dropdown-menu-separator"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDropdownMenuSeparator ref={ref} {...props} />
@@ -424,6 +442,8 @@ export const DropdownMenuGroup = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-dropdown-menu-group"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDropdownMenuGroup ref={ref} {...props}>
@@ -463,6 +483,8 @@ export const DropdownMenuPortal = ({ devId, devName, devDescription, devSelectab
     <Container
       componentId={devId}
       definitionId="dev-dropdown-menu-portal"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDropdownMenuPortal {...props}>
@@ -502,6 +524,8 @@ export const DropdownMenuSub = ({ devId, devName, devDescription, devSelectable 
     <Container
       componentId={devId}
       definitionId="dev-dropdown-menu-sub"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDropdownMenuSub {...props}>
@@ -544,6 +568,8 @@ export const DropdownMenuSubTrigger = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-dropdown-menu-sub-trigger"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDropdownMenuSubTrigger ref={ref} {...props}>
@@ -586,6 +612,8 @@ export const DropdownMenuSubContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-dropdown-menu-sub-content"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDropdownMenuSubContent ref={ref} {...props}>
@@ -625,6 +653,8 @@ export const DropdownMenuShortcut = ({ devId, devName, devDescription, devSelect
     <Container
       componentId={devId}
       definitionId="dev-dropdown-menu-shortcut"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDropdownMenuShortcut {...props}>

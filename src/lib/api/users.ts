@@ -8,6 +8,12 @@ export interface User {
   createdAt: string;
   lastActive: string;
   emailVerified: boolean;
+  preferences?: {
+    theme: string;
+    emailNotifications: boolean;
+    language: string;
+    timezone: string;
+  };
 }
 
 export interface UserDetails extends User {
@@ -74,8 +80,20 @@ export async function getUsers(params?: {
   return response.json();
 }
 
-export async function getUserDetails(userId: string): Promise<UserDetails> {
+export async function getUserById(userId: string): Promise<User> {
   const response = await fetch(`${getApiUrl()}/users/${userId}`, {
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch user');
+  }
+
+  return response.json();
+}
+
+export async function getUserDetails(userId: string): Promise<UserDetails> {
+  const response = await fetch(`${getApiUrl()}/users/${userId}/details`, {
     credentials: 'include',
   });
 
@@ -84,4 +102,32 @@ export async function getUserDetails(userId: string): Promise<UserDetails> {
   }
 
   return response.json();
+}
+
+export async function updateUser(userId: string, updates: Partial<Pick<User, 'role'>>): Promise<User> {
+  const response = await fetch(`${getApiUrl()}/users/${userId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(updates),
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to update user');
+  }
+
+  return response.json();
+}
+
+export async function deleteUser(userId: string): Promise<void> {
+  const response = await fetch(`${getApiUrl()}/users/${userId}`, {
+    method: 'DELETE',
+    credentials: 'include',
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to delete user');
+  }
 }

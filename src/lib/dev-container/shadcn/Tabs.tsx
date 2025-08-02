@@ -43,6 +43,8 @@ export const Tabs = ({ devId, devName, devDescription, devSelectable = true, dev
     <Container
       componentId={devId}
       definitionId="dev-tabs"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnTabs {...props}>
@@ -87,6 +89,8 @@ export const TabsList = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-tabs-list"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnTabsList ref={ref} {...props}>
@@ -131,6 +135,8 @@ export const TabsTrigger = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-tabs-trigger"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnTabsTrigger ref={ref} {...props}>
@@ -175,6 +181,8 @@ export const TabsContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-tabs-content"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnTabsContent ref={ref} {...props}>

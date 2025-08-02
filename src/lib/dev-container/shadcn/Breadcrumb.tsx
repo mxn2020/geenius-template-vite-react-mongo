@@ -56,6 +56,8 @@ export const Breadcrumb = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-breadcrumb" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnBreadcrumb ref={ref} {...props}>
@@ -94,6 +96,8 @@ export const BreadcrumbList = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-breadcrumb-list" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnBreadcrumbList ref={ref} {...props}>
@@ -132,6 +136,8 @@ export const BreadcrumbItem = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-breadcrumb-item" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnBreadcrumbItem ref={ref} {...props}>
@@ -170,6 +176,8 @@ export const BreadcrumbLink = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-breadcrumb-link" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnBreadcrumbLink ref={ref} {...props}>
@@ -208,6 +216,8 @@ export const BreadcrumbPage = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-breadcrumb-page" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnBreadcrumbPage ref={ref} {...props}>
@@ -246,6 +256,8 @@ export const BreadcrumbSeparator = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-breadcrumb-separator" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnBreadcrumbSeparator ref={ref} {...props}>
@@ -284,6 +296,8 @@ export const BreadcrumbEllipsis = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-breadcrumb-ellipsis" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnBreadcrumbEllipsis ref={ref} {...props}>

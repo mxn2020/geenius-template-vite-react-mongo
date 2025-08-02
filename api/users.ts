@@ -1,6 +1,7 @@
 // api/users.ts
 import { Handler } from "@netlify/functions";
 import { MongoClient } from "mongodb";
+import { auditService } from "../src/lib/services/audit";
 
 export const handler: Handler = async (event, _context) => {
   // Get origin for CORS
@@ -12,7 +13,7 @@ export const handler: Handler = async (event, _context) => {
       statusCode: 200,
       headers: {
         'Access-Control-Allow-Origin': origin,
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         'Access-Control-Allow-Credentials': 'true',
       },
@@ -201,6 +202,182 @@ export const handler: Handler = async (event, _context) => {
           'Access-Control-Allow-Credentials': 'true',
         },
         body: JSON.stringify(enrichedUser),
+      };
+    }
+
+    // PATCH /api/users/:userId - Update user
+    if (event.httpMethod === 'PATCH' && path.startsWith('/')) {
+      const userId = path.substring(1);
+      
+      if (!userId) {
+        return {
+          statusCode: 400,
+          headers: { 
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': origin,
+            'Access-Control-Allow-Credentials': 'true',
+          },
+          body: JSON.stringify({ error: 'User ID required' }),
+        };
+      }
+
+      const updates = JSON.parse(event.body || '{}');
+      const { role } = updates;
+
+      if (role && !['user', 'admin'].includes(role)) {
+        return {
+          statusCode: 400,
+          headers: { 
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': origin,
+            'Access-Control-Allow-Credentials': 'true',
+          },
+          body: JSON.stringify({ error: 'Invalid role' }),
+        };
+      }
+
+      // Get current user from session for audit logging
+      const cookies = event.headers.cookie || '';
+      const sessionToken = cookies.split(';')
+        .find(c => c.trim().startsWith('better-auth.session_token='))
+        ?.split('=')[1];
+      
+      let currentUserId = 'system';
+      if (sessionToken) {
+        const session = await db.collection('session').findOne({ token: sessionToken });
+        if (session) currentUserId = session.userId;
+      }
+
+      // Update user preferences (role)
+      if (role) {
+        const oldUserPref = await db.collection('UserPreference').findOne({ userId });
+        const oldRole = oldUserPref?.role || 'user';
+        
+        await db.collection('UserPreference').updateOne(
+          { userId },
+          { 
+            $set: { 
+              role,
+              updatedAt: new Date()
+            }
+          },
+          { upsert: true }
+        );
+        
+        // Log role change
+        await auditService.logUserAction(currentUserId, 'role_changed', {
+          targetUserId: userId,
+          oldRole,
+          newRole: role,
+        }, event);
+      }
+
+      // Return updated user
+      const { ObjectId } = await import('mongodb');
+      let user;
+      try {
+        user = await db.collection('user').findOne({ _id: new ObjectId(userId) });
+      } catch (e) {
+        user = await db.collection('user').findOne({ _id: userId });
+      }
+
+      const preference = await db.collection('UserPreference').findOne({ userId });
+
+      const updatedUser = {
+        id: user._id.toString(),
+        name: user.name || 'Unknown',
+        email: user.email,
+        role: preference?.role || 'user',
+        createdAt: user.createdAt,
+        lastActive: preference?.updatedAt || user.updatedAt || user.createdAt,
+        emailVerified: user.emailVerified || false,
+        preferences: preference || {
+          theme: 'light',
+          emailNotifications: true,
+          language: 'en',
+          timezone: 'UTC',
+        },
+      };
+
+      return {
+        statusCode: 200,
+        headers: { 
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': origin,
+          'Access-Control-Allow-Credentials': 'true',
+        },
+        body: JSON.stringify(updatedUser),
+      };
+    }
+
+    // DELETE /api/users/:userId - Delete user
+    if (event.httpMethod === 'DELETE' && path.startsWith('/')) {
+      const userId = path.substring(1);
+      
+      if (!userId) {
+        return {
+          statusCode: 400,
+          headers: { 
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': origin,
+            'Access-Control-Allow-Credentials': 'true',
+          },
+          body: JSON.stringify({ error: 'User ID required' }),
+        };
+      }
+
+      // Get current user from session for audit logging
+      const cookies = event.headers.cookie || '';
+      const sessionToken = cookies.split(';')
+        .find(c => c.trim().startsWith('better-auth.session_token='))
+        ?.split('=')[1];
+      
+      let currentUserId = 'system';
+      if (sessionToken) {
+        const session = await db.collection('session').findOne({ token: sessionToken });
+        if (session) currentUserId = session.userId;
+      }
+
+      const { ObjectId } = await import('mongodb');
+      
+      // Get user info before deletion for audit log
+      let userToDelete;
+      try {
+        userToDelete = await db.collection('user').findOne({ _id: new ObjectId(userId) });
+      } catch (e) {
+        userToDelete = await db.collection('user').findOne({ _id: userId });
+      }
+      
+      // Delete user from Better Auth's user collection
+      try {
+        await db.collection('user').deleteOne({ _id: new ObjectId(userId) });
+      } catch (e) {
+        await db.collection('user').deleteOne({ _id: userId });
+      }
+
+      // Delete related data
+      await db.collection('UserPreference').deleteOne({ userId });
+      await db.collection('session').deleteMany({ userId });
+      await db.collection('account').deleteMany({ userId });
+      
+      // Delete user's posts and comments
+      await db.collection('Post').deleteMany({ authorId: userId });
+      await db.collection('Comment').deleteMany({ authorId: userId });
+      
+      // Log user deletion
+      await auditService.logUserAction(currentUserId, 'user_deleted', {
+        targetUserId: userId,
+        targetUserEmail: userToDelete?.email,
+        targetUserName: userToDelete?.name,
+      }, event);
+
+      return {
+        statusCode: 204,
+        headers: { 
+          'Access-Control-Allow-Origin': origin,
+          'Access-Control-Allow-Credentials': 'true',
+        },
+        body: '',
       };
     }
 

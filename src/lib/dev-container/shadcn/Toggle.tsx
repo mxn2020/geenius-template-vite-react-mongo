@@ -39,6 +39,8 @@ export const Toggle = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-toggle"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnToggle ref={ref} {...props}>

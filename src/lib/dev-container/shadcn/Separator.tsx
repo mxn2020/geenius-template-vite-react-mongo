@@ -35,6 +35,8 @@ export const Separator = React.forwardRef<
     <Container
       componentId={devId}
       definitionId='dev-separator'
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSeparator ref={ref} {...props} />

@@ -42,6 +42,8 @@ export const ToggleGroup = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-toggle-group"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnToggleGroup ref={ref} {...props}>
@@ -84,6 +86,8 @@ export const ToggleGroupItem = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-toggle-group-item"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnToggleGroupItem ref={ref} {...props}>

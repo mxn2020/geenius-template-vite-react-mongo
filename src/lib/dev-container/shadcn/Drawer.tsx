@@ -47,6 +47,8 @@ export const Drawer = ({ devId, devName, devDescription, devSelectable = true, d
     <Container
       componentId={devId}
       definitionId="dev-drawer"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDrawer {...props}>
@@ -86,6 +88,8 @@ export const DrawerPortal = ({ devId, devName, devDescription, devSelectable = t
     <Container
       componentId={devId}
       definitionId="dev-drawer-portal"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDrawerPortal {...props}>
@@ -128,6 +132,8 @@ export const DrawerOverlay = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-drawer-overlay"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDrawerOverlay ref={ref} {...props}>
@@ -170,6 +176,8 @@ export const DrawerTrigger = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-drawer-trigger"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDrawerTrigger ref={ref} {...props}>
@@ -212,6 +220,8 @@ export const DrawerClose = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-drawer-close"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDrawerClose ref={ref} {...props}>
@@ -254,6 +264,8 @@ export const DrawerContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-drawer-content"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDrawerContent ref={ref} {...props}>
@@ -293,6 +305,8 @@ export const DrawerHeader = ({ devId, devName, devDescription, devSelectable = t
     <Container
       componentId={devId}
       definitionId="dev-drawer-header"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDrawerHeader {...props}>
@@ -332,6 +346,8 @@ export const DrawerFooter = ({ devId, devName, devDescription, devSelectable = t
     <Container
       componentId={devId}
       definitionId="dev-drawer-footer"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDrawerFooter {...props}>
@@ -374,6 +390,8 @@ export const DrawerTitle = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-drawer-title"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDrawerTitle ref={ref} {...props}>
@@ -416,6 +434,8 @@ export const DrawerDescription = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-drawer-description"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDrawerDescription ref={ref} {...props}>

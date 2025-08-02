@@ -46,6 +46,8 @@ export const Avatar = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-avatar" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnAvatar ref={ref} {...props}>
@@ -84,6 +86,8 @@ export const AvatarImage = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-avatar-image" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnAvatarImage ref={ref} {...props}>
@@ -122,6 +126,8 @@ export const AvatarFallback = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-avatar-fallback" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnAvatarFallback ref={ref} {...props}>

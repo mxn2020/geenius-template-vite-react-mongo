@@ -43,6 +43,8 @@ export const TooltipProvider = ({ devId, devName, devDescription, devSelectable 
     <Container
       componentId={devId}
       definitionId="dev-tooltip-provider"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnTooltipProvider {...props}>
@@ -84,6 +86,8 @@ export const Tooltip = ({ devId, devName, devDescription, devSelectable = true, 
     <Container
       componentId={devId}
       definitionId="dev-tooltip"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnTooltip {...props}>
@@ -128,6 +132,8 @@ export const TooltipTrigger = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-tooltip-trigger"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnTooltipTrigger ref={ref} {...props}>
@@ -172,6 +178,8 @@ export const TooltipContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-tooltip-content"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnTooltipContent ref={ref} {...props}>

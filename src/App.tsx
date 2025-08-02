@@ -5,12 +5,16 @@ import { Landing } from './pages/Landing';
 import { Login } from './components/auth/Login';
 import { Register } from './components/auth/Register';
 import { Dashboard } from './components/auth/Dashboard';
+import { SessionsPage } from './components/auth/SessionsPage';
+import { AuditLogsPage } from './components/auth/AuditLogsPage';
 import { ProtectedRoute } from './components/auth/ProtectedRoute';
 import { AdminRoute } from './components/auth/AdminRoute';
 import { AuthProvider } from './components/auth/AuthProvider';
 import { AdminLayout } from './components/admin/AdminLayout';
 import { AdminDashboard } from './components/admin/AdminDashboard';
 import { UsersPage } from './components/admin/UsersPage';
+import { UserDetailsPage } from './components/admin/UserDetailsPage';
+import { AdminAuditLogsPage } from './components/admin/AdminAuditLogsPage';
 import { DevModeApp, Container } from './lib/dev-container';
 import { componentRegistry } from './registry/componentRegistry';
 import { componentLibrary } from './registry/componentLibrary';
@@ -34,6 +38,22 @@ function App() {
                     </ProtectedRoute>
                   } 
                 />
+                <Route 
+                  path="/sessions" 
+                  element={
+                    <ProtectedRoute>
+                      <SessionsPage />
+                    </ProtectedRoute>
+                  } 
+                />
+                <Route 
+                  path="/audit-logs" 
+                  element={
+                    <ProtectedRoute>
+                      <AuditLogsPage />
+                    </ProtectedRoute>
+                  } 
+                />
                 
                 {/* Admin routes */}
                 <Route
@@ -46,7 +66,8 @@ function App() {
                 >
                   <Route index element={<AdminDashboard />} />
                   <Route path="users" element={<UsersPage />} />
-                  <Route path="audit-logs" element={<div>Audit Logs Page (Coming Soon)</div>} />
+                  <Route path="users/:userId" element={<UserDetailsPage />} />
+                  <Route path="audit-logs" element={<AdminAuditLogsPage />} />
                   <Route path="settings" element={<div>Settings Page (Coming Soon)</div>} />
                 </Route>
                 

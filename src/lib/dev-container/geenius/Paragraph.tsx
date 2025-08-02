@@ -1,5 +1,5 @@
 // src/lib/dev-container/geenius/Paragraph.tsx
-
+ 
 import React from 'react';
 import { Container } from '../components/Container';
 import { DevProps } from '../types';

@@ -1,19 +1,23 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSession, signOut } from '../../lib/auth-client';
 import { useAuth } from './AuthProvider';
+import { getUserSessions, type Session } from '../../lib/api/sessions';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Badge } from '../ui/badge';
 import { Avatar, AvatarImage, AvatarFallback } from '../ui/avatar';
 import { Separator } from '../ui/separator';
-import { LogOut, User, Mail, Calendar, Shield, Home, Settings } from 'lucide-react';
-import { Container } from '../../lib/dev-container';
+import { LogOut, User, Mail, Calendar, Shield, Home, Settings, Monitor, Globe, Clock, AlertTriangle, Activity } from 'lucide-react';
+import { Container, Alert } from '../../lib/dev-container';
 
 export const Dashboard: React.FC = () => {
   console.log('[Dashboard] Component rendering');
   const { data: session, isPending } = useSession();
   const { isAdmin, role } = useAuth();
+  const [currentSession, setCurrentSession] = useState<Session | null>(null);
+  const [sessionsLoading, setSessionsLoading] = useState(false);
+  const [multipleSessions, setMultipleSessions] = useState(false);
   console.log('[Dashboard] Session state:', { session, isPending });
   console.log('[Dashboard] User role:', role, 'isAdmin:', isAdmin);
   const navigate = useNavigate();
@@ -37,6 +41,41 @@ export const Dashboard: React.FC = () => {
       .toUpperCase()
       .slice(0, 2);
   };
+
+  const getTimeRemaining = (expiresAt: string) => {
+    const now = new Date();
+    const expiry = new Date(expiresAt);
+    const diff = expiry.getTime() - now.getTime();
+    
+    if (diff <= 0) return 'Expired';
+    
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+    
+    if (days > 0) return `${days}d ${hours}h`;
+    if (hours > 0) return `${hours}h ${minutes}m`;
+    return `${minutes}m`;
+  };
+
+  useEffect(() => {
+    if (session?.user) {
+      setSessionsLoading(true);
+      getUserSessions()
+        .then(response => {
+          const current = response.sessions.find(s => s.current);
+          const activeSessions = response.sessions.filter(s => s.active);
+          setCurrentSession(current || null);
+          setMultipleSessions(activeSessions.length > 1);
+        })
+        .catch(err => {
+          console.error('[Dashboard] Failed to fetch sessions:', err);
+        })
+        .finally(() => {
+          setSessionsLoading(false);
+        });
+    }
+  }, [session]);
 
   if (isPending) {
     console.log('[Dashboard] Showing loading state');
@@ -206,6 +245,27 @@ export const Dashboard: React.FC = () => {
                         </span>
                       </div>
                     </div>
+                    
+                    <Separator />
+                    
+                    <div className="pt-4 space-y-2">
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => navigate('/sessions')}
+                      >
+                        <Monitor className="h-4 w-4 mr-2" />
+                        Manage Sessions
+                      </Button>
+                      <Button
+                        variant="outline"
+                        className="w-full"
+                        onClick={() => navigate('/audit-logs')}
+                      >
+                        <Activity className="h-4 w-4 mr-2" />
+                        View Activity Log
+                      </Button>
+                    </div>
                   </CardContent>
                 </Card>
               </Container>
@@ -245,6 +305,67 @@ export const Dashboard: React.FC = () => {
                       </div>
                     </CardContent>
                   </Card>
+
+                  {/* Session Security Warning */}
+                  {multipleSessions && (
+                    <Alert devId="multiple-sessions-warning" variant="default" className="border-yellow-200 bg-yellow-50">
+                      <AlertTriangle className="h-4 w-4 text-yellow-600" />
+                      <div className="ml-2">
+                        <p className="font-semibold text-yellow-900">Multiple active sessions detected</p>
+                        <p className="text-sm text-yellow-700 mt-1">
+                          You're signed in on multiple devices. Review your sessions for security.
+                        </p>
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          className="mt-2"
+                          onClick={() => navigate('/sessions')}
+                        >
+                          Review Sessions
+                        </Button>
+                      </div>
+                    </Alert>
+                  )}
+
+                  {/* Current Session Info */}
+                  {currentSession && (
+                    <Card>
+                      <CardHeader>
+                        <CardTitle className="flex items-center gap-2">
+                          <Monitor className="h-5 w-5" />
+                          Current Session
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="space-y-3">
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-muted-foreground">Device</span>
+                            <span className="text-sm font-medium">
+                              {currentSession.device} - {currentSession.browser}
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-muted-foreground">IP Address</span>
+                            <span className="text-sm font-medium flex items-center gap-1">
+                              <Globe className="h-3 w-3" />
+                              {currentSession.ipAddress}
+                            </span>
+                          </div>
+                          <div className="flex justify-between items-center">
+                            <span className="text-sm text-muted-foreground">Session expires in</span>
+                            <span className="text-sm font-medium flex items-center gap-1">
+                              <Clock className="h-3 w-3" />
+                              {getTimeRemaining(currentSession.expiresAt)}
+                            </span>
+                          </div>
+                          <Separator />
+                          <div className="text-xs text-muted-foreground">
+                            Signed in {new Date(currentSession.createdAt).toLocaleString()}
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
 
                   <Card>
                     <CardHeader>

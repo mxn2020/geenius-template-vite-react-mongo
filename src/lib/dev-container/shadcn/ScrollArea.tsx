@@ -42,6 +42,8 @@ export const ScrollArea = React.forwardRef<
     <Container
       componentId={devId}
       definitionId='dev-scroll-area'
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnScrollArea ref={ref} {...props}>
@@ -80,6 +82,8 @@ export const ScrollBar = React.forwardRef<
     <Container
       componentId={devId}
       definitionId='dev-scroll-bar'
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnScrollBar ref={ref} {...props} />

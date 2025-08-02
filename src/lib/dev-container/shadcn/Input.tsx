@@ -35,6 +35,8 @@ export const Input = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-input"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnInput ref={ref} {...props} />

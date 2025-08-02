@@ -44,6 +44,8 @@ export const Pagination = ({ devId, devName, devDescription, devSelectable = tru
     <Container
       componentId={devId}
       definitionId="dev-pagination"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnPagination {...props}>
@@ -86,6 +88,8 @@ export const PaginationContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-pagination-content"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnPaginationContent ref={ref} {...props}>
@@ -123,6 +127,8 @@ export const PaginationItem = React.forwardRef<HTMLLIElement, React.ComponentPro
       <Container
         componentId={devId}
         definitionId="dev-pagination-item"
+        {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
         selectable={devSelectable}
       >
         <ShadcnPaginationItem ref={ref} {...props}>

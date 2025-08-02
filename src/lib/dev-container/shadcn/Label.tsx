@@ -39,6 +39,8 @@ export const Label = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-label"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnLabel ref={ref} {...props}>

@@ -32,6 +32,8 @@ export const Skeleton = ({ devId, devName, devDescription, devSelectable = true,
     <Container
       componentId={devId}
       definitionId="dev-skeleton"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSkeleton {...props} />

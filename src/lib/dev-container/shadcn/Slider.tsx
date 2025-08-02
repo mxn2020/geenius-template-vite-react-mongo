@@ -35,6 +35,8 @@ export const Slider = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-slider"
+            {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSlider ref={ref} {...props} />

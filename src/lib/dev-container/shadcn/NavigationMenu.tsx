@@ -51,6 +51,8 @@ export const NavigationMenu = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-navigation-menu"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnNavigationMenu ref={ref} {...props}>
@@ -95,6 +97,8 @@ export const NavigationMenuList = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-navigation-menu-list"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnNavigationMenuList ref={ref} {...props}>
@@ -139,6 +143,8 @@ export const NavigationMenuItem = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-navigation-menu-item"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnNavigationMenuItem ref={ref} {...props}>
@@ -183,6 +189,8 @@ export const NavigationMenuTrigger = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-navigation-menu-trigger"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnNavigationMenuTrigger ref={ref} {...props}>
@@ -227,6 +235,8 @@ export const NavigationMenuContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-navigation-menu-content"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnNavigationMenuContent ref={ref} {...props}>
@@ -271,6 +281,8 @@ export const NavigationMenuLink = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-navigation-menu-link"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnNavigationMenuLink ref={ref} {...props}>
@@ -315,6 +327,8 @@ export const NavigationMenuViewport = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-navigation-menu-viewport"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnNavigationMenuViewport ref={ref} {...props}>
@@ -359,6 +373,8 @@ export const NavigationMenuIndicator = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-navigation-menu-indicator"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnNavigationMenuIndicator ref={ref} {...props}>

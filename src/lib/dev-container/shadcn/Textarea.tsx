@@ -35,6 +35,8 @@ export const Textarea = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-textarea"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnTextarea ref={ref} {...props} />

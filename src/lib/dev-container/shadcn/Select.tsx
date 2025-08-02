@@ -47,6 +47,8 @@ export const Select = ({ devId, devName, devDescription, devSelectable = true, d
     <Container
       componentId={devId}
       definitionId="dev-select"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSelect {...props}>
@@ -89,6 +91,8 @@ export const SelectGroup = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-select-group"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSelectGroup ref={ref} {...props}>
@@ -127,6 +131,8 @@ export const SelectValue = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-select-value"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSelectValue ref={ref} {...props} />
@@ -167,6 +173,8 @@ export const SelectTrigger = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-select-trigger"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSelectTrigger ref={ref} {...props}>
@@ -209,6 +217,8 @@ export const SelectContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-select-content"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSelectContent ref={ref} {...props}>
@@ -251,6 +261,8 @@ export const SelectLabel = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-select-label"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSelectLabel ref={ref} {...props}>
@@ -293,6 +305,8 @@ export const SelectItem = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-select-item"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSelectItem ref={ref} {...props}>
@@ -331,6 +345,8 @@ export const SelectSeparator = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-select-separator"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSelectSeparator ref={ref} {...props} />
@@ -371,6 +387,8 @@ export const SelectScrollUpButton = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-select-scroll-up-button"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSelectScrollUpButton ref={ref} {...props}>
@@ -413,6 +431,8 @@ export const SelectScrollDownButton = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-select-scroll-down-button"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSelectScrollDownButton ref={ref} {...props}>

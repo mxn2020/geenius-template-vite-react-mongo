@@ -48,6 +48,8 @@ export const ResizablePanelGroup = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-resizable-panel-group"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnResizablePanelGroup ref={ref} {...props}>
@@ -87,6 +89,8 @@ export const ResizablePanel = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-resizable-panel"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnResizablePanel ref={ref} {...props}>
@@ -122,6 +126,8 @@ export const ResizableHandle = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-resizable-handle"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnResizableHandle {...props} />

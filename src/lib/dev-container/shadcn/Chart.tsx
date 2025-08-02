@@ -46,6 +46,8 @@ export const ChartContainer = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-chart-container" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnChartContainer ref={ref} {...props} />
@@ -78,6 +80,8 @@ export const ChartTooltipContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-chart-tooltip-content" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnChartTooltipContent ref={ref} {...props} />
@@ -110,6 +114,8 @@ export const ChartLegendContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-chart-legend-content" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnChartLegendContent ref={ref} {...props} />

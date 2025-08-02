@@ -41,6 +41,8 @@ export const Popover = ({ devId, devName, devDescription, devSelectable = true, 
     <Container
       componentId={devId}
       definitionId="dev-popover"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnPopover {...props}>
@@ -83,6 +85,8 @@ export const PopoverTrigger = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-popover-trigger"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnPopoverTrigger ref={ref} {...props}>
@@ -125,6 +129,8 @@ export const PopoverContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-popover-content"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnPopoverContent ref={ref} {...props}>

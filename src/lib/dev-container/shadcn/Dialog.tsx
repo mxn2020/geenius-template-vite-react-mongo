@@ -47,6 +47,8 @@ export const Dialog = ({ devId, devName, devDescription, devSelectable = true, d
     <Container
       componentId={devId}
       definitionId="dev-dialog"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDialog {...props}>
@@ -89,6 +91,8 @@ export const DialogTrigger = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-dialog-trigger"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDialogTrigger ref={ref} {...props}>
@@ -128,6 +132,8 @@ export const DialogPortal = ({ devId, devName, devDescription, devSelectable = t
     <Container
       componentId={devId}
       definitionId="dev-dialog-portal"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDialogPortal {...props}>
@@ -170,6 +176,8 @@ export const DialogOverlay = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-dialog-overlay"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDialogOverlay ref={ref} {...props}>
@@ -212,6 +220,8 @@ export const DialogContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-dialog-content"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDialogContent ref={ref} {...props}>
@@ -251,6 +261,8 @@ export const DialogHeader = ({ devId, devName, devDescription, devSelectable = t
     <Container
       componentId={devId}
       definitionId="dev-dialog-header"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDialogHeader {...props}>
@@ -290,6 +302,8 @@ export const DialogFooter = ({ devId, devName, devDescription, devSelectable = t
     <Container
       componentId={devId}
       definitionId="dev-dialog-footer"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDialogFooter {...props}>
@@ -332,6 +346,8 @@ export const DialogTitle = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-dialog-title"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDialogTitle ref={ref} {...props}>
@@ -374,6 +390,8 @@ export const DialogDescription = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-dialog-description"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDialogDescription ref={ref} {...props}>
@@ -416,6 +434,8 @@ export const DialogClose = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-dialog-close"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnDialogClose ref={ref} {...props}>

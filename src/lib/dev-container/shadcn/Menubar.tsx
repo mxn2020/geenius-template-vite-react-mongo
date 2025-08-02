@@ -58,6 +58,8 @@ export const Menubar = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-menubar"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnMenubar ref={ref} {...props}>
@@ -99,6 +101,8 @@ export const MenubarMenu = ({ devId, devName, devDescription, devSelectable = tr
     <Container
       componentId={devId}
       definitionId="dev-menubar-menu"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnMenubarMenu {...props}>
@@ -143,6 +147,8 @@ export const MenubarTrigger = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-menubar-trigger"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnMenubarTrigger ref={ref} {...props}>
@@ -187,6 +193,8 @@ export const MenubarContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-menubar-content"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnMenubarContent ref={ref} {...props}>
@@ -231,6 +239,8 @@ export const MenubarItem = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-menubar-item"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnMenubarItem ref={ref} {...props}>
@@ -275,6 +285,8 @@ export const MenubarCheckboxItem = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-menubar-checkbox-item"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnMenubarCheckboxItem ref={ref} {...props}>
@@ -319,6 +331,8 @@ export const MenubarRadioGroup = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-menubar-radio-group"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnMenubarRadioGroup ref={ref} {...props}>
@@ -363,6 +377,8 @@ export const MenubarRadioItem = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-menubar-radio-item"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnMenubarRadioItem ref={ref} {...props}>
@@ -407,6 +423,8 @@ export const MenubarLabel = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-menubar-label"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnMenubarLabel ref={ref} {...props}>
@@ -445,6 +463,8 @@ export const MenubarSeparator = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-menubar-separator"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnMenubarSeparator ref={ref} {...props} />
@@ -484,6 +504,8 @@ export const MenubarGroup = ({ devId, devName, devDescription, devSelectable = t
     <Container
       componentId={devId}
       definitionId="dev-menubar-group"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnMenubarGroup {...props}>
@@ -525,6 +547,8 @@ export const MenubarSub = ({ devId, devName, devDescription, devSelectable = tru
     <Container
       componentId={devId}
       definitionId="dev-menubar-sub"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnMenubarSub {...props}>
@@ -569,6 +593,8 @@ export const MenubarSubTrigger = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-menubar-sub-trigger"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnMenubarSubTrigger ref={ref} {...props}>
@@ -613,6 +639,8 @@ export const MenubarSubContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-menubar-sub-content"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnMenubarSubContent ref={ref} {...props}>
@@ -654,6 +682,8 @@ export const MenubarPortal = ({ devId, devName, devDescription, devSelectable = 
     <Container
       componentId={devId}
       definitionId="dev-menubar-portal"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnMenubarPortal {...props}>
@@ -695,6 +725,8 @@ export const MenubarShortcut = ({ devId, devName, devDescription, devSelectable 
     <Container
       componentId={devId}
       definitionId="dev-menubar-shortcut"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnMenubarShortcut {...props}>

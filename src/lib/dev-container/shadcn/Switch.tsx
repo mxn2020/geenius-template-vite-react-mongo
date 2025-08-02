@@ -35,6 +35,8 @@ export const Switch = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-switch"
+            {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSwitch ref={ref} {...props} />

@@ -64,6 +64,8 @@ export const SidebarProvider = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-sidebar-provider"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSidebarProvider ref={ref} {...props}>
@@ -106,6 +108,8 @@ export const Sidebar = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-sidebar"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSidebar ref={ref} {...props}>
@@ -144,6 +148,8 @@ export const SidebarTrigger = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-sidebar-trigger"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSidebarTrigger ref={ref} {...props} />
@@ -184,6 +190,8 @@ export const SidebarContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-sidebar-content"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSidebarContent ref={ref} {...props}>
@@ -226,6 +234,8 @@ export const SidebarHeader = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-sidebar-header"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSidebarHeader ref={ref} {...props}>
@@ -268,6 +278,8 @@ export const SidebarFooter = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-sidebar-footer"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSidebarFooter ref={ref} {...props}>
@@ -310,6 +322,8 @@ export const SidebarMenu = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-sidebar-menu"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSidebarMenu ref={ref} {...props}>
@@ -352,6 +366,8 @@ export const SidebarMenuItem = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-sidebar-menu-item"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSidebarMenuItem ref={ref} {...props}>
@@ -394,6 +410,8 @@ export const SidebarMenuButton = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-sidebar-menu-button"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSidebarMenuButton ref={ref} {...props}>

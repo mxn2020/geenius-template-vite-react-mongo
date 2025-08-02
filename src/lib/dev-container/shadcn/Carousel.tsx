@@ -53,6 +53,8 @@ export const Carousel = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-carousel" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCarousel ref={ref} {...props}>
@@ -91,6 +93,8 @@ export const CarouselContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-carousel-content" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCarouselContent ref={ref} {...props}>
@@ -129,6 +133,8 @@ export const CarouselItem = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-carousel-item" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCarouselItem ref={ref} {...props}>
@@ -167,6 +173,8 @@ export const CarouselPrevious = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-carousel-previous" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCarouselPrevious ref={ref} {...props}>
@@ -205,6 +213,8 @@ export const CarouselNext = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-carousel-next" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCarouselNext ref={ref} {...props}>

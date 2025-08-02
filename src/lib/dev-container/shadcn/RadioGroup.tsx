@@ -42,6 +42,8 @@ export const RadioGroup = React.forwardRef<
     <Container
       componentId={devId}
       definitionId='dev-radio-group'
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnRadioGroup ref={ref} {...props}>
@@ -80,6 +82,8 @@ export const RadioGroupItem = React.forwardRef<
     <Container
       componentId={devId}
       definitionId='dev-radio-group-item'
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnRadioGroupItem ref={ref} {...props} />

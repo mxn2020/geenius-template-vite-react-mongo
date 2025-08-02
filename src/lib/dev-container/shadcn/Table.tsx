@@ -50,6 +50,8 @@ export const Table = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-table"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnTable ref={ref} {...props}>
@@ -94,6 +96,8 @@ export const TableHeader = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-table-header"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnTableHeader ref={ref} {...props}>
@@ -138,6 +142,8 @@ export const TableBody = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-table-body"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnTableBody ref={ref} {...props}>
@@ -182,6 +188,8 @@ export const TableFooter = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-table-footer"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnTableFooter ref={ref} {...props}>
@@ -226,6 +234,8 @@ export const TableRow = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-table-row"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnTableRow ref={ref} {...props}>
@@ -270,6 +280,8 @@ export const TableHead = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-table-head"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnTableHead ref={ref} {...props}>
@@ -314,6 +326,8 @@ export const TableCell = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-table-cell"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnTableCell ref={ref} {...props}>
@@ -358,6 +372,8 @@ export const TableCaption = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-table-caption"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnTableCaption ref={ref} {...props}>

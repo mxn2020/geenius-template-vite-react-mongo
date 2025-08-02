@@ -40,6 +40,8 @@ export const InputOTP = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-input-otp"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnInputOTP ref={ref} {...props} />
@@ -80,6 +82,8 @@ export const InputOTPGroup = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-input-otp-group"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnInputOTPGroup ref={ref} {...props}>
@@ -118,6 +122,8 @@ export const InputOTPSlot = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-input-otp-slot"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnInputOTPSlot ref={ref} {...props} />
@@ -154,6 +160,8 @@ export const InputOTPSeparator = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-input-otp-separator"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnInputOTPSeparator ref={ref} {...props} />

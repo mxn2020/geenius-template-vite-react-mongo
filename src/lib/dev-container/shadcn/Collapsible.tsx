@@ -42,6 +42,8 @@ export const Collapsible = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-collapsible" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCollapsible ref={ref} {...props}>
@@ -84,6 +86,8 @@ export const CollapsibleTrigger = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-collapsible-trigger" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCollapsibleTrigger ref={ref} {...props}>
@@ -126,6 +130,8 @@ export const CollapsibleContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-collapsible-content" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCollapsibleContent ref={ref} {...props}>

@@ -45,6 +45,8 @@ export const Form = ({ devId, devName, devDescription, devSelectable = true, dev
     <Container
       componentId={devId}
       definitionId="dev-form"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnForm {...props}>
@@ -84,6 +86,8 @@ export const FormField = ({ devId, devName, devDescription, devSelectable = true
     <Container
       componentId={devId}
       definitionId="dev-form-field"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnFormField {...props}>
@@ -126,6 +130,8 @@ export const FormItem = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-form-item"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnFormItem ref={ref} {...props}>
@@ -168,6 +174,8 @@ export const FormLabel = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-form-label"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnFormLabel ref={ref} {...props}>
@@ -210,6 +218,8 @@ export const FormControl = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-form-control"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnFormControl ref={ref} {...props}>
@@ -252,6 +262,8 @@ export const FormDescription = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-form-description"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnFormDescription ref={ref} {...props}>
@@ -294,6 +306,8 @@ export const FormMessage = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-form-message"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnFormMessage ref={ref} {...props}>

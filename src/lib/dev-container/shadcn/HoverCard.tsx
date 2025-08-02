@@ -40,6 +40,8 @@ export const HoverCard = ({ devId, devName, devDescription, devSelectable = true
     <Container
       componentId={devId}
       definitionId="dev-hover-card"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnHoverCard {...props}>
@@ -82,6 +84,8 @@ export const HoverCardTrigger = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-hover-card-trigger"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnHoverCardTrigger ref={ref} {...props}>
@@ -124,6 +128,8 @@ export const HoverCardContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-hover-card-content"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnHoverCardContent ref={ref} {...props}>

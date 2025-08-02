@@ -5,8 +5,8 @@ import { Container } from '../components/Container';
 import { DevProps } from '../types';
 import { useDevMode } from '../hooks/useDevMode';
 
-import { 
-  Accordion as ShadcnAccordion, 
+import {
+  Accordion as ShadcnAccordion,
   AccordionItem as ShadcnAccordionItem,
   AccordionTrigger as ShadcnAccordionTrigger,
   AccordionContent as ShadcnAccordionContent
@@ -30,7 +30,7 @@ export const Accordion = React.forwardRef<
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
-  
+
   // If no devId provided or explicitly set to "noID", don't containerize
   if (!devId || devId === "noID" || !shouldContainerize) {
     return (
@@ -44,6 +44,8 @@ export const Accordion = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-accordion"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnAccordion ref={ref} {...props}>
@@ -61,7 +63,7 @@ export const AccordionItem = React.forwardRef<
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
-  
+
   // If no devId provided or explicitly set to "noID", don't containerize
   if (!devId || devId === "noID" || !shouldContainerize) {
     return (
@@ -75,6 +77,8 @@ export const AccordionItem = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-accordion-item"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnAccordionItem ref={ref} {...props}>
@@ -92,7 +96,7 @@ export const AccordionTrigger = React.forwardRef<
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
-  
+
   // If no devId provided or explicitly set to "noID", don't containerize
   if (!devId || devId === "noID" || !shouldContainerize) {
     return (
@@ -106,6 +110,8 @@ export const AccordionTrigger = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-accordion-trigger"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnAccordionTrigger ref={ref} {...props}>
@@ -123,7 +129,7 @@ export const AccordionContent = React.forwardRef<
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
-  
+
   // If no devId provided or explicitly set to "noID", don't containerize
   if (!devId || devId === "noID" || !shouldContainerize) {
     return (
@@ -137,6 +143,8 @@ export const AccordionContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-accordion-content"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnAccordionContent ref={ref} {...props}>

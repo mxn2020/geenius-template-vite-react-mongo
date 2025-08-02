@@ -55,6 +55,8 @@ export const Card = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-card" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCard ref={ref} {...props}>
@@ -93,6 +95,8 @@ export const CardHeader = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-card-header" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCardHeader ref={ref} {...props}>
@@ -131,6 +135,8 @@ export const CardFooter = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-card-footer" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCardFooter ref={ref} {...props}>
@@ -169,6 +175,8 @@ export const CardTitle = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-card-title" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCardTitle ref={ref} {...props}>
@@ -207,6 +215,8 @@ export const CardDescription = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-card-description" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCardDescription ref={ref} {...props}>
@@ -245,6 +255,8 @@ export const CardContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-card-content" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCardContent ref={ref} {...props}>

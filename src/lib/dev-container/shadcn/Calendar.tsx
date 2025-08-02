@@ -17,8 +17,15 @@ export const Calendar: React.FC<DevCalendarProps> = ({ devId, devName, devDescri
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
 
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return <ShadcnCalendar {...props} />;
   }
 
@@ -26,6 +33,8 @@ export const Calendar: React.FC<DevCalendarProps> = ({ devId, devName, devDescri
     <Container
       componentId={devId}
       definitionId="dev-calendar"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCalendar {...props} />
@@ -42,8 +51,15 @@ export const CalendarDayButton = React.forwardRef<
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
 
+  // If no devId provided, throw build error
+  if (!devId && shouldContainerize) {
+    if (import.meta.env.DEV) {
+      throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
+    }
+  }
+
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return <ShadcnCalendarDayButton {...props} />;
   }
 
@@ -51,6 +67,8 @@ export const CalendarDayButton = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-calendar-day-button"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCalendarDayButton {...props} />

@@ -47,6 +47,8 @@ export const Sheet = ({ devId, devName, devDescription, devSelectable = true, de
     <Container
       componentId={devId}
       definitionId="dev-sheet"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSheet {...props}>
@@ -86,6 +88,8 @@ export const SheetPortal = ({ devId, devName, devDescription, devSelectable = tr
     <Container
       componentId={devId}
       definitionId="dev-sheet-portal"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSheetPortal {...props}>
@@ -128,6 +132,8 @@ export const SheetOverlay = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-sheet-overlay"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSheetOverlay ref={ref} {...props}>
@@ -170,6 +176,8 @@ export const SheetTrigger = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-sheet-trigger"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSheetTrigger ref={ref} {...props}>
@@ -212,6 +220,8 @@ export const SheetClose = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-sheet-close"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSheetClose ref={ref} {...props}>
@@ -254,6 +264,8 @@ export const SheetContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-sheet-content"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSheetContent ref={ref} {...props}>
@@ -293,6 +305,8 @@ export const SheetHeader = ({ devId, devName, devDescription, devSelectable = tr
     <Container
       componentId={devId}
       definitionId="dev-sheet-header"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSheetHeader {...props}>
@@ -332,6 +346,8 @@ export const SheetFooter = ({ devId, devName, devDescription, devSelectable = tr
     <Container
       componentId={devId}
       definitionId="dev-sheet-footer"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSheetFooter {...props}>
@@ -374,6 +390,8 @@ export const SheetTitle = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-sheet-title"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSheetTitle ref={ref} {...props}>
@@ -416,6 +434,8 @@ export const SheetDescription = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-sheet-description"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnSheetDescription ref={ref} {...props}>

@@ -27,7 +27,7 @@ export const Progress = React.forwardRef<
   }
   
   // If no devId provided or explicitly set to "noID", don't containerize
-  if (!devId || devId === "noID" || !shouldContainerize) {
+  if (devId === "noID" || !shouldContainerize) {
     return <ShadcnProgress ref={ref} {...props} />;
   }
 
@@ -35,6 +35,8 @@ export const Progress = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-progress"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnProgress ref={ref} {...props} />

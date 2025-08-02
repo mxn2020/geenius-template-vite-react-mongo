@@ -52,6 +52,8 @@ export const ContextMenu = ({ devId, devName, devDescription, devSelectable = tr
     <Container
       componentId={devId}
       definitionId="dev-context-menu"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnContextMenu {...props}>
@@ -94,6 +96,8 @@ export const ContextMenuTrigger = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-context-menu-trigger"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnContextMenuTrigger ref={ref} {...props}>
@@ -136,6 +140,8 @@ export const ContextMenuContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-context-menu-content"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnContextMenuContent ref={ref} {...props}>
@@ -178,6 +184,8 @@ export const ContextMenuItem = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-context-menu-item"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnContextMenuItem ref={ref} {...props}>
@@ -220,6 +228,8 @@ export const ContextMenuCheckboxItem = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-context-menu-checkbox-item"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnContextMenuCheckboxItem ref={ref} {...props}>
@@ -262,6 +272,8 @@ export const ContextMenuRadioGroup = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-context-menu-radio-group"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnContextMenuRadioGroup ref={ref} {...props}>
@@ -304,6 +316,8 @@ export const ContextMenuRadioItem = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-context-menu-radio-item"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnContextMenuRadioItem ref={ref} {...props}>
@@ -346,6 +360,8 @@ export const ContextMenuLabel = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-context-menu-label"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnContextMenuLabel ref={ref} {...props}>
@@ -384,6 +400,8 @@ export const ContextMenuSeparator = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-context-menu-separator"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnContextMenuSeparator ref={ref} {...props} />
@@ -424,6 +442,8 @@ export const ContextMenuGroup = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-context-menu-group"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnContextMenuGroup ref={ref} {...props}>
@@ -463,6 +483,8 @@ export const ContextMenuPortal = ({ devId, devName, devDescription, devSelectabl
     <Container
       componentId={devId}
       definitionId="dev-context-menu-portal"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnContextMenuPortal {...props}>
@@ -502,6 +524,8 @@ export const ContextMenuSub = ({ devId, devName, devDescription, devSelectable =
     <Container
       componentId={devId}
       definitionId="dev-context-menu-sub"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnContextMenuSub {...props}>
@@ -544,6 +568,8 @@ export const ContextMenuSubTrigger = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-context-menu-sub-trigger"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnContextMenuSubTrigger ref={ref} {...props}>
@@ -586,6 +612,8 @@ export const ContextMenuSubContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-context-menu-sub-content"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnContextMenuSubContent ref={ref} {...props}>
@@ -625,6 +653,8 @@ export const ContextMenuShortcut = ({ devId, devName, devDescription, devSelecta
     <Container
       componentId={devId}
       definitionId="dev-context-menu-shortcut"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnContextMenuShortcut {...props}>

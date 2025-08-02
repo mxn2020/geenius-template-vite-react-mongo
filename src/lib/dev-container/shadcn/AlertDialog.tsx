@@ -26,14 +26,14 @@ type DevAlertDialogProps = ShadcnAlertDialogProps & DevProps & { children?: Reac
 export const AlertDialog = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevAlertDialogProps) => {
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
-  
+
   // If no devId provided, throw build error
   if (!devId && shouldContainerize) {
     if (import.meta.env.DEV) {
       throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
     }
   }
-  
+
   // If no devId provided or explicitly set to "noID", don't containerize
   if (devId === "noID" || !shouldContainerize) {
     return (
@@ -47,6 +47,8 @@ export const AlertDialog = ({ devId, devName, devDescription, devSelectable = tr
     <Container
       componentId={devId}
       definitionId="dev-alert-dialog" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnAlertDialog {...props}>
@@ -65,14 +67,14 @@ type DevAlertDialogPortalProps = ShadcnAlertDialogPortalProps & DevProps & { chi
 export const AlertDialogPortal = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevAlertDialogPortalProps) => {
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
-  
+
   // If no devId provided, throw build error
   if (!devId && shouldContainerize) {
     if (import.meta.env.DEV) {
       throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
     }
   }
-  
+
   // If no devId provided or explicitly set to "noID", don't containerize
   if (devId === "noID" || !shouldContainerize) {
     return (
@@ -86,6 +88,8 @@ export const AlertDialogPortal = ({ devId, devName, devDescription, devSelectabl
     <Container
       componentId={devId}
       definitionId="dev-alert-dialog-portal" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnAlertDialogPortal {...props}>
@@ -125,14 +129,14 @@ export const AlertDialogOverlay = React.forwardRef<
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
-  
+
   // If no devId provided, throw build error
   if (!devId && shouldContainerize) {
     if (import.meta.env.DEV) {
       throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
     }
   }
-  
+
   // If no devId provided or explicitly set to "noID", don't containerize
   if (devId === "noID" || !shouldContainerize) {
     return (
@@ -146,6 +150,8 @@ export const AlertDialogOverlay = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-alert-dialog-overlay" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnAlertDialogOverlay ref={ref} {...props}>
@@ -163,14 +169,14 @@ export const AlertDialogTrigger = React.forwardRef<
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
-  
+
   // If no devId provided, throw build error
   if (!devId && shouldContainerize) {
     if (import.meta.env.DEV) {
       throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
     }
   }
-  
+
   // If no devId provided or explicitly set to "noID", don't containerize
   if (devId === "noID" || !shouldContainerize) {
     return (
@@ -184,6 +190,8 @@ export const AlertDialogTrigger = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-alert-dialog-trigger" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnAlertDialogTrigger ref={ref} {...props}>
@@ -201,14 +209,14 @@ export const AlertDialogContent = React.forwardRef<
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
-  
+
   // If no devId provided, throw build error
   if (!devId && shouldContainerize) {
     if (import.meta.env.DEV) {
       throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
     }
   }
-  
+
   // If no devId provided or explicitly set to "noID", don't containerize
   if (devId === "noID" || !shouldContainerize) {
     return (
@@ -222,6 +230,8 @@ export const AlertDialogContent = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-alert-dialog-content" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnAlertDialogContent ref={ref} {...props}>
@@ -236,14 +246,14 @@ AlertDialogContent.displayName = 'DevAlertDialogContent';
 export const AlertDialogHeader = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevAlertDialogHeaderProps) => {
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
-  
+
   // If no devId provided, throw build error
   if (!devId && shouldContainerize) {
     if (import.meta.env.DEV) {
       throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
     }
   }
-  
+
   // If no devId provided or explicitly set to "noID", don't containerize
   if (devId === "noID" || !shouldContainerize) {
     return (
@@ -257,6 +267,8 @@ export const AlertDialogHeader = ({ devId, devName, devDescription, devSelectabl
     <Container
       componentId={devId}
       definitionId="dev-alert-dialog-header" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnAlertDialogHeader {...props}>
@@ -271,14 +283,14 @@ AlertDialogHeader.displayName = 'DevAlertDialogHeader';
 export const AlertDialogFooter = ({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }: DevAlertDialogFooterProps) => {
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
-  
+
   // If no devId provided, throw build error
   if (!devId && shouldContainerize) {
     if (import.meta.env.DEV) {
       throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
     }
   }
-  
+
   // If no devId provided or explicitly set to "noID", don't containerize
   if (devId === "noID" || !shouldContainerize) {
     return (
@@ -292,6 +304,8 @@ export const AlertDialogFooter = ({ devId, devName, devDescription, devSelectabl
     <Container
       componentId={devId}
       definitionId="dev-alert-dialog-footer" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnAlertDialogFooter {...props}>
@@ -309,14 +323,14 @@ export const AlertDialogTitle = React.forwardRef<
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
-  
+
   // If no devId provided, throw build error
   if (!devId && shouldContainerize) {
     if (import.meta.env.DEV) {
       throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
     }
   }
-  
+
   // If no devId provided or explicitly set to "noID", don't containerize
   if (devId === "noID" || !shouldContainerize) {
     return (
@@ -330,6 +344,8 @@ export const AlertDialogTitle = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-alert-dialog-title" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnAlertDialogTitle ref={ref} {...props}>
@@ -347,14 +363,14 @@ export const AlertDialogDescription = React.forwardRef<
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
-  
+
   // If no devId provided, throw build error
   if (!devId && shouldContainerize) {
     if (import.meta.env.DEV) {
       throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
     }
   }
-  
+
   // If no devId provided or explicitly set to "noID", don't containerize
   if (devId === "noID" || !shouldContainerize) {
     return (
@@ -368,6 +384,8 @@ export const AlertDialogDescription = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-alert-dialog-description" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnAlertDialogDescription ref={ref} {...props}>
@@ -385,14 +403,14 @@ export const AlertDialogAction = React.forwardRef<
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
-  
+
   // If no devId provided, throw build error
   if (!devId && shouldContainerize) {
     if (import.meta.env.DEV) {
       throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
     }
   }
-  
+
   // If no devId provided or explicitly set to "noID", don't containerize
   if (devId === "noID" || !shouldContainerize) {
     return (
@@ -406,6 +424,8 @@ export const AlertDialogAction = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-alert-dialog-action" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnAlertDialogAction ref={ref} {...props}>
@@ -423,14 +443,14 @@ export const AlertDialogCancel = React.forwardRef<
 >(({ devId, devName, devDescription, devSelectable = true, devDetailed, children, ...props }, ref) => {
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
-  
+
   // If no devId provided, throw build error
   if (!devId && shouldContainerize) {
     if (import.meta.env.DEV) {
       throw new Error('[Dev Container] devId is required for containerized components. Either provide a devId or set devId="noID" to disable containerization.');
     }
   }
-  
+
   // If no devId provided or explicitly set to "noID", don't containerize
   if (devId === "noID" || !shouldContainerize) {
     return (
@@ -444,6 +464,8 @@ export const AlertDialogCancel = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-alert-dialog-cancel" // Reference to ComponentDefinition
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnAlertDialogCancel ref={ref} {...props}>
@@ -456,16 +478,16 @@ export const AlertDialogCancel = React.forwardRef<
 AlertDialogCancel.displayName = 'DevAlertDialogCancel';
 
 // Export types
-export { 
-  type DevAlertDialogProps, 
-  type DevAlertDialogPortalProps, 
-  type DevAlertDialogOverlayProps, 
-  type DevAlertDialogTriggerProps, 
-  type DevAlertDialogContentProps, 
-  type DevAlertDialogHeaderProps, 
-  type DevAlertDialogFooterProps, 
-  type DevAlertDialogTitleProps, 
-  type DevAlertDialogDescriptionProps, 
-  type DevAlertDialogActionProps, 
-  type DevAlertDialogCancelProps 
+export {
+  type DevAlertDialogProps,
+  type DevAlertDialogPortalProps,
+  type DevAlertDialogOverlayProps,
+  type DevAlertDialogTriggerProps,
+  type DevAlertDialogContentProps,
+  type DevAlertDialogHeaderProps,
+  type DevAlertDialogFooterProps,
+  type DevAlertDialogTitleProps,
+  type DevAlertDialogDescriptionProps,
+  type DevAlertDialogActionProps,
+  type DevAlertDialogCancelProps
 };

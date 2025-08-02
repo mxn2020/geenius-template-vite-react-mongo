@@ -49,6 +49,8 @@ export const Command = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-command"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCommand ref={ref} {...props}>
@@ -88,6 +90,8 @@ export const CommandDialog = ({ devId, devName, devDescription, devSelectable = 
     <Container
       componentId={devId}
       definitionId="dev-command-dialog"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCommandDialog {...props}>
@@ -126,6 +130,8 @@ export const CommandInput = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-command-input"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCommandInput ref={ref} {...props} />
@@ -166,6 +172,8 @@ export const CommandList = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-command-list"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCommandList ref={ref} {...props}>
@@ -208,6 +216,8 @@ export const CommandEmpty = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-command-empty"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCommandEmpty ref={ref} {...props}>
@@ -250,6 +260,8 @@ export const CommandGroup = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-command-group"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCommandGroup ref={ref} {...props}>
@@ -288,6 +300,8 @@ export const CommandSeparator = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-command-separator"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCommandSeparator ref={ref} {...props} />
@@ -328,6 +342,8 @@ export const CommandItem = React.forwardRef<
     <Container
       componentId={devId}
       definitionId="dev-command-item"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCommandItem ref={ref} {...props}>
@@ -367,6 +383,8 @@ export const CommandShortcut = ({ devId, devName, devDescription, devSelectable 
     <Container
       componentId={devId}
       definitionId="dev-command-shortcut"
+      {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnCommandShortcut {...props}>

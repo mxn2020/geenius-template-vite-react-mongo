@@ -32,6 +32,8 @@ export const Toaster = ({ devId, devName, devDescription, devSelectable = true, 
     <Container
       componentId={devId}
       definitionId="dev-toaster"
+            {...(devName && { name: devName })}
+      {...(devDescription && { description: devDescription })}
       selectable={devSelectable}
     >
       <ShadcnToaster {...props} />
