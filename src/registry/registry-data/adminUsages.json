@@ -1,0 +1,122 @@
+[
+  {
+    "id": "users-page",
+    "definitionId": "dev-container",
+    "name": "Users Page",
+    "description": "Admin users management page container",
+    "filePath": "src/components/admin/UsersPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/UsersPage.tsx",
+    "category": "page",
+    "semanticTags": ["admin", "users", "management", "page"]
+  },
+  {
+    "id": "users-filters",
+    "definitionId": "dev-card",
+    "name": "Users Filters",
+    "description": "Search and filter controls for users list",
+    "filePath": "src/components/admin/UsersPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/UsersPage.tsx",
+    "category": "form",
+    "semanticTags": ["admin", "users", "search", "filter", "form"]
+  },
+  {
+    "id": "search-label",
+    "definitionId": "dev-label",
+    "name": "Search Label",
+    "description": "Label for user search input",
+    "filePath": "src/components/admin/UsersPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/UsersPage.tsx",
+    "category": "form",
+    "semanticTags": ["label", "search", "form"]
+  },
+  {
+    "id": "search-input",
+    "definitionId": "dev-input",
+    "name": "Search Input",
+    "description": "Input field for searching users by name or email",
+    "filePath": "src/components/admin/UsersPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/UsersPage.tsx",
+    "category": "form",
+    "semanticTags": ["input", "search", "users", "form"]
+  },
+  {
+    "id": "role-label",
+    "definitionId": "dev-label",
+    "name": "Role Filter Label",
+    "description": "Label for role filter dropdown",
+    "filePath": "src/components/admin/UsersPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/UsersPage.tsx",
+    "category": "form",
+    "semanticTags": ["label", "role", "filter", "form"]
+  },
+  {
+    "id": "search-button",
+    "definitionId": "dev-button",
+    "name": "Search Button",
+    "description": "Button to submit user search",
+    "filePath": "src/components/admin/UsersPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/UsersPage.tsx",
+    "category": "action",
+    "semanticTags": ["button", "search", "submit", "action"]
+  },
+  {
+    "id": "error-card",
+    "definitionId": "dev-card",
+    "name": "Error Card",
+    "description": "Card displaying error messages",
+    "filePath": "src/components/admin/UsersPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/UsersPage.tsx",
+    "category": "feedback",
+    "semanticTags": ["error", "alert", "feedback", "card"]
+  },
+  {
+    "id": "loading-card",
+    "definitionId": "dev-card",
+    "name": "Loading Card",
+    "description": "Card showing loading state with spinner",
+    "filePath": "src/components/admin/UsersPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/UsersPage.tsx",
+    "category": "feedback",
+    "semanticTags": ["loading", "spinner", "feedback", "card"]
+  },
+  {
+    "id": "users-table-card",
+    "definitionId": "dev-card",
+    "name": "Users Table Card",
+    "description": "Card containing the users data table",
+    "filePath": "src/components/admin/UsersPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/UsersPage.tsx",
+    "category": "data-display",
+    "semanticTags": ["users", "table", "data", "card"]
+  },
+  {
+    "id": "pagination-card",
+    "definitionId": "dev-card",
+    "name": "Pagination Card",
+    "description": "Card containing pagination controls",
+    "filePath": "src/components/admin/UsersPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/UsersPage.tsx",
+    "category": "navigation",
+    "semanticTags": ["pagination", "navigation", "controls", "card"]
+  },
+  {
+    "id": "prev-page-button",
+    "definitionId": "dev-button",
+    "name": "Previous Page Button",
+    "description": "Button to navigate to previous page",
+    "filePath": "src/components/admin/UsersPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/UsersPage.tsx",
+    "category": "navigation",
+    "semanticTags": ["button", "pagination", "previous", "navigation"]
+  },
+  {
+    "id": "next-page-button",
+    "definitionId": "dev-button",
+    "name": "Next Page Button",
+    "description": "Button to navigate to next page",
+    "filePath": "src/components/admin/UsersPage.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/UsersPage.tsx",
+    "category": "navigation",
+    "semanticTags": ["button", "pagination", "next", "navigation"]
+  }
+]

@@ -15,6 +15,8 @@ export const Container: React.FC<ContainerProps> = ({
   className,
   style,
   definitionId = 'dev-container',
+  name, // Optional name override
+  description, // Optional description override
   usage, // Usage context override
   selectable = true,
   devActions = [],
@@ -134,8 +136,8 @@ export const Container: React.FC<ContainerProps> = ({
     const usageFilePath = effectiveUsage.filePath || usageInfo.filePath || 'unknown';
 
     const componentContext: ComponentContext = {
-      name: effectiveUsage.name || componentDefinition?.name || 'Unknown Component',
-      description: effectiveUsage.description || componentDefinition?.description || 'No description available',
+      name: name || effectiveUsage.name || componentDefinition?.name || 'Unknown Component',
+      description: description || effectiveUsage.description || componentDefinition?.description || 'No description available',
       filePath: definitionFilePath, // Where component is defined
       repositoryPath: componentDefinition?.repositoryPath || generateRepositoryPath(definitionFilePath),
       usageFilePath: usageFilePath, // Where component is used
@@ -222,7 +224,7 @@ export const Container: React.FC<ContainerProps> = ({
   } as React.CSSProperties : {};
 
   // Get display name for labels
-  const displayName = effectiveUsage.name || componentDefinition?.name || componentId as string;
+  const displayName = name || effectiveUsage.name || componentDefinition?.name || componentId as string;
 
   return (
     <>

@@ -45,7 +45,6 @@ export const Login: React.FC = () => {
     });
 
     try {
-      const baseUrl = import.meta.env.VITE_APP_URL || window.location.origin;
       // Don't set a specific callback URL to allow our custom redirect logic
       console.log('🔧 Base URL source:', import.meta.env.VITE_APP_URL ? 'VITE_APP_URL' : 'window.location.origin');
 

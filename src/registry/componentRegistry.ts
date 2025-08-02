@@ -7,6 +7,7 @@ import landingUsagesData from './registry-data/landingUsages.json';
 import authUsagesData from './registry-data/authUsages.json';
 import statsAndFeaturesData from './registry-data/statsAndFeatures.json';
 import newData from './registry-data/newUsages.json';
+import adminUsagesData from './registry-data/adminUsages.json';
 import { isValidComponentId } from './generatedTypes';
 
 // ✅ Import the generated types (this restores TypeScript errors!)
@@ -18,13 +19,15 @@ const landingPageUsages: ComponentUsage[] = landingUsagesData as ComponentUsage[
 const authComponentUsages: ComponentUsage[] = authUsagesData as ComponentUsage[];
 const statsAndFeaturesUsages: ComponentUsage[] = statsAndFeaturesData as ComponentUsage[];
 const testUsages: ComponentUsage[] = newData as ComponentUsage[];
+const adminUsages: ComponentUsage[] = adminUsagesData as ComponentUsage[];
 
 // Merge all component definitions (remove 'as const' since we have generated types)
 const allComponentUsages = [
   ...landingPageUsages,
   ...statsAndFeaturesUsages,
   ...authComponentUsages,
-  ...testUsages
+  ...testUsages,
+  ...adminUsages
 ];
 
 // Development-time validation

@@ -9,10 +9,10 @@
 - [x] Create `lib/plugins/resend.ts` for Resend email service
 - [x] Create `lib/services/email.ts` for centralized email handling
 - [x] Create `lib/services/data.ts` for general CRUD operations
-- [ ] Update all imports to use new paths
+- [x] Update all imports to use new paths
 
 ### 1.2 Configure Resend Email Service
-- [ ] Install `resend` package
+- [x] Install `resend` package
 - [ ] Add `RESEND_API_KEY` to environment variables
 - [x] Implement Resend plugin with error handling
 - [x] Create email templates (verification, password reset, welcome)
@@ -45,8 +45,8 @@
 - [x] Add admin dashboard home page
 
 ### 3.2 User Management
-- [ ] Create users list page with pagination
-- [ ] Implement user search and filtering
+- [x] Create users list page with pagination
+- [x] Implement user search and filtering
 - [ ] Add user details view
 - [ ] Create user edit functionality
 - [ ] Implement user deletion with confirmation

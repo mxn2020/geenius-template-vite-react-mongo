@@ -90,8 +90,11 @@ export interface ContainerProps {
   children: ReactNode;
   className?: string;
   style?: CSSProperties;
- // NEW: Reference to component definition in library
+  // NEW: Reference to component definition in library
   definitionId?: ComponentLibraryId; // e.g., 'dev-h1', 'dev-button', etc.
+  // Optional overrides for component definition
+  name?: string; // Override the component name
+  description?: string; // Override the component description
   // Usage context override (for unregistered or ad-hoc components)
   usage?: Partial<ComponentUsage>;
   // Whether this container can be selected in dev mode
