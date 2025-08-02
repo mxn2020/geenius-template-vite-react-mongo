@@ -3,12 +3,15 @@ import { Handler } from "@netlify/functions";
 import { MongoClient } from "mongodb";
 
 export const handler: Handler = async (event, _context) => {
+  // Get origin for CORS
+  const origin = event.headers.origin || 'http://localhost:8889';
+  
   // Handle CORS preflight
   if (event.httpMethod === 'OPTIONS') {
     return {
       statusCode: 200,
       headers: {
-        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Origin': origin,
         'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
         'Access-Control-Allow-Headers': 'Content-Type, Authorization',
         'Access-Control-Allow-Credentials': 'true',
@@ -17,7 +20,8 @@ export const handler: Handler = async (event, _context) => {
     };
   }
 
-  const mongoUri = process.env.MONGODB_URI || process.env.DATABASE_URL || "mongodb://localhost:27017/vite-react-mongo";
+  const mongoUri = process.env.MONGODB_URI || process.env.DATABASE_URL || "mongodb://localhost:27017/geenius-template";
+  console.log('[user-role API] Connecting to:', mongoUri);
   const client = new MongoClient(mongoUri);
 
   try {
@@ -32,17 +36,23 @@ export const handler: Handler = async (event, _context) => {
       if (!userId) {
         return {
           statusCode: 400,
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': origin,
+            'Access-Control-Allow-Credentials': 'true',
+          },
           body: JSON.stringify({ error: 'User ID required' }),
         };
       }
 
       // Find user preferences
-      const userPref = await db.collection('UserPreference').findOne({ userId });
+      console.log('[user-role API] Looking for userId:', userId);
+      let userPref = await db.collection('UserPreference').findOne({ userId });
+      console.log('[user-role API] Found preference:', userPref);
       
       // Create default preferences if not found
       if (!userPref) {
-        await db.collection('UserPreference').insertOne({
+        const newPref = {
           userId,
           role: 'user',
           theme: 'light',
@@ -51,16 +61,19 @@ export const handler: Handler = async (event, _context) => {
           timezone: 'UTC',
           createdAt: new Date(),
           updatedAt: new Date(),
-        });
+        };
+        await db.collection('UserPreference').insertOne(newPref);
+        userPref = newPref;
       }
 
-      const role = userPref?.role || 'user';
+      const role = userPref.role || 'user';
 
       return {
         statusCode: 200,
         headers: { 
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Origin': origin,
+          'Access-Control-Allow-Credentials': 'true',
         },
         body: JSON.stringify({ role }),
       };
@@ -75,7 +88,11 @@ export const handler: Handler = async (event, _context) => {
       if (!userId || !role) {
         return {
           statusCode: 400,
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': origin,
+            'Access-Control-Allow-Credentials': 'true',
+          },
           body: JSON.stringify({ error: 'User ID and role required' }),
         };
       }
@@ -99,7 +116,8 @@ export const handler: Handler = async (event, _context) => {
         statusCode: 200,
         headers: { 
           'Content-Type': 'application/json',
-          'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Origin': origin,
+          'Access-Control-Allow-Credentials': 'true',
         },
         body: JSON.stringify({ success: true }),
       };
@@ -107,7 +125,11 @@ export const handler: Handler = async (event, _context) => {
 
     return {
       statusCode: 404,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': origin,
+        'Access-Control-Allow-Credentials': 'true',
+      },
       body: JSON.stringify({ error: 'Not found' }),
     };
 
@@ -115,7 +137,11 @@ export const handler: Handler = async (event, _context) => {
     console.error('User role API error:', error);
     return {
       statusCode: 500,
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': origin,
+        'Access-Control-Allow-Credentials': 'true',
+      },
       body: JSON.stringify({ error: error.message }),
     };
   } finally {

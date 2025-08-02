@@ -10,7 +10,7 @@ const ADMIN_PASSWORD = 'admin123456';
 const ADMIN_NAME = 'Admin User';
 
 async function createAdmin() {
-  const client = new MongoClient('mongodb://localhost:27017/vite-react-mongo');
+  const client = new MongoClient('mongodb://localhost:27017/geenius-template');
   
   try {
     await client.connect();

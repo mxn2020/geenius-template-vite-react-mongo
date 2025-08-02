@@ -6,7 +6,7 @@ import { MongoClient } from 'mongodb';
 import { verify } from '@node-rs/argon2';
 
 async function verifyAdmin() {
-  const client = new MongoClient('mongodb://localhost:27017/vite-react-mongo');
+  const client = new MongoClient('mongodb://localhost:27017/geenius-template');
   
   try {
     await client.connect();
