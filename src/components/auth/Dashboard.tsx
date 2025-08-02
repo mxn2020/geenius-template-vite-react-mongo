@@ -10,19 +10,23 @@ import { LogOut, User, Mail, Calendar, Shield, Home } from 'lucide-react';
 import { Container } from '../../lib/dev-container';
 
 export const Dashboard: React.FC = () => {
+  console.log('[Dashboard] Component rendering');
   const { data: session, isPending } = useSession();
+  console.log('[Dashboard] Session state:', { session, isPending });
   const navigate = useNavigate();
 
   const handleLogout = async () => {
+    console.log('[Dashboard] Logout initiated');
     try {
       await signOut();
       navigate('/');
     } catch (error) {
-      console.error('Logout failed:', error);
+      console.error('[Dashboard] Logout failed:', error);
     }
   };
 
   const getUserInitials = (name: string) => {
+    console.log('[Dashboard] Getting initials for:', name);
     return name
       .split(' ')
       .map(word => word[0])
@@ -32,6 +36,7 @@ export const Dashboard: React.FC = () => {
   };
 
   if (isPending) {
+    console.log('[Dashboard] Showing loading state');
     return (
       <Container componentId="dashboard-loading">
         <div className="min-h-screen flex items-center justify-center">
@@ -45,6 +50,7 @@ export const Dashboard: React.FC = () => {
   }
 
   if (!session) {
+    console.log('[Dashboard] No session found, showing unauthorized view');
     return (
       <Container componentId="dashboard-unauthorized">
         <div className="min-h-screen flex items-center justify-center">
@@ -68,6 +74,34 @@ export const Dashboard: React.FC = () => {
   }
 
   const user = session.user;
+  console.log('[Dashboard] User data:', user);
+  console.log('[Dashboard] Rendering dashboard for user:', user?.name || 'Unknown');
+
+  // Check for any missing user properties that might cause errors
+  if (!user) {
+    console.error('[Dashboard] User object is undefined in session');
+    return (
+      <Container componentId="dashboard-unauthorized">
+        <div className="min-h-screen flex items-center justify-center">
+          <Card className="w-full max-w-md">
+            <CardContent className="pt-6">
+              <div className="text-center">
+                <Shield className="h-12 w-12 text-red-600 mx-auto mb-4" />
+                <h2 className="text-xl font-semibold mb-2">Session Error</h2>
+                <p className="text-red-600 mb-4">Error: User data is missing from session</p>
+                <p className="text-sm text-muted-foreground mb-4">
+                  The authentication service returned invalid data. Please try logging in again.
+                </p>
+                <Button onClick={() => navigate('/login')} className="w-full">
+                  Go to Login
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </Container>
+    );
+  }
 
   return (
     <Container componentId="dashboard-page">
@@ -118,15 +152,15 @@ export const Dashboard: React.FC = () => {
                   <CardContent className="space-y-4">
                     <div className="flex items-center space-x-4">
                       <Avatar className="h-16 w-16">
-                        <AvatarImage src={user.image || undefined} alt={user.name || 'User'} />
+                        <AvatarImage src={user.image || undefined} alt={user.name || 'User'} onError={(e) => console.error('[Dashboard] Avatar image failed to load:', e)} />
                         <AvatarFallback className="text-lg">
                           {getUserInitials(user.name || 'U')}
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <h3 className="font-semibold text-lg">{user.name}</h3>
+                        <h3 className="font-semibold text-lg">{user.name || 'Unknown User'}</h3>
                         <p className="text-sm text-muted-foreground">
-                          {user.email}
+                          {user.email || 'No email'}
                         </p>
                       </div>
                     </div>
@@ -150,7 +184,7 @@ export const Dashboard: React.FC = () => {
                           <span className="text-sm">Member since</span>
                         </div>
                         <span className="text-sm text-muted-foreground">
-                          {new Date(user.createdAt).toLocaleDateString()}
+                          {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : 'Unknown'}
                         </span>
                       </div>
                     </div>
@@ -174,7 +208,7 @@ export const Dashboard: React.FC = () => {
                           <CardContent className="pt-6">
                             <div className="text-center">
                               <div className="text-2xl font-bold text-primary">
-                                {Math.floor((Date.now() - new Date(user.createdAt).getTime()) / (1000 * 60 * 60 * 24))}
+                                {user.createdAt ? Math.floor((Date.now() - new Date(user.createdAt).getTime()) / (1000 * 60 * 60 * 24)) : 0}
                               </div>
                               <p className="text-sm text-muted-foreground">Days as member</p>
                             </div>

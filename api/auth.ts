@@ -3,6 +3,21 @@ import { Handler } from "@netlify/functions";
 import { auth } from "../src/lib/auth";
 
 export const handler: Handler = async (event, _context) => {
+  // Handle CORS preflight requests
+  if (event.httpMethod === 'OPTIONS') {
+    const origin = event.headers.origin || 'http://localhost:8889';
+    return {
+      statusCode: 200,
+      headers: {
+        'Access-Control-Allow-Origin': origin,
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With, Cookie',
+        'Access-Control-Allow-Credentials': 'true',
+      },
+      body: '',
+    };
+  }
+
   try {
     console.log('🚀 Auth API called:', {
       method: event.httpMethod,
@@ -28,6 +43,15 @@ export const handler: Handler = async (event, _context) => {
       responseHeaders[key] = value;
     });
 
+    // Add CORS headers to all responses
+    const origin = event.headers.origin || 'http://localhost:8889';
+    const corsHeaders = {
+      'Access-Control-Allow-Origin': origin,
+      'Access-Control-Allow-Credentials': 'true',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With, Cookie',
+    };
+
     const responseBody = await response.text();
     
     if (response.status >= 400) {
@@ -39,7 +63,10 @@ export const handler: Handler = async (event, _context) => {
 
     return {
       statusCode: response.status,
-      headers: responseHeaders,
+      headers: {
+        ...responseHeaders,
+        ...corsHeaders,
+      },
       body: responseBody,
     };
     
@@ -50,10 +77,15 @@ export const handler: Handler = async (event, _context) => {
       name: error.name,
     });
     
+    const origin = event.headers.origin || 'http://localhost:8889';
     return {
       statusCode: 500,
       headers: {
         'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': origin,
+        'Access-Control-Allow-Credentials': 'true',
+        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+        'Access-Control-Allow-Headers': 'Content-Type, Authorization, X-Requested-With, Cookie',
       },
       body: JSON.stringify({
         error: 'Internal server error',

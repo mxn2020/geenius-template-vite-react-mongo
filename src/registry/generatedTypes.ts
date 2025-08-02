@@ -1,5 +1,5 @@
 // This file is auto-generated from JSON registry data
-// Generated on 2025-07-25T10:45:39.911Z
+// Generated on 2025-08-02T06:15:37.762Z
 // DO NOT EDIT MANUALLY - Run 'npm run generate-types' to regenerate
 
 export type ComponentRegistryId = 

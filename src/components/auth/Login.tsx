@@ -7,8 +7,8 @@ import { Input } from '../ui/input';
 import { Label } from '../ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Alert, AlertDescription } from '../ui/alert';
-import { Loader2, Github, Mail } from 'lucide-react';
-import { Container } from '../../lib/dev-container';
+import { Loader2, Github, Mail, Code } from 'lucide-react';
+import { Container, Div, Span } from '../../lib/dev-container';
 
 export const Login: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -157,7 +157,27 @@ export const Login: React.FC = () => {
 
   return (
     <Container componentId="login-page">
-      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <Link to="/" className="mb-8 group">
+          <Div 
+            devId="logo-section" 
+            devName="Logo Section" 
+            devDescription="Company logo and brand name"
+            className="flex items-center space-x-3 transition-transform group-hover:scale-105"
+          >
+            <Div devId="noID" className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center shadow-lg">
+              <Code className="w-6 h-6 text-white" />
+            </Div>
+            <Span 
+              devId="brand-name" 
+              devName="Brand Name" 
+              devDescription="Geenius Template brand name"
+              className="text-2xl font-bold text-gray-900"
+            >
+              Geenius Template
+            </Span>
+          </Div>
+        </Link>
         <Card className="w-full max-w-md">
           <CardHeader className="space-y-1">
             <Container componentId="login-header">
