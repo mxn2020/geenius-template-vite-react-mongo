@@ -103,10 +103,14 @@ export const ResizablePanel = React.forwardRef<
 ResizablePanel.displayName = 'DevResizablePanel';
 
 // ResizableHandle component
-export const ResizableHandle = React.forwardRef<
-  React.ElementRef<typeof ShadcnResizableHandle>,
-  DevResizableHandleProps
->(({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }) => {
+export const ResizableHandle: React.FC<DevResizableHandleProps> = ({ 
+  devId, 
+  devName, 
+  devDescription, 
+  devSelectable = true, 
+  devDetailed, 
+  ...props 
+}) => {
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
 
@@ -133,7 +137,7 @@ export const ResizableHandle = React.forwardRef<
       <ShadcnResizableHandle {...props} />
     </Container>
   );
-});
+};
 
 ResizableHandle.displayName = 'DevResizableHandle';
 

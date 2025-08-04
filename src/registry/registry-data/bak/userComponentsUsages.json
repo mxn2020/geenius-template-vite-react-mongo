@@ -1,0 +1,52 @@
+[
+  {
+    "id": "user-table-component",
+    "definitionId": "dev-container",
+    "name": "User Table Component",
+    "description": "Component for displaying user data in table format",
+    "filePath": "src/components/users/UserTable.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/users/UserTable.tsx",
+    "category": "data-display",
+    "semanticTags": ["users", "table", "component", "data"]
+  },
+  {
+    "id": "users-table-loading",
+    "definitionId": "dev-card",
+    "name": "Users Table Loading Card",
+    "description": "Loading state card for user table",
+    "filePath": "src/components/users/UserTable.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/users/UserTable.tsx",
+    "category": "feedback",
+    "semanticTags": ["loading", "card", "users", "table"]
+  },
+  {
+    "id": "users-table-empty",
+    "definitionId": "dev-card",
+    "name": "Users Table Empty Card",
+    "description": "Empty state card when no users found",
+    "filePath": "src/components/users/UserTable.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/users/UserTable.tsx",
+    "category": "feedback",
+    "semanticTags": ["empty", "card", "users", "table"]
+  },
+  {
+    "id": "users-table-card",
+    "definitionId": "dev-card",
+    "name": "Users Table Card",
+    "description": "Main card containing the users data table",
+    "filePath": "src/components/users/UserTable.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/users/UserTable.tsx",
+    "category": "data-display",
+    "semanticTags": ["users", "table", "card", "data"]
+  },
+  {
+    "id": "user-filters-component",
+    "definitionId": "dev-container",
+    "name": "User Filters Component",
+    "description": "Component for filtering and searching users",
+    "filePath": "src/components/users/UserFilters.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/users/UserFilters.tsx",
+    "category": "form",
+    "semanticTags": ["users", "filters", "search", "component"]
+  }
+]

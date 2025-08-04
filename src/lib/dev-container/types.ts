@@ -1,8 +1,10 @@
 // src/lib/dev-container/types.ts
 
-import { ComponentLibraryId } from '@/registry/componentLibrary';
 import { ComponentRegistryId } from '@/registry/componentRegistry';
 import React, { ReactNode, ComponentType, CSSProperties, RefObject } from 'react';
+
+// Import DOMRect type for boundingRect property
+type DOMRect = globalThis.DOMRect;
 
 // =====================================
 // CORE COMPONENT TYPES
@@ -75,7 +77,7 @@ export interface ComponentSystem {
 // DEV PROPS INTERFACE
 // =====================================
 export interface DevProps {
-  devId: ComponentRegistryId | 'noID'; // Unique identifier for the component in dev mode
+  devId: ComponentRegistryId; // Unique identifier for the component in dev mode
   devName?: string;
   devDescription?: string;
   devSelectable?: boolean;
@@ -91,7 +93,7 @@ export interface ContainerProps {
   className?: string;
   style?: CSSProperties;
   // NEW: Reference to component definition in library
-  definitionId?: ComponentLibraryId; // e.g., 'dev-h1', 'dev-button', etc.
+  definitionId?: ComponentRegistryId; // e.g., 'dev-h1', 'dev-button', etc.
   // Optional overrides for component definition
   name?: string; // Override the component name
   description?: string; // Override the component description

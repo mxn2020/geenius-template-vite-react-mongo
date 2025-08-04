@@ -1,10 +1,10 @@
-import React from 'react';
-import { Container, Card } from '../lib/dev-container';
-import { AlertCircle, Users } from 'lucide-react';
+import { Container } from '../lib/dev-container';
 import { useUsersPage } from '../hooks/useUsersPage';
-import { UserFilters } from '../components/users/UserFilters';
-import { UserTable } from '../components/users/UserTable';
-import { UserPagination } from '../components/users/UserPagination';
+import { UsersHeader } from '@/components/users/UsersHeader';
+import { UserFilters } from '@/components/users/UserFilters';
+import { UsersErrorState } from '@/components/users/UsersErrorState';
+import { UserTable } from '@/components/users/UserTable';
+import { UserPagination } from '@/components/users/UserPagination';
 
 export function UsersPage() {
   const {
@@ -24,36 +24,16 @@ export function UsersPage() {
 
   return (
     <Container componentId="users-page" className="space-y-6">
-      {/* Header */}
-      <div className="flex justify-between items-center">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Users</h1>
-          <p className="text-gray-600 mt-1">Manage user accounts and permissions</p>
-        </div>
-        <div className="flex items-center gap-2 text-sm text-gray-600">
-          <Users className="h-4 w-4" />
-          <span>{pagination.totalCount} total users</span>
-        </div>
-      </div>
+      <UsersHeader totalCount={pagination.totalCount} />
 
-      {/* Filters */}
       <UserFilters
         filters={filters}
         onFiltersChange={updateFilters}
         onSearch={() => updateFilters({})} // Triggers refetch
       />
 
-      {/* Error State */}
-      {error && (
-        <Card componentId="error-card" className="bg-red-50 border-red-200 p-4">
-          <div className="flex items-center gap-2 text-red-700">
-            <AlertCircle className="h-5 w-5" />
-            <p>{error.message}</p>
-          </div>
-        </Card>
-      )}
+      {error && <UsersErrorState error={error} />}
 
-      {/* Users Table */}
       {!error && (
         <>
           <UserTable 
@@ -62,7 +42,6 @@ export function UsersPage() {
             isLoading={isLoading}
           />
 
-          {/* Pagination */}
           <UserPagination
             currentPage={pagination.page}
             totalPages={pagination.totalPages}

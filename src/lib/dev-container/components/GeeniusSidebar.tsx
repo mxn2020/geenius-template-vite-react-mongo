@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { ChangeRequest, ChangeCategory, ChangePriority, ChangeStatus, SubmissionPayload } from '../types';
 import { useDevMode } from './DevModeProvider';
-import { ChangeSubmissionDialog } from '../../../components/ChangeSubmissionDialog';
+import { ChangeSubmissionDialog } from '../ui/ChangeSubmissionDialog';
 import { Button } from '../../../components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../../../components/ui/card';
 import { Badge } from '../../../components/ui/badge';

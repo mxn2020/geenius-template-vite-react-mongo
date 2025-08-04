@@ -1,5 +1,4 @@
-import React from 'react';
-import { Card } from '../../../lib/dev-container';
+import { Card } from '@/lib/dev-container';
 import { Activity, Clock, MapPin, Monitor } from 'lucide-react';
 
 interface ActivityItem {
@@ -49,7 +48,7 @@ export function UserActivity({ activities }: UserActivityProps) {
   };
 
   return (
-    <Card componentId="user-activity-card" className="p-6">
+    <Card devId="user-activity-card" className="p-6">
       <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
         <Activity className="h-5 w-5" />
         Recent Activity

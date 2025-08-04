@@ -67,8 +67,8 @@ export function useUserDetails(userId: string) {
     terminateSession: terminateSessionMutation.mutate,
     
     // Loading states
-    isUpdating: updateUserMutation.isLoading,
-    isDeleting: deleteUserMutation.isLoading,
-    isTerminatingSession: terminateSessionMutation.isLoading,
+    isUpdating: updateUserMutation.isPending,
+    isDeleting: deleteUserMutation.isPending,
+    isTerminatingSession: terminateSessionMutation.isPending,
   };
 }

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { useUser, useUserDetails, useUpdateUser, useDeleteUser } from '../../hooks/useUserQueries';
-import { Container, Button, Card, Badge, Alert, Tabs, TabsContent, TabsList, TabsTrigger } from '../../lib/dev-container';
+import { Container, Button, Card, Badge, Alert, Tabs, TabsContent, TabsList, TabsTrigger } from '@/lib/dev-container';
 import { ArrowLeft, Mail, Shield, Trash2, AlertCircle } from 'lucide-react';
 
 export function UserDetailsPage() {

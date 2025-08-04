@@ -1,0 +1,72 @@
+[
+  {
+    "id": "admin-component-stat-card-0",
+    "definitionId": "dev-card",
+    "name": "Admin Component Total Users Stat Card",
+    "description": "Card displaying total users statistics in admin component",
+    "filePath": "src/components/admin/AdminDashboard.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminDashboard.tsx",
+    "category": "data-display",
+    "semanticTags": ["admin", "component", "stats", "users", "card"]
+  },
+  {
+    "id": "admin-component-stat-card-1",
+    "definitionId": "dev-card",
+    "name": "Admin Component Active Today Stat Card",
+    "description": "Card displaying active users today in admin component",
+    "filePath": "src/components/admin/AdminDashboard.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminDashboard.tsx",
+    "category": "data-display",
+    "semanticTags": ["admin", "component", "stats", "active", "card"]
+  },
+  {
+    "id": "admin-component-stat-card-2",
+    "definitionId": "dev-card",
+    "name": "Admin Component Total Posts Stat Card",
+    "description": "Card displaying total posts statistics in admin component",
+    "filePath": "src/components/admin/AdminDashboard.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminDashboard.tsx",
+    "category": "data-display",
+    "semanticTags": ["admin", "component", "stats", "posts", "card"]
+  },
+  {
+    "id": "admin-component-stat-card-3",
+    "definitionId": "dev-card",
+    "name": "Admin Component Comments Stat Card",
+    "description": "Card displaying comments statistics in admin component",
+    "filePath": "src/components/admin/AdminDashboard.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminDashboard.tsx",
+    "category": "data-display",
+    "semanticTags": ["admin", "component", "stats", "comments", "card"]
+  },
+  {
+    "id": "admin-component-quick-actions-card",
+    "definitionId": "dev-card",
+    "name": "Admin Component Quick Actions Card",
+    "description": "Card containing quick action buttons in admin component",
+    "filePath": "src/components/admin/AdminDashboard.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminDashboard.tsx",
+    "category": "navigation",
+    "semanticTags": ["admin", "component", "actions", "navigation", "card"]
+  },
+  {
+    "id": "admin-component-recent-activity-card",
+    "definitionId": "dev-card",
+    "name": "Admin Component Recent Activity Card",
+    "description": "Card displaying recent system activity in admin component",
+    "filePath": "src/components/admin/AdminDashboard.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminDashboard.tsx",
+    "category": "data-display",
+    "semanticTags": ["admin", "component", "activity", "recent", "card"]
+  },
+  {
+    "id": "admin-component-system-health-card",
+    "definitionId": "dev-card",
+    "name": "Admin Component System Health Card",
+    "description": "Card displaying system health metrics in admin component",
+    "filePath": "src/components/admin/AdminDashboard.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/admin/AdminDashboard.tsx",
+    "category": "data-display",
+    "semanticTags": ["admin", "component", "system", "health", "card"]
+  }
+]

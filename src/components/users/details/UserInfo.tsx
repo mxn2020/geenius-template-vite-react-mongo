@@ -1,7 +1,6 @@
-import React from 'react';
-import { Card, Badge, Button } from '../../../lib/dev-container';
-import { User, Mail, Calendar, Shield, Clock } from 'lucide-react';
-import type { UserDetails } from '../../../lib/api/users';
+import { Card, Badge, Button } from '@/lib/dev-container';
+import { Mail, Calendar, Shield, Clock } from 'lucide-react';
+import type { UserDetails } from '@/lib/api/users';
 
 interface UserInfoProps {
   user: UserDetails;
@@ -21,7 +20,7 @@ export function UserInfo({ user, onRoleChange, canChangeRole }: UserInfoProps) {
   };
 
   return (
-    <Card componentId="user-info-card" className="p-6">
+    <Card devId="user-info-card" className="p-6">
       <div className="flex items-start justify-between mb-6">
         <div className="flex items-center gap-4">
           <div className="h-16 w-16 rounded-full bg-gray-200 flex items-center justify-center">
@@ -35,7 +34,7 @@ export function UserInfo({ user, onRoleChange, canChangeRole }: UserInfoProps) {
           </div>
         </div>
         <Badge 
-          componentId="user-role-badge" 
+          devId="user-role-badge" 
           variant={user.role === 'admin' ? 'destructive' : 'secondary'}
         >
           {user.role}
@@ -84,7 +83,7 @@ export function UserInfo({ user, onRoleChange, canChangeRole }: UserInfoProps) {
               <p className="text-sm text-gray-600">Update this user's permissions</p>
             </div>
             <Button
-              componentId="change-role-button"
+              devId="change-role-button"
               variant={user.role === 'admin' ? 'outline' : 'default'}
               size="sm"
               onClick={() => onRoleChange(user.role === 'admin' ? 'user' : 'admin')}

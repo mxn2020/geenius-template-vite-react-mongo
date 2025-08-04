@@ -1,5 +1,4 @@
-import React from 'react';
-import { Card, Button, Badge } from '../../../lib/dev-container';
+import { Card, Button, Badge } from '@/lib/dev-container';
 import { Monitor, Smartphone, Globe, Clock } from 'lucide-react';
 
 interface Session {
@@ -41,7 +40,7 @@ export function UserSessions({ sessions, currentSessionId, onTerminateSession }:
   };
 
   return (
-    <Card componentId="user-sessions-card" className="p-6">
+    <Card devId="user-sessions-card" className="p-6">
       <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
         <Globe className="h-5 w-5" />
         Active Sessions
@@ -66,12 +65,12 @@ export function UserSessions({ sessions, currentSessionId, onTerminateSession }:
                       {getBrowserName(session.userAgent)}
                     </p>
                     {session.id === currentSessionId && (
-                      <Badge componentId="current-session-badge" variant="outline" className="text-xs">
+                      <Badge devId="current-session-badge" variant="outline" className="text-xs">
                         Current
                       </Badge>
                     )}
                     {session.active && (
-                      <Badge componentId="active-session-badge" variant="default" className="text-xs">
+                      <Badge devId="active-session-badge" variant="default" className="text-xs">
                         Active
                       </Badge>
                     )}
@@ -88,7 +87,7 @@ export function UserSessions({ sessions, currentSessionId, onTerminateSession }:
               </div>
               {onTerminateSession && session.id !== currentSessionId && (
                 <Button
-                  componentId="terminate-session-button"
+                  devId="terminate-session-button"
                   variant="outline"
                   size="sm"
                   onClick={() => onTerminateSession(session.id)}

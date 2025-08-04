@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { MongoClient } from 'mongodb';
 import { PrismaClient } from '@prisma/client';
-import { auth } from '../../lib/auth';
+import { auth } from '@/lib/auth';
 
 // Mock environment variables
 process.env.DATABASE_URL = 'mongodb://localhost:27017/test';

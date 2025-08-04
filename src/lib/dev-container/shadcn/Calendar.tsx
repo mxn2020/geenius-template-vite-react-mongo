@@ -44,10 +44,14 @@ export const Calendar: React.FC<DevCalendarProps> = ({ devId, devName, devDescri
 
 Calendar.displayName = 'DevCalendar';
 
-export const CalendarDayButton = React.forwardRef<
-  HTMLButtonElement,
-  DevCalendarDayButtonProps
->(({ devId, devName, devDescription, devSelectable = true, devDetailed, ...props }) => {
+export const CalendarDayButton: React.FC<DevCalendarDayButtonProps> = ({ 
+  devId, 
+  devName, 
+  devDescription, 
+  devSelectable = true, 
+  devDetailed, 
+  ...props 
+}) => {
   const { config } = useDevMode();
   const shouldContainerize = devDetailed === true || (devDetailed !== false && config.detailedContainerization);
 
@@ -74,6 +78,6 @@ export const CalendarDayButton = React.forwardRef<
       <ShadcnCalendarDayButton {...props} />
     </Container>
   );
-});
+};
 
 CalendarDayButton.displayName = 'DevCalendarDayButton';

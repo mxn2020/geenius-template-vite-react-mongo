@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
-import { Card, Badge } from '../../lib/dev-container';
+import { Card, Badge, Container } from '@/lib/dev-container';
 import { UserCheck, UserX } from 'lucide-react';
-import type { User } from '../../lib/api/users';
+import type { User } from '@/lib/api/users';
 
 interface UserTableProps {
   users: User[];
@@ -26,27 +26,32 @@ export function UserTable({ users, onUserHover, isLoading }: UserTableProps) {
 
   if (isLoading) {
     return (
-      <Card devId="users-table-loading" className="p-8">
+      <Container componentId="user-table-component">
+        <Card devId="users-table-loading" className="p-8">
         <div className="flex flex-col items-center justify-center space-y-4">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
           <p className="text-gray-600">Loading users...</p>
         </div>
-      </Card>
+        </Card>
+      </Container>
     );
   }
 
   if (users.length === 0) {
     return (
-      <Card devId="users-table-empty" className="p-8">
+      <Container componentId="user-table-component">
+        <Card devId="users-table-empty" className="p-8">
         <div className="text-center text-gray-500">
           No users found matching your criteria.
         </div>
-      </Card>
+        </Card>
+      </Container>
     );
   }
 
   return (
-    <Card devId="users-table-card" className="overflow-hidden">
+    <Container componentId="user-table-component">
+      <Card devId="users-table-card" className="overflow-hidden">
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead className="bg-gray-50 border-b border-gray-200">
@@ -130,6 +135,7 @@ export function UserTable({ users, onUserHover, isLoading }: UserTableProps) {
           </tbody>
         </table>
       </div>
-    </Card>
+      </Card>
+    </Container>
   );
 }

@@ -2,13 +2,22 @@
 
 import { ComponentUsage, ComponentRegistry, ComponentCategory } from '../lib/dev-container/types';
 
-// Import JSON data files
-import landingUsagesData from './registry-data/landingUsages.json';
-import authUsagesData from './registry-data/authUsages.json';
-import statsAndFeaturesData from './registry-data/statsAndFeatures.json';
-import newData from './registry-data/newUsages.json';
-import adminUsagesData from './registry-data/adminUsages.json';
-import adminAuditLogsUsagesData from './registry-data/adminAuditLogsUsages.json';
+// Import JSON data files - Page-specific registry files
+import landingPageUsagesData from './registry-data/landingPageUsages.json';
+import loginPageUsagesData from './registry-data/loginPageUsages.json';
+import registerPageUsagesData from './registry-data/registerPageUsages.json';
+import dashboardPageUsagesData from './registry-data/dashboardPageUsages.json';
+import forgotPasswordPageUsagesData from './registry-data/forgotPasswordPageUsages.json';
+import resetPasswordPageUsagesData from './registry-data/resetPasswordPageUsages.json';
+import auditLogsPageUsagesData from './registry-data/auditLogsPageUsages.json';
+import sessionsPageUsagesData from './registry-data/sessionsPageUsages.json';
+import settingsPageUsagesData from './registry-data/settingsPageUsages.json';
+import adminDashboardPageUsagesData from './registry-data/adminDashboardPageUsages.json';
+import adminAuditLogsPageUsagesData from './registry-data/adminAuditLogsPageUsages.json';
+import usersPageUsagesData from './registry-data/usersPageUsages.json';
+import userDetailsPageUsagesData from './registry-data/userDetailsPageUsages.json';
+import appUsagesData from './registry-data/appUsages.json';
+import logoUsagesData from './registry-data/logoUsages.json';
 import { isValidComponentId } from './generatedTypes';
 
 // ✅ Import the generated types (this restores TypeScript errors!)
@@ -16,21 +25,39 @@ export type { ComponentRegistryId } from './generatedTypes';
 export { isValidComponentId, validateComponentId, VALID_COMPONENT_IDS } from './generatedTypes';
 
 // Cast JSON data to ComponentUsage arrays with proper typing
-const landingPageUsages: ComponentUsage[] = landingUsagesData as ComponentUsage[];
-const authComponentUsages: ComponentUsage[] = authUsagesData as ComponentUsage[];
-const statsAndFeaturesUsages: ComponentUsage[] = statsAndFeaturesData as ComponentUsage[];
-const testUsages: ComponentUsage[] = newData as ComponentUsage[];
-const adminUsages: ComponentUsage[] = adminUsagesData as ComponentUsage[];
-const adminAuditLogsUsages: ComponentUsage[] = adminAuditLogsUsagesData as ComponentUsage[];
+const landingPageUsages: ComponentUsage[] = landingPageUsagesData as ComponentUsage[];
+const loginPageUsages: ComponentUsage[] = loginPageUsagesData as ComponentUsage[];
+const registerPageUsages: ComponentUsage[] = registerPageUsagesData as ComponentUsage[];
+const dashboardPageUsages: ComponentUsage[] = dashboardPageUsagesData as ComponentUsage[];
+const forgotPasswordPageUsages: ComponentUsage[] = forgotPasswordPageUsagesData as ComponentUsage[];
+const resetPasswordPageUsages: ComponentUsage[] = resetPasswordPageUsagesData as ComponentUsage[];
+const auditLogsPageUsages: ComponentUsage[] = auditLogsPageUsagesData as ComponentUsage[];
+const sessionsPageUsages: ComponentUsage[] = sessionsPageUsagesData as ComponentUsage[];
+const settingsPageUsages: ComponentUsage[] = settingsPageUsagesData as ComponentUsage[];
+const adminDashboardPageUsages: ComponentUsage[] = adminDashboardPageUsagesData as ComponentUsage[];
+const adminAuditLogsPageUsages: ComponentUsage[] = adminAuditLogsPageUsagesData as ComponentUsage[];
+const usersPageUsages: ComponentUsage[] = usersPageUsagesData as ComponentUsage[];
+const userDetailsPageUsages: ComponentUsage[] = userDetailsPageUsagesData as ComponentUsage[];
+const appUsages: ComponentUsage[] = appUsagesData as ComponentUsage[];
+const logoUsages: ComponentUsage[] = logoUsagesData as ComponentUsage[];
 
 // Merge all component definitions (remove 'as const' since we have generated types)
 const allComponentUsages = [
+  ...appUsages,
+  ...logoUsages,
   ...landingPageUsages,
-  ...statsAndFeaturesUsages,
-  ...authComponentUsages,
-  ...testUsages,
-  ...adminUsages,
-  ...adminAuditLogsUsages
+  ...loginPageUsages,
+  ...registerPageUsages,
+  ...dashboardPageUsages,
+  ...forgotPasswordPageUsages,
+  ...resetPasswordPageUsages,
+  ...auditLogsPageUsages,
+  ...sessionsPageUsages,
+  ...settingsPageUsages,
+  ...adminDashboardPageUsages,
+  ...adminAuditLogsPageUsages,
+  ...usersPageUsages,
+  ...userDetailsPageUsages
 ];
 
 // Development-time validation
@@ -55,7 +82,7 @@ export const componentRegistry: ComponentRegistry = componentUsageArray.reduce((
 }, {} as ComponentRegistry);
 
 // Export for convenience
-export { landingPageUsages, authComponentUsages, statsAndFeaturesUsages };
+export { landingPageUsages, loginPageUsages, registerPageUsages, dashboardPageUsages };
 
 // Helper functions remain the same
 export const getComponentUsage = (id: string): ComponentUsage | undefined => {

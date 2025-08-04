@@ -1,6 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { getUsers, updateUser, deleteUser, getUserById } from '../lib/api/users';
+import { getUsers, updateUser, deleteUser, getUserById, type UsersResponse } from '../lib/api/users';
 import { userKeys } from './useUserQueries';
 
 export interface UsersFilters {
@@ -28,7 +28,7 @@ export function useUsersPage() {
   } = useQuery({
     queryKey: ['users', filters],
     queryFn: () => getUsers(filters),
-    keepPreviousData: true, // Smooth pagination
+    placeholderData: (previousData) => previousData, // Smooth pagination
     staleTime: 30 * 1000, // Consider data fresh for 30 seconds
   });
 
@@ -44,11 +44,11 @@ export function useUsersPage() {
       const previousUsers = queryClient.getQueryData(['users', filters]);
 
       // Optimistically update the cache
-      queryClient.setQueryData(['users', filters], (old: any) => {
+      queryClient.setQueryData(['users', filters], (old: UsersResponse | undefined) => {
         if (!old) return old;
         return {
           ...old,
-          users: old.users.map((user: any) =>
+          users: old.users.map((user) =>
             user.id === userId ? { ...user, ...updates } : user
           ),
         };
@@ -77,11 +77,11 @@ export function useUsersPage() {
       const previousUsers = queryClient.getQueryData(['users', filters]);
 
       // Optimistically remove from cache
-      queryClient.setQueryData(['users', filters], (old: any) => {
+      queryClient.setQueryData(['users', filters], (old: UsersResponse | undefined) => {
         if (!old) return old;
         return {
           ...old,
-          users: old.users.filter((user: any) => user.id !== userId),
+          users: old.users.filter((user) => user.id !== userId),
           pagination: {
             ...old.pagination,
             totalCount: old.pagination.totalCount - 1,
@@ -129,10 +129,11 @@ export function useUsersPage() {
   }, [updateFilters]);
 
   const nextPage = useCallback(() => {
-    if (data && filters.page < data.pagination.totalPages) {
+    const totalPages = data?.pagination?.totalPages || 0;
+    if (filters.page < totalPages) {
       goToPage(filters.page + 1);
     }
-  }, [data, filters.page, goToPage]);
+  }, [data?.pagination?.totalPages, filters.page, goToPage]);
 
   const previousPage = useCallback(() => {
     if (filters.page > 1) {
@@ -163,14 +164,14 @@ export function useUsersPage() {
     goToPage,
     nextPage,
     previousPage,
-    canGoNext: data ? filters.page < data.pagination.totalPages : false,
+    canGoNext: data ? filters.page < (data.pagination?.totalPages || 0) : false,
     canGoPrevious: filters.page > 1,
     
     // Mutations
     updateUser: updateUserMutation.mutate,
     deleteUser: deleteUserMutation.mutate,
-    isUpdating: updateUserMutation.isLoading,
-    isDeleting: deleteUserMutation.isLoading,
+    isUpdating: updateUserMutation.isPending,
+    isDeleting: deleteUserMutation.isPending,
     
     // Prefetching
     handleUserHover,

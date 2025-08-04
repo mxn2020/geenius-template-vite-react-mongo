@@ -3,6 +3,7 @@ import typescript from '@typescript-eslint/eslint-plugin';
 import parser from '@typescript-eslint/parser';
 import reactHooks from 'eslint-plugin-react-hooks';
 import reactRefresh from 'eslint-plugin-react-refresh';
+import globals from 'globals';
 
 export default [
   js.configs.recommended,
@@ -18,48 +19,8 @@ export default [
         },
       },
       globals: {
-        // Browser globals
-        window: 'readonly',
-        document: 'readonly',
-        navigator: 'readonly',
-        console: 'readonly',
-        localStorage: 'readonly',
-        sessionStorage: 'readonly',
-        setTimeout: 'readonly',
-        clearTimeout: 'readonly',
-        setInterval: 'readonly',
-        clearInterval: 'readonly',
-        fetch: 'readonly',
-        HTMLElement: 'readonly',
-        HTMLDivElement: 'readonly',
-        HTMLImageElement: 'readonly',
-        HTMLVideoElement: 'readonly',
-        HTMLAudioElement: 'readonly',
-        HTMLUListElement: 'readonly',
-        HTMLOListElement: 'readonly',
-        HTMLParagraphElement: 'readonly',
-        HTMLSpanElement: 'readonly',
-        HTMLHeadingElement: 'readonly',
-        HTMLLIElement: 'readonly',
-        HTMLAnchorElement: 'readonly',
-        HTMLPreElement: 'readonly',
-        HTMLQuoteElement: 'readonly',
-        Element: 'readonly',
-        MouseEvent: 'readonly',
-        Node: 'readonly',
-        URLSearchParams: 'readonly',
-        URL: 'readonly',
-        Blob: 'readonly',
-        Request: 'readonly',
-        Response: 'readonly',
-        Headers: 'readonly',
-        FormData: 'readonly',
-        // Node.js globals
-        process: 'readonly',
-        global: 'readonly',
-        Buffer: 'readonly',
-        __dirname: 'readonly',
-        __filename: 'readonly',
+        ...globals.browser,
+        ...globals.node,
       },
     },
     plugins: {

@@ -20,6 +20,10 @@ export type ComponentRegistryId =
   | 'feature-card-1'
   | 'feature-card-2'
   | 'feature-card-3'
+  | 'feature-card-content-0'
+  | 'feature-card-content-1'
+  | 'feature-card-content-2'
+  | 'feature-card-content-3'
   | 'features-section'
   | 'hero-content'
   | 'hero-content-wrapper'
@@ -78,10 +82,10 @@ export type ComponentRegistryId =
   | 'user-profile-card'
   | 'user-section'
   | 'welcome-message'
-  | 'noID'; // Allow noID for temporary/untracked components
 
 // Runtime validation array
 export const VALID_COMPONENT_IDS = [
+  '__geenius-system__',
   'app-root',
   'auth-buttons',
   'brand-name',
@@ -99,6 +103,10 @@ export const VALID_COMPONENT_IDS = [
   'feature-card-1',
   'feature-card-2',
   'feature-card-3',
+  'feature-card-content-0',
+  'feature-card-content-1',
+  'feature-card-content-2',
+  'feature-card-content-3',
   'features-section',
   'hero-content',
   'hero-content-wrapper',
@@ -157,7 +165,6 @@ export const VALID_COMPONENT_IDS = [
   'user-profile-card',
   'user-section',
   'welcome-message',
-  'noID'
 ] as const;
 
 // Type guard for runtime validation
@@ -169,7 +176,7 @@ export function isValidComponentId(id: string): id is ComponentRegistryId {
 export function validateComponentId(id: string): asserts id is ComponentRegistryId {
   if (!isValidComponentId(id)) {
     const suggestions = VALID_COMPONENT_IDS
-      .filter(validId => validId !== 'noID')
+      .filter(validId => validId !== '__geenius-system__')
       .filter(validId => validId.includes(id) || id.includes(validId))
       .slice(0, 5);
     

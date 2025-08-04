@@ -1,8 +1,7 @@
 import React from 'react';
 import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import { useAuth } from '../auth/AuthProvider';
-import { Button } from '../ui/button';
-import { Container, Nav, Span } from '../../lib/dev-container';
+import { Container, Nav, Span, Button } from '@/lib/dev-container';
 import {
   LayoutDashboard,
   Users,
@@ -13,8 +12,8 @@ import {
   Shield,
   Activity,
 } from 'lucide-react';
-import { cn } from '../../lib/utils';
-import { signOut } from '../../lib/auth-client';
+import { cn } from '@/lib/utils';
+import { signOut } from '@/lib/auth-client';
 
 interface NavItem {
   title: string;
@@ -119,6 +118,7 @@ export const AdminLayout: React.FC = () => {
               </div>
               <div className="space-y-2">
                 <Button
+                  devId="admin-back-to-dashboard-button"
                   variant="ghost"
                   className="w-full justify-start"
                   onClick={() => navigate('/dashboard')}
@@ -127,6 +127,7 @@ export const AdminLayout: React.FC = () => {
                   Back to Dashboard
                 </Button>
                 <Button
+                  devId="admin-logout-button"
                   variant="ghost"
                   className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
                   onClick={handleLogout}
@@ -145,7 +146,7 @@ export const AdminLayout: React.FC = () => {
           <div className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-white px-6">
             <div className="flex items-center gap-2 text-sm text-gray-600">
               <Activity className="h-4 w-4" />
-              <Span devId="noID">System Status: </Span>
+              <Span devId="admin-system-status-label">System Status: </Span>
               <span className="font-medium text-green-600">Online</span>
             </div>
           </div>

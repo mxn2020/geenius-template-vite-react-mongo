@@ -1,3 +1,5 @@
+// src/lib/dev-container/index.ts
+
 // Main export file for the dev-container package
 export * from './types';
 export * from './components/Container';
@@ -41,7 +43,7 @@ export * from './shadcn/Label';
 export * from './shadcn/Menubar';
 export * from './shadcn/NavigationMenu';
 export * from './shadcn/Pagination';
-// export * from './shadcn/Popover';
+export * from './shadcn/Popover';
 export * from './shadcn/Progress';
 export * from './shadcn/RadioGroup';
 export * from './shadcn/Resizable';
@@ -49,7 +51,7 @@ export * from './shadcn/ScrollArea';
 export * from './shadcn/Select';
 export * from './shadcn/Separator';
 export * from './shadcn/Sheet';
-// export * from './shadcn/Sidebar';
+export * from './shadcn/Sidebar';
 export * from './shadcn/Skeleton';
 export * from './shadcn/Slider';
 export * from './shadcn/Sonner';
@@ -62,15 +64,15 @@ export * from './shadcn/ToggleGroup';
 export * from './shadcn/Tooltip';
 
 // Export custom HTML components wrapped with dev-container
-export * from './geenius/Div';
-export * from './geenius/Footer';
-export * from './geenius/Header';
-export * from './geenius/Headings';
-export * from './geenius/Lists';
-export * from './geenius/Media';
-export * from './geenius/Nav';
-export * from './geenius/Paragraph';
-export * from './geenius/Section';
-export * from './geenius/Semantic';
-export * from './geenius/Span';
-export * from './geenius/Text';
+export * from './html/Div';
+export * from './html/Footer';
+export * from './html/Header';
+export * from './html/Headings';
+export * from './html/Lists';
+export * from './html/Media';
+export * from './html/Nav';
+export * from './html/Paragraph';
+export * from './html/Section';
+export * from './html/Semantic';
+export * from './html/Span';
+export * from './html/Text';

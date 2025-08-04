@@ -1,22 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { signIn } from '../../lib/auth-client';
+import { Container, Div, Card, CardContent, CardHeader } from '../lib/dev-container';
+import { useLogin } from '@/hooks/useLogin';
+import { Logo } from '@/components/auth/Logo';
+import { LoginHeader } from '@/components/auth/login/LoginHeader';
+import { LoginSocialButtons } from '@/components/auth/login/LoginSocialButtons';
+import { LoginDivider } from '@/components/auth/login/LoginDivider';
+import { LoginForm } from '@/components/auth/login/LoginForm';
+import { LoginFooter } from '@/components/auth/login/LoginFooter';
+import { LoginError } from '@/components/auth/login/LoginError';
+
 // OAuth providers check - temporarily disabled
 const checkOAuthProviders = async () => ({ github: false, google: false });
-import { Button } from '../ui/button';
-import { Input } from '../ui/input';
-import { Label } from '../ui/label';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
-import { Alert, AlertDescription } from '../ui/alert';
-import { Loader2, Github, Mail, Code } from 'lucide-react';
-import { Container, Div, Span } from '../../lib/dev-container';
 
 export const Login: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
   const [providers, setProviders] = useState({ github: false, google: false });
+  const { login, loginWithProvider, isLoading, error, setError } = useLogin();
 
   useEffect(() => {
     const loadProviders = async () => {
@@ -28,304 +28,60 @@ export const Login: React.FC = () => {
 
   const handleEmailLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
     setError(null);
-
-    console.log('=== LOGIN ATTEMPT START ===');
-    console.log('Email:', email);
-    console.log('Password length:', password.length);
-    console.log('Environment:', {
-      NODE_ENV: import.meta.env.NODE_ENV,
-      MODE: import.meta.env.MODE,
-      VITE_APP_URL: import.meta.env.VITE_APP_URL,
-      VITE_API_URL: import.meta.env.VITE_API_URL,
-      VITE_API_BASE_URL: import.meta.env.VITE_API_BASE_URL,
-      currentOrigin: window.location.origin,
-      currentHref: window.location.href,
-    });
-
-    try {
-      // Don't set a specific callback URL to allow our custom redirect logic
-      console.log('🔧 Base URL source:', import.meta.env.VITE_APP_URL ? 'VITE_APP_URL' : 'window.location.origin');
-
-      const loginData = {
-        email,
-        password,
-      };
-      
-      console.log('📦 Login data:', {
-        email: loginData.email,
-        passwordProvided: !!loginData.password,
-      });
-
-      console.log('🚀 Calling signIn.email...');
-      const result = await signIn.email(loginData);
-
-      console.log('📥 Server response:', result);
-
-      if (result.error) {
-        console.log('❌ Login failed with error:', result.error);
-        console.log('Error details:', {
-          message: result.error.message,
-          code: result.error.code,
-          status: result.error.status,
-          full: result.error,
-        });
-        setError(result.error.message || 'Login failed');
-        setIsLoading(false);
-      } else {
-        console.log('✅ Login successful:', result);
-        console.log('Success details:', {
-          data: result.data,
-          fullResult: result,
-        });
-        
-        // Login successful, clear loading state
-        setIsLoading(false);
-        
-        // Get user ID from the result
-        const userId = (result.data as any)?.user?.id;
-        if (userId) {
-          console.log('🔍 Checking user role for redirect...');
-          
-          // Check if user is admin
-          try {
-            const response = await fetch(`/api/user-role/${userId}`, {
-              credentials: 'include',
-            });
-            
-            if (response.ok) {
-              const { role } = await response.json();
-              console.log('👤 User role:', role);
-              
-              // Redirect based on role
-              if (role === 'admin') {
-                console.log('🔄 Redirecting admin to admin dashboard');
-                window.location.href = '/admin';
-              } else {
-                console.log('🔄 Redirecting user to dashboard');
-                window.location.href = '/dashboard';
-              }
-              return;
-            }
-          } catch (error) {
-            console.error('Error checking user role:', error);
-          }
-        }
-        
-        // Fallback redirect
-        const redirectUrl = (result.data as any)?.url;
-        if (redirectUrl) {
-          console.log('🔄 Better Auth provided redirect URL:', redirectUrl);
-          window.location.href = redirectUrl;
-        } else {
-          console.log('🔄 Default redirect to dashboard');
-          window.location.href = '/dashboard';
-        }
-      }
-    } catch (err: any) {
-      console.log('💥 Login exception:', err);
-      console.log('Exception details:', {
-        message: err.message,
-        name: err.name,
-        stack: err.stack,
-        response: err.response,
-        status: err.status,
-        statusText: err.statusText,
-        config: err.config,
-      });
-      
-      // Try to extract more meaningful error from network response
-      if (err.response) {
-        console.log('🌐 Network response error:', {
-          data: err.response.data,
-          status: err.response.status,
-          statusText: err.response.statusText,
-          headers: err.response.headers,
-        });
-      }
-      
-      setError(err.message || 'An unexpected error occurred');
-      setIsLoading(false);
-    }
-    
-    console.log('=== LOGIN ATTEMPT END ===');
+    login({ email, password });
   };
 
-  const handleGoogleLogin = async () => {
-    setIsLoading(true);
+  const handleGoogleLogin = () => {
     setError(null);
-
-    try {
-      await signIn.social({
-        provider: "google",
-        callbackURL: '/dashboard'
-      });
-    } catch (err: any) {
-      setError(err.message || 'Google login failed');
-      setIsLoading(false);
-    }
+    loginWithProvider('google');
   };
 
-  const handleGithubLogin = async () => {
-    setIsLoading(true);
+  const handleGithubLogin = () => {
     setError(null);
-
-    try {
-      await signIn.social({
-        provider: "github",
-        callbackURL: '/dashboard'
-      });
-    } catch (err: any) {
-      setError(err.message || 'GitHub login failed');
-      setIsLoading(false);
-    }
+    loginWithProvider('github');
   };
 
   return (
     <Container componentId="login-page">
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-        <Link to="/" className="mb-8 group">
-          <Div 
-            devId="logo-section" 
-            devName="Logo Section" 
-            devDescription="Company logo and brand name"
-            className="flex items-center space-x-3 transition-transform group-hover:scale-105"
-          >
-            <Div devId="noID" className="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center shadow-lg">
-              <Code className="w-6 h-6 text-white" />
-            </Div>
-            <Span 
-              devId="brand-name" 
-              devName="Brand Name" 
-              devDescription="Geenius Template brand name"
-              className="text-2xl font-bold text-gray-900"
-            >
-              Geenius Template
-            </Span>
-          </Div>
-        </Link>
-        <Card className="w-full max-w-md">
-          <CardHeader className="space-y-1">
-            <Container componentId="login-header">
-              <CardTitle className="text-2xl text-center">Welcome back</CardTitle>
-              <CardDescription className="text-center">
-                Enter your email and password to sign in to your account
-              </CardDescription>
-            </Container>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {error && (
-              <Container componentId="login-error">
-                <Alert variant="destructive">
-                  <AlertDescription>{error}</AlertDescription>
-                </Alert>
-              </Container>
-            )}
+      <Div devId="login-page-wrapper" className="min-h-screen flex flex-col items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+        <Div devId="login-content-wrapper" className="w-full max-w-md space-y-8">
+          <Logo logoIconId="login-page-logo-icon" />
+          <Card devId="login-card">
+            <CardHeader devId="login-card-header" className="space-y-1">
+              <LoginHeader />
+            </CardHeader>
+          <CardContent devId="login-card-content" className="space-y-4">
+            {/* Error Alert */}
+            <LoginError error={error} />
 
-            <Container componentId="social-login-buttons">
-              <div className="grid grid-cols-2 gap-3">
-                <Button
-                  variant="outline"
-                  onClick={handleGoogleLogin}
-                  disabled={isLoading || !providers.google}
-                  className="w-full"
-                >
-                  <Mail className="h-4 w-4 mr-2" />
-                  Google
-                </Button>
-                <Button
-                  variant="outline"
-                  onClick={handleGithubLogin}
-                  disabled={isLoading || !providers.github}
-                  className="w-full"
-                >
-                  <Github className="h-4 w-4 mr-2" />
-                  GitHub
-                </Button>
-              </div>
-            </Container>
+            {/* Social Login Buttons */}
+            <LoginSocialButtons
+              onGoogleLogin={handleGoogleLogin}
+              onGithubLogin={handleGithubLogin}
+              isLoading={isLoading}
+              providers={providers}
+            />
 
-            <Container componentId="login-divider">
-              <div className="relative">
-                <div className="absolute inset-0 flex items-center">
-                  <span className="w-full border-t" />
-                </div>
-                <div className="relative flex justify-center text-xs uppercase">
-                  <span className="bg-white px-2 text-muted-foreground">
-                    Or continue with
-                  </span>
-                </div>
-              </div>
-            </Container>
+            {/* Divider */}
+            <LoginDivider />
 
-            <Container componentId="login-form">
-              <form onSubmit={handleEmailLogin} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="email">Email</Label>
-                  <Input
-                    id="email"
-                    type="email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="Enter your email"
-                    required
-                    disabled={isLoading}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="password">Password</Label>
-                    <Link 
-                      to="/forgot-password" 
-                      className="text-sm text-primary hover:underline"
-                    >
-                      Forgot password?
-                    </Link>
-                  </div>
-                  <Input
-                    id="password"
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    placeholder="Enter your password"
-                    required
-                    disabled={isLoading}
-                  />
-                </div>
-                <Button
-                  type="submit"
-                  className="w-full"
-                  disabled={isLoading}
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Signing in...
-                    </>
-                  ) : (
-                    'Sign in'
-                  )}
-                </Button>
-              </form>
-            </Container>
+            {/* Login Form */}
+            <LoginForm
+              email={email}
+              password={password}
+              isLoading={isLoading}
+              onEmailChange={setEmail}
+              onPasswordChange={setPassword}
+              onSubmit={handleEmailLogin}
+            />
 
-            <Container componentId="login-footer">
-              <div className="text-center text-sm">
-                <span className="text-muted-foreground">
-                  Don't have an account?{' '}
-                </span>
-                <Link 
-                  to="/register" 
-                  className="text-primary hover:underline font-medium"
-                >
-                  Sign up
-                </Link>
-              </div>
-            </Container>
+            {/* Footer */}
+            <LoginFooter />
           </CardContent>
-        </Card>
-      </div>
+          </Card>
+        </Div>
+      </Div>
     </Container>
   );
 };

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest';
-import { auth } from '../../lib/auth';
+import { auth } from '@/lib/auth';
 import { MongoClient } from 'mongodb';
 import { PrismaClient } from '@prisma/client';
 

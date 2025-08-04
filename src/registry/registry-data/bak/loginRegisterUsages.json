@@ -1,0 +1,452 @@
+[
+  {
+    "id": "login-page",
+    "definitionId": "container",
+    "name": "Login Page",
+    "description": "Main login page container",
+    "filePath": "src/pages/Login.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Login.tsx",
+    "category": "page",
+    "semanticTags": ["login", "page", "authentication", "container"]
+  },
+  {
+    "id": "login-page-wrapper",
+    "definitionId": "div",
+    "name": "Login Page Wrapper",
+    "description": "Full-screen wrapper for login page layout",
+    "filePath": "src/pages/Login.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Login.tsx",
+    "category": "layout",
+    "semanticTags": ["login", "wrapper", "layout", "full-screen"]
+  },
+  {
+    "id": "login-card",
+    "definitionId": "card",
+    "name": "Login Card",
+    "description": "Main card component containing login form",
+    "filePath": "src/pages/Login.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Login.tsx",
+    "category": "ui",
+    "semanticTags": ["login", "card", "form-container"]
+  },
+  {
+    "id": "login-header",
+    "definitionId": "container",
+    "name": "Login Header",
+    "description": "Header section with title and description",
+    "filePath": "src/pages/Login.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Login.tsx",
+    "category": "ui",
+    "semanticTags": ["login", "header", "title"]
+  },
+  {
+    "id": "login-error",
+    "definitionId": "container",
+    "name": "Login Error",
+    "description": "Error message display container",
+    "filePath": "src/pages/Login.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Login.tsx",
+    "category": "feedback",
+    "semanticTags": ["login", "error", "alert", "feedback"]
+  },
+  {
+    "id": "social-login-buttons",
+    "definitionId": "container",
+    "name": "Social Login Buttons",
+    "description": "Container for social authentication buttons",
+    "filePath": "src/pages/Login.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Login.tsx",
+    "category": "ui",
+    "semanticTags": ["login", "social", "oauth", "buttons"]
+  },
+  {
+    "id": "social-login-grid",
+    "definitionId": "div",
+    "name": "Social Login Grid",
+    "description": "Grid layout for social login buttons",
+    "filePath": "src/pages/Login.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Login.tsx",
+    "category": "layout",
+    "semanticTags": ["login", "social", "grid", "layout"]
+  },
+  {
+    "id": "google-login-button",
+    "definitionId": "button",
+    "name": "Google Login Button",
+    "description": "Button for Google OAuth authentication",
+    "filePath": "src/pages/Login.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Login.tsx",
+    "category": "form",
+    "semanticTags": ["login", "google", "oauth", "button"]
+  },
+  {
+    "id": "github-login-button",
+    "definitionId": "button",
+    "name": "GitHub Login Button",
+    "description": "Button for GitHub OAuth authentication",
+    "filePath": "src/pages/Login.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Login.tsx",
+    "category": "form",
+    "semanticTags": ["login", "github", "oauth", "button"]
+  },
+  {
+    "id": "login-divider",
+    "definitionId": "container",
+    "name": "Login Divider",
+    "description": "Divider between social and email login",
+    "filePath": "src/pages/Login.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Login.tsx",
+    "category": "ui",
+    "semanticTags": ["login", "divider", "separator"]
+  },
+  {
+    "id": "login-divider-wrapper",
+    "definitionId": "div",
+    "name": "Login Divider Wrapper",
+    "description": "Wrapper for login divider with text",
+    "filePath": "src/pages/Login.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Login.tsx",
+    "category": "ui",
+    "semanticTags": ["login", "divider", "wrapper"]
+  },
+  {
+    "id": "login-form",
+    "definitionId": "container",
+    "name": "Login Form",
+    "description": "Email and password login form container",
+    "filePath": "src/pages/Login.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Login.tsx",
+    "category": "form",
+    "semanticTags": ["login", "form", "email", "password"]
+  },
+  {
+    "id": "email-field-wrapper",
+    "definitionId": "div",
+    "name": "Email Field Wrapper",
+    "description": "Wrapper for email input field",
+    "filePath": "src/pages/Login.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Login.tsx",
+    "category": "form",
+    "semanticTags": ["login", "email", "input", "field"]
+  },
+  {
+    "id": "email-label",
+    "definitionId": "label",
+    "name": "Email Label",
+    "description": "Label for email input field",
+    "filePath": "src/pages/Login.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Login.tsx",
+    "category": "form",
+    "semanticTags": ["login", "email", "label"]
+  },
+  {
+    "id": "email-input",
+    "definitionId": "input",
+    "name": "Email Input",
+    "description": "Email address input field",
+    "filePath": "src/pages/Login.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Login.tsx",
+    "category": "form",
+    "semanticTags": ["login", "email", "input", "form-field"]
+  },
+  {
+    "id": "password-field-wrapper",
+    "definitionId": "div",
+    "name": "Password Field Wrapper",
+    "description": "Wrapper for password input field",
+    "filePath": "src/pages/Login.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Login.tsx",
+    "category": "form",
+    "semanticTags": ["login", "password", "input", "field"]
+  },
+  {
+    "id": "password-label",
+    "definitionId": "label",
+    "name": "Password Label",
+    "description": "Label for password input field",
+    "filePath": "src/pages/Login.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Login.tsx",
+    "category": "form",
+    "semanticTags": ["login", "password", "label"]
+  },
+  {
+    "id": "password-input",
+    "definitionId": "input",
+    "name": "Password Input",
+    "description": "Password input field",
+    "filePath": "src/pages/Login.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Login.tsx",
+    "category": "form",
+    "semanticTags": ["login", "password", "input", "form-field"]
+  },
+  {
+    "id": "login-submit-button",
+    "definitionId": "button",
+    "name": "Login Submit Button",
+    "description": "Submit button for login form",
+    "filePath": "src/pages/Login.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Login.tsx",
+    "category": "form",
+    "semanticTags": ["login", "submit", "button", "form"]
+  },
+  {
+    "id": "login-footer",
+    "definitionId": "container",
+    "name": "Login Footer",
+    "description": "Footer with link to registration page",
+    "filePath": "src/pages/Login.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Login.tsx",
+    "category": "ui",
+    "semanticTags": ["login", "footer", "register-link"]
+  },
+  {
+    "id": "register-page",
+    "definitionId": "container",
+    "name": "Register Page",
+    "description": "Main registration page container",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "page",
+    "semanticTags": ["register", "page", "authentication", "container"]
+  },
+  {
+    "id": "register-page-wrapper",
+    "definitionId": "div",
+    "name": "Register Page Wrapper",
+    "description": "Full-screen wrapper for registration page layout",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "layout",
+    "semanticTags": ["register", "wrapper", "layout", "full-screen"]
+  },
+  {
+    "id": "register-card",
+    "definitionId": "card",
+    "name": "Register Card",
+    "description": "Main card component containing registration form",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "ui",
+    "semanticTags": ["register", "card", "form-container"]
+  },
+  {
+    "id": "register-header",
+    "definitionId": "container",
+    "name": "Register Header",
+    "description": "Header section with title and description",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "ui",
+    "semanticTags": ["register", "header", "title"]
+  },
+  {
+    "id": "register-error",
+    "definitionId": "container",
+    "name": "Register Error",
+    "description": "Error message display container",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "feedback",
+    "semanticTags": ["register", "error", "alert", "feedback"]
+  },
+  {
+    "id": "social-register-buttons",
+    "definitionId": "container",
+    "name": "Social Register Buttons",
+    "description": "Container for social authentication buttons",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "ui",
+    "semanticTags": ["register", "social", "oauth", "buttons"]
+  },
+  {
+    "id": "social-register-grid",
+    "definitionId": "div",
+    "name": "Social Register Grid",
+    "description": "Grid layout for social registration buttons",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "layout",
+    "semanticTags": ["register", "social", "grid", "layout"]
+  },
+  {
+    "id": "google-register-button",
+    "definitionId": "button",
+    "name": "Google Register Button",
+    "description": "Button for Google OAuth registration",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "form",
+    "semanticTags": ["register", "google", "oauth", "button"]
+  },
+  {
+    "id": "github-register-button",
+    "definitionId": "button",
+    "name": "GitHub Register Button",
+    "description": "Button for GitHub OAuth registration",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "form",
+    "semanticTags": ["register", "github", "oauth", "button"]
+  },
+  {
+    "id": "register-divider",
+    "definitionId": "container",
+    "name": "Register Divider",
+    "description": "Divider between social and email registration",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "ui",
+    "semanticTags": ["register", "divider", "separator"]
+  },
+  {
+    "id": "register-form",
+    "definitionId": "container",
+    "name": "Register Form",
+    "description": "Registration form container",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "form",
+    "semanticTags": ["register", "form", "signup"]
+  },
+  {
+    "id": "name-field-wrapper",
+    "definitionId": "div",
+    "name": "Name Field Wrapper",
+    "description": "Wrapper for full name input field",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "form",
+    "semanticTags": ["register", "name", "input", "field"]
+  },
+  {
+    "id": "name-label",
+    "definitionId": "label",
+    "name": "Name Label",
+    "description": "Label for full name input field",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "form",
+    "semanticTags": ["register", "name", "label"]
+  },
+  {
+    "id": "name-input",
+    "definitionId": "input",
+    "name": "Name Input",
+    "description": "Full name input field",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "form",
+    "semanticTags": ["register", "name", "input", "form-field"]
+  },
+  {
+    "id": "register-email-field-wrapper",
+    "definitionId": "div",
+    "name": "Register Email Field Wrapper",
+    "description": "Wrapper for email input field in registration",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "form",
+    "semanticTags": ["register", "email", "input", "field"]
+  },
+  {
+    "id": "register-email-label",
+    "definitionId": "label",
+    "name": "Register Email Label",
+    "description": "Label for email input field in registration",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "form",
+    "semanticTags": ["register", "email", "label"]
+  },
+  {
+    "id": "register-email-input",
+    "definitionId": "input",
+    "name": "Register Email Input",
+    "description": "Email address input field for registration",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "form",
+    "semanticTags": ["register", "email", "input", "form-field"]
+  },
+  {
+    "id": "register-password-field-wrapper",
+    "definitionId": "div",
+    "name": "Register Password Field Wrapper",
+    "description": "Wrapper for password input field in registration",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "form",
+    "semanticTags": ["register", "password", "input", "field"]
+  },
+  {
+    "id": "register-password-label",
+    "definitionId": "label",
+    "name": "Register Password Label",
+    "description": "Label for password input field in registration",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "form",
+    "semanticTags": ["register", "password", "label"]
+  },
+  {
+    "id": "register-password-input",
+    "definitionId": "input",
+    "name": "Register Password Input",
+    "description": "Password input field for registration",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "form",
+    "semanticTags": ["register", "password", "input", "form-field"]
+  },
+  {
+    "id": "confirm-password-field-wrapper",
+    "definitionId": "div",
+    "name": "Confirm Password Field Wrapper",
+    "description": "Wrapper for confirm password input field",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "form",
+    "semanticTags": ["register", "confirm-password", "input", "field"]
+  },
+  {
+    "id": "confirm-password-label",
+    "definitionId": "label",
+    "name": "Confirm Password Label",
+    "description": "Label for confirm password input field",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "form",
+    "semanticTags": ["register", "confirm-password", "label"]
+  },
+  {
+    "id": "confirm-password-input",
+    "definitionId": "input",
+    "name": "Confirm Password Input",
+    "description": "Confirm password input field",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "form",
+    "semanticTags": ["register", "confirm-password", "input", "form-field"]
+  },
+  {
+    "id": "register-submit-button",
+    "definitionId": "button",
+    "name": "Register Submit Button",
+    "description": "Submit button for registration form",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "form",
+    "semanticTags": ["register", "submit", "button", "form"]
+  },
+  {
+    "id": "register-footer",
+    "definitionId": "container",
+    "name": "Register Footer",
+    "description": "Footer with link to login page",
+    "filePath": "src/pages/Register.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/pages/Register.tsx",
+    "category": "ui",
+    "semanticTags": ["register", "footer", "login-link"]
+  }
+]

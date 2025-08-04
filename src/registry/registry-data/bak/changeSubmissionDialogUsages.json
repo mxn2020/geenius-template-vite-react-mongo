@@ -1,0 +1,192 @@
+[
+  {
+    "id": "change-submission-dialog",
+    "definitionId": "dev-dialog",
+    "name": "Change Submission Dialog",
+    "description": "Dialog for submitting changes to AI processing system",
+    "filePath": "src/components/ChangeSubmissionDialog.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/ChangeSubmissionDialog.tsx",
+    "category": "overlay",
+    "semanticTags": ["dialog", "submission", "changes", "ai", "processing"]
+  },
+  {
+    "id": "changes-summary-card",
+    "definitionId": "dev-card",
+    "name": "Changes Summary Card",
+    "description": "Card displaying summary of changes to be processed",
+    "filePath": "src/components/ChangeSubmissionDialog.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/ChangeSubmissionDialog.tsx",
+    "category": "data-display",
+    "semanticTags": ["card", "summary", "changes", "preview"]
+  },
+  {
+    "id": "processing-status-card",
+    "definitionId": "dev-card",
+    "name": "Processing Status Card",
+    "description": "Card showing current processing status and progress",
+    "filePath": "src/components/ChangeSubmissionDialog.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/ChangeSubmissionDialog.tsx",
+    "category": "feedback",
+    "semanticTags": ["card", "status", "processing", "progress"]
+  },
+  {
+    "id": "changes-count-badge",
+    "definitionId": "dev-badge",
+    "name": "Changes Count Badge",
+    "description": "Badge showing total number of changes",
+    "filePath": "src/components/ChangeSubmissionDialog.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/ChangeSubmissionDialog.tsx",
+    "category": "data-display",
+    "semanticTags": ["badge", "count", "changes"]
+  },
+  {
+    "id": "processing-progress",
+    "definitionId": "dev-progress",
+    "name": "Processing Progress Bar",
+    "description": "Progress bar showing AI processing progress",
+    "filePath": "src/components/ChangeSubmissionDialog.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/ChangeSubmissionDialog.tsx",
+    "category": "feedback",
+    "semanticTags": ["progress", "processing", "status"]
+  },
+  {
+    "id": "view-preview-button",
+    "definitionId": "dev-button",
+    "name": "View Preview Button",
+    "description": "Button to view preview deployment",
+    "filePath": "src/components/ChangeSubmissionDialog.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/ChangeSubmissionDialog.tsx",
+    "category": "action",
+    "semanticTags": ["button", "preview", "view", "external"]
+  },
+  {
+    "id": "view-pr-button",
+    "definitionId": "dev-button",
+    "name": "View PR Button",
+    "description": "Button to view pull request",
+    "filePath": "src/components/ChangeSubmissionDialog.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/ChangeSubmissionDialog.tsx",
+    "category": "action",
+    "semanticTags": ["button", "pr", "view", "github"]
+  },
+  {
+    "id": "view-logs-button",
+    "definitionId": "dev-button",
+    "name": "View Logs Button",
+    "description": "Button to view processing logs",
+    "filePath": "src/components/ChangeSubmissionDialog.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/ChangeSubmissionDialog.tsx",
+    "category": "action",
+    "semanticTags": ["button", "logs", "view", "debug"]
+  },
+  {
+    "id": "merge-pr-button",
+    "definitionId": "dev-button",
+    "name": "Merge PR Button",
+    "description": "Button to merge pull request",
+    "filePath": "src/components/ChangeSubmissionDialog.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/ChangeSubmissionDialog.tsx",
+    "category": "action",
+    "semanticTags": ["button", "merge", "pr", "deploy"]
+  },
+  {
+    "id": "review-first-button",
+    "definitionId": "dev-button",
+    "name": "Review First Button",
+    "description": "Button to review PR before merging",
+    "filePath": "src/components/ChangeSubmissionDialog.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/ChangeSubmissionDialog.tsx",
+    "category": "action",
+    "semanticTags": ["button", "review", "pr"]
+  },
+  {
+    "id": "cancel-button",
+    "definitionId": "dev-button",
+    "name": "Cancel Button",
+    "description": "Button to cancel dialog",
+    "filePath": "src/components/ChangeSubmissionDialog.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/ChangeSubmissionDialog.tsx",
+    "category": "action",
+    "semanticTags": ["button", "cancel", "dialog"]
+  },
+  {
+    "id": "submit-button",
+    "definitionId": "dev-button",
+    "name": "Submit Changes Button",
+    "description": "Button to submit changes for processing",
+    "filePath": "src/components/ChangeSubmissionDialog.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/ChangeSubmissionDialog.tsx",
+    "category": "action",
+    "semanticTags": ["button", "submit", "changes", "primary"]
+  },
+  {
+    "id": "stop-processing-button",
+    "definitionId": "dev-button",
+    "name": "Stop Processing Button",
+    "description": "Button to stop ongoing processing",
+    "filePath": "src/components/ChangeSubmissionDialog.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/ChangeSubmissionDialog.tsx",
+    "category": "action",
+    "semanticTags": ["button", "stop", "cancel", "destructive"]
+  },
+  {
+    "id": "close-continue-button",
+    "definitionId": "dev-button",
+    "name": "Close Continue Button",
+    "description": "Button to close dialog while processing continues",
+    "filePath": "src/components/ChangeSubmissionDialog.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/ChangeSubmissionDialog.tsx",
+    "category": "action",
+    "semanticTags": ["button", "close", "continue"]
+  },
+  {
+    "id": "close-button",
+    "definitionId": "dev-button",
+    "name": "Close Button",
+    "description": "Button to close dialog",
+    "filePath": "src/components/ChangeSubmissionDialog.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/ChangeSubmissionDialog.tsx",
+    "category": "action",
+    "semanticTags": ["button", "close", "dialog"]
+  },
+  {
+    "id": "error-alert",
+    "definitionId": "dev-alert",
+    "name": "Error Alert",
+    "description": "Alert showing processing errors",
+    "filePath": "src/components/ChangeSubmissionDialog.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/ChangeSubmissionDialog.tsx",
+    "category": "feedback",
+    "semanticTags": ["alert", "error", "message"]
+  },
+  {
+    "id": "success-alert",
+    "definitionId": "dev-alert",
+    "name": "Success Alert",
+    "description": "Alert showing successful completion",
+    "filePath": "src/components/ChangeSubmissionDialog.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/ChangeSubmissionDialog.tsx",
+    "category": "feedback",
+    "semanticTags": ["alert", "success", "completion"]
+  },
+  {
+    "id": "preview-ready-alert",
+    "definitionId": "dev-alert",
+    "name": "Preview Ready Alert",
+    "description": "Alert indicating preview deployment is ready",
+    "filePath": "src/components/ChangeSubmissionDialog.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/ChangeSubmissionDialog.tsx",
+    "category": "feedback",
+    "semanticTags": ["alert", "preview", "ready"]
+  },
+  {
+    "id": "merged-alert",
+    "definitionId": "dev-alert",
+    "name": "Merged Alert",
+    "description": "Alert showing PR was successfully merged",
+    "filePath": "src/components/ChangeSubmissionDialog.tsx",
+    "repositoryPath": "https://github.com/your-username/geenius-template-vite-react-mongo/blob/main/src/components/ChangeSubmissionDialog.tsx",
+    "category": "feedback",
+    "semanticTags": ["alert", "merged", "success"]
+  }
+]

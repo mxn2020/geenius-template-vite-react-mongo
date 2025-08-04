@@ -1,7 +1,7 @@
 import React from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
 import { useAuth } from './AuthProvider';
-import { Container } from '../../lib/dev-container';
+import { Container } from '@/lib/dev-container';
 import { Loader2, ShieldX } from 'lucide-react';
 import { Card, CardContent } from '../ui/card';
 

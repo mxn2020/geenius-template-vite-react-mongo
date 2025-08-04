@@ -13,8 +13,9 @@ const generatedTypesPath = path.join(__dirname, '../src/registry/generatedTypes.
 // Read all JSON files from registry-data directory
 const jsonFiles = fs.readdirSync(registryDataPath).filter(file => file.endsWith('.json'));
 
-// Collect all component IDs
+// Collect all component IDs and definition IDs
 const allComponentIds = new Set<string>();
+const allDefinitionIds = new Set<string>();
 
 jsonFiles.forEach(file => {
   const filePath = path.join(registryDataPath, file);
@@ -27,6 +28,9 @@ jsonFiles.forEach(file => {
         if (item.id && typeof item.id === 'string') {
           allComponentIds.add(item.id);
         }
+        if (item.definitionId && typeof item.definitionId === 'string') {
+          allDefinitionIds.add(item.definitionId);
+        }
       });
     }
   } catch (error) {
@@ -34,15 +38,33 @@ jsonFiles.forEach(file => {
   }
 });
 
+// Additional definition IDs from HTML elements that are not in the JSON files
+const additionalDefinitionIds = [
+  'dev-a', 'dev-anchor', 'dev-article', 'dev-aside', 'dev-blockquote',
+  'dev-code', 'dev-em', 'dev-figcaption', 'dev-figure', 'dev-footer',
+  'dev-h1', 'dev-h2', 'dev-h3', 'dev-h4', 'dev-h5', 'dev-h6',
+  'dev-header', 'dev-img', 'dev-li', 'dev-main', 'dev-nav', 'dev-ol',
+  'dev-p', 'dev-pre', 'dev-section', 'dev-small', 'dev-span', 'dev-strong',
+  'dev-table', 'dev-table-body', 'dev-table-cell', 'dev-table-data-cell',
+  'dev-table-head', 'dev-table-header', 'dev-table-row', 'dev-ul',
+  'dev-video'
+];
+
+// Add additional definition IDs
+additionalDefinitionIds.forEach(id => allDefinitionIds.add(id));
+
+// Combine all IDs
+const allIds = new Set([...allComponentIds, ...allDefinitionIds]);
+
 // Convert Set to sorted array
-const sortedIds = Array.from(allComponentIds).sort();
+const sortedIds = Array.from(allIds).sort();
 
 // Generate the TypeScript file content
 const content = `// src/registry/generatedTypes.ts
 // Auto-generated file - DO NOT EDIT DIRECTLY
 // Run 'npm run generate-types' to regenerate
 
-// Component IDs union type
+// Component IDs union type (includes both component IDs and definition IDs)
 export type ComponentRegistryId = ${sortedIds.map(id => `'${id}'`).join(' | ')} | string;
 
 // Valid component IDs array
@@ -68,4 +90,4 @@ export const generatedComponentDefinitions = {};
 
 // Write the file
 fs.writeFileSync(generatedTypesPath, content, 'utf8');
-console.log(`Generated types file with ${sortedIds.length} component IDs`);
+console.log(`Generated types file with ${sortedIds.length} component IDs (includes ${allComponentIds.size} component IDs and ${allDefinitionIds.size} definition IDs)`);
