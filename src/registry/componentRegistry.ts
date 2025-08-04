@@ -20,28 +20,43 @@ import appUsagesData from './registry-data/appUsages.json';
 import logoUsagesData from './registry-data/logoUsages.json';
 import { isValidComponentId } from './generatedTypes';
 
-// ✅ Import the generated types (this restores TypeScript errors!)
+// ✅ Import the generated types
 export type { ComponentRegistryId } from './generatedTypes';
 export { isValidComponentId, validateComponentId, VALID_COMPONENT_IDS } from './generatedTypes';
 
-// Cast JSON data to ComponentUsage arrays with proper typing
-const landingPageUsages: ComponentUsage[] = landingPageUsagesData as ComponentUsage[];
-const loginPageUsages: ComponentUsage[] = loginPageUsagesData as ComponentUsage[];
-const registerPageUsages: ComponentUsage[] = registerPageUsagesData as ComponentUsage[];
-const dashboardPageUsages: ComponentUsage[] = dashboardPageUsagesData as ComponentUsage[];
-const forgotPasswordPageUsages: ComponentUsage[] = forgotPasswordPageUsagesData as ComponentUsage[];
-const resetPasswordPageUsages: ComponentUsage[] = resetPasswordPageUsagesData as ComponentUsage[];
-const auditLogsPageUsages: ComponentUsage[] = auditLogsPageUsagesData as ComponentUsage[];
-const sessionsPageUsages: ComponentUsage[] = sessionsPageUsagesData as ComponentUsage[];
-const settingsPageUsages: ComponentUsage[] = settingsPageUsagesData as ComponentUsage[];
-const adminDashboardPageUsages: ComponentUsage[] = adminDashboardPageUsagesData as ComponentUsage[];
-const adminAuditLogsPageUsages: ComponentUsage[] = adminAuditLogsPageUsagesData as ComponentUsage[];
-const usersPageUsages: ComponentUsage[] = usersPageUsagesData as ComponentUsage[];
-const userDetailsPageUsages: ComponentUsage[] = userDetailsPageUsagesData as ComponentUsage[];
-const appUsages: ComponentUsage[] = appUsagesData as ComponentUsage[];
-const logoUsages: ComponentUsage[] = logoUsagesData as ComponentUsage[];
+// Get repository configuration from environment variables
+const REPOSITORY_URL = (import.meta.env.VITE_REPOSITORY_URL || 'https://github.com/your-username/your-repo').replace(/\/$/, '');
+const BASE_BRANCH = import.meta.env.VITE_BASE_BRANCH || 'main';
 
-// Merge all component definitions (remove 'as const' since we have generated types)
+// Helper function to normalize repository paths in usage data
+const normalizeUsageData = (usageData: any[]): ComponentUsage[] => {
+  return usageData.map(usage => ({
+    ...usage,
+    // Update repository path to use environment variables if it's a relative path or needs updating
+    repositoryPath: usage.repositoryPath && usage.repositoryPath.startsWith('http') 
+      ? usage.repositoryPath 
+      : `${REPOSITORY_URL}/blob/${BASE_BRANCH}/${usage.filePath}`
+  }));
+};
+
+// Cast JSON data to ComponentUsage arrays with proper typing and normalized paths
+const landingPageUsages: ComponentUsage[] = normalizeUsageData(landingPageUsagesData);
+const loginPageUsages: ComponentUsage[] = normalizeUsageData(loginPageUsagesData);
+const registerPageUsages: ComponentUsage[] = normalizeUsageData(registerPageUsagesData);
+const dashboardPageUsages: ComponentUsage[] = normalizeUsageData(dashboardPageUsagesData);
+const forgotPasswordPageUsages: ComponentUsage[] = normalizeUsageData(forgotPasswordPageUsagesData);
+const resetPasswordPageUsages: ComponentUsage[] = normalizeUsageData(resetPasswordPageUsagesData);
+const auditLogsPageUsages: ComponentUsage[] = normalizeUsageData(auditLogsPageUsagesData);
+const sessionsPageUsages: ComponentUsage[] = normalizeUsageData(sessionsPageUsagesData);
+const settingsPageUsages: ComponentUsage[] = normalizeUsageData(settingsPageUsagesData);
+const adminDashboardPageUsages: ComponentUsage[] = normalizeUsageData(adminDashboardPageUsagesData);
+const adminAuditLogsPageUsages: ComponentUsage[] = normalizeUsageData(adminAuditLogsPageUsagesData);
+const usersPageUsages: ComponentUsage[] = normalizeUsageData(usersPageUsagesData);
+const userDetailsPageUsages: ComponentUsage[] = normalizeUsageData(userDetailsPageUsagesData);
+const appUsages: ComponentUsage[] = normalizeUsageData(appUsagesData);
+const logoUsages: ComponentUsage[] = normalizeUsageData(logoUsagesData);
+
+// Merge all component definitions
 const allComponentUsages = [
   ...appUsages,
   ...logoUsages,
@@ -70,6 +85,13 @@ if (process.env.NODE_ENV === 'development') {
       console.error('Run "npm run generate-types" to regenerate type definitions.');
     }
   });
+
+  // Log repository configuration for debugging
+  console.log('🔧 Component Registry Configuration:', {
+    repositoryUrl: REPOSITORY_URL,
+    baseBranch: BASE_BRANCH,
+    totalUsages: allComponentUsages.length
+  });
 }
 
 // Create a typed version for runtime use
@@ -82,7 +104,23 @@ export const componentRegistry: ComponentRegistry = componentUsageArray.reduce((
 }, {} as ComponentRegistry);
 
 // Export for convenience
-export { landingPageUsages, loginPageUsages, registerPageUsages, dashboardPageUsages };
+export { 
+  landingPageUsages, 
+  loginPageUsages, 
+  registerPageUsages, 
+  dashboardPageUsages,
+  forgotPasswordPageUsages,
+  resetPasswordPageUsages,
+  auditLogsPageUsages,
+  sessionsPageUsages,
+  settingsPageUsages,
+  adminDashboardPageUsages,
+  adminAuditLogsPageUsages,
+  usersPageUsages,
+  userDetailsPageUsages,
+  appUsages,
+  logoUsages,
+};
 
 // Helper functions remain the same
 export const getComponentUsage = (id: string): ComponentUsage | undefined => {
@@ -136,3 +174,4 @@ export const getUsageStats = () => {
 
   return stats;
 };
+

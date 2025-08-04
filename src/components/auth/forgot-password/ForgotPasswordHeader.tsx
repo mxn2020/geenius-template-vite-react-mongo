@@ -1,8 +1,7 @@
 // src/components/auth/forgot-password/ForgotPasswordHeader.tsx
 
 import React from 'react';
-import { Mail } from 'lucide-react';
-import { CardDescription, CardTitle, Div } from '@/lib/dev-container';
+import { CardDescription, CardTitle } from '@/lib/dev-container';
 
 export const ForgotPasswordHeader: React.FC = () => {
   return (

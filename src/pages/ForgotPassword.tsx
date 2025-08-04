@@ -1,7 +1,7 @@
 // src/pages/ForgotPassword.tsx
 
 import React, { useState } from 'react';
-import { Container, Card, CardContent, CardFooter, CardHeader, Div } from '../lib/dev-container';
+import { Container, Card, CardContent, CardHeader, Div } from '../lib/dev-container';
 import { useForgotPassword } from '@/hooks/useForgotPassword';
 import { Logo } from '@/components/auth/Logo';
 import { ForgotPasswordHeader } from '@/components/auth/forgot-password/ForgotPasswordHeader';
