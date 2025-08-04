@@ -1,3 +1,5 @@
+// src/components/users/UserPagination.tsx
+
 import { Card, Button } from '@/lib/dev-container';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import type { ComponentRegistryId } from '../../registry/componentRegistry';

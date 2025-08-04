@@ -1,3 +1,5 @@
+// src/components/users/details/UserInfo.tsx
+
 import { Card, Badge, Button } from '@/lib/dev-container';
 import { Mail, Calendar, Shield, Clock } from 'lucide-react';
 import type { UserDetails } from '@/lib/api/users';

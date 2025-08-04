@@ -1,3 +1,5 @@
+// src/components/users/UserTable.tsx
+
 import { Link } from 'react-router-dom';
 import { Card, Badge, Container } from '@/lib/dev-container';
 import { UserCheck, UserX } from 'lucide-react';

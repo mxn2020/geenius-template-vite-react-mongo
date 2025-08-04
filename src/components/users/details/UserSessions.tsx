@@ -1,3 +1,5 @@
+// src/components/users/details/UserSessions.tsx
+
 import { Card, Button, Badge } from '@/lib/dev-container';
 import { Monitor, Smartphone, Globe, Clock } from 'lucide-react';
 

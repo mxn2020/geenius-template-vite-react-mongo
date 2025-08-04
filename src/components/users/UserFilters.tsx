@@ -1,3 +1,6 @@
+// src/components/users/UserFilters.tsx
+
+import React from 'react';
 import { Card, Input, Label, Button, Container } from '@/lib/dev-container';
 import { Search } from 'lucide-react';
 import type { UsersFilters } from '../../hooks/useUsersPage';

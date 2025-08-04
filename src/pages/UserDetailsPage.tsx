@@ -1,3 +1,5 @@
+// src/pages/UserDetailsPage.tsx
+
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Div } from '../lib/dev-container';

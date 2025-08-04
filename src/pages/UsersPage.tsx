@@ -1,3 +1,5 @@
+// src/pages/UsersPage.tsx
+
 import { Container } from '../lib/dev-container';
 import { useUsersPage } from '../hooks/useUsersPage';
 import { UsersHeader } from '@/components/users/UsersHeader';

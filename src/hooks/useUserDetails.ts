@@ -1,3 +1,5 @@
+// src/hooks/useUserDetails.ts
+
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { getUserDetails, updateUser, deleteUser } from '../lib/api/users';
 import { userKeys } from './useUserQueries';

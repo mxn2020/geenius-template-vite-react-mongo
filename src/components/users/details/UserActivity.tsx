@@ -1,3 +1,5 @@
+// src /components/users/details/UserActivity.tsx
+
 import { Card } from '@/lib/dev-container';
 import { Activity, Clock, MapPin, Monitor } from 'lucide-react';
 
